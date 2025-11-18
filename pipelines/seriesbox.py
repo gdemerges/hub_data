@@ -15,6 +15,10 @@ load_dotenv(env_path)
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data', 'seriebox')
 os.makedirs(DATA_DIR, exist_ok=True)
 
+# Dossier de sortie pour les CSV nettoyés
+CLEAN_DIR = os.path.join(os.path.dirname(__file__), '..', 'data', 'seriebox_cleaned')
+os.makedirs(CLEAN_DIR, exist_ok=True)
+
 def load_browser_cookies(session: requests.Session, env_var: str = "SERIEBOX_COOKIES", domain: str = "www.seriebox.com") -> bool:
     """Charge les cookies du navigateur depuis .env"""
     raw = os.getenv(env_var)
@@ -82,6 +86,38 @@ def download_csv(session: requests.Session, list_name: str) -> pd.DataFrame:
         print(f"Erreur parsing {list_name}: {e}")
         return None
 
+def clean_downloaded_csvs():
+    """Nettoie les CSVs téléchargés et conserve uniquement les colonnes demandées.
+    - shows.csv      -> garde: ["Titre"]
+    - films_vus.csv  -> garde: ["Titre"]
+    - jeux.csv       -> garde: ["Titre", "Support", "Heures de jeu"]
+    Les CSV nettoyés sont écrits dans data/seriebox_cleaned.
+    """
+    keep_map = {
+        'shows': ["Titre"],
+        'films_vus': ["Titre"],
+        'jeux': ["Titre", "Support", "Heures de jeu"],
+    }
+
+    for list_name, keep_cols in keep_map.items():
+        src_path = os.path.join(DATA_DIR, f"{list_name}.csv")
+        if not os.path.exists(src_path):
+            print(f"[clean] Ignoré: {src_path} introuvable")
+            continue
+        try:
+            df = pd.read_csv(src_path, sep=';', dtype=str)
+            df.columns = [c.strip() for c in df.columns]
+            existing = [c for c in keep_cols if c in df.columns]
+            if not existing:
+                print(f"Aucune des colonnes demandées {keep_cols} n'existe dans {list_name}. Colonnes disponibles: {list(df.columns)}")
+                continue
+            cleaned = df[existing].copy()
+            dst_path = os.path.join(CLEAN_DIR, f"{list_name}_clean.csv")
+            cleaned.to_csv(dst_path, index=False, sep=';')
+            print(f"[clean] {list_name}: {len(cleaned)} lignes -> {dst_path} avec colonnes {existing}")
+        except Exception as e:
+            print(f"[clean] Erreur pour {list_name}: {e}")
+
 # Configuration de la session
 session = requests.Session()
 session.headers.update({
@@ -104,6 +140,8 @@ if profile.status_code != 200 or 'Vous devez' in profile.text:
 
 print("Accès profil réussi")
 
-# Téléchargement des CSVs
 for list_name in ['shows', 'films_vus', 'jeux']:
     download_csv(session, list_name)
+
+clean_downloaded_csvs()
+print("Nettoyage terminé. Fichiers nettoyés dans:", CLEAN_DIR)
