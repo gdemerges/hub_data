@@ -2,6 +2,7 @@
 
 import os
 import time
+import re
 import requests
 import pandas as pd
 from dotenv import load_dotenv
@@ -89,6 +90,43 @@ def find_game_cover_url(title: str, token: str) -> str | None:
     return full_url
 
 
+def extract_all_title_variants(title: str) -> list[str]:
+    """
+    Extrait toutes les variantes possibles d'un titre.
+    Par exemple : "Wied?min 2: Zabójcy królów (The Witcher 2 - Assassins of Kings)"
+    retournera : 
+    - "Wied?min 2: Zabójcy królów (The Witcher 2 - Assassins of Kings)" (titre complet)
+    - "The Witcher 2 - Assassins of Kings" (titre entre parenthèses)
+    - "The Witcher 2" (titre entre parenthèses sans sous-titre)
+    """
+    variants = [title]
+    
+    # Extraire le titre entre parenthèses
+    if "(" in title and ")" in title:
+        match = re.search(r'\(([^)]+)\)', title)
+        if match:
+            alt_title = match.group(1).strip()
+            if alt_title and alt_title not in variants:
+                variants.append(alt_title)
+            
+            # Si le titre entre parenthèses contient un séparateur (: ou -), 
+            # essayer aussi la première partie seulement
+            for sep in [" - ", ": ", " : "]:
+                if sep in alt_title:
+                    short_title = alt_title.split(sep)[0].strip()
+                    if short_title and short_title not in variants:
+                        variants.append(short_title)
+    
+    # Si le titre principal contient un séparateur, essayer aussi la première partie
+    for sep in [" - ", ": ", " : "]:
+        if sep in title and "(" not in title:
+            short_title = title.split(sep)[0].strip()
+            if short_title and short_title not in variants:
+                variants.append(short_title)
+    
+    return variants
+
+
 def enrich_jeux_with_images():
     if not os.path.exists(CSV_PATH):
         raise FileNotFoundError(f"{CSV_PATH} introuvable")
@@ -110,14 +148,24 @@ def enrich_jeux_with_images():
     # Itérer sur les lignes sans image_url
     for idx, row in df[df["image_url"].isna()].iterrows():
         titles_to_try = []
+        
+        # Collecter tous les titres disponibles
         for col in ["Titre VO", "Titre VF", "Titre"]:
             if col in df.columns:
                 value = str(row[col]).strip()
-                if value and value.lower() != "nan" and value not in titles_to_try:
-                    titles_to_try.append(value)
+                if value and value.lower() != "nan":
+                    # Extraire toutes les variantes du titre
+                    variants = extract_all_title_variants(value)
+                    for variant in variants:
+                        if variant not in titles_to_try:
+                            titles_to_try.append(variant)
 
         if not titles_to_try:
             continue
+
+        print(f"\n[Recherche] Jeu à la ligne {idx} - {len(titles_to_try)} variantes à essayer:")
+        for i, t in enumerate(titles_to_try, 1):
+            print(f"  {i}. {t}")
 
         url = None
         for title in titles_to_try:
@@ -128,6 +176,7 @@ def enrich_jeux_with_images():
                 url = None
 
             if url:
+                print(f"✅ Cover trouvée avec: {title}")
                 break
 
             # éviter de se faire rate-limit entre deux requêtes IGDB
@@ -135,13 +184,15 @@ def enrich_jeux_with_images():
 
         if url:
             df.at[idx, "image_url"] = url
+        else:
+            print(f"❌ Aucune cover trouvée pour ce jeu")
 
         # petite pause pour rester gentil avec l'API
         time.sleep(0.25)
 
     # Sauvegarde : soit on écrase, soit on fait un backup avant si tu préfères
     df.to_csv(CSV_PATH, sep=";", index=False)
-    print(f"✅ Enrichissement terminé. Fichier mis à jour : {CSV_PATH}")
+    print(f"\n✅ Enrichissement terminé. Fichier mis à jour : {CSV_PATH}")
 
 
 if __name__ == "__main__":
