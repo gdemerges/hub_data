@@ -6,6 +6,7 @@ from io import StringIO
 from dotenv import load_dotenv
 from http.cookies import SimpleCookie
 from requests.cookies import create_cookie
+import browser_cookie3
 
 # Chargement des variables d'environnement
 env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
@@ -19,19 +20,28 @@ os.makedirs(DATA_DIR, exist_ok=True)
 CLEAN_DIR = os.path.join(os.path.dirname(__file__), '..', 'data', 'seriebox_cleaned')
 os.makedirs(CLEAN_DIR, exist_ok=True)
 
-def load_browser_cookies(session: requests.Session, env_var: str = "SERIEBOX_COOKIES", domain: str = "www.seriebox.com") -> bool:
-    """Charge les cookies du navigateur depuis .env"""
-    raw = os.getenv(env_var)
-    if not raw:
-        return False
-    
-    cookie = SimpleCookie()
-    cookie.load(raw)
-    for morsel in cookie.values():
+def load_browser_cookies(session: requests.Session) -> bool:
+    """Charge automatiquement les cookies du navigateur."""
+    try:
+        cookies = browser_cookie3.firefox(domain_name="seriebox.com")
+    except:
+        try:
+            cookies = browser_cookie3.chrome(domain_name="seriebox.com")
+        except:
+            print("Impossible de charger automatiquement les cookies navigateur.")
+            return False
+
+    for c in cookies:
         session.cookies.set_cookie(
-            create_cookie(name=morsel.key, value=morsel.value, domain=domain, path="/")
+            create_cookie(
+                name=c.name,
+                value=c.value,
+                domain=c.domain,
+                path=c.path
+            )
         )
-    print(f"Cookies chargés depuis {env_var}: {session.cookies.get_dict()}")
+
+    print("Cookies chargés automatiquement depuis le navigateur.")
     return True
 
 def login(session: requests.Session) -> bool:
