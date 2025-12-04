@@ -2,3 +2,4 @@ requests
 pandas
 python-dotenv
 browser-cookie3
+streamlit>=1.28

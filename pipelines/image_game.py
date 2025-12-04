@@ -1,5 +1,3 @@
-# pipelines/enrich_jeux_igdb.py
-
 import os
 import time
 import re
