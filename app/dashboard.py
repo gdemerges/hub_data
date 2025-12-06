@@ -11,6 +11,7 @@ import streamlit as st
 import requests
 from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime, timedelta
 
 # Chemins
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -26,43 +27,13 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- CSS personnalisé ---
-st.markdown("""
-<style>
-.game-card {
-    background: linear-gradient(145deg, #1e1e2e, #2d2d44);
-    border-radius: 12px;
-    padding: 10px;
-    margin: 5px;
-    text-align: center;
-    transition: transform 0.2s;
-}
-.game-card:hover {
-    transform: scale(1.02);
-}
-.hours-badge {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 14px;
-}
-.placeholder-cover {
-    width: 150px;
-    height: 200px;
-    background: linear-gradient(145deg, #3a3a5c, #2a2a3c);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #888;
-    font-size: 11px;
-    text-align: center;
-    border-radius: 8px;
-    margin: 0 auto;
-}
-</style>
-""", unsafe_allow_html=True)
+# --- Chargement CSS ---
+def load_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+css_path = os.path.join(os.path.dirname(__file__), 'style.css')
+load_css(css_path)
 
 
 # --- Cache pour les appels API IGDB ---
@@ -185,17 +156,23 @@ def load_games_data() -> pd.DataFrame:
 
 def render_game_card(title: str, hours: int, support: str, cover_url: str | None):
     """Affiche une carte de jeu avec jaquette et stats."""
-    if cover_url:
-        st.image(cover_url, width=150)
-    else:
-        # Placeholder si pas d'image
-        st.markdown(
-            f"""<div class="placeholder-cover">🎮<br>{title[:25]}{'...' if len(title) > 25 else ''}</div>""",
-            unsafe_allow_html=True
-        )
-    st.markdown(f"**{title}**")
-    st.markdown(f'<span class="hours-badge">⏱️ {hours}h</span>', unsafe_allow_html=True)
-    st.caption(f"📀 {support}")
+    with st.container():
+        st.markdown('<div class="game-card">', unsafe_allow_html=True)
+        
+        if cover_url:
+            st.markdown(f'<img src="{cover_url}" class="game-cover">', unsafe_allow_html=True)
+        else:
+            st.markdown(
+                f"""<div class="placeholder-cover">
+                    <div>🎮<br>{title[:25]}{'...' if len(title) > 25 else ''}</div>
+                </div>""",
+                unsafe_allow_html=True
+            )
+            
+        st.markdown(f"**{title}**")
+        st.markdown(f'<div class="hours-badge">⏱️ {hours}h</div>', unsafe_allow_html=True)
+        st.caption(f"📀 {support}")
+        st.markdown('</div>', unsafe_allow_html=True)
 
 
 def page_jeux():
@@ -317,13 +294,188 @@ def page_series():
         st.warning("Fichier séries introuvable. Exécutez d'abord `python -m pipelines.seriesbox`.")
 
 
+# --- GitHub API Functions ---
+@st.cache_data(ttl=3600, show_spinner=False)  # Cache 1h
+def get_github_user_stats(username: str, token: str | None = None) -> dict | None:
+    """Récupère les statistiques globales d'un utilisateur GitHub."""
+    headers = {}
+    if token:
+        headers["Authorization"] = f"token {token}"
+    
+    try:
+        resp = requests.get(f"https://api.github.com/users/{username}", headers=headers, timeout=10)
+        if resp.status_code != 200:
+            return None
+        return resp.json()
+    except Exception:
+        return None
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def get_github_repos(username: str, token: str | None = None) -> list[dict]:
+    """Récupère tous les repos publics d'un utilisateur GitHub."""
+    headers = {}
+    if token:
+        headers["Authorization"] = f"token {token}"
+    
+    repos = []
+    page = 1
+    try:
+        while True:
+            resp = requests.get(
+                f"https://api.github.com/users/{username}/repos",
+                headers=headers,
+                params={"per_page": 100, "page": page, "sort": "updated"},
+                timeout=10
+            )
+            if resp.status_code != 200:
+                break
+            data = resp.json()
+            if not data:
+                break
+            repos.extend(data)
+            page += 1
+            if len(data) < 100:
+                break
+    except Exception:
+        pass
+    return repos
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def get_github_languages(repos: tuple) -> dict[str, int]:
+    """Agrège les langages utilisés dans les repos."""
+    languages = {}
+    for repo in repos:
+        if repo.get("language"):
+            lang = repo["language"]
+            languages[lang] = languages.get(lang, 0) + 1
+    return languages
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def get_recent_activity(username: str, token: str | None = None, days: int = 30) -> dict:
+    """Récupère l'activité récente (commits, PRs, issues)."""
+    headers = {}
+    if token:
+        headers["Authorization"] = f"token {token}"
+    
+    since = (datetime.now() - timedelta(days=days)).isoformat()
+    
+    try:
+        # Events récents
+        resp = requests.get(
+            f"https://api.github.com/users/{username}/events",
+            headers=headers,
+            params={"per_page": 100},
+            timeout=10
+        )
+        if resp.status_code != 200:
+            return {"commits": 0, "prs": 0, "issues": 0}
+        
+        events = resp.json()
+        commits = sum(1 for e in events if e.get("type") == "PushEvent")
+        prs = sum(1 for e in events if e.get("type") == "PullRequestEvent")
+        issues = sum(1 for e in events if e.get("type") == "IssuesEvent")
+        
+        return {"commits": commits, "prs": prs, "issues": issues}
+    except Exception:
+        return {"commits": 0, "prs": 0, "issues": 0}
+
+
+def page_github():
+    """Page des statistiques GitHub."""
+    st.header("💻 GitHub Stats")
+    
+    # Configuration
+    github_username = os.getenv("GITHUB_USERNAME")
+    github_token = os.getenv("GITHUB_TOKEN")  # Optionnel, augmente rate limit
+    
+    if not github_username:
+        st.warning("⚠️ Ajoutez `GITHUB_USERNAME` dans le fichier `.env` pour afficher vos stats GitHub.")
+        st.code('GITHUB_USERNAME=votre_username', language="bash")
+        return
+    
+    with st.spinner("⏳ Chargement des données GitHub..."):
+        user_stats = get_github_user_stats(github_username, github_token)
+        repos = get_github_repos(github_username, github_token)
+        activity = get_recent_activity(github_username, github_token, days=30)
+    
+    if not user_stats:
+        st.error(f"❌ Impossible de récupérer les données pour l'utilisateur `{github_username}`.")
+        return
+    
+    # Header avec avatar
+    col_avatar, col_info = st.columns([1, 3])
+    with col_avatar:
+        st.image(user_stats.get("avatar_url", ""), width=150)
+    with col_info:
+        st.subheader(user_stats.get("name", github_username))
+        st.caption(f"@{github_username}")
+        if user_stats.get("bio"):
+            st.markdown(f"*{user_stats['bio']}*")
+        if user_stats.get("location"):
+            st.caption(f"📍 {user_stats['location']}")
+    
+    st.divider()
+    
+    # Métriques principales
+    col1, col2, col3, col4, col5 = st.columns(5)
+    col1.metric("📦 Repos publics", user_stats.get("public_repos", 0))
+    col2.metric("👥 Followers", user_stats.get("followers", 0))
+    col3.metric("👤 Following", user_stats.get("following", 0))
+    col4.metric("⭐ Gists", user_stats.get("public_gists", 0))
+    
+    created_at = datetime.strptime(user_stats["created_at"], "%Y-%m-%dT%H:%M:%SZ")
+    years = (datetime.now() - created_at).days // 365
+    col5.metric("📅 Compte créé", f"{years} ans")
+    
+    st.divider()
+    
+    # Activité récente (30 derniers jours)
+    st.subheader("📊 Activité récente (30 jours)")
+    col_act1, col_act2, col_act3 = st.columns(3)
+    col_act1.metric("🔄 Push events", activity["commits"])
+    col_act2.metric("🔀 Pull Requests", activity["prs"])
+    col_act3.metric("📝 Issues", activity["issues"])
+    
+    st.divider()
+    
+    # Langages
+    if repos:
+        st.subheader("🔤 Langages utilisés")
+        languages = get_github_languages(tuple(repos))
+        if languages:
+            # Tri par nombre de repos
+            sorted_langs = sorted(languages.items(), key=lambda x: x[1], reverse=True)[:10]
+            
+            cols_lang = st.columns(5)
+            for idx, (lang, count) in enumerate(sorted_langs):
+                with cols_lang[idx % 5]:
+                    st.metric(lang, f"{count} repos")
+        
+        st.divider()
+        
+        # Contributions (Graphique)
+        st.subheader("📅 Contributions (Année écoulée)")
+        st.markdown(f"""
+        <div style="background-color: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; text-align: center;">
+            <img src="https://ghchart.rshah.io/58a6ff/{github_username}" alt="Graphique de contributions" style="width: 100%; max-width: 800px;">
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Info rate limit
+    if not github_token:
+        st.info("💡 Ajoutez `GITHUB_TOKEN` dans `.env` pour augmenter la limite de requêtes API.")
+
+
 # --- Navigation ---
 st.sidebar.title("🎯 Hub Médias")
 st.sidebar.markdown("---")
 
 page = st.sidebar.radio(
     "Navigation",
-    ["🎮 Jeux", "🎬 Films", "📺 Séries"],
+    ["🎮 Jeux", "🎬 Films", "📺 Séries", "💻 GitHub"],
     label_visibility="collapsed"
 )
 
@@ -332,8 +484,10 @@ if page == "🎮 Jeux":
     page_jeux()
 elif page == "🎬 Films":
     page_films()
-else:
+elif page == "📺 Séries":
     page_series()
+else:
+    page_github()
 
 # Footer
 st.sidebar.markdown("---")
