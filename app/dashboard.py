@@ -655,9 +655,29 @@ def page_github():
     # Contribution graph
     st.markdown("#### Contributions")
     st.markdown("<div style='height: 0.5rem'></div>", unsafe_allow_html=True)
+    
+    # Utilisation de GitHub Readme Stats pour le graphe d'activité
     st.markdown(f"""
     <div class="contribution-graph">
-        <img src="https://ghchart.rshah.io/6366f1/{github_username}" alt="Contributions">
+        <img src="https://github-readme-stats.vercel.app/api?username={github_username}&show_icons=true&theme=transparent&hide_border=true&title_color=6366f1&icon_color=6366f1&text_color=a1a1aa&bg_color=00000000&hide_title=false&include_all_commits=true&count_private=true" alt="GitHub Stats" style="width: 100%; max-width: 495px;">
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("<div style='height: 1rem'></div>", unsafe_allow_html=True)
+    
+    # Streak stats
+    st.markdown(f"""
+    <div class="contribution-graph">
+        <img src="https://github-readme-streak-stats.herokuapp.com/?user={github_username}&theme=transparent&hide_border=true&ring=6366f1&fire=6366f1&currStreakLabel=a1a1aa&sideLabels=a1a1aa&currStreakNum=fafafa&sideNums=fafafa&dates=71717a&background=00000000" alt="GitHub Streak" style="width: 100%; max-width: 495px;">
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("<div style='height: 1rem'></div>", unsafe_allow_html=True)
+    
+    # Activity graph
+    st.markdown(f"""
+    <div class="contribution-graph" style="overflow-x: auto;">
+        <img src="https://github-readme-activity-graph.vercel.app/graph?username={github_username}&theme=github-compact&hide_border=true&bg_color=00000000&color=a1a1aa&line=6366f1&point=818cf8&area=true&area_color=6366f1" alt="Activity Graph" style="width: 100%; min-width: 600px;">
     </div>
     """, unsafe_allow_html=True)
     
