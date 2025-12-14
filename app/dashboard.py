@@ -1,8 +1,7 @@
 """
-Dashboard de visualisation des médias (jeux, films, séries).
-Utilise Streamlit pour afficher les jaquettes avec statistiques.
+Hub Médias - Dashboard moderne de visualisation des médias.
+Design minimaliste inspiré de Notion/Linear.
 
-Lancer avec : streamlit run app/dashboard.py
 """
 
 import os
@@ -13,7 +12,7 @@ from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta
 
-# Chemins
+# --- Chemins ---
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 CLEAN_DIR = os.path.join(BASE_DIR, "data", "seriebox_cleaned")
 ENV_PATH = os.path.join(BASE_DIR, ".env")
@@ -23,21 +22,26 @@ load_dotenv(ENV_PATH)
 # --- Configuration Streamlit ---
 st.set_page_config(
     page_title="Hub Médias",
-    page_icon="🎮",
-    layout="wide"
+    page_icon="◉",
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
 # --- Chargement CSS ---
-def load_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+def load_css():
+    css_path = os.path.join(os.path.dirname(__file__), 'style.css')
+    if os.path.exists(css_path):
+        with open(css_path) as f:
+            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-css_path = os.path.join(os.path.dirname(__file__), 'style.css')
-load_css(css_path)
+load_css()
 
 
-# --- Cache pour les appels API IGDB ---
-@st.cache_data(ttl=86400)  # Cache 24h
+# ============================================================================
+# API FUNCTIONS - IGDB
+# ============================================================================
+
+@st.cache_data(ttl=86400)
 def get_igdb_token() -> str | None:
     """Récupère un token OAuth2 pour IGDB."""
     client_id = os.getenv("IGDB_CLIENT_ID")
@@ -66,12 +70,8 @@ def search_game_cover(title: str, _token: str, client_id: str) -> str | None:
     """Recherche la jaquette d'un jeu via IGDB."""
     if not _token or not client_id:
         return None
-    headers = {
-        "Client-ID": client_id,
-        "Authorization": f"Bearer {_token}"
-    }
+    headers = {"Client-ID": client_id, "Authorization": f"Bearer {_token}"}
     try:
-        # Recherche du jeu
         resp = requests.post(
             "https://api.igdb.com/v4/games",
             headers=headers,
@@ -84,7 +84,6 @@ def search_game_cover(title: str, _token: str, client_id: str) -> str | None:
         cover_id = game.get("cover")
         if not cover_id:
             return None
-        # Récupération de l'URL du cover
         resp2 = requests.post(
             "https://api.igdb.com/v4/covers",
             headers=headers,
@@ -103,21 +102,12 @@ def search_game_cover(title: str, _token: str, client_id: str) -> str | None:
 
 @st.cache_data(ttl=86400, show_spinner=False)
 def batch_fetch_covers(titles: tuple[str, ...], _token: str, client_id: str) -> dict[str, str | None]:
-    """Récupère les jaquettes pour plusieurs jeux en parallèle (batch).
-    
-    Utilise le multithreading pour accélérer les requêtes IGDB.
-    Le résultat est mis en cache 24h par Streamlit.
-    """
+    """Récupère les jaquettes pour plusieurs jeux en parallèle."""
     if not _token or not client_id:
         return {}
-    
     results = {}
-    
     def fetch_single(title: str) -> tuple[str, str | None]:
-        cover = search_game_cover(title, _token, client_id)
-        return (title, cover)
-    
-    # Parallélisation avec max 10 workers pour ne pas surcharger l'API
+        return (title, search_game_cover(title, _token, client_id))
     with ThreadPoolExecutor(max_workers=10) as executor:
         futures = {executor.submit(fetch_single, t): t for t in titles}
         for future in as_completed(futures):
@@ -126,198 +116,28 @@ def batch_fetch_covers(titles: tuple[str, ...], _token: str, client_id: str) -> 
                 results[title] = cover
             except Exception:
                 results[futures[future]] = None
-    
     return results
 
 
-def load_games_data() -> pd.DataFrame:
-    """Charge et prépare les données des jeux."""
-    csv_path = os.path.join(CLEAN_DIR, "jeux_clean.csv")
-    if not os.path.exists(csv_path):
-        return pd.DataFrame()
-    
-    df = pd.read_csv(csv_path, sep=";", dtype=str)
-    df.columns = [c.strip() for c in df.columns]
-    
-    # Conversion heures en numérique
-    if "Heures de jeu" in df.columns:
-        df["Heures de jeu"] = pd.to_numeric(df["Heures de jeu"], errors="coerce").fillna(0).astype(int)
-    else:
-        df["Heures de jeu"] = 0
-    
-    # Agrégation par titre (somme des heures si plusieurs entrées)
-    df_agg = df.groupby("Titre", as_index=False).agg({
-        "Support": lambda x: ", ".join(sorted(set(str(s) for s in x if pd.notna(s)))),
-        "Heures de jeu": "sum"
-    })
-    
-    return df_agg.sort_values("Heures de jeu", ascending=False)
+# ============================================================================
+# API FUNCTIONS - GitHub
+# ============================================================================
 
-
-def render_game_card(title: str, hours: int, support: str, cover_url: str | None):
-    """Affiche une carte de jeu avec jaquette et stats."""
-    with st.container():
-        st.markdown('<div class="game-card">', unsafe_allow_html=True)
-        
-        if cover_url:
-            st.markdown(f'<img src="{cover_url}" class="game-cover">', unsafe_allow_html=True)
-        else:
-            st.markdown(
-                f"""<div class="placeholder-cover">
-                    <div>🎮<br>{title[:25]}{'...' if len(title) > 25 else ''}</div>
-                </div>""",
-                unsafe_allow_html=True
-            )
-            
-        st.markdown(f"**{title}**")
-        st.markdown(f'<div class="hours-badge">⏱️ {hours}h</div>', unsafe_allow_html=True)
-        st.caption(f"📀 {support}")
-        st.markdown('</div>', unsafe_allow_html=True)
-
-
-def page_jeux():
-    """Page des jeux vidéo."""
-    st.header("🎮 Mes Jeux Vidéo")
-    
-    df = load_games_data()
-    if df.empty:
-        st.warning("Aucune donnée de jeux trouvée. Exécutez d'abord :")
-        st.code("python -m pipelines.seriesbox", language="bash")
-        return
-    
-    # Stats globales
-    total_hours = df["Heures de jeu"].sum()
-    total_games = len(df)
-    games_played = len(df[df["Heures de jeu"] > 0])
-    top_game = df.iloc[0]["Titre"] if not df.empty else "-"
-    
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("🎯 Total Jeux", total_games)
-    col2.metric("🕹️ Jeux joués", games_played)
-    col3.metric("⏱️ Heures totales", f"{total_hours}h")
-    col4.metric("🏆 Top jeu", top_game[:20])
-    
-    st.divider()
-    
-    # Filtres
-    col_filter1, col_filter2, col_filter3 = st.columns(3)
-    with col_filter1:
-        min_hours = st.slider("Heures minimum", 0, max(1, int(df["Heures de jeu"].max())), 0)
-    with col_filter2:
-        all_supports = set()
-        for supports in df["Support"]:
-            if pd.notna(supports):
-                for s in str(supports).split(","):
-                    all_supports.add(s.strip())
-        supports_list = ["Tous"] + sorted(all_supports)
-        selected_support = st.selectbox("Plateforme", supports_list)
-    with col_filter3:
-        sort_order = st.selectbox("Tri", ["Heures (décroissant)", "Heures (croissant)", "Alphabétique"])
-    
-    # Filtrage
-    df_filtered = df[df["Heures de jeu"] >= min_hours].copy()
-    if selected_support != "Tous":
-        df_filtered = df_filtered[df_filtered["Support"].str.contains(selected_support, na=False)]
-    
-    # Tri
-    if sort_order == "Heures (croissant)":
-        df_filtered = df_filtered.sort_values("Heures de jeu", ascending=True)
-    elif sort_order == "Alphabétique":
-        df_filtered = df_filtered.sort_values("Titre", ascending=True)
-    
-    st.subheader(f"📊 {len(df_filtered)} jeux affichés")
-    
-    # Récupération du token IGDB
-    token = get_igdb_token()
-    client_id = os.getenv("IGDB_CLIENT_ID", "")
-    
-    if not token:
-        st.info("💡 Pour afficher les jaquettes, ajoutez `IGDB_CLIENT_ID` et `IGDB_CLIENT_SECRET` dans le fichier `.env`")
-    
-    # Pré-chargement de toutes les jaquettes en batch (parallèle + cache)
-    covers_map = {}
-    if token:
-        titles_to_fetch = tuple(
-            game["Titre"] for _, game in df_filtered.iterrows() 
-            if game["Heures de jeu"] > 0
-        )
-        if titles_to_fetch:
-            with st.spinner(f"⏳ Chargement des jaquettes ({len(titles_to_fetch)} jeux)..."):
-                covers_map = batch_fetch_covers(titles_to_fetch, token, client_id)
-    
-    # Affichage en grille
-    cols_per_row = 5
-    rows = [df_filtered.iloc[i:i+cols_per_row] for i in range(0, len(df_filtered), cols_per_row)]
-    
-    for row_df in rows:
-        cols = st.columns(cols_per_row)
-        for idx, (_, game) in enumerate(row_df.iterrows()):
-            with cols[idx]:
-                # Récupération de la jaquette depuis le cache batch
-                cover_url = covers_map.get(game["Titre"])
-                
-                render_game_card(
-                    title=game["Titre"],
-                    hours=game["Heures de jeu"],
-                    support=game["Support"],
-                    cover_url=cover_url
-                )
-
-
-def page_films():
-    """Page des films (placeholder pour plus tard)."""
-    st.header("🎬 Mes Films")
-    st.info("🚧 Cette section sera détaillée plus tard.")
-    
-    csv_path = os.path.join(CLEAN_DIR, "films_vus_clean.csv")
-    if os.path.exists(csv_path):
-        df = pd.read_csv(csv_path, sep=";", dtype=str)
-        st.metric("Nombre de films vus", len(df))
-        if not df.empty:
-            st.dataframe(df, use_container_width=True)
-    else:
-        st.warning("Fichier films introuvable. Exécutez d'abord `python -m pipelines.seriesbox`.")
-
-
-def page_series():
-    """Page des séries (placeholder pour plus tard)."""
-    st.header("📺 Mes Séries")
-    st.info("🚧 Cette section sera détaillée plus tard.")
-    
-    csv_path = os.path.join(CLEAN_DIR, "shows_clean.csv")
-    if os.path.exists(csv_path):
-        df = pd.read_csv(csv_path, sep=";", dtype=str)
-        st.metric("Nombre de séries", len(df))
-        if not df.empty:
-            st.dataframe(df, use_container_width=True)
-    else:
-        st.warning("Fichier séries introuvable. Exécutez d'abord `python -m pipelines.seriesbox`.")
-
-
-# --- GitHub API Functions ---
-@st.cache_data(ttl=3600, show_spinner=False)  # Cache 1h
+@st.cache_data(ttl=3600, show_spinner=False)
 def get_github_user_stats(username: str, token: str | None = None) -> dict | None:
-    """Récupère les statistiques globales d'un utilisateur GitHub."""
-    headers = {}
-    if token:
-        headers["Authorization"] = f"token {token}"
-    
+    """Récupère les statistiques d'un utilisateur GitHub."""
+    headers = {"Authorization": f"token {token}"} if token else {}
     try:
         resp = requests.get(f"https://api.github.com/users/{username}", headers=headers, timeout=10)
-        if resp.status_code != 200:
-            return None
-        return resp.json()
+        return resp.json() if resp.status_code == 200 else None
     except Exception:
         return None
 
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def get_github_repos(username: str, token: str | None = None) -> list[dict]:
-    """Récupère tous les repos publics d'un utilisateur GitHub."""
-    headers = {}
-    if token:
-        headers["Authorization"] = f"token {token}"
-    
+    """Récupère tous les repos publics d'un utilisateur."""
+    headers = {"Authorization": f"token {token}"} if token else {}
     repos = []
     page = 1
     try:
@@ -325,7 +145,7 @@ def get_github_repos(username: str, token: str | None = None) -> list[dict]:
             resp = requests.get(
                 f"https://api.github.com/users/{username}/repos",
                 headers=headers,
-                params={"per_page": 100, "page": page, "sort": "updated"},
+                params={"per_page": 100, "page": page, "sort": "pushed"},
                 timeout=10
             )
             if resp.status_code != 200:
@@ -350,146 +170,549 @@ def get_github_languages(repos: tuple) -> dict[str, int]:
         if repo.get("language"):
             lang = repo["language"]
             languages[lang] = languages.get(lang, 0) + 1
-    return languages
+    return dict(sorted(languages.items(), key=lambda x: x[1], reverse=True))
 
 
-@st.cache_data(ttl=3600, show_spinner=False)
-def get_recent_activity(username: str, token: str | None = None, days: int = 30) -> dict:
-    """Récupère l'activité récente (commits, PRs, issues)."""
-    headers = {}
+# ============================================================================
+# DATA LOADERS
+# ============================================================================
+
+@st.cache_data(ttl=3600)
+def load_games_data() -> pd.DataFrame:
+    """Charge les données des jeux."""
+    csv_path = os.path.join(CLEAN_DIR, "jeux_clean.csv")
+    if not os.path.exists(csv_path):
+        return pd.DataFrame()
+    df = pd.read_csv(csv_path, sep=";", dtype=str)
+    df.columns = [c.strip() for c in df.columns]
+    if "Heures de jeu" in df.columns:
+        df["Heures de jeu"] = pd.to_numeric(df["Heures de jeu"], errors="coerce").fillna(0).astype(int)
+    else:
+        df["Heures de jeu"] = 0
+    df_agg = df.groupby("Titre", as_index=False).agg({
+        "Support": lambda x: ", ".join(sorted(set(str(s) for s in x if pd.notna(s)))),
+        "Heures de jeu": "sum"
+    })
+    return df_agg.sort_values("Heures de jeu", ascending=False)
+
+
+@st.cache_data(ttl=3600)
+def load_films_data() -> pd.DataFrame:
+    """Charge les données des films."""
+    csv_path = os.path.join(CLEAN_DIR, "films_vus_clean.csv")
+    if not os.path.exists(csv_path):
+        return pd.DataFrame()
+    df = pd.read_csv(csv_path, sep=";", dtype=str)
+    df.columns = [c.strip() for c in df.columns]
+    return df
+
+
+@st.cache_data(ttl=3600)
+def load_series_data() -> pd.DataFrame:
+    """Charge les données des séries."""
+    csv_path = os.path.join(CLEAN_DIR, "shows_clean.csv")
+    if not os.path.exists(csv_path):
+        return pd.DataFrame()
+    df = pd.read_csv(csv_path, sep=";", dtype=str)
+    df.columns = [c.strip() for c in df.columns]
+    return df
+
+
+# ============================================================================
+# UI COMPONENTS
+# ============================================================================
+
+def render_header():
+    """Affiche le header principal."""
+    st.markdown("""
+    <div class="main-header">
+        <h1>◉ Hub Médias</h1>
+        <p class="header-subtitle">Tableau de bord personnel</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+def render_nav():
+    """Navigation horizontale moderne."""
+    if 'current_page' not in st.session_state:
+        st.session_state.current_page = "overview"
+    
+    col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1])
+    
+    with col1:
+        if st.button("◉ Aperçu", use_container_width=True, 
+                     type="primary" if st.session_state.current_page == "overview" else "secondary"):
+            st.session_state.current_page = "overview"
+            st.rerun()
+    with col2:
+        if st.button("🎮 Jeux", use_container_width=True,
+                     type="primary" if st.session_state.current_page == "games" else "secondary"):
+            st.session_state.current_page = "games"
+            st.rerun()
+    with col3:
+        if st.button("🎬 Films", use_container_width=True,
+                     type="primary" if st.session_state.current_page == "films" else "secondary"):
+            st.session_state.current_page = "films"
+            st.rerun()
+    with col4:
+        if st.button("📺 Séries", use_container_width=True,
+                     type="primary" if st.session_state.current_page == "series" else "secondary"):
+            st.session_state.current_page = "series"
+            st.rerun()
+    with col5:
+        if st.button("⌘ GitHub", use_container_width=True,
+                     type="primary" if st.session_state.current_page == "github" else "secondary"):
+            st.session_state.current_page = "github"
+            st.rerun()
+    
+    st.markdown("<div style='height: 2rem'></div>", unsafe_allow_html=True)
+
+
+def stat_card(label: str, value: str | int, icon: str = ""):
+    """Carte de statistique minimaliste."""
+    return f"""
+    <div class="stat-card">
+        <div class="stat-icon">{icon}</div>
+        <div class="stat-value">{value}</div>
+        <div class="stat-label">{label}</div>
+    </div>
+    """
+
+
+def media_card(title: str, image_url: str | None, subtitle: str = "", badge: str = ""):
+    """Carte média avec image et hover effect."""
+    placeholder = f"""
+    <div class="media-placeholder">
+        <span>{title[:2].upper()}</span>
+    </div>
+    """
+    image_html = f'<img src="{image_url}" alt="{title}" loading="lazy">' if image_url else placeholder
+    badge_html = f'<div class="media-badge">{badge}</div>' if badge else ''
+    subtitle_html = f'<div class="media-subtitle">{subtitle}</div>' if subtitle else ''
+    
+    return f"""
+    <div class="media-card">
+        <div class="media-image">
+            {image_html}
+            {badge_html}
+        </div>
+        <div class="media-info">
+            <div class="media-title">{title}</div>
+            {subtitle_html}
+        </div>
+    </div>
+    """
+
+
+# ============================================================================
+# PAGES
+# ============================================================================
+
+def page_overview():
+    """Page vue d'ensemble avec résumé de toutes les stats."""
+    df_games = load_games_data()
+    df_films = load_films_data()
+    df_series = load_series_data()
+    
+    # Stats globales
+    total_games = len(df_games)
+    total_films = len(df_films)
+    total_series = len(df_series)
+    total_hours = df_games["Heures de jeu"].sum() if not df_games.empty else 0
+    
+    st.markdown("### 📊 Aperçu global")
+    st.markdown("<div style='height: 1rem'></div>", unsafe_allow_html=True)
+    
+    # Cartes de stats
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.markdown(stat_card("Jeux", total_games, "🎮"), unsafe_allow_html=True)
+    with col2:
+        st.markdown(stat_card("Films", total_films, "🎬"), unsafe_allow_html=True)
+    with col3:
+        st.markdown(stat_card("Séries", total_series, "📺"), unsafe_allow_html=True)
+    with col4:
+        st.markdown(stat_card("Heures jouées", f"{total_hours:,}h", "⏱️"), unsafe_allow_html=True)
+    
+    st.markdown("<div style='height: 2rem'></div>", unsafe_allow_html=True)
+    
+    # Sections récentes
+    col_left, col_right = st.columns(2)
+    
+    with col_left:
+        st.markdown("#### 🎮 Top Jeux")
+        st.markdown("<div style='height: 0.5rem'></div>", unsafe_allow_html=True)
+        if not df_games.empty:
+            top_games = df_games.head(5)
+            for _, game in top_games.iterrows():
+                hours = game["Heures de jeu"]
+                st.markdown(f"""
+                <div class="list-item">
+                    <span class="list-title">{game['Titre']}</span>
+                    <span class="list-meta">{hours}h</span>
+                </div>
+                """, unsafe_allow_html=True)
+        else:
+            st.info("Aucun jeu enregistré")
+    
+    with col_right:
+        st.markdown("#### 🎬 Films récents")
+        st.markdown("<div style='height: 0.5rem'></div>", unsafe_allow_html=True)
+        if not df_films.empty:
+            recent_films = df_films.head(5)
+            for _, film in recent_films.iterrows():
+                st.markdown(f"""
+                <div class="list-item">
+                    <span class="list-title">{film['Titre']}</span>
+                </div>
+                """, unsafe_allow_html=True)
+        else:
+            st.info("Aucun film enregistré")
+    
+    st.markdown("<div style='height: 2rem'></div>", unsafe_allow_html=True)
+    
+    # GitHub quick stats
+    github_username = os.getenv("GITHUB_USERNAME")
+    if github_username:
+        st.markdown("#### ⌘ GitHub")
+        st.markdown("<div style='height: 0.5rem'></div>", unsafe_allow_html=True)
+        user_stats = get_github_user_stats(github_username, os.getenv("GITHUB_TOKEN"))
+        if user_stats:
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.markdown(stat_card("Repos", user_stats.get("public_repos", 0), "📦"), unsafe_allow_html=True)
+            with col2:
+                st.markdown(stat_card("Followers", user_stats.get("followers", 0), "👥"), unsafe_allow_html=True)
+            with col3:
+                st.markdown(stat_card("Following", user_stats.get("following", 0), "👤"), unsafe_allow_html=True)
+
+
+def page_games():
+    """Page des jeux vidéo."""
+    df = load_games_data()
+    
+    if df.empty:
+        st.warning("Aucune donnée de jeux. Exécutez `python -m pipelines.seriesbox`")
+        return
+    
+    # Stats header
+    total_hours = df["Heures de jeu"].sum()
+    total_games = len(df)
+    played = len(df[df["Heures de jeu"] > 0])
+    
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.markdown(stat_card("Total", total_games, "🎮"), unsafe_allow_html=True)
+    with col2:
+        st.markdown(stat_card("Joués", played, "✓"), unsafe_allow_html=True)
+    with col3:
+        st.markdown(stat_card("Heures", f"{total_hours:,}h", "⏱️"), unsafe_allow_html=True)
+    with col4:
+        avg_hours = total_hours // played if played > 0 else 0
+        st.markdown(stat_card("Moy/jeu", f"{avg_hours}h", "📊"), unsafe_allow_html=True)
+    
+    st.markdown("<div style='height: 1.5rem'></div>", unsafe_allow_html=True)
+    
+    # Filtres épurés
+    with st.expander("⚙️ Filtres", expanded=False):
+        col_f1, col_f2, col_f3 = st.columns(3)
+        with col_f1:
+            min_hours = st.slider("Heures minimum", 0, max(1, int(df["Heures de jeu"].max())), 0)
+        with col_f2:
+            all_supports = set()
+            for supports in df["Support"]:
+                if pd.notna(supports):
+                    for s in str(supports).split(","):
+                        all_supports.add(s.strip())
+            supports_list = ["Tous"] + sorted(all_supports)
+            selected_support = st.selectbox("Plateforme", supports_list)
+        with col_f3:
+            sort_order = st.selectbox("Tri", ["Heures ↓", "Heures ↑", "A-Z"])
+    
+    # Filtrage
+    df_filtered = df[df["Heures de jeu"] >= min_hours].copy()
+    if selected_support != "Tous":
+        df_filtered = df_filtered[df_filtered["Support"].str.contains(selected_support, na=False)]
+    
+    if sort_order == "Heures ↑":
+        df_filtered = df_filtered.sort_values("Heures de jeu", ascending=True)
+    elif sort_order == "A-Z":
+        df_filtered = df_filtered.sort_values("Titre", ascending=True)
+    
+    st.caption(f"{len(df_filtered)} jeux")
+    
+    # Récupération des covers
+    token = get_igdb_token()
+    client_id = os.getenv("IGDB_CLIENT_ID", "")
+    covers_map = {}
+    
     if token:
-        headers["Authorization"] = f"token {token}"
+        titles_to_fetch = tuple(game["Titre"] for _, game in df_filtered.iterrows())
+        if titles_to_fetch:
+            covers_map = batch_fetch_covers(titles_to_fetch, token, client_id)
     
-    since = (datetime.now() - timedelta(days=days)).isoformat()
+    # Grille de jeux
+    cols_per_row = 6
+    for i in range(0, len(df_filtered), cols_per_row):
+        cols = st.columns(cols_per_row)
+        chunk = df_filtered.iloc[i:i+cols_per_row]
+        for idx, (_, game) in enumerate(chunk.iterrows()):
+            with cols[idx]:
+                cover_url = covers_map.get(game["Titre"])
+                badge = f"{game['Heures de jeu']}h" if game['Heures de jeu'] > 0 else ""
+                st.markdown(
+                    media_card(
+                        title=game["Titre"],
+                        image_url=cover_url,
+                        subtitle=game["Support"],
+                        badge=badge
+                    ),
+                    unsafe_allow_html=True
+                )
+
+
+def page_films():
+    """Page des films."""
+    df = load_films_data()
     
-    try:
-        # Events récents
-        resp = requests.get(
-            f"https://api.github.com/users/{username}/events",
-            headers=headers,
-            params={"per_page": 100},
-            timeout=10
-        )
-        if resp.status_code != 200:
-            return {"commits": 0, "prs": 0, "issues": 0}
-        
-        events = resp.json()
-        commits = sum(1 for e in events if e.get("type") == "PushEvent")
-        prs = sum(1 for e in events if e.get("type") == "PullRequestEvent")
-        issues = sum(1 for e in events if e.get("type") == "IssuesEvent")
-        
-        return {"commits": commits, "prs": prs, "issues": issues}
-    except Exception:
-        return {"commits": 0, "prs": 0, "issues": 0}
+    if df.empty:
+        st.warning("Aucune donnée de films. Exécutez `python -m pipelines.seriesbox`")
+        return
+    
+    # Stats
+    total_films = len(df)
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.markdown(stat_card("Films vus", total_films, "🎬"), unsafe_allow_html=True)
+    with col2:
+        st.markdown(stat_card("Heures estimées", f"~{total_films * 2}h", "⏱️"), unsafe_allow_html=True)
+    with col3:
+        st.markdown(stat_card("Jours équivalent", f"~{(total_films * 2) // 24}j", "📅"), unsafe_allow_html=True)
+    
+    st.markdown("<div style='height: 1.5rem'></div>", unsafe_allow_html=True)
+    
+    # Recherche
+    search = st.text_input("🔍 Rechercher un film", placeholder="Tapez pour rechercher...", label_visibility="collapsed")
+    
+    df_filtered = df.copy()
+    if search:
+        df_filtered = df_filtered[df_filtered["Titre"].str.lower().str.contains(search.lower(), na=False)]
+    
+    st.caption(f"{len(df_filtered)} films")
+    st.markdown("<div style='height: 0.5rem'></div>", unsafe_allow_html=True)
+    
+    # Grille
+    cols_per_row = 6
+    for i in range(0, len(df_filtered), cols_per_row):
+        cols = st.columns(cols_per_row)
+        chunk = df_filtered.iloc[i:i+cols_per_row]
+        for idx, (_, film) in enumerate(chunk.iterrows()):
+            with cols[idx]:
+                image_url = film.get("image_url") if pd.notna(film.get("image_url")) else None
+                st.markdown(
+                    media_card(
+                        title=film["Titre"],
+                        image_url=image_url,
+                    ),
+                    unsafe_allow_html=True
+                )
+
+
+def page_series():
+    """Page des séries."""
+    df = load_series_data()
+    
+    if df.empty:
+        st.warning("Aucune donnée de séries. Exécutez `python -m pipelines.seriesbox`")
+        return
+    
+    # Stats
+    total_series = len(df)
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown(stat_card("Séries suivies", total_series, "📺"), unsafe_allow_html=True)
+    with col2:
+        st.markdown(stat_card("En cours", "—", "▶️"), unsafe_allow_html=True)
+    
+    st.markdown("<div style='height: 1.5rem'></div>", unsafe_allow_html=True)
+    
+    # Recherche
+    search = st.text_input("🔍 Rechercher une série", placeholder="Tapez pour rechercher...", label_visibility="collapsed")
+    
+    df_filtered = df.copy()
+    if search:
+        df_filtered = df_filtered[df_filtered["Titre"].str.lower().str.contains(search.lower(), na=False)]
+    
+    st.caption(f"{len(df_filtered)} séries")
+    st.markdown("<div style='height: 0.5rem'></div>", unsafe_allow_html=True)
+    
+    # Grille
+    cols_per_row = 6
+    for i in range(0, len(df_filtered), cols_per_row):
+        cols = st.columns(cols_per_row)
+        chunk = df_filtered.iloc[i:i+cols_per_row]
+        for idx, (_, series) in enumerate(chunk.iterrows()):
+            with cols[idx]:
+                image_url = series.get("image_url") if pd.notna(series.get("image_url")) else None
+                st.markdown(
+                    media_card(
+                        title=series["Titre"],
+                        image_url=image_url,
+                    ),
+                    unsafe_allow_html=True
+                )
 
 
 def page_github():
-    """Page des statistiques GitHub."""
-    st.header("💻 GitHub Stats")
-    
-    # Configuration
+    """Page GitHub."""
     github_username = os.getenv("GITHUB_USERNAME")
-    github_token = os.getenv("GITHUB_TOKEN")  # Optionnel, augmente rate limit
+    github_token = os.getenv("GITHUB_TOKEN")
     
     if not github_username:
-        st.warning("⚠️ Ajoutez `GITHUB_USERNAME` dans le fichier `.env` pour afficher vos stats GitHub.")
-        st.code('GITHUB_USERNAME=votre_username', language="bash")
+        st.warning("Ajoutez `GITHUB_USERNAME` dans `.env`")
         return
     
-    with st.spinner("⏳ Chargement des données GitHub..."):
-        user_stats = get_github_user_stats(github_username, github_token)
-        repos = get_github_repos(github_username, github_token)
-        activity = get_recent_activity(github_username, github_token, days=30)
+    user_stats = get_github_user_stats(github_username, github_token)
+    repos = get_github_repos(github_username, github_token)
     
     if not user_stats:
-        st.error(f"❌ Impossible de récupérer les données pour l'utilisateur `{github_username}`.")
+        st.error(f"Impossible de charger les données pour @{github_username}")
         return
     
-    # Header avec avatar
-    col_avatar, col_info = st.columns([1, 3])
+    # Profil header
+    col_avatar, col_info = st.columns([1, 4])
     with col_avatar:
-        st.image(user_stats.get("avatar_url", ""), width=150)
-    with col_info:
-        st.subheader(user_stats.get("name", github_username))
-        st.caption(f"@{github_username}")
-        if user_stats.get("bio"):
-            st.markdown(f"*{user_stats['bio']}*")
-        if user_stats.get("location"):
-            st.caption(f"📍 {user_stats['location']}")
-    
-    st.divider()
-    
-    # Métriques principales
-    col1, col2, col3, col4, col5 = st.columns(5)
-    col1.metric("📦 Repos publics", user_stats.get("public_repos", 0))
-    col2.metric("👥 Followers", user_stats.get("followers", 0))
-    col3.metric("👤 Following", user_stats.get("following", 0))
-    col4.metric("⭐ Gists", user_stats.get("public_gists", 0))
-    
-    created_at = datetime.strptime(user_stats["created_at"], "%Y-%m-%dT%H:%M:%SZ")
-    years = (datetime.now() - created_at).days // 365
-    col5.metric("📅 Compte créé", f"{years} ans")
-    
-    st.divider()
-    
-    # Activité récente (30 derniers jours)
-    st.subheader("📊 Activité récente (30 jours)")
-    col_act1, col_act2, col_act3 = st.columns(3)
-    col_act1.metric("🔄 Push events", activity["commits"])
-    col_act2.metric("🔀 Pull Requests", activity["prs"])
-    col_act3.metric("📝 Issues", activity["issues"])
-    
-    st.divider()
-    
-    # Langages
-    if repos:
-        st.subheader("🔤 Langages utilisés")
-        languages = get_github_languages(tuple(repos))
-        if languages:
-            # Tri par nombre de repos
-            sorted_langs = sorted(languages.items(), key=lambda x: x[1], reverse=True)[:10]
-            
-            cols_lang = st.columns(5)
-            for idx, (lang, count) in enumerate(sorted_langs):
-                with cols_lang[idx % 5]:
-                    st.metric(lang, f"{count} repos")
-        
-        st.divider()
-        
-        # Contributions (Graphique)
-        st.subheader("📅 Contributions (Année écoulée)")
         st.markdown(f"""
-        <div style="background-color: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; text-align: center;">
-            <img src="https://ghchart.rshah.io/58a6ff/{github_username}" alt="Graphique de contributions" style="width: 100%; max-width: 800px;">
+        <div class="github-avatar">
+            <img src="{user_stats.get('avatar_url', '')}" alt="avatar">
+        </div>
+        """, unsafe_allow_html=True)
+    with col_info:
+        name = user_stats.get("name", github_username)
+        bio = user_stats.get("bio", "") or ""
+        st.markdown(f"""
+        <div class="github-profile">
+            <h2>{name}</h2>
+            <p class="github-handle">@{github_username}</p>
+            <p class="github-bio">{bio}</p>
         </div>
         """, unsafe_allow_html=True)
     
-    # Info rate limit
-    if not github_token:
-        st.info("💡 Ajoutez `GITHUB_TOKEN` dans `.env` pour augmenter la limite de requêtes API.")
+    st.markdown("<div style='height: 2rem'></div>", unsafe_allow_html=True)
+    
+    # Stats
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.markdown(stat_card("Repositories", user_stats.get("public_repos", 0), "📦"), unsafe_allow_html=True)
+    with col2:
+        st.markdown(stat_card("Followers", user_stats.get("followers", 0), "👥"), unsafe_allow_html=True)
+    with col3:
+        st.markdown(stat_card("Following", user_stats.get("following", 0), "👤"), unsafe_allow_html=True)
+    with col4:
+        created_at = datetime.strptime(user_stats["created_at"], "%Y-%m-%dT%H:%M:%SZ")
+        years = (datetime.now() - created_at).days // 365
+        st.markdown(stat_card("Années", years, "📅"), unsafe_allow_html=True)
+    
+    st.markdown("<div style='height: 2rem'></div>", unsafe_allow_html=True)
+    
+    # Langages
+    if repos:
+        st.markdown("#### Langages")
+        st.markdown("<div style='height: 0.5rem'></div>", unsafe_allow_html=True)
+        languages = get_github_languages(tuple(repos))
+        if languages:
+            top_langs = list(languages.items())[:8]
+            total = sum(c for _, c in top_langs)
+            
+            colors = {
+                "Python": "#3572A5", "JavaScript": "#f1e05a", "TypeScript": "#3178c6",
+                "Java": "#b07219", "C++": "#f34b7d", "C#": "#178600", "Go": "#00ADD8",
+                "Rust": "#dea584", "Ruby": "#701516", "PHP": "#4F5D95", "Swift": "#F05138",
+                "Kotlin": "#A97BFF", "HTML": "#e34c26", "CSS": "#563d7c", "Shell": "#89e051"
+            }
+            
+            # Barre de langages
+            lang_html = '<div class="lang-bars">'
+            for lang, count in top_langs:
+                pct = (count / total) * 100
+                color = colors.get(lang, "#8b949e")
+                lang_html += f'<div class="lang-bar" style="width: {pct}%; background: {color};" title="{lang}: {count}"></div>'
+            lang_html += '</div>'
+            st.markdown(lang_html, unsafe_allow_html=True)
+            
+            # Légende
+            legend_html = '<div class="lang-legend">'
+            for lang, count in top_langs:
+                color = colors.get(lang, "#8b949e")
+                legend_html += f'<span class="lang-item"><span class="lang-dot" style="background: {color}"></span>{lang}</span>'
+            legend_html += '</div>'
+            st.markdown(legend_html, unsafe_allow_html=True)
+    
+    st.markdown("<div style='height: 2rem'></div>", unsafe_allow_html=True)
+    
+    # Contribution graph
+    st.markdown("#### Contributions")
+    st.markdown("<div style='height: 0.5rem'></div>", unsafe_allow_html=True)
+    st.markdown(f"""
+    <div class="contribution-graph">
+        <img src="https://ghchart.rshah.io/6366f1/{github_username}" alt="Contributions">
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("<div style='height: 2rem'></div>", unsafe_allow_html=True)
+    
+    # Top repos
+    st.markdown("#### Repositories récents")
+    st.markdown("<div style='height: 0.5rem'></div>", unsafe_allow_html=True)
+    if repos:
+        top_repos = sorted(repos, key=lambda x: x.get("pushed_at", ""), reverse=True)[:6]
+        
+        cols = st.columns(2)
+        for idx, repo in enumerate(top_repos):
+            with cols[idx % 2]:
+                stars = repo.get("stargazers_count", 0)
+                forks = repo.get("forks_count", 0)
+                lang = repo.get("language", "") or ""
+                desc = (repo.get("description", "") or "")[:80]
+                
+                st.markdown(f"""
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <span class="repo-name">{repo['name']}</span>
+                        <span class="repo-lang">{lang}</span>
+                    </div>
+                    <p class="repo-desc">{desc}</p>
+                    <div class="repo-stats">
+                        <span>⭐ {stars}</span>
+                        <span>🍴 {forks}</span>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
 
 
-# --- Navigation ---
-st.sidebar.title("🎯 Hub Médias")
-st.sidebar.markdown("---")
+# ============================================================================
+# MAIN
+# ============================================================================
 
-page = st.sidebar.radio(
-    "Navigation",
-    ["🎮 Jeux", "🎬 Films", "📺 Séries", "💻 GitHub"],
-    label_visibility="collapsed"
-)
+def main():
+    render_header()
+    render_nav()
+    
+    page = st.session_state.get("current_page", "overview")
+    
+    if page == "overview":
+        page_overview()
+    elif page == "games":
+        page_games()
+    elif page == "films":
+        page_films()
+    elif page == "series":
+        page_series()
+    elif page == "github":
+        page_github()
 
-# Routing
-if page == "🎮 Jeux":
-    page_jeux()
-elif page == "🎬 Films":
-    page_films()
-elif page == "📺 Séries":
-    page_series()
-else:
-    page_github()
 
-# Footer
-st.sidebar.markdown("---")
-st.sidebar.caption("📊 Données: SerieBox")
-st.sidebar.caption("🖼️ Images: IGDB / TMDb")
+if __name__ == "__main__":
+    main()
