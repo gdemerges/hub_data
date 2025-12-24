@@ -196,6 +196,53 @@
     transform: scale(1.05);
 }
 
+/* Conteneur cliquable pour les cartes média */
+/* Le bouton est affiché au-dessus, la carte en dessous comme overlay visuel */
+.stButton > button[type="secondary"] {
+    position: relative;
+}
+
+/* Quand on a une carte overlay après un bouton, on positionne visuellement */
+.stButton + div > .media-card-overlay {
+    margin-top: -3rem; /* Remonte pour recouvrir le bouton */
+    pointer-events: none; /* La carte ne capture pas les clics, seul le bouton */
+    position: relative;
+    z-index: 1;
+}
+
+.stButton + div > .media-card-overlay .media-card {
+    margin-bottom: 0;
+}
+
+/* Le bouton devient invisible mais reste cliquable */
+div[data-testid="column"] > div > .stButton > button[type="secondary"] {
+    background: transparent !important;
+    border: none !important;
+    color: transparent !important;
+    height: 2.75rem;
+    padding: 0 !important;
+    min-height: 0 !important;
+}
+
+div[data-testid="column"] > div > .stButton > button[type="secondary"]:hover,
+div[data-testid="column"] > div > .stButton > button[type="secondary"]:focus {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Hover sur la carte complète quand le bouton est survolé */
+div[data-testid="column"] > div > .stButton:hover + div > .media-card-overlay .media-card {
+    border-color: var(--accent-primary);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(99, 102, 241, 0.15);
+}
+
+div[data-testid="column"] > div > .stButton:hover + div > .media-card-overlay .media-card .media-image img {
+    transform: scale(1.05);
+}
+
 .media-placeholder {
     width: 100%;
     height: 100%;
@@ -369,6 +416,119 @@
 .contribution-graph img {
     max-width: 100%;
     height: auto;
+}
+
+/* GitHub Contribution Heatmap */
+.contrib-heatmap {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    overflow-x: auto;
+}
+
+.contrib-months {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 13px;
+    margin-bottom: 0.5rem;
+    padding-left: 36px;
+}
+
+.contrib-month {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+}
+
+.contrib-grid {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.contrib-days-labels {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 0px;
+    padding-right: 0.5rem;
+}
+
+.contrib-day-label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    height: 13px;
+    line-height: 13px;
+    text-align: right;
+    padding-top: 2px;
+}
+
+.contrib-weeks {
+    display: flex;
+    gap: 3px;
+}
+
+.contrib-week {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.contrib-day {
+    width: 11px;
+    height: 11px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.contrib-day:hover {
+    transform: scale(1.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Niveaux d'intensité - GitHub color scheme with green */
+.contrib-day.level-0 {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-subtle);
+}
+
+.contrib-day.level-1 {
+    background: #0e4429;
+    border: 1px solid #0e4429;
+}
+
+.contrib-day.level-2 {
+    background: #006d32;
+    border: 1px solid #006d32;
+}
+
+.contrib-day.level-3 {
+    background: #26a641;
+    border: 1px solid #26a641;
+}
+
+.contrib-day.level-4 {
+    background: #39d353;
+    border: 1px solid #39d353;
+}
+
+/* Légende */
+.contrib-legend {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.5rem;
+    justify-content: flex-end;
+}
+
+.contrib-legend-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.contrib-legend .contrib-day {
+    width: 10px;
+    height: 10px;
 }
 
 /* Repo cards */
