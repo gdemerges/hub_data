@@ -1,0 +1,28 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.igdb.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'image.tmdb.org',
+      },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+      },
+    ],
+    formats: ['image/avif', 'image/webp'],
+  },
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+    turbo: {
+      root: '.',
+    },
+  },
+}
+
+module.exports = nextConfig

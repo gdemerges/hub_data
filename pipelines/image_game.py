@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 CLEAN_DIR = os.path.join(BASE_DIR, "data", "seriebox_cleaned")
 CSV_PATH = os.path.join(CLEAN_DIR, "jeux_clean.csv")
 
-ENV_PATH = os.path.join(BASE_DIR, ".env")
+ENV_PATH = os.path.join(BASE_DIR, "web", ".env")
 load_dotenv(ENV_PATH)
 
 TWITCH_CLIENT_ID = os.getenv("IGDB_CLIENT_ID")

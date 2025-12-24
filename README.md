@@ -2,8 +2,9 @@
 
 > Dashboard personnel pour centraliser et visualiser vos statistiques de jeux vidéo, films, séries et activité GitHub.
 
-[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red.svg)](https://streamlit.io/)
+[![Next.js](https://img.shields.io/badge/Next.js-14-black.svg)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8.svg)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
@@ -27,176 +28,156 @@ Le projet récupère automatiquement vos données depuis **SerieBox** et les enr
 - Affichage en grille avec jaquettes haute résolution (IGDB)
 - Statistiques : heures jouées, nombre de jeux, top jeu
 - Filtres : heures minimum, plateforme, tri personnalisé
-- Chargement optimisé avec cache et multithreading
+- Chargement ultra-rapide avec Next.js
 
 ### 💻 Onglet GitHub
 - Profil utilisateur avec avatar et bio
 - Métriques : repos publics, followers, gists, ancienneté
 - Activité récente (30 derniers jours) : commits, PRs, issues
 - Top 10 langages de programmation utilisés
-- Graphique de contributions annuel
 
-### 🎬 🎬 Onglets Films & Séries
+### 🎬 Onglets Films & Séries
 - Import automatique depuis SerieBox
 - Enrichissement des métadonnées via TMDb
-- *(Visualisation avancée à venir)*
+- Filtres et recherche intégrés
+
+---
+
+## 🏗️ Architecture
+
+```
+hub_data/
+├── web/                    # Application Next.js
+│   ├── app/               # Pages (App Router)
+│   ├── components/        # Composants React
+│   ├── lib/               # Utilitaires TypeScript
+│   ├── data/              # Données JSON générées
+│   ├── scripts/           # Script build-data.ts
+│   └── .env               # Variables d'environnement (APIs)
+├── data/seriebox/          # Données CSV sources (depuis SerieBox)
+├── pipelines/              # Scripts Python pour récupérer les données
+└── README.md
+```
 
 ---
 
 ## 🚀 Installation
 
 ### Prérequis
-- **Python 3.11+**
-- **Compte SerieBox** (pour les données de médias)
-- **Clés API** (optionnelles mais recommandées) :
-  - [IGDB](https://api.igdb.com/) (Twitch Developer)
-  - [TMDb](https://www.themoviedb.org/settings/api)
-  - [GitHub Personal Access Token](https://github.com/settings/tokens)
+- **Node.js 18+**
+- **Python 3.11+** (pour les pipelines de données)
 
 ### Étapes
 
-1. **Cloner le repository**
+1. **Cloner le projet**
    ```bash
-   git clone https://github.com/gdemerges/hub_data.git
+   git clone https://github.com/votre-username/hub_data.git
    cd hub_data
    ```
 
-2. **Installer les dépendances**
+2. **Aller dans le dossier web et installer les dépendances**
    ```bash
-   pip install -r requirements.txt
+   cd web
+   npm install
    ```
 
 3. **Configurer les variables d'environnement**
    
-   Créez un fichier `.env` à la racine du projet :
+   Créez le fichier `web/.env` avec vos clés API :
    ```env
-   # IGDB (jaquettes de jeux)
+   # IGDB (jeux)
    IGDB_CLIENT_ID=votre_client_id
    IGDB_CLIENT_SECRET=votre_client_secret
-   
-   # TMDb (posters films/séries)
+
+   # TMDb (films/séries)
    TMDB_API_KEY=votre_api_key
-   
-   # GitHub (statistiques)
+
+   # GitHub
+   GITHUB_TOKEN=votre_token
    GITHUB_USERNAME=votre_username
-   GITHUB_TOKEN=votre_token_optionnel
-   
-   # SerieBox (authentification)
-   SERIEBOX_EMAIL=votre_email
-   SERIEBOX_PASSWORD=votre_mot_de_passe
    ```
 
-4. **Récupérer vos données SerieBox**
+4. **Générer les données (toujours depuis le dossier web/)**
    ```bash
-   python -m pipelines.seriesbox
+   npm run build:data
    ```
 
-5. **Enrichir avec les images (optionnel)**
+5. **Lancer le serveur de développement**
    ```bash
-   python -m pipelines.image_movies_series
+   npm run dev
    ```
 
-6. **Lancer le dashboard**
-   ```bash
-   streamlit run app/dashboard.py
-   ```
+6. Ouvrir [http://localhost:3000](http://localhost:3000)
 
-Le dashboard sera accessible sur **http://localhost:8501**
+> **Note** : Toutes les commandes npm doivent être exécutées depuis le dossier `web/`
 
 ---
 
-## 📁 Structure du projet
+## 📜 Scripts
 
-```
-hub_data/
-├── app/
-│   ├── dashboard.py         # Application Streamlit principale
-│   └── style.css            # Thème visuel (dark mode)
-├── pipelines/
-│   ├── seriesbox.py         # Scraping SerieBox + nettoyage
-│   ├── clean_seriesbox.py   # Nettoyage des CSVs exportés
-│   └── image_movies_series.py  # Enrichissement TMDb
-├── data/
-│   ├── seriebox/            # Exports bruts CSV
-│   └── seriebox_cleaned/    # Données nettoyées
-├── .env                     # Configuration (à créer)
-├── requirements.txt
-└── README.md
+### Mise à jour complète des données
+
+```bash
+# Depuis la racine du projet
+python pipelines/update-data.py
 ```
 
----
+Ce script :
+1. Télécharge les données depuis SerieBox (jeux, films, séries)
+2. Récupère les images depuis IGDB et TMDB
+3. Génère les fichiers JSON pour l'application
 
-## 🛠️ Technologies utilisées
+**Options :**
+- `--skip-seriebox` ou `-s` : Skip le téléchargement SerieBox, utilise les CSV existants
 
-| Domaine | Technologies |
-|---------|-------------|
-| **Backend** | Python 3.11, Pandas |
-| **Frontend** | Streamlit |
-| **APIs** | IGDB (IGDB.com), TMDb, GitHub REST API |
-| **Web Scraping** | Requests, browser_cookie3 |
-| **Concurrence** | ThreadPoolExecutor |
-| **Styling** | CSS personnalisé (dark theme) |
+### Commandes npm (depuis le dossier web/)
 
----
-
-## 📊 Captures d'écran
-
-### Onglet Jeux
-![Jeux](https://via.placeholder.com/800x400?text=Grid+View+with+Game+Covers)
-
-### Onglet GitHub
-![GitHub](https://via.placeholder.com/800x400?text=GitHub+Stats+Dashboard)
+| Commande | Description |
+|----------|-------------|
+| `npm run dev` | Lance le serveur de développement |
+| `npm run build` | Build de production |
+| `npm run build:data` | Génère les JSON avec images (IGDB/TMDB) |
+| `npm run start` | Lance le serveur de production |
 
 ---
 
-## 🔧 Configuration avancée
+## 🔑 APIs Utilisées
 
-### Optimisation des performances
-- Les jaquettes IGDB sont **cachées 24h** via `@st.cache_data`
-- Récupération parallèle des covers (max 10 workers simultanés)
-- Les données GitHub sont rafraîchies toutes les heures
+### IGDB (Internet Game Database)
+- Endpoint : `https://api.igdb.com/v4/`
+- Usage : Récupération des jaquettes de jeux
+- [Documentation](https://api-docs.igdb.com/)
 
-### Personnalisation du thème
-Modifiez `app/style.css` pour adapter les couleurs, animations, ou typographie.
+### TMDb (The Movie Database)
+- Endpoint : `https://api.themoviedb.org/3/`
+- Usage : Posters et métadonnées films/séries
+- [Documentation](https://developers.themoviedb.org/)
 
----
-
-## 🗺️ Roadmap
-
-- [x] Import automatique SerieBox
-- [x] Dashboard Streamlit avec jeux
-- [x] Intégration GitHub
-- [x] Thème dark moderne
-- [ ] Visualisation avancée Films/Séries
-- [ ] Export PDF des statistiques
-- [ ] Graphiques interactifs (Plotly)
-- [ ] Support multi-utilisateurs
-- [ ] Déploiement cloud (Streamlit Cloud)
+### GitHub REST API
+- Endpoint : `https://api.github.com/`
+- Usage : Statistiques et activité développeur
+- [Documentation](https://docs.github.com/rest)
 
 ---
 
-## 🤝 Contribution
+## 🛠️ Stack Technique
 
-Ce projet est personnel, mais les suggestions sont les bienvenues ! N'hésitez pas à ouvrir une **issue** ou une **pull request**.
-
----
-
-## 📄 License
-
-MIT License - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+- **Frontend** : Next.js 14 (App Router), React 18, TypeScript
+- **Styling** : Tailwind CSS, Lucide Icons
+- **Data** : CSV → JSON build step
+- **APIs** : IGDB, TMDb, GitHub
 
 ---
 
-## 👤 Auteur
+## 📝 Licence
 
-**Guillaume Demerges**  
-- GitHub: [@gdemerges](https://github.com/gdemerges)
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
 ---
 
 ## 🙏 Remerciements
 
-- [IGDB](https://www.igdb.com/) pour l'API de jaquettes de jeux
-- [TMDb](https://www.themoviedb.org/) pour les métadonnées de films/séries
-- [SerieBox](https://www.seriebox.com/) pour le tracking de médias
-- [Streamlit](https://streamlit.io/) pour le framework de dashboard
+- [SerieBox](https://www.seriebox.com/) pour le suivi des médias
+- [IGDB](https://www.igdb.com/) pour les données de jeux
+- [TMDb](https://www.themoviedb.org/) pour les données de films/séries
+- [Next.js](https://nextjs.org/) pour le framework React

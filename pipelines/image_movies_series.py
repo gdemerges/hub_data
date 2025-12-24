@@ -9,7 +9,7 @@ CLEAN_DIR = os.path.join(BASE_DIR, "data", "seriebox_cleaned")
 FILMS_CSV_PATH = os.path.join(CLEAN_DIR, "films_vus_clean.csv")
 SERIES_CSV_PATH = os.path.join(CLEAN_DIR, "shows_clean.csv")
 
-ENV_PATH = os.path.join(BASE_DIR, ".env")
+ENV_PATH = os.path.join(BASE_DIR, "web", ".env")
 load_dotenv(ENV_PATH)
 
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")

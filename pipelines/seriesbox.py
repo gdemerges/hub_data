@@ -9,7 +9,7 @@ from requests.cookies import create_cookie
 import browser_cookie3
 
 # Chargement des variables d'environnement
-env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+env_path = os.path.join(os.path.dirname(__file__), '..', 'web', '.env')
 load_dotenv(env_path)
 
 # Création du dossier data/seriebox s'il n'existe pas
