@@ -4,7 +4,19 @@ import { Gamepad2 } from 'lucide-react'
 
 export default async function GamesPage() {
   const games = await getGamesData()
-  const platforms = Array.from(new Set(games.map((g) => g.platform).filter((p): p is string => !!p)))
+  
+  // Extract all unique platforms, including from multi-platform games
+  const platformSet = new Set<string>()
+  games.forEach(game => {
+    if (game.platforms && game.platforms.length > 0) {
+      // Multi-platform game: add all platforms
+      game.platforms.forEach(p => platformSet.add(p.platform))
+    } else if (game.platform) {
+      // Single-platform game: add the platform
+      platformSet.add(game.platform)
+    }
+  })
+  const platforms = Array.from(platformSet).sort()
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">

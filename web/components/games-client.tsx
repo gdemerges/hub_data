@@ -20,13 +20,28 @@ export function GamesClient({ games, platforms }: GamesClientProps) {
   const [showFilters, setShowFilters] = useState(false)
 
   const items = useMemo(() => {
-    return games.map((game) => ({
-      ...game,
-      imageUrl: game.coverUrl,
-      subtitle: game.platform,
-      badge: game.hoursPlayed ? `${game.hoursPlayed}h` : undefined,
-    }))
-  }, [games])
+    return games.map((game) => {
+      // Calculate hours based on active filter
+      let displayHours = game.hoursPlayed
+      
+      if (filter !== 'all' && game.platforms && game.platforms.length > 0) {
+        // For filtered multi-platform games, show platform-specific hours
+        const platformData = game.platforms.find(p => p.platform === filter)
+        displayHours = platformData?.hoursPlayed || 0
+      }
+      
+      return {
+        ...game,
+        imageUrl: game.coverUrl,
+        subtitle: game.platforms && game.platforms.length > 1 
+          ? `${game.platforms.length} plateformes`
+          : game.platform,
+        badge: displayHours ? `${displayHours}h` : undefined,
+        // Store display hours for sorting
+        displayHours,
+      }
+    })
+  }, [games, filter])
 
   const filteredItems = useMemo(() => {
     let result = items
@@ -39,17 +54,24 @@ export function GamesClient({ games, platforms }: GamesClientProps) {
     }
 
     if (filter !== 'all') {
-      result = result.filter((item) => item.platform === filter)
+      result = result.filter((item) => {
+        // For multi-platform games, check if any platform matches
+        if (item.platforms && item.platforms.length > 0) {
+          return item.platforms.some(p => p.platform === filter)
+        }
+        // For single-platform games, check the platform property
+        return item.platform === filter
+      })
     }
 
     if (minHours > 0) {
-      result = result.filter((item) => (item.hoursPlayed || 0) >= minHours)
+      result = result.filter((item) => (item.displayHours || 0) >= minHours)
     }
 
     // Tri
     result.sort((a, b) => {
       if (sortBy === 'hours') {
-        return (b.hoursPlayed || 0) - (a.hoursPlayed || 0)
+        return (b.displayHours || 0) - (a.displayHours || 0)
       } else if (sortBy === 'rating') {
         return (b.rating || 0) - (a.rating || 0)
       } else {

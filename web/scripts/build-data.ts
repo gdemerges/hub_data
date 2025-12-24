@@ -14,6 +14,40 @@ if (!existsSync(OUTPUT_DIR)) {
   mkdirSync(OUTPUT_DIR, { recursive: true })
 }
 
+// ============ GAME NAME MAPPING ============
+
+// Map problematic game names to their correct English titles for better IGDB search
+const GAME_NAME_MAP: Record<string, string> = {
+  // Polish/other language titles
+  'Wiedźmin 3: Dziki Gon': 'The Witcher 3: Wild Hunt',
+  'Wiedźmin 2: Zabójcy Królów': 'The Witcher 2: Assassins of Kings',
+  'Wiedźmin': 'The Witcher',
+  
+  // Japanese titles
+  'Fainaru Fantajī Surī': 'Final Fantasy III',
+  'Fainaru Fantajī': 'Final Fantasy',
+  'Doragon Kuesuto IX: Hoshizora no Mamoribito': 'Dragon Quest IX: Sentinels of the Starry Skies',
+  'Dragon Quest IX: Hoshizora no Mamoribito': 'Dragon Quest IX: Sentinels of the Starry Skies',
+  
+  // Pokémon games
+  'Pocket Monsters Ruby': 'Pokemon Ruby',
+  'Pocket Monsters Sapphire': 'Pokemon Sapphire',
+  'Pocket Monsters Emerald': 'Pokemon Emerald',
+  'Pocket Monsters FireRed': 'Pokemon FireRed',
+  'Pocket Monsters LeafGreen': 'Pokemon LeafGreen',
+  'Pocket Monsters Diamond': 'Pokemon Diamond',
+  'Pocket Monsters Pearl': 'Pokemon Pearl',
+  'Pocket Monsters Platinum': 'Pokemon Platinum',
+  'Pocket Monsters HeartGold': 'Pokemon HeartGold',
+  'Pocket Monsters SoulSilver': 'Pokemon SoulSilver',
+  'Pocket Monsters Black': 'Pokemon Black',
+  'Pocket Monsters White': 'Pokemon White',
+  'Pocket Monsters X': 'Pokemon X',
+  'Pocket Monsters Y': 'Pokemon Y',
+  
+  // Add more mappings as needed
+}
+
 // ============ UTILITIES ============
 
 function parseNumber(value: string): number | undefined {
@@ -30,6 +64,28 @@ function parseYear(dateStr: string): number | undefined {
 
 function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+// Normalize game title for better search
+function normalizeGameTitle(title: string): string {
+  // Check if we have a direct mapping
+  if (GAME_NAME_MAP[title]) {
+    return GAME_NAME_MAP[title]
+  }
+  
+  // Remove problematic characters and normalize
+  let normalized = title
+    .replace(/[?����]/g, '') // Remove question marks and replacement chars
+    .replace(/\s+/g, ' ') // Normalize whitespace
+    .trim()
+  
+  // Try to extract English title from parentheses if present
+  const englishMatch = normalized.match(/\(([^)]+)\)/)
+  if (englishMatch) {
+    return englishMatch[1].trim()
+  }
+  
+  return normalized
 }
 
 // ============ IGDB API ============
@@ -75,6 +131,9 @@ async function fetchGameCover(gameName: string): Promise<string | undefined> {
   try {
     const token = await getIGDBToken()
     const clientId = process.env.IGDB_CLIENT_ID!
+    
+    // Normalize the game name for better search results
+    const searchName = normalizeGameTitle(gameName)
 
     const response = await fetch('https://api.igdb.com/v4/games', {
       method: 'POST',
@@ -83,7 +142,7 @@ async function fetchGameCover(gameName: string): Promise<string | undefined> {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'text/plain',
       },
-      body: `search "${gameName}"; fields cover.image_id; limit 1;`,
+      body: `search "${searchName}"; fields cover.image_id; limit 1;`,
     })
 
     if (!response.ok) return undefined
