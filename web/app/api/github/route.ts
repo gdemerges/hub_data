@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const GITHUB_API = 'https://api.github.com'
+const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql'
 
 export async function GET(request: NextRequest) {
   try {
     const username = request.nextUrl.searchParams.get('username')
-    
+
     if (!username) {
       return NextResponse.json({ error: 'Username required' }, { status: 400 })
     }
@@ -32,7 +33,7 @@ export async function GET(request: NextRequest) {
     // Calculate stats
     const totalStars = repos.reduce((acc: number, repo: any) => acc + repo.stargazers_count, 0)
     const totalForks = repos.reduce((acc: number, repo: any) => acc + repo.forks_count, 0)
-    
+
     // Get languages
     const languagesMap = new Map<string, number>()
     repos.forEach((repo: any) => {

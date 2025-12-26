@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { StatCard } from '@/components'
-import { Github, Star, GitFork, Users, MapPin, Building, ExternalLink, Code } from 'lucide-react'
+import { StatCard, ContributionCalendar } from '@/components'
+import { Github, Star, GitFork, Users, MapPin, Building, ExternalLink, Code, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface GitHubData {
   user: {
@@ -34,16 +34,30 @@ interface GitHubData {
   }[]
 }
 
-const GITHUB_USERNAME = 'guillaumededem' // Remplacez par votre nom d'utilisateur
+interface ContributionsData {
+  totalContributions: number
+  contributions: {
+    date: string
+    count: number
+    level: 0 | 1 | 2 | 3 | 4
+  }[]
+}
+
+const GITHUB_USERNAME = 'gdemerges'
 
 export default function GitHubPage() {
   const [data, setData] = useState<GitHubData | null>(null)
+  const [contributions, setContributions] = useState<ContributionsData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [loadingContributions, setLoadingContributions] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
 
+  // Fetch main GitHub data (user, repos, stats) - only once
   useEffect(() => {
     async function fetchData() {
       try {
+        setLoading(true)
         const response = await fetch(`/api/github?username=${GITHUB_USERNAME}`)
         if (!response.ok) throw new Error('Failed to fetch')
         const result = await response.json()
@@ -56,6 +70,24 @@ export default function GitHubPage() {
     }
     fetchData()
   }, [])
+
+  // Fetch contributions data separately - when year changes
+  useEffect(() => {
+    async function fetchContributions() {
+      try {
+        setLoadingContributions(true)
+        const response = await fetch(`/api/github/contributions?username=${GITHUB_USERNAME}&year=${selectedYear}`)
+        if (!response.ok) throw new Error('Failed to fetch contributions')
+        const result = await response.json()
+        setContributions(result)
+      } catch (err) {
+        console.error('Failed to load contributions:', err)
+      } finally {
+        setLoadingContributions(false)
+      }
+    }
+    fetchContributions()
+  }, [selectedYear])
 
   if (loading) {
     return (
@@ -146,26 +178,50 @@ export default function GitHubPage() {
         <StatCard label="Followers" value={data.user.followers} icon={Users} />
       </div>
 
-      {/* Contribution graphs */}
+      {/* Contribution calendar */}
       <div className="bg-bg-card border border-border-subtle rounded-2xl p-6 mb-8">
-        <h3 className="text-lg font-semibold text-text-primary mb-4">Contributions</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <img
-            src={`https://github-readme-stats.vercel.app/api?username=${GITHUB_USERNAME}&show_icons=true&theme=dark&hide_border=true&bg_color=0a0a0b&title_color=6366f1&icon_color=6366f1&text_color=d1d5db`}
-            alt="GitHub Stats"
-            className="w-full"
-          />
-          <img
-            src={`https://github-readme-streak-stats.herokuapp.com/?user=${GITHUB_USERNAME}&theme=dark&hide_border=true&background=0a0a0b&ring=6366f1&fire=6366f1&currStreakLabel=6366f1`}
-            alt="GitHub Streak"
-            className="w-full"
-          />
-          <img
-            src={`https://github-readme-activity-graph.vercel.app/graph?username=${GITHUB_USERNAME}&theme=react-dark&hide_border=true&bg_color=0a0a0b&color=d1d5db&line=6366f1&point=6366f1&area=true&area_color=6366f1`}
-            alt="Activity Graph"
-            className="w-full"
-          />
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold text-text-primary">Contributions</h3>
+          <div className="flex items-center gap-4">
+            {contributions && (
+              <span className="text-sm text-text-muted">
+                {contributions.totalContributions} contributions en {selectedYear}
+              </span>
+            )}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setSelectedYear(selectedYear - 1)}
+                disabled={loadingContributions}
+                className="p-1 hover:bg-bg-tertiary rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Année précédente"
+              >
+                <ChevronLeft className="w-5 h-5 text-text-secondary" />
+              </button>
+              <span className="text-sm font-medium text-text-primary min-w-[4rem] text-center">
+                {selectedYear}
+              </span>
+              <button
+                onClick={() => setSelectedYear(selectedYear + 1)}
+                disabled={selectedYear >= new Date().getFullYear() || loadingContributions}
+                className="p-1 hover:bg-bg-tertiary rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Année suivante"
+              >
+                <ChevronRight className="w-5 h-5 text-text-secondary" />
+              </button>
+            </div>
+          </div>
         </div>
+        {loadingContributions ? (
+          <div className="flex items-center justify-center h-40">
+            <div className="text-sm text-text-muted">Chargement des contributions...</div>
+          </div>
+        ) : contributions ? (
+          <ContributionCalendar contributions={contributions.contributions} year={selectedYear} />
+        ) : (
+          <div className="flex items-center justify-center h-40">
+            <div className="text-sm text-text-muted">Aucune contribution disponible</div>
+          </div>
+        )}
       </div>
 
       {/* Top languages */}
