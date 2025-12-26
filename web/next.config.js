@@ -14,6 +14,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'avatars.githubusercontent.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'avatars.steamstatic.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'media.steampowered.com',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
   },

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Circle, Gamepad2, Film, Tv, Github, LayoutDashboard } from 'lucide-react'
+import { Circle, Gamepad2, Film, Tv, Github, LayoutDashboard, Activity } from 'lucide-react'
 
 const navItems = [
   { href: '/', label: 'Aperçu', icon: LayoutDashboard },
@@ -11,6 +11,7 @@ const navItems = [
   { href: '/films', label: 'Films', icon: Film },
   { href: '/series', label: 'Séries', icon: Tv },
   { href: '/github', label: 'GitHub', icon: Github },
+  { href: '/steam', label: 'Steam', icon: Activity },
 ]
 
 export function Navigation() {
