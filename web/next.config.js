@@ -34,6 +34,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'platform-lookaside.fbsbx.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'dgalywyr863hv.cloudfront.net',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
   },

@@ -4,7 +4,7 @@
 echo "🔍 Checking problematic games..."
 echo ""
 
-GAMES_JSON="/Users/guillaumedemerges/Dev/hub_data/web/data/games.json"
+GAMES_JSON="/Users/guillaumedemerges/Dev/hub_life/web/data/games.json"
 
 check_game() {
     local search_term="$1"

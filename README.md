@@ -46,7 +46,7 @@ Le projet récupère automatiquement vos données depuis **SerieBox** et les enr
 ## 🏗️ Architecture
 
 ```
-hub_data/
+hub_life/
 ├── web/                    # Application Next.js
 │   ├── app/               # Pages (App Router)
 │   ├── components/        # Composants React
@@ -71,8 +71,8 @@ hub_data/
 
 1. **Cloner le projet**
    ```bash
-   git clone https://github.com/votre-username/hub_data.git
-   cd hub_data
+   git clone https://github.com/votre-username/hub_life.git
+   cd hub_life
    ```
 
 2. **Aller dans le dossier web et installer les dépendances**

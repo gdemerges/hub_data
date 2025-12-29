@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Gamepad2, Film, Tv, Github, LayoutDashboard, Activity, Music, Terminal } from 'lucide-react'
+import { Gamepad2, Film, Tv, Github, LayoutDashboard, Activity, Music, Terminal, MapPin, Dumbbell } from 'lucide-react'
 
 const navItems = [
   { href: '/', label: 'Aperçu', icon: LayoutDashboard, color: 'cyan' },
@@ -13,6 +13,8 @@ const navItems = [
   { href: '/github', label: 'GitHub', icon: Github, color: 'cyan' },
   { href: '/steam', label: 'Steam', icon: Activity, color: 'blue' },
   { href: '/spotify', label: 'Spotify', icon: Music, color: 'green' },
+  { href: '/sport', label: 'Sport', icon: Dumbbell, color: 'orange' },
+  { href: '/voyages', label: 'Voyages', icon: MapPin, color: 'orange' },
 ]
 
 export function Navigation() {
@@ -37,7 +39,7 @@ export function Navigation() {
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-display font-bold tracking-wider text-neon-cyan neon-text-subtle">
-                HUB_MEDIA
+                HUB_LIFE
               </span>
               <span className="text-[10px] font-mono text-neon-green/70 tracking-widest">
                 v2.0.0 // ONLINE

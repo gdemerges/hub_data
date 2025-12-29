@@ -8,7 +8,7 @@ interface StatCardProps {
   value: string | number
   icon?: LucideIcon
   className?: string
-  color?: 'cyan' | 'magenta' | 'green' | 'yellow' | 'orange'
+  color?: 'cyan' | 'magenta' | 'green' | 'yellow' | 'orange' | 'red'
 }
 
 const colorClasses = {
@@ -41,6 +41,12 @@ const colorClasses = {
     glow: 'shadow-[0_0_15px_rgba(255,136,0,0.3)]',
     border: 'border-neon-orange/30 hover:border-neon-orange/60',
     value: 'text-neon-orange',
+  },
+  red: {
+    icon: 'text-neon-red',
+    glow: 'shadow-[0_0_15px_rgba(255,0,0,0.3)]',
+    border: 'border-neon-red/30 hover:border-neon-red/60',
+    value: 'text-neon-red',
   },
 }
 

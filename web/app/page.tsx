@@ -72,6 +72,7 @@ export default async function HomePage({
         filmsCount={films.length}
         seriesCount={series.length}
         contributions={contributions}
+        selectedYear={selectedYear}
       />
 
       {/* Sections */}
