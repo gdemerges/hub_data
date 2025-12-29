@@ -11,9 +11,14 @@ interface ContributionDay {
 interface ContributionCalendarProps {
   contributions: ContributionDay[]
   year?: number
+  formatTooltip?: (count: number, date: string) => string
 }
 
-export function ContributionCalendar({ contributions, year }: ContributionCalendarProps) {
+export function ContributionCalendar({
+  contributions,
+  year,
+  formatTooltip = (count, date) => `${count} contributions le ${new Date(date).toLocaleDateString('fr-FR')}`
+}: ContributionCalendarProps) {
   const { weeks, months } = useMemo(() => {
     // Use provided year or current year
     const targetYear = year || new Date().getFullYear()
@@ -164,11 +169,7 @@ export function ContributionCalendar({ contributions, year }: ContributionCalend
                       height: cellHeight,
                       minHeight: cellHeight,
                     }}
-                    title={
-                      day.date
-                        ? `${day.count} contributions le ${new Date(day.date).toLocaleDateString('fr-FR')}`
-                        : ''
-                    }
+                    title={day.date ? formatTooltip(day.count, day.date) : ''}
                   />
                 ))}
               </div>

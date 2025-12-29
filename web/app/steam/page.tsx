@@ -276,7 +276,18 @@ export default function SteamPage() {
             <div className="text-sm text-text-muted">Chargement du temps de jeu...</div>
           </div>
         ) : playtime && playtime.playtime.length > 0 ? (
-          <ContributionCalendar contributions={playtime.playtime} year={selectedYear} />
+          <ContributionCalendar
+            contributions={playtime.playtime}
+            year={selectedYear}
+            formatTooltip={(minutes, date) => {
+              const hours = Math.floor(minutes / 60)
+              const mins = minutes % 60
+              const timeStr = hours > 0
+                ? `${hours}h${mins > 0 ? ` ${mins}min` : ''}`
+                : `${mins}min`
+              return `${timeStr} de jeu le ${new Date(date).toLocaleDateString('fr-FR')}`
+            }}
+          />
         ) : (
           <div className="flex flex-col items-center justify-center h-40 gap-3">
             <div className="text-sm font-mono text-text-muted">
