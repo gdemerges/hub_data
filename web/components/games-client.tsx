@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
 import { Search, SlidersHorizontal, Gamepad2, Clock, Calendar, Star } from 'lucide-react'
@@ -9,15 +9,25 @@ import { Game } from '@/lib/types'
 interface GamesClientProps {
   games: Game[]
   platforms: string[]
+  initialFilter?: string
 }
 
-export function GamesClient({ games, platforms }: GamesClientProps) {
+export function GamesClient({ games, platforms, initialFilter }: GamesClientProps) {
   const [search, setSearch] = useState('')
   const [selectedItem, setSelectedItem] = useState<Game | null>(null)
-  const [filter, setFilter] = useState<string>('all')
+  const [filter, setFilter] = useState<string>(initialFilter || 'all')
   const [minHours, setMinHours] = useState<number>(0)
   const [sortBy, setSortBy] = useState<'hours' | 'rating' | 'title'>('hours')
   const [showFilters, setShowFilters] = useState(false)
+
+  // Update filter when initialFilter changes
+  useEffect(() => {
+    if (initialFilter) {
+      setFilter(initialFilter)
+    } else {
+      setFilter('all')
+    }
+  }, [initialFilter])
 
   const items = useMemo(() => {
     return games.map((game) => {
