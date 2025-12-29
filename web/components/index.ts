@@ -18,3 +18,4 @@ export { PageTransition, FadeIn, StaggerContainer, StaggerItem } from './page-tr
 export { Recommendations } from './recommendations'
 export { TemporalStats } from './temporal-stats'
 export { YearComparison } from './year-comparison'
+export { OverviewStats } from './overview-stats'

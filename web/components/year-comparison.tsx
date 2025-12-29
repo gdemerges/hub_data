@@ -61,33 +61,33 @@ export function YearComparison({ films, series, games }: YearComparisonProps) {
     const percentDiff = value2 > 0 ? ((diff / value2) * 100).toFixed(0) : (value1 > 0 ? '+100' : '0')
 
     return (
-      <div className="p-4 bg-bg-secondary rounded-xl">
+      <div className="p-4 bg-bg-primary border border-border-subtle rounded">
         <div className="flex items-center gap-2 mb-3">
           {icon}
-          <span className="text-sm font-medium text-text-secondary">{label}</span>
+          <span className="text-xs font-mono font-medium text-text-muted uppercase tracking-wider">{label}</span>
         </div>
         <div className="flex items-center justify-between">
           <div className="text-center">
-            <p className="text-2xl font-bold text-text-primary">{Math.round(value1)}{suffix}</p>
-            <p className="text-xs text-text-muted">{year1}</p>
+            <p className="text-xl font-mono font-bold text-neon-cyan">{Math.round(value1)}{suffix}</p>
+            <p className="text-[10px] font-mono text-text-muted">{year1}</p>
           </div>
-          <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-bg-tertiary">
+          <div className="flex items-center gap-1 px-2 py-1 rounded border border-border-subtle">
             {diff > 0 ? (
-              <ArrowUp className="w-4 h-4 text-green-400" />
+              <ArrowUp className="w-3 h-3 text-neon-green" />
             ) : diff < 0 ? (
-              <ArrowDown className="w-4 h-4 text-red-400" />
+              <ArrowDown className="w-3 h-3 text-neon-pink" />
             ) : (
-              <Minus className="w-4 h-4 text-text-muted" />
+              <Minus className="w-3 h-3 text-text-muted" />
             )}
-            <span className={`text-sm font-medium ${
-              diff > 0 ? 'text-green-400' : diff < 0 ? 'text-red-400' : 'text-text-muted'
+            <span className={`text-xs font-mono font-medium ${
+              diff > 0 ? 'text-neon-green' : diff < 0 ? 'text-neon-pink' : 'text-text-muted'
             }`}>
               {diff > 0 ? '+' : ''}{percentDiff}%
             </span>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-text-primary">{Math.round(value2)}{suffix}</p>
-            <p className="text-xs text-text-muted">{year2}</p>
+            <p className="text-xl font-mono font-bold text-neon-magenta">{Math.round(value2)}{suffix}</p>
+            <p className="text-[10px] font-mono text-text-muted">{year2}</p>
           </div>
         </div>
       </div>
@@ -95,29 +95,31 @@ export function YearComparison({ films, series, games }: YearComparisonProps) {
   }
 
   return (
-    <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
+    <div className="tech-card p-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <GitCompare className="w-5 h-5 text-accent-primary" />
-          <h3 className="text-lg font-semibold text-text-primary">
-            Comparaison d'années
+          <div className="p-2 bg-neon-magenta/10 border border-neon-magenta/30 rounded">
+            <GitCompare className="w-5 h-5 text-neon-magenta" />
+          </div>
+          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+            Year_Compare
           </h3>
         </div>
         <div className="flex items-center gap-2">
           <select
             value={year1}
             onChange={(e) => setYear1(Number(e.target.value))}
-            className="px-3 py-1.5 bg-bg-secondary border border-border-subtle rounded-lg text-sm text-text-primary focus:outline-none focus:border-accent-primary"
+            className="px-3 py-1.5 bg-bg-primary border border-neon-cyan/30 rounded text-sm font-mono text-neon-cyan focus:outline-none focus:border-neon-cyan"
           >
             {years.map(year => (
               <option key={year} value={year}>{year}</option>
             ))}
           </select>
-          <span className="text-text-muted">vs</span>
+          <span className="text-neon-magenta font-mono">VS</span>
           <select
             value={year2}
             onChange={(e) => setYear2(Number(e.target.value))}
-            className="px-3 py-1.5 bg-bg-secondary border border-border-subtle rounded-lg text-sm text-text-primary focus:outline-none focus:border-accent-primary"
+            className="px-3 py-1.5 bg-bg-primary border border-neon-magenta/30 rounded text-sm font-mono text-neon-magenta focus:outline-none focus:border-neon-magenta"
           >
             {years.map(year => (
               <option key={year} value={year}>{year}</option>
@@ -126,28 +128,28 @@ export function YearComparison({ films, series, games }: YearComparisonProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {renderComparison(
           'Films',
-          <FilmIcon className="w-4 h-4 text-blue-400" />,
+          <FilmIcon className="w-4 h-4 text-neon-magenta" />,
           stats1.films,
           stats2.films
         )}
         {renderComparison(
           'Séries',
-          <Tv className="w-4 h-4 text-purple-400" />,
+          <Tv className="w-4 h-4 text-neon-yellow" />,
           stats1.series,
           stats2.series
         )}
         {renderComparison(
           'Jeux',
-          <Gamepad2 className="w-4 h-4 text-green-400" />,
+          <Gamepad2 className="w-4 h-4 text-neon-green" />,
           stats1.games,
           stats2.games
         )}
         {renderComparison(
           'Heures jouées',
-          <Clock className="w-4 h-4 text-orange-400" />,
+          <Clock className="w-4 h-4 text-neon-orange" />,
           stats1.hoursPlayed,
           stats2.hoursPlayed,
           'h'

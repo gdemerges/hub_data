@@ -1,3 +1,5 @@
+'use client'
+
 import { cn } from '@/lib/utils'
 import { LucideIcon } from 'lucide-react'
 
@@ -6,27 +8,87 @@ interface StatCardProps {
   value: string | number
   icon?: LucideIcon
   className?: string
+  color?: 'cyan' | 'magenta' | 'green' | 'yellow' | 'orange'
 }
 
-export function StatCard({ label, value, icon: Icon, className }: StatCardProps) {
+const colorClasses = {
+  cyan: {
+    icon: 'text-neon-cyan',
+    glow: 'shadow-[0_0_15px_rgba(0,255,255,0.3)]',
+    border: 'border-neon-cyan/30 hover:border-neon-cyan/60',
+    value: 'text-neon-cyan',
+  },
+  magenta: {
+    icon: 'text-neon-magenta',
+    glow: 'shadow-[0_0_15px_rgba(255,0,255,0.3)]',
+    border: 'border-neon-magenta/30 hover:border-neon-magenta/60',
+    value: 'text-neon-magenta',
+  },
+  green: {
+    icon: 'text-neon-green',
+    glow: 'shadow-[0_0_15px_rgba(0,255,136,0.3)]',
+    border: 'border-neon-green/30 hover:border-neon-green/60',
+    value: 'text-neon-green',
+  },
+  yellow: {
+    icon: 'text-neon-yellow',
+    glow: 'shadow-[0_0_15px_rgba(255,255,0,0.3)]',
+    border: 'border-neon-yellow/30 hover:border-neon-yellow/60',
+    value: 'text-neon-yellow',
+  },
+  orange: {
+    icon: 'text-neon-orange',
+    glow: 'shadow-[0_0_15px_rgba(255,136,0,0.3)]',
+    border: 'border-neon-orange/30 hover:border-neon-orange/60',
+    value: 'text-neon-orange',
+  },
+}
+
+export function StatCard({ label, value, icon: Icon, className, color = 'cyan' }: StatCardProps) {
+  const colors = colorClasses[color]
+
   return (
     <div
       className={cn(
-        'bg-bg-card border border-border-subtle rounded-2xl p-5 text-center',
-        'transition-all duration-300 hover:border-border-default hover:-translate-y-0.5 hover:shadow-lg',
+        'tech-card p-5 text-center group',
+        'transition-all duration-300 hover:-translate-y-1',
+        colors.border,
+        'hover:' + colors.glow,
         className
       )}
     >
+      {/* Corner decorations are handled by tech-card class */}
+
       {Icon && (
-        <div className="text-2xl mb-2 opacity-90">
-          <Icon className="w-6 h-6 mx-auto text-accent-primary" />
+        <div className="mb-3">
+          <div className={cn(
+            'w-12 h-12 mx-auto rounded-lg flex items-center justify-center',
+            'bg-bg-tertiary border border-current/20',
+            colors.icon
+          )}>
+            <Icon className={cn(
+              'w-6 h-6 transition-all duration-300',
+              'group-hover:drop-shadow-[0_0_8px_currentColor]'
+            )} />
+          </div>
         </div>
       )}
-      <div className="text-3xl font-bold text-text-primary tracking-tight">
-        {value}
+
+      <div className={cn(
+        'font-mono text-3xl font-bold tracking-tight',
+        'transition-all duration-300',
+        colors.value,
+        'group-hover:neon-text-subtle'
+      )}>
+        {typeof value === 'number' ? value.toLocaleString('fr-FR') : value}
       </div>
-      <div className="mt-1 text-xs text-text-muted uppercase tracking-wider">
-        {label}
+
+      <div className="mt-2 flex items-center justify-center gap-2">
+        <span className="w-2 h-px bg-current opacity-50" />
+        <span className="text-xs font-mono text-text-muted uppercase tracking-widest">
+          {label}
+        </span>
+        <span className="w-2 h-px bg-current opacity-50" />
       </div>
     </div>
   )

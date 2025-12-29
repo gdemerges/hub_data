@@ -3,31 +3,46 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Circle, Gamepad2, Film, Tv, Github, LayoutDashboard, Activity, Music } from 'lucide-react'
+import { Gamepad2, Film, Tv, Github, LayoutDashboard, Activity, Music, Terminal } from 'lucide-react'
 
 const navItems = [
-  { href: '/', label: 'Aperçu', icon: LayoutDashboard },
-  { href: '/games', label: 'Jeux', icon: Gamepad2 },
-  { href: '/films', label: 'Films', icon: Film },
-  { href: '/series', label: 'Séries', icon: Tv },
-  { href: '/github', label: 'GitHub', icon: Github },
-  { href: '/steam', label: 'Steam', icon: Activity },
-  { href: '/spotify', label: 'Spotify', icon: Music },
+  { href: '/', label: 'Aperçu', icon: LayoutDashboard, color: 'cyan' },
+  { href: '/games', label: 'Jeux', icon: Gamepad2, color: 'green' },
+  { href: '/films', label: 'Films', icon: Film, color: 'magenta' },
+  { href: '/series', label: 'Séries', icon: Tv, color: 'yellow' },
+  { href: '/github', label: 'GitHub', icon: Github, color: 'cyan' },
+  { href: '/steam', label: 'Steam', icon: Activity, color: 'blue' },
+  { href: '/spotify', label: 'Spotify', icon: Music, color: 'green' },
 ]
 
 export function Navigation() {
   const pathname = usePathname()
 
   return (
-    <header className="sticky top-0 z-50 bg-bg-primary/80 backdrop-blur-xl border-b border-border-subtle">
-      <div className="max-w-7xl mx-auto px-6 py-4">
-        {/* Logo */}
+    <header className="sticky top-0 z-50 bg-bg-primary/90 backdrop-blur-xl border-b border-neon-cyan/20">
+      {/* Scan line effect */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-neon-cyan/5 to-transparent opacity-50" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 py-4 relative">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group">
-            <Circle className="w-6 h-6 text-accent-primary fill-accent-primary" />
-            <span className="text-xl font-bold text-text-primary tracking-tight">
-              Hub Médias
-            </span>
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="relative">
+              <Terminal className="w-8 h-8 text-neon-cyan group-hover:animate-glitch" />
+              <div className="absolute inset-0 text-neon-magenta opacity-0 group-hover:opacity-50 blur-sm">
+                <Terminal className="w-8 h-8" />
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xl font-display font-bold tracking-wider text-neon-cyan neon-text-subtle">
+                HUB_MEDIA
+              </span>
+              <span className="text-[10px] font-mono text-neon-green/70 tracking-widest">
+                v2.0.0 // ONLINE
+              </span>
+            </div>
           </Link>
 
           {/* Nav */}
@@ -40,14 +55,23 @@ export function Navigation() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
+                    'relative flex items-center gap-2 px-4 py-2 rounded text-sm font-mono font-medium transition-all duration-300',
+                    'hover:bg-neon-cyan/10',
                     isActive
-                      ? 'bg-accent-primary text-white'
-                      : 'text-text-secondary hover:text-text-primary hover:bg-bg-hover'
+                      ? 'text-neon-cyan bg-neon-cyan/10 neon-border'
+                      : 'text-text-secondary hover:text-neon-cyan'
                   )}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span className="hidden sm:inline">{item.label}</span>
+                  <Icon className={cn(
+                    'w-4 h-4 transition-all',
+                    isActive && 'drop-shadow-[0_0_8px_currentColor]'
+                  )} />
+                  <span className="hidden sm:inline uppercase tracking-wider text-xs">
+                    {item.label}
+                  </span>
+                  {isActive && (
+                    <span className="absolute -bottom-px left-1/2 -translate-x-1/2 w-8 h-0.5 bg-neon-cyan shadow-[0_0_10px_#00ffff]" />
+                  )}
                 </Link>
               )
             })}

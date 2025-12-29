@@ -249,7 +249,7 @@ export default function SpotifyPage() {
                     <p className="text-xs text-text-muted truncate">{artist.genres.join(', ')}</p>
                   </div>
                   <span className="text-xs text-text-muted">
-                    {artist.followers.toLocaleString()} fans
+                    {artist.followers.toLocaleString('fr-FR')} fans
                   </span>
                 </a>
               ))}

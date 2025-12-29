@@ -253,7 +253,7 @@ export default function GitHubPage() {
         ) : yearlyContributions && yearlyContributions.yearlyContributions.length > 0 ? (
           <>
             <p className="text-xs text-text-muted mb-6">
-              Total de {yearlyContributions.totalContributions.toLocaleString()} contributions sur {yearlyContributions.totalYears} ans
+              Total de {yearlyContributions.totalContributions.toLocaleString('fr-FR')} contributions sur {yearlyContributions.totalYears} ans
             </p>
             <BarChart data={yearlyContributions.yearlyContributions} />
           </>

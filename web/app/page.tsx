@@ -1,5 +1,6 @@
-import { Gamepad2, Film, Tv, Github } from 'lucide-react'
-import { StatCard, YearFilter, OverviewSections, TemporalStats, YearComparison } from '@/components'
+import { Terminal } from 'lucide-react'
+import { YearFilter, OverviewSections, TemporalStats, YearComparison } from '@/components'
+import { OverviewStats } from '@/components/overview-stats'
 import { getGamesData, getFilmsData, getSeriesData, getGitHubContributions } from '@/lib/data'
 
 export default async function HomePage({
@@ -27,13 +28,6 @@ export default async function HomePage({
     ? allSeries.filter((s) => s.releaseYear === selectedYear)
     : allSeries
 
-  const stats = [
-    { label: 'Jeux joués', value: games.length, icon: Gamepad2 },
-    { label: 'Films vus', value: films.length, icon: Film },
-    { label: 'Séries suivies', value: series.length, icon: Tv },
-    { label: 'Contributions', value: contributions, icon: Github },
-  ]
-
   // Top items
   const topGames = games
     .sort((a, b) => (b.hoursPlayed || 0) - (a.hoursPlayed || 0))
@@ -49,28 +43,36 @@ export default async function HomePage({
     <div className="max-w-7xl mx-auto px-6 py-8">
       {/* Header */}
       <div className="mb-10">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-2">
-          <h1 className="text-3xl font-bold text-text-primary">
-            Bienvenue sur Hub Médias
-          </h1>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-bg-card border border-neon-cyan/30 rounded-lg">
+              <Terminal className="w-8 h-8 text-neon-cyan" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
+                <span className="text-neon-cyan">SYSTEM</span>_DASHBOARD
+              </h1>
+              <p className="text-xs font-mono text-neon-green/70 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-neon-green rounded-full animate-pulse" />
+                STATUS: ONLINE // MEDIA_TRACKER v2.0
+              </p>
+            </div>
+          </div>
           <YearFilter />
         </div>
-        <p className="text-text-secondary">
-          Votre tableau de bord personnel pour suivre vos médias préférés
-        </p>
+        <div className="font-mono text-sm text-text-secondary border-l-2 border-neon-cyan/30 pl-4">
+          &gt; Initializing personal media dashboard...
+          <span className="text-neon-cyan animate-pulse">_</span>
+        </div>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-        {stats.map((stat) => (
-          <StatCard
-            key={stat.label}
-            label={stat.label}
-            value={stat.value}
-            icon={stat.icon}
-          />
-        ))}
-      </div>
+      <OverviewStats
+        gamesCount={games.length}
+        filmsCount={films.length}
+        seriesCount={series.length}
+        contributions={contributions}
+      />
 
       {/* Sections */}
       <OverviewSections
@@ -84,7 +86,12 @@ export default async function HomePage({
 
       {/* Statistics Section */}
       <div className="mt-12 space-y-8">
-        <h2 className="text-2xl font-bold text-text-primary">Statistiques</h2>
+        <div className="flex items-center gap-3">
+          <Terminal className="w-6 h-6 text-neon-magenta" />
+          <h2 className="text-xl font-display font-bold tracking-wider text-text-primary">
+            <span className="text-neon-magenta">DATA</span>_ANALYTICS
+          </h2>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <TemporalStats
