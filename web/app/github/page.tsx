@@ -1,9 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
-import { StatCard, ContributionCalendar } from '@/components'
-import { Github, Star, GitFork, Users, MapPin, Building, ExternalLink, Code, ChevronLeft, ChevronRight } from 'lucide-react'
+import useSWR from 'swr'
+import { StatCard, ContributionCalendar, BarChart } from '@/components'
+import { SkeletonProfile, SkeletonStatCard, SkeletonChart } from '@/components/skeleton'
+import { FadeIn } from '@/components/page-transition'
+import { Github, Star, GitFork, Users, MapPin, Building, ExternalLink, Code, ChevronLeft, ChevronRight, TrendingUp } from 'lucide-react'
 
 interface GitHubData {
   user: {
@@ -22,7 +25,8 @@ interface GitHubData {
     totalRepos: number
     totalStars: number
     totalForks: number
-    topLanguages: { language: string; count: number }[]
+    totalContributions: number
+    topLanguages: { language: string; count: number; percentage: string }[]
   }
   topRepos: {
     name: string
@@ -43,51 +47,39 @@ interface ContributionsData {
   }[]
 }
 
+interface YearlyContributionsData {
+  yearlyContributions: {
+    year: number
+    contributions: number
+  }[]
+  totalYears: number
+  totalContributions: number
+}
+
 const GITHUB_USERNAME = 'gdemerges'
+const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 export default function GitHubPage() {
-  const [data, setData] = useState<GitHubData | null>(null)
-  const [contributions, setContributions] = useState<ContributionsData | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [loadingContributions, setLoadingContributions] = useState(false)
-  const [error, setError] = useState<string | null>(null)
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
 
-  // Fetch main GitHub data (user, repos, stats) - only once
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoading(true)
-        const response = await fetch(`/api/github?username=${GITHUB_USERNAME}`)
-        if (!response.ok) throw new Error('Failed to fetch')
-        const result = await response.json()
-        setData(result)
-      } catch (err) {
-        setError('Impossible de charger les données GitHub')
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchData()
-  }, [])
+  // Use SWR for data fetching with caching
+  const { data, error, isLoading: loading } = useSWR<GitHubData>(
+    `/api/github?username=${GITHUB_USERNAME}`,
+    fetcher,
+    { revalidateOnFocus: false, dedupingInterval: 60000 }
+  )
 
-  // Fetch contributions data separately - when year changes
-  useEffect(() => {
-    async function fetchContributions() {
-      try {
-        setLoadingContributions(true)
-        const response = await fetch(`/api/github/contributions?username=${GITHUB_USERNAME}&year=${selectedYear}`)
-        if (!response.ok) throw new Error('Failed to fetch contributions')
-        const result = await response.json()
-        setContributions(result)
-      } catch (err) {
-        console.error('Failed to load contributions:', err)
-      } finally {
-        setLoadingContributions(false)
-      }
-    }
-    fetchContributions()
-  }, [selectedYear])
+  const { data: contributions, isLoading: loadingContributions } = useSWR<ContributionsData>(
+    `/api/github/contributions?username=${GITHUB_USERNAME}&year=${selectedYear}`,
+    fetcher,
+    { revalidateOnFocus: false, dedupingInterval: 60000 }
+  )
+
+  const { data: yearlyContributions, isLoading: loadingYearly } = useSWR<YearlyContributionsData>(
+    `/api/github/yearly-contributions?username=${GITHUB_USERNAME}`,
+    fetcher,
+    { revalidateOnFocus: false, dedupingInterval: 300000 } // 5 minutes cache
+  )
 
   if (loading) {
     return (
@@ -101,14 +93,13 @@ export default function GitHubPage() {
             <p className="text-sm text-text-muted">Chargement...</p>
           </div>
         </div>
-        <div className="animate-pulse space-y-6">
-          <div className="h-32 bg-bg-card rounded-2xl" />
-          <div className="grid grid-cols-4 gap-4">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-24 bg-bg-card rounded-2xl" />
-            ))}
-          </div>
+        <SkeletonProfile />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-8">
+          {[...Array(4)].map((_, i) => (
+            <SkeletonStatCard key={i} />
+          ))}
         </div>
+        <SkeletonChart />
       </div>
     )
   }
@@ -225,7 +216,7 @@ export default function GitHubPage() {
       </div>
 
       {/* Top languages */}
-      <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
+      <div className="bg-bg-card border border-border-subtle rounded-2xl p-6 mb-8">
         <h3 className="text-lg font-semibold text-text-primary mb-4">Langages les plus utilisés</h3>
         <p className="text-xs text-text-muted mb-4">Basé sur les lignes de code dans vos repositories</p>
         <div className="space-y-3">
@@ -247,6 +238,30 @@ export default function GitHubPage() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Yearly contributions evolution */}
+      <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
+        <div className="flex items-center gap-3 mb-4">
+          <TrendingUp className="w-5 h-5 text-accent-primary" />
+          <h3 className="text-lg font-semibold text-text-primary">Évolution des contributions par année</h3>
+        </div>
+        {loadingYearly ? (
+          <div className="flex items-center justify-center h-64">
+            <div className="text-sm text-text-muted">Chargement des statistiques...</div>
+          </div>
+        ) : yearlyContributions && yearlyContributions.yearlyContributions.length > 0 ? (
+          <>
+            <p className="text-xs text-text-muted mb-6">
+              Total de {yearlyContributions.totalContributions.toLocaleString()} contributions sur {yearlyContributions.totalYears} ans
+            </p>
+            <BarChart data={yearlyContributions.yearlyContributions} />
+          </>
+        ) : (
+          <div className="flex items-center justify-center h-64">
+            <div className="text-sm text-text-muted">Aucune donnée disponible</div>
+          </div>
+        )}
       </div>
     </div>
   )

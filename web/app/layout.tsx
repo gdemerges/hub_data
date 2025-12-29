@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Navigation } from '@/components'
+import { SWRProvider } from '@/lib/swr-config'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="fr" className="dark">
       <body className={inter.className}>
-        <Navigation />
-        <main className="min-h-screen pb-16">{children}</main>
+        <SWRProvider>
+          <Navigation />
+          <main className="min-h-screen pb-16">{children}</main>
+        </SWRProvider>
       </body>
     </html>
   )

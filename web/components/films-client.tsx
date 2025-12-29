@@ -3,6 +3,8 @@
 import { useState, useMemo } from 'react'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
+import { Recommendations } from '@/components/recommendations'
+import { StaggerContainer, StaggerItem } from '@/components/page-transition'
 import { Search, Calendar, Star, Clock } from 'lucide-react'
 import { Film } from '@/lib/types'
 
@@ -54,19 +56,20 @@ export function FilmsClient({ films }: FilmsClientProps) {
       </p>
 
       {/* Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+      <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
         {filteredItems.map((item, index) => (
-          <MediaCard
-            key={item.title}
-            title={item.title}
-            imageUrl={item.imageUrl}
-            subtitle={item.subtitle}
-            badge={item.badge}
-            onClick={() => setSelectedItem(item)}
-            priority={index < 12}
-          />
+          <StaggerItem key={item.title}>
+            <MediaCard
+              title={item.title}
+              imageUrl={item.imageUrl}
+              subtitle={item.subtitle}
+              badge={item.badge}
+              onClick={() => setSelectedItem(item)}
+              priority={index < 12}
+            />
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
 
       {/* Empty state */}
       {filteredItems.length === 0 && (
@@ -84,6 +87,12 @@ export function FilmsClient({ films }: FilmsClientProps) {
           imageUrl={selectedItem.posterUrl}
         >
           <FilmDetail film={selectedItem} />
+          <Recommendations
+            type="films"
+            currentItem={selectedItem}
+            allItems={films}
+            onItemClick={(item) => setSelectedItem(item as Film)}
+          />
         </MediaDetail>
       )}
     </>

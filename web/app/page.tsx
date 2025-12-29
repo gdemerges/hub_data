@@ -1,5 +1,5 @@
 import { Gamepad2, Film, Tv, Github } from 'lucide-react'
-import { StatCard, YearFilter, OverviewSections } from '@/components'
+import { StatCard, YearFilter, OverviewSections, TemporalStats, YearComparison } from '@/components'
 import { getGamesData, getFilmsData, getSeriesData, getGitHubContributions } from '@/lib/data'
 
 export default async function HomePage({
@@ -81,6 +81,24 @@ export default async function HomePage({
         filmsCount={films.length}
         seriesCount={series.length}
       />
+
+      {/* Statistics Section */}
+      <div className="mt-12 space-y-8">
+        <h2 className="text-2xl font-bold text-text-primary">Statistiques</h2>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <TemporalStats
+            films={allFilms}
+            series={allSeries}
+            games={allGames}
+          />
+          <YearComparison
+            films={allFilms}
+            series={allSeries}
+            games={allGames}
+          />
+        </div>
+      </div>
     </div>
   )
 }

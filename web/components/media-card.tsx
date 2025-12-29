@@ -8,11 +8,12 @@ interface MediaCardProps {
   imageUrl?: string
   subtitle?: string
   badge?: string
+  progressBadge?: string
   onClick?: () => void
   priority?: boolean
 }
 
-export function MediaCard({ title, imageUrl, subtitle, badge, onClick, priority = false }: MediaCardProps) {
+export function MediaCard({ title, imageUrl, subtitle, badge, progressBadge, onClick, priority = false }: MediaCardProps) {
   return (
     <button
       onClick={onClick}
@@ -33,6 +34,7 @@ export function MediaCard({ title, imageUrl, subtitle, badge, onClick, priority 
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             priority={priority}
+            loading={priority ? 'eager' : 'lazy'}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-bg-tertiary to-bg-secondary">
@@ -41,11 +43,18 @@ export function MediaCard({ title, imageUrl, subtitle, badge, onClick, priority 
             </span>
           </div>
         )}
-        
+
         {/* Badge */}
         {badge && (
           <div className="absolute top-2 right-2 px-2.5 py-1 bg-accent-primary text-white text-xs font-semibold rounded-md backdrop-blur-sm">
             {badge}
+          </div>
+        )}
+
+        {/* Progress Badge for series */}
+        {progressBadge && (
+          <div className="absolute bottom-2 left-2 right-2 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded-md backdrop-blur-sm">
+            {progressBadge}
           </div>
         )}
       </div>

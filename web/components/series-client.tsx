@@ -3,6 +3,8 @@
 import { useState, useMemo } from 'react'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
+import { Recommendations } from '@/components/recommendations'
+import { StaggerContainer, StaggerItem } from '@/components/page-transition'
 import { Search, Calendar, Star, ListOrdered } from 'lucide-react'
 import { Series } from '@/lib/types'
 
@@ -20,6 +22,9 @@ export function SeriesClient({ series }: SeriesClientProps) {
       imageUrl: s.posterUrl,
       subtitle: s.status || undefined,
       badge: s.rating ? `${s.rating}/20` : undefined,
+      progressBadge: s.episodes && s.episodesWatched !== undefined
+        ? `${s.episodesWatched}/${s.episodes} ep.`
+        : undefined,
     }))
   }, [series])
 
@@ -54,19 +59,21 @@ export function SeriesClient({ series }: SeriesClientProps) {
       </p>
 
       {/* Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+      <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
         {filteredItems.map((item, index) => (
-          <MediaCard
-            key={item.title}
-            title={item.title}
-            imageUrl={item.imageUrl}
-            subtitle={item.subtitle}
-            badge={item.badge}
-            onClick={() => setSelectedItem(item)}
-            priority={index < 12}
-          />
+          <StaggerItem key={item.title}>
+            <MediaCard
+              title={item.title}
+              imageUrl={item.imageUrl}
+              subtitle={item.subtitle}
+              badge={item.badge}
+              progressBadge={item.progressBadge}
+              onClick={() => setSelectedItem(item)}
+              priority={index < 12}
+            />
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
 
       {/* Empty state */}
       {filteredItems.length === 0 && (
@@ -84,6 +91,12 @@ export function SeriesClient({ series }: SeriesClientProps) {
           imageUrl={selectedItem.posterUrl}
         >
           <SeriesDetail series={selectedItem} />
+          <Recommendations
+            type="series"
+            currentItem={selectedItem}
+            allItems={series}
+            onItemClick={(item) => setSelectedItem(item as Series)}
+          />
         </MediaDetail>
       )}
     </>

@@ -22,6 +22,18 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'media.steampowered.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.scdn.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'mosaic.scdn.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'platform-lookaside.fbsbx.com',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
   },
