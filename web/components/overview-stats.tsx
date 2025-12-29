@@ -39,7 +39,10 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributio
   useEffect(() => {
     async function fetchPartnersCount() {
       try {
-        const response = await fetch('/api/partners')
+        const url = selectedYear
+          ? `/api/partners?year=${selectedYear}`
+          : '/api/partners'
+        const response = await fetch(url)
         if (response.ok) {
           const data = await response.json()
           if (data.hasData) {
@@ -51,7 +54,7 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributio
       }
     }
     fetchPartnersCount()
-  }, [])
+  }, [selectedYear])
 
   const stats = [
     { label: 'Jeux joués', value: gamesCount, icon: Gamepad2, color: 'green' as const },
