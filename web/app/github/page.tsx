@@ -173,7 +173,7 @@ export default function GitHubPage() {
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <StatCard label="Repositories" value={data.stats.totalRepos} icon={Code} />
-        <StatCard label="Stars reçues" value={data.stats.totalStars} icon={Star} />
+        <StatCard label="Contributions totales" value={data.stats.totalContributions} icon={Star} />
         <StatCard label="Forks" value={data.stats.totalForks} icon={GitFork} />
         <StatCard label="Followers" value={data.user.followers} icon={Users} />
       </div>
@@ -225,67 +225,26 @@ export default function GitHubPage() {
       </div>
 
       {/* Top languages */}
-      <div className="bg-bg-card border border-border-subtle rounded-2xl p-6 mb-8">
-        <h3 className="text-lg font-semibold text-text-primary mb-4">Langages favoris</h3>
+      <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
+        <h3 className="text-lg font-semibold text-text-primary mb-4">Langages les plus utilisés</h3>
+        <p className="text-xs text-text-muted mb-4">Basé sur les lignes de code dans vos repositories</p>
         <div className="space-y-3">
-          {data.stats.topLanguages.map((lang, i) => (
+          {data.stats.topLanguages.map((lang: any, i: number) => (
             <div key={lang.language} className="flex items-center gap-3">
               <div className="w-8 text-sm text-text-muted">#{i + 1}</div>
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm text-text-primary">{lang.language}</span>
-                  <span className="text-xs text-text-muted">{lang.count} repos</span>
+                  <span className="text-xs font-semibold text-accent-primary">{lang.percentage}%</span>
                 </div>
                 <div className="h-2 bg-bg-tertiary rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-accent-primary to-accent-secondary rounded-full"
-                    style={{ width: `${(lang.count / data.stats.topLanguages[0].count) * 100}%` }}
+                    className="h-full bg-gradient-to-r from-accent-primary to-accent-secondary rounded-full transition-all"
+                    style={{ width: `${lang.percentage}%` }}
                   />
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Top repos */}
-      <div>
-        <h3 className="text-lg font-semibold text-text-primary mb-4">Repositories populaires</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {data.topRepos.map((repo) => (
-            <a
-              key={repo.name}
-              href={repo.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-bg-card border border-border-subtle rounded-xl p-5 hover:border-accent-primary transition-all group"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h4 className="font-semibold text-text-primary group-hover:text-accent-primary transition-colors">
-                  {repo.name}
-                </h4>
-                <ExternalLink className="w-4 h-4 text-text-muted opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-              {repo.description && (
-                <p className="text-sm text-text-secondary mb-3 line-clamp-2">{repo.description}</p>
-              )}
-              <div className="flex items-center gap-4 text-xs text-text-muted">
-                {repo.language && (
-                  <span className="flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-accent-primary" />
-                    {repo.language}
-                  </span>
-                )}
-                <span className="flex items-center gap-1">
-                  <Star className="w-3 h-3" />
-                  {repo.stars}
-                </span>
-                <span className="flex items-center gap-1">
-                  <GitFork className="w-3 h-3" />
-                  {repo.forks}
-                </span>
-              </div>
-            </a>
           ))}
         </div>
       </div>

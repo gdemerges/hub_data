@@ -34,17 +34,83 @@ export async function GET(request: NextRequest) {
     const totalStars = repos.reduce((acc: number, repo: any) => acc + repo.stargazers_count, 0)
     const totalForks = repos.reduce((acc: number, repo: any) => acc + repo.forks_count, 0)
 
-    // Get languages
-    const languagesMap = new Map<string, number>()
-    repos.forEach((repo: any) => {
-      if (repo.language) {
-        languagesMap.set(repo.language, (languagesMap.get(repo.language) || 0) + 1)
+    // Get languages by bytes (lines of code)
+    const languageBytes = new Map<string, number>()
+
+    // Fetch language data for each repo (limited to avoid rate limits)
+    const languagePromises = repos.slice(0, 50).map(async (repo: any) => {
+      try {
+        const langResponse = await fetch(`${GITHUB_API}/repos/${username}/${repo.name}/languages`, { headers })
+        if (langResponse.ok) {
+          const languages = await langResponse.json()
+          return { repo: repo.name, languages }
+        }
+      } catch (error) {
+        console.error(`Error fetching languages for ${repo.name}:`, error)
+      }
+      return null
+    })
+
+    const languageResults = await Promise.all(languagePromises)
+
+    // Aggregate language bytes
+    languageResults.forEach(result => {
+      if (result?.languages) {
+        Object.entries(result.languages).forEach(([lang, bytes]) => {
+          languageBytes.set(lang, (languageBytes.get(lang) || 0) + (bytes as number))
+        })
       }
     })
-    const topLanguages = Array.from(languagesMap.entries())
+
+    const totalBytes = Array.from(languageBytes.values()).reduce((sum, bytes) => sum + bytes, 0)
+
+    const topLanguages = Array.from(languageBytes.entries())
       .sort((a, b) => b[1] - a[1])
-      .slice(0, 5)
-      .map(([lang, count]) => ({ language: lang, count }))
+      .slice(0, 10)
+      .map(([lang, bytes]) => ({
+        language: lang,
+        bytes,
+        percentage: ((bytes / totalBytes) * 100).toFixed(1)
+      }))
+
+    // Get total contributions (current year for now, can be expanded)
+    const currentYear = new Date().getFullYear()
+    const fromDate = `${currentYear}-01-01T00:00:00Z`
+    const toDate = `${currentYear}-12-31T23:59:59Z`
+
+    const contributionsQuery = {
+      query: `
+        query($username: String!, $from: DateTime!, $to: DateTime!) {
+          user(login: $username) {
+            contributionsCollection(from: $from, to: $to) {
+              contributionCalendar {
+                totalContributions
+              }
+            }
+          }
+        }
+      `,
+      variables: { username, from: fromDate, to: toDate },
+    }
+
+    let totalContributions = 0
+    try {
+      const contribResponse = await fetch(GITHUB_GRAPHQL_API, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify(contributionsQuery),
+      })
+
+      if (contribResponse.ok) {
+        const contribData = await contribResponse.json()
+        totalContributions = contribData.data?.user?.contributionsCollection?.contributionCalendar?.totalContributions || 0
+      }
+    } catch (error) {
+      console.error('Error fetching contributions:', error)
+    }
 
     // Top repos by stars
     const topRepos = repos
@@ -78,6 +144,7 @@ export async function GET(request: NextRequest) {
         totalRepos: repos.length,
         totalStars,
         totalForks,
+        totalContributions,
         topLanguages,
       },
       topRepos,

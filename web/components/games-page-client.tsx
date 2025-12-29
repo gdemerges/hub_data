@@ -85,20 +85,26 @@ export function GamesPageClient({
 
       {activeTab === 'stats' && (
         <>
-          {/* First row - Total hours and Platform distribution */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-            {/* Total hours */}
-            <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-2">
-                <Clock className="w-5 h-5 text-accent-primary" />
-                <h3 className="text-sm font-semibold text-text-secondary">Temps de jeu total</h3>
+          {/* Total hours - Compact at the top */}
+          <div className="bg-bg-card border border-border-subtle rounded-xl p-4 mb-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-accent-primary/10 rounded-lg">
+                  <Clock className="w-5 h-5 text-accent-primary" />
+                </div>
+                <div>
+                  <p className="text-xs text-text-secondary">Temps de jeu total</p>
+                  <p className="text-2xl font-bold text-text-primary">{Math.round(totalHours)}h</p>
+                </div>
               </div>
-              <p className="text-3xl font-bold text-text-primary">{Math.round(totalHours)}h</p>
-              <p className="text-xs text-text-muted mt-2">Toutes plateformes confondues</p>
+              <p className="text-xs text-text-muted">Toutes plateformes confondues</p>
             </div>
+          </div>
 
+          {/* Charts - Platform and Genre side by side */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             {/* Platform distribution */}
-            <div className="lg:col-span-2 bg-bg-card border border-border-subtle rounded-2xl p-6">
+            <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
               <div className="flex items-center gap-3 mb-4">
                 <Trophy className="w-5 h-5 text-accent-primary" />
                 <h3 className="text-sm font-semibold text-text-secondary">
@@ -123,10 +129,8 @@ export function GamesPageClient({
                 <p className="text-sm text-text-muted">Aucune donnée disponible</p>
               )}
             </div>
-          </div>
 
-          {/* Second row - Genre distribution */}
-          <div className="grid grid-cols-1 gap-6 mb-8">
+            {/* Genre distribution */}
             <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
               <div className="flex items-center gap-3 mb-4">
                 <BarChart3 className="w-5 h-5 text-accent-primary" />
