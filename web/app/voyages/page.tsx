@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Terminal, MapPin, Globe, Calendar, Upload, Plane, Building2, TrendingUp } from 'lucide-react'
-import { StatCard } from '@/components'
+import { StatCard, WorldMap } from '@/components'
 
 interface PlaceVisit {
   name: string
@@ -176,6 +176,21 @@ export default function VoyagesPage() {
             <StatCard label="Jours de voyage" value={stats.totalDays} icon={Calendar} color="green" />
           </div>
 
+          {/* World Map */}
+          <div className="tech-card p-6 mb-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-neon-orange/10 border border-neon-orange/30 rounded">
+                <Globe className="w-5 h-5 text-neon-orange" />
+              </div>
+              <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+                World_Map
+              </h3>
+            </div>
+            <div className="h-96">
+              <WorldMap visitedCountries={stats.topCountries.map(c => c.name)} />
+            </div>
+          </div>
+
           {/* Top Places */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             {/* Top Cities */}
@@ -290,18 +305,18 @@ export default function VoyagesPage() {
                   Yearly_Activity
                 </h3>
               </div>
-              <div className="flex items-end gap-2 h-40">
+              <div className="flex items-end justify-between gap-2">
                 {stats.visitsByYear.map((year) => {
                   const maxVisits = Math.max(...stats.visitsByYear.map(y => y.visits))
                   const height = (year.visits / maxVisits) * 100
                   return (
-                    <div key={year.year} className="flex-1 flex flex-col items-center gap-2">
+                    <div key={year.year} className="flex-1 flex flex-col items-center justify-end h-48 gap-2">
                       <div
                         className="w-full bg-gradient-to-t from-neon-green/50 to-neon-green rounded-t transition-all hover:from-neon-green/70 hover:to-neon-green"
                         style={{ height: `${height}%`, minHeight: year.visits > 0 ? '4px' : '0' }}
                         title={`${year.visits} visites`}
                       />
-                      <span className="text-xs font-mono text-text-muted">
+                      <span className="text-xs font-mono text-text-muted shrink-0">
                         {year.year.toString().slice(-2)}
                       </span>
                     </div>

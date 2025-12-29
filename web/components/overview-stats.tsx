@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Gamepad2, Film, Tv, Github, Footprints, Heart } from 'lucide-react'
+import { Gamepad2, Film, Tv, Github, Footprints, Heart, Globe } from 'lucide-react'
 import { StatCard } from './stat-card'
 
 interface OverviewStatsProps {
@@ -15,6 +15,7 @@ interface OverviewStatsProps {
 export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributions, selectedYear }: OverviewStatsProps) {
   const [runDistance, setRunDistance] = useState<number | null>(null)
   const [partnersCount, setPartnersCount] = useState<number | null>(null)
+  const [countriesCount, setCountriesCount] = useState<number | null>(null)
 
   useEffect(() => {
     async function fetchStravaStats() {
@@ -56,6 +57,23 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributio
     fetchPartnersCount()
   }, [selectedYear])
 
+  useEffect(() => {
+    async function fetchCountriesCount() {
+      try {
+        const response = await fetch('/api/voyages')
+        if (response.ok) {
+          const data = await response.json()
+          if (data.totalCountries) {
+            setCountriesCount(data.totalCountries)
+          }
+        }
+      } catch (err) {
+        // Silently fail if no data
+      }
+    }
+    fetchCountriesCount()
+  }, [])
+
   const stats = [
     { label: 'Jeux joués', value: gamesCount, icon: Gamepad2, color: 'green' as const },
     { label: 'Films vus', value: filmsCount, icon: Film, color: 'magenta' as const },
@@ -72,6 +90,15 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributio
     })
   }
 
+  if (countriesCount !== null) {
+    stats.push({
+      label: 'Pays visités',
+      value: countriesCount,
+      icon: Globe,
+      color: 'cyan' as const,
+    })
+  }
+
   if (partnersCount !== null) {
     stats.push({
       label: 'Partenaires',
@@ -82,7 +109,7 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributio
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-12">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
       {stats.map((stat) => (
         <StatCard
           key={stat.label}

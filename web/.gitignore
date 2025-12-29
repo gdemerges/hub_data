@@ -36,3 +36,4 @@ next-env.d.ts
 data/strava-tokens.json
 data/location-history/
 data/partners.csv
+data/geocode-cache.json
