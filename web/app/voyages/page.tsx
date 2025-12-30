@@ -56,12 +56,12 @@ export default function VoyagesPage() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="mb-10">
           <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 bg-bg-card border border-neon-orange/30 rounded-lg">
-              <Terminal className="w-8 h-8 text-neon-orange" />
+            <div className="p-3 bg-bg-card border border-purple-400/30 rounded-lg">
+              <Terminal className="w-8 h-8 text-purple-400" />
             </div>
             <div>
               <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-                <span className="text-neon-orange">TRAVEL</span>_SYSTEM
+                <span className="text-purple-400">TRAVEL</span>_SYSTEM
               </h1>
               <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
                 <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
@@ -69,9 +69,9 @@ export default function VoyagesPage() {
               </p>
             </div>
           </div>
-          <div className="font-mono text-sm text-text-secondary border-l-2 border-neon-orange/30 pl-4">
+          <div className="font-mono text-sm text-text-secondary border-l-2 border-purple-400/30 pl-4">
             &gt; Initializing travel data...
-            <span className="text-neon-orange animate-pulse">_</span>
+            <span className="text-purple-400 animate-pulse">_</span>
           </div>
         </div>
         <div className="animate-pulse space-y-6">
@@ -91,12 +91,12 @@ export default function VoyagesPage() {
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-4 mb-4">
-          <div className="p-3 bg-bg-card border border-neon-orange/30 rounded-lg">
-            <Terminal className="w-8 h-8 text-neon-orange" />
+          <div className="p-3 bg-bg-card border border-purple-400/30 rounded-lg">
+            <Terminal className="w-8 h-8 text-purple-400" />
           </div>
           <div>
             <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-              <span className="text-neon-orange">TRAVEL</span>_SYSTEM
+              <span className="text-purple-400">TRAVEL</span>_SYSTEM
             </h1>
             <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
@@ -104,25 +104,25 @@ export default function VoyagesPage() {
             </p>
           </div>
         </div>
-        <div className="font-mono text-sm text-text-secondary border-l-2 border-neon-orange/30 pl-4">
+        <div className="font-mono text-sm text-text-secondary border-l-2 border-purple-400/30 pl-4">
           &gt; Loading travel history from Google Takeout...
-          <span className="text-neon-orange animate-pulse">_</span>
+          <span className="text-purple-400 animate-pulse">_</span>
         </div>
       </div>
 
       {!hasData ? (
         /* No data - Show upload instructions */
-        <div className="tech-card p-8 border-neon-orange/30">
+        <div className="tech-card p-8 border-purple-400/30">
           <div className="text-center max-w-2xl mx-auto">
-            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-neon-orange/10 border border-neon-orange/30 flex items-center justify-center">
-              <Upload className="w-10 h-10 text-neon-orange" />
+            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-purple-400/10 border border-purple-400/30 flex items-center justify-center">
+              <Upload className="w-10 h-10 text-purple-400" />
             </div>
             <h2 className="text-xl font-display font-bold text-text-primary mb-4 tracking-wider">
               IMPORT_REQUIRED
             </h2>
             <p className="text-text-secondary mb-8 font-mono text-sm leading-relaxed">
               Pour afficher tes voyages, exporte ton historique de localisation depuis Google Takeout
-              et place les fichiers dans le dossier <code className="text-neon-orange bg-neon-orange/10 px-2 py-0.5 rounded">data/location-history/</code>
+              et place les fichiers dans le dossier <code className="text-purple-400 bg-purple-400/10 px-2 py-0.5 rounded">data/location-history/</code>
             </p>
 
             <div className="text-left space-y-4 mb-8">
@@ -131,24 +131,24 @@ export default function VoyagesPage() {
               </h3>
               <ol className="space-y-3 text-sm text-text-secondary font-mono">
                 <li className="flex items-start gap-3">
-                  <span className="w-6 h-6 flex-shrink-0 rounded bg-neon-orange/20 text-neon-orange flex items-center justify-center text-xs font-bold">1</span>
+                  <span className="w-6 h-6 flex-shrink-0 rounded bg-purple-400/20 text-purple-400 flex items-center justify-center text-xs font-bold">1</span>
                   <span>Va sur <a href="https://takeout.google.com" target="_blank" rel="noopener noreferrer" className="text-neon-cyan hover:underline">takeout.google.com</a></span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="w-6 h-6 flex-shrink-0 rounded bg-neon-orange/20 text-neon-orange flex items-center justify-center text-xs font-bold">2</span>
+                  <span className="w-6 h-6 flex-shrink-0 rounded bg-purple-400/20 text-purple-400 flex items-center justify-center text-xs font-bold">2</span>
                   <span>Sélectionne uniquement "Historique des positions"</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="w-6 h-6 flex-shrink-0 rounded bg-neon-orange/20 text-neon-orange flex items-center justify-center text-xs font-bold">3</span>
+                  <span className="w-6 h-6 flex-shrink-0 rounded bg-purple-400/20 text-purple-400 flex items-center justify-center text-xs font-bold">3</span>
                   <span>Choisis le format JSON</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="w-6 h-6 flex-shrink-0 rounded bg-neon-orange/20 text-neon-orange flex items-center justify-center text-xs font-bold">4</span>
+                  <span className="w-6 h-6 flex-shrink-0 rounded bg-purple-400/20 text-purple-400 flex items-center justify-center text-xs font-bold">4</span>
                   <span>Télécharge et extrait l'archive</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="w-6 h-6 flex-shrink-0 rounded bg-neon-orange/20 text-neon-orange flex items-center justify-center text-xs font-bold">5</span>
-                  <span>Place le dossier "Semantic Location History" dans <code className="text-neon-orange">data/location-history/</code></span>
+                  <span className="w-6 h-6 flex-shrink-0 rounded bg-purple-400/20 text-purple-400 flex items-center justify-center text-xs font-bold">5</span>
+                  <span>Place le dossier "Semantic Location History" dans <code className="text-purple-400">data/location-history/</code></span>
                 </li>
               </ol>
             </div>
@@ -157,7 +157,7 @@ export default function VoyagesPage() {
               href="https://takeout.google.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-neon-orange/10 border border-neon-orange/30 rounded-lg text-neon-orange font-mono hover:bg-neon-orange/20 hover:border-neon-orange/50 transition-all duration-300 group"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-purple-400/10 border border-purple-400/30 rounded-lg text-purple-400 font-mono hover:bg-purple-400/20 hover:border-purple-400/50 transition-all duration-300 group"
             >
               <Globe className="w-5 h-5" />
               <span>OPEN_GOOGLE_TAKEOUT</span>
@@ -170,7 +170,7 @@ export default function VoyagesPage() {
         <>
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <StatCard label="Lieux visités" value={stats.totalPlaces} icon={MapPin} color="orange" />
+            <StatCard label="Lieux visités" value={stats.totalPlaces} icon={MapPin} color="purple" />
             <StatCard label="Pays" value={stats.totalCountries} icon={Globe} color="cyan" />
             <StatCard label="Villes" value={stats.totalCities} icon={Building2} color="magenta" />
             <StatCard label="Jours de voyage" value={stats.totalDays} icon={Calendar} color="green" />
@@ -179,8 +179,8 @@ export default function VoyagesPage() {
           {/* World Map */}
           <div className="tech-card p-6 mb-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-neon-orange/10 border border-neon-orange/30 rounded">
-                <Globe className="w-5 h-5 text-neon-orange" />
+              <div className="p-2 bg-purple-400/10 border border-purple-400/30 rounded">
+                <Globe className="w-5 h-5 text-purple-400" />
               </div>
               <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
                 World_Map
@@ -262,8 +262,8 @@ export default function VoyagesPage() {
           {/* Top Places */}
           <div className="tech-card p-6 mb-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-neon-orange/10 border border-neon-orange/30 rounded">
-                <MapPin className="w-5 h-5 text-neon-orange" />
+              <div className="p-2 bg-purple-400/10 border border-purple-400/30 rounded">
+                <MapPin className="w-5 h-5 text-purple-400" />
               </div>
               <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
                 Most_Visited_Places
@@ -273,12 +273,12 @@ export default function VoyagesPage() {
               {stats.topPlaces.slice(0, 9).map((place, i) => (
                 <div
                   key={place.name}
-                  className="group relative bg-bg-primary border border-border-subtle rounded-lg p-4 hover:border-neon-orange/50 transition-all duration-300"
+                  className="group relative bg-bg-primary border border-border-subtle rounded-lg p-4 hover:border-purple-400/50 transition-all duration-300"
                 >
-                  <div className="absolute top-2 right-2 w-6 h-6 bg-neon-orange/20 rounded text-neon-orange text-xs font-mono font-bold flex items-center justify-center">
+                  <div className="absolute top-2 right-2 w-6 h-6 bg-purple-400/20 rounded text-purple-400 text-xs font-mono font-bold flex items-center justify-center">
                     {i + 1}
                   </div>
-                  <h4 className="font-medium text-text-primary group-hover:text-neon-orange transition-colors pr-8 truncate">
+                  <h4 className="font-medium text-text-primary group-hover:text-purple-400 transition-colors pr-8 truncate">
                     {place.name}
                   </h4>
                   {place.city && (
@@ -286,7 +286,7 @@ export default function VoyagesPage() {
                       {place.city}
                     </p>
                   )}
-                  <p className="text-xs font-mono text-neon-orange mt-2">
+                  <p className="text-xs font-mono text-purple-400 mt-2">
                     {place.visits} visits
                   </p>
                 </div>
