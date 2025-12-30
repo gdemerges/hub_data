@@ -1,183 +1,215 @@
-# 🎯 Hub Médias
+# HUB LIFE - Personal Data Dashboard
 
-> Dashboard personnel pour centraliser et visualiser vos statistiques de jeux vidéo, films, séries et activité GitHub.
+Un dashboard personnel cyberpunk pour visualiser et analyser toutes vos données : jeux, films, séries, livres, activités sportives, voyages, rencontres et plus encore.
 
-[![Next.js](https://img.shields.io/badge/Next.js-14-black.svg)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8.svg)](https://tailwindcss.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+## 🎮 Fonctionnalités
 
----
+### 📊 Onglets Disponibles
 
-## 📋 Description
+- **Aperçu** - Vue d'ensemble de toutes vos statistiques
+- **Insights** - Radar chart de votre profil d'activité et timeline unifiée
+- **Jeux** - Collection de jeux avec statistiques par plateforme et genre
+- **Films** - Bibliothèque de films avec filtres et notes
+- **Séries** - Suivi de séries avec statuts de visionnage
+- **Livres** - Bibliothèque de lecture avec notes et métadonnées
+- **Rencontres** - Statistiques sociales (villes, nationalités, années)
+- **GitHub** - Profil et contributions GitHub
+- **Spotify** - Top artistes et statistiques d'écoute
+- **Sport** - Activités Strava avec calendrier et statistiques
+- **Voyages** - Carte mondiale des pays visités et lieux fréquentés
 
-Hub Médias est un tableau de bord interactif qui agrège et affiche vos données personnelles de consommation de médias :
+### 🎨 Design
 
-- **🎮 Jeux Vidéo** : Visualisez votre bibliothèque avec jaquettes IGDB, heures de jeu, et plateformes
-- **🎬 Films** : Suivez vos films visionnés avec posters TMDb
-- **📺 Séries** : Gardez une trace de vos séries avec métadonnées enrichies
-- **💻 GitHub** : Consultez vos statistiques de développement (repos, langages, contributions)
-
-Le projet récupère automatiquement vos données depuis **SerieBox** et les enrichit via les APIs **IGDB**, **TMDb** et **GitHub**.
-
----
-
-## ✨ Fonctionnalités
-
-### 🎮 Onglet Jeux
-- Affichage en grille avec jaquettes haute résolution (IGDB)
-- Statistiques : heures jouées, nombre de jeux, top jeu
-- Filtres : heures minimum, plateforme, tri personnalisé
-- Chargement ultra-rapide avec Next.js
-
-### 💻 Onglet GitHub
-- Profil utilisateur avec avatar et bio
-- Métriques : repos publics, followers, gists, ancienneté
-- Activité récente (30 derniers jours) : commits, PRs, issues
-- Top 10 langages de programmation utilisés
-
-### 🎬 Onglets Films & Séries
-- Import automatique depuis SerieBox
-- Enrichissement des métadonnées via TMDb
-- Filtres et recherche intégrés
-
----
-
-## 🏗️ Architecture
-
-```
-hub_life/
-├── web/                    # Application Next.js
-│   ├── app/               # Pages (App Router)
-│   ├── components/        # Composants React
-│   ├── lib/               # Utilitaires TypeScript
-│   ├── data/              # Données JSON générées
-│   ├── scripts/           # Script build-data.ts
-│   └── .env               # Variables d'environnement (APIs)
-├── data/seriebox/          # Données CSV sources (depuis SerieBox)
-├── pipelines/              # Scripts Python pour récupérer les données
-└── README.md
-```
-
----
+- **Style Cyberpunk** avec effets néon et animations
+- **Thème sombre** optimisé pour la lecture
+- **Interface responsive** adaptée mobile et desktop
+- **Typographie monospace** pour un look terminal
+- **Couleurs thématiques** par section
 
 ## 🚀 Installation
 
 ### Prérequis
-- **Node.js 18+**
-- **Python 3.11+** (pour les pipelines de données)
 
-### Étapes
+- Node.js 18+
+- npm ou yarn
 
-1. **Cloner le projet**
-   ```bash
-   git clone https://github.com/votre-username/hub_life.git
-   cd hub_life
-   ```
-
-2. **Aller dans le dossier web et installer les dépendances**
-   ```bash
-   cd web
-   npm install
-   ```
-
-3. **Configurer les variables d'environnement**
-   
-   Créez le fichier `web/.env` avec vos clés API :
-   ```env
-   # IGDB (jeux)
-   IGDB_CLIENT_ID=votre_client_id
-   IGDB_CLIENT_SECRET=votre_client_secret
-
-   # TMDb (films/séries)
-   TMDB_API_KEY=votre_api_key
-
-   # GitHub
-   GITHUB_TOKEN=votre_token
-   GITHUB_USERNAME=votre_username
-   ```
-
-4. **Générer les données (toujours depuis le dossier web/)**
-   ```bash
-   npm run build:data
-   ```
-
-5. **Lancer le serveur de développement**
-   ```bash
-   npm run dev
-   ```
-
-6. Ouvrir [http://localhost:3000](http://localhost:3000)
-
-> **Note** : Toutes les commandes npm doivent être exécutées depuis le dossier `web/`
-
----
-
-## 📜 Scripts
-
-### Mise à jour complète des données
+### Installation des dépendances
 
 ```bash
-# Depuis la racine du projet
-python pipelines/update-data.py
+npm install
 ```
 
-Ce script :
-1. Télécharge les données depuis SerieBox (jeux, films, séries)
-2. Récupère les images depuis IGDB et TMDB
-3. Génère les fichiers JSON pour l'application
+### Configuration
 
-**Options :**
-- `--skip-seriebox` ou `-s` : Skip le téléchargement SerieBox, utilise les CSV existants
+1. **Variables d'environnement** - Créez un fichier `.env.local` :
 
-### Commandes npm (depuis le dossier web/)
+```env
+# GitHub (optionnel)
+GITHUB_TOKEN=votre_token_github
 
-| Commande | Description |
-|----------|-------------|
-| `npm run dev` | Lance le serveur de développement |
-| `npm run build` | Build de production |
-| `npm run build:data` | Génère les JSON avec images (IGDB/TMDB) |
-| `npm run start` | Lance le serveur de production |
+# Spotify (optionnel)
+SPOTIFY_CLIENT_ID=votre_client_id
+SPOTIFY_CLIENT_SECRET=votre_client_secret
+SPOTIFY_REFRESH_TOKEN=votre_refresh_token
 
----
+# Steam (optionnel)
+STEAM_API_KEY=votre_api_key
+STEAM_ID=votre_steam_id
 
-## 🔑 APIs Utilisées
+# Strava (optionnel)
+STRAVA_CLIENT_ID=votre_client_id
+STRAVA_CLIENT_SECRET=votre_client_secret
+STRAVA_REFRESH_TOKEN=votre_refresh_token
 
-### IGDB (Internet Game Database)
-- Endpoint : `https://api.igdb.com/v4/`
-- Usage : Récupération des jaquettes de jeux
-- [Documentation](https://api-docs.igdb.com/)
+# IGDB (pour les métadonnées de jeux)
+IGDB_CLIENT_ID=votre_client_id
+IGDB_CLIENT_SECRET=votre_client_secret
+```
 
-### TMDb (The Movie Database)
-- Endpoint : `https://api.themoviedb.org/3/`
-- Usage : Posters et métadonnées films/séries
-- [Documentation](https://developers.themoviedb.org/)
+2. **Fichiers de données** - Placez vos fichiers dans le dossier `data/` :
 
-### GitHub REST API
-- Endpoint : `https://api.github.com/`
-- Usage : Statistiques et activité développeur
-- [Documentation](https://docs.github.com/rest)
+```
+data/
+├── games.csv           # Liste de jeux
+├── films.csv           # Liste de films
+├── series.csv          # Liste de séries
+├── books.xlsx          # Bibliothèque de livres (Excel)
+├── partners.csv        # Données de rencontres
+├── strava-tokens.json  # Tokens Strava (généré auto)
+└── location-history/   # Historique Google Takeout
+    └── *.json
+```
 
----
+### Formats des fichiers CSV/Excel
 
-## 🛠️ Stack Technique
+#### games.csv
+```csv
+title,platform,status,hoursPlayed,genres,rating,releaseYear
+```
 
-- **Frontend** : Next.js 14 (App Router), React 18, TypeScript
-- **Styling** : Tailwind CSS, Lucide Icons
-- **Data** : CSV → JSON build step
-- **APIs** : IGDB, TMDb, GitHub
+#### films.csv
+```csv
+title,titleVO,releaseYear,rating,avgRating,runtime,genres,watchStatus,dateAdded,dateWatched
+```
 
----
+#### series.csv
+```csv
+title,titleVF,status,rating,avgRating,episodesWatched,episodes,releaseYear,airingStatus,genres,watchStatus,dateAdded,dateCompleted
+```
 
-## 📝 Licence
+#### books.xlsx
+Colonnes Excel : Titre VF, Titre VO, Auteur(s), Format, Lectorat, Genre 1, Genre 2, Editeur, Collection, Année, Nombre de pages, Langue, Note personnelle (/20), Moyenne (/20), Date de lecture, Date d'achat, Type de livre, ISBN
 
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+#### partners.csv
+```csv
+Prénom;Ville;Genre;Nationalité;Année;Pénétration;Année de naissance
+```
 
----
+## 🏃 Lancement
 
-## 🙏 Remerciements
+### Mode développement
 
-- [SerieBox](https://www.seriebox.com/) pour le suivi des médias
-- [IGDB](https://www.igdb.com/) pour les données de jeux
-- [TMDb](https://www.themoviedb.org/) pour les données de films/séries
-- [Next.js](https://nextjs.org/) pour le framework React
+```bash
+npm run dev
+```
+
+L'application sera accessible sur `http://localhost:3000`
+
+### Build production
+
+```bash
+npm run build
+npm start
+```
+
+## 📁 Structure du projet
+
+```
+web/
+├── app/                    # Pages Next.js (App Router)
+│   ├── page.tsx           # Page d'aperçu
+│   ├── games/             # Page Jeux
+│   ├── films/             # Page Films
+│   ├── series/            # Page Séries
+│   ├── books/             # Page Livres
+│   ├── rencontres/        # Page Rencontres
+│   ├── insights/          # Page Insights
+│   ├── voyages/           # Page Voyages
+│   ├── sport/             # Page Sport
+│   ├── github/            # Page GitHub
+│   ├── spotify/           # Page Spotify
+│   └── api/               # API Routes
+│       ├── books/
+│       ├── games/
+│       ├── films/
+│       ├── series/
+│       ├── rencontres/
+│       ├── voyages/
+│       ├── strava/
+│       ├── github/
+│       └── spotify/
+├── components/            # Composants React réutilisables
+│   ├── navigation.tsx    # Barre de navigation
+│   ├── stat-card.tsx     # Cartes de statistiques
+│   ├── pie-chart.tsx     # Graphiques circulaires
+│   ├── world-map.tsx     # Carte mondiale
+│   └── ...
+├── lib/                   # Utilitaires et types
+│   ├── types.ts          # Types TypeScript
+│   ├── data.ts           # Fonctions de chargement de données
+│   └── utils.ts          # Fonctions utilitaires
+├── data/                  # Fichiers de données (gitignored)
+└── public/               # Fichiers statiques
+```
+
+## 🎯 APIs Utilisées
+
+- **IGDB** - Métadonnées de jeux vidéo
+- **GitHub API** - Profil et contributions
+- **Spotify API** - Statistiques d'écoute
+- **Strava API** - Activités sportives
+- **Steam API** - Bibliothèque et temps de jeu
+- **Nominatim** - Géocodage pour les voyages
+
+## 🔧 Technologies
+
+- **Next.js 14** - Framework React avec App Router
+- **TypeScript** - Typage statique
+- **Tailwind CSS** - Styling avec thème cyberpunk personnalisé
+- **Recharts** - Graphiques (radar, bar charts)
+- **react-simple-maps** - Cartes géographiques
+- **xlsx** - Lecture de fichiers Excel
+- **Lucide Icons** - Icônes
+
+## 📝 Notes
+
+- Les données personnelles sont stockées localement dans le dossier `data/`
+- Les fichiers sensibles sont listés dans `.gitignore`
+- Les tokens API sont générés automatiquement lors de l'authentification
+- Le geocoding des lieux est mis en cache pour optimiser les performances
+
+## 🎨 Personnalisation
+
+### Couleurs des onglets
+
+Chaque onglet a sa propre couleur thématique définie dans `components/navigation.tsx` :
+
+- Aperçu : cyan
+- Insights : magenta
+- Jeux : green
+- Films : magenta
+- Séries : yellow
+- Livres : blue
+- Rencontres : red
+- GitHub : cyan
+- Spotify : green
+- Sport : orange
+- Voyages : purple
+
+### Thème
+
+Le thème cyberpunk est défini dans `tailwind.config.js` avec des couleurs néon personnalisées.
+
+## 📄 Licence
+
+Usage personnel uniquement.
