@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Gamepad2, Film, Tv, Github, LayoutDashboard, Activity, Music, Terminal, MapPin, Dumbbell, TrendingUp, BookOpen } from 'lucide-react'
+import { Gamepad2, Film, Tv, Github, LayoutDashboard, Activity, Music, Terminal, MapPin, Dumbbell, TrendingUp, BookOpen, Heart } from 'lucide-react'
 
 const colorClasses = {
   cyan: {
@@ -48,6 +48,12 @@ const colorClasses = {
     active: 'text-purple-400 bg-purple-400/10',
     shadow: 'bg-purple-400 shadow-[0_0_10px_rgba(192,132,252,0.5)]',
   },
+  red: {
+    text: 'text-neon-red',
+    hover: 'hover:text-neon-red hover:bg-neon-red/10',
+    active: 'text-neon-red bg-neon-red/10',
+    shadow: 'bg-neon-red shadow-[0_0_10px_#ff0000]',
+  },
 }
 
 const navItems = [
@@ -57,6 +63,7 @@ const navItems = [
   { href: '/films', label: 'Films', icon: Film, color: 'magenta' as const },
   { href: '/series', label: 'Séries', icon: Tv, color: 'yellow' as const },
   { href: '/books', label: 'Livres', icon: BookOpen, color: 'blue' as const },
+  { href: '/rencontres', label: 'Rencontres', icon: Heart, color: 'red' as const },
   { href: '/github', label: 'GitHub', icon: Github, color: 'cyan' as const },
   { href: '/spotify', label: 'Spotify', icon: Music, color: 'green' as const },
   { href: '/sport', label: 'Sport', icon: Dumbbell, color: 'orange' as const },
