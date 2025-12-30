@@ -7,7 +7,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Hub Médias',
+  title: 'Hub Life',
   description: 'Tableau de bord pour suivre vos jeux, films, séries et activité GitHub',
 }
 

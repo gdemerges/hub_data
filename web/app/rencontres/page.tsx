@@ -172,7 +172,7 @@ export default function RencontresPage() {
             </h3>
           </div>
           <div className="flex flex-col items-center">
-            <PieChart data={villeChartData} size={300} />
+            <PieChart data={villeChartData} size={300} unit="" />
           </div>
         </div>
 
@@ -187,7 +187,7 @@ export default function RencontresPage() {
             </h3>
           </div>
           <div className="flex flex-col items-center">
-            <PieChart data={nationaliteChartData} size={300} />
+            <PieChart data={nationaliteChartData} size={300} unit="" />
           </div>
         </div>
       </div>

@@ -11,9 +11,10 @@ interface PieChartProps {
   size?: number
   onSliceClick?: (label: string) => void
   selectedLabel?: string
+  unit?: string
 }
 
-export function PieChart({ data, size = 200, onSliceClick, selectedLabel }: PieChartProps) {
+export function PieChart({ data, size = 200, onSliceClick, selectedLabel, unit = 'h' }: PieChartProps) {
   const total = data.reduce((sum, item) => sum + item.value, 0)
 
   if (total === 0) {
@@ -111,7 +112,7 @@ export function PieChart({ data, size = 200, onSliceClick, selectedLabel }: PieC
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-text-primary font-semibold">{item.value}h</span>
+                <span className="text-text-primary font-semibold">{item.value}{unit}</span>
                 <span className="text-text-muted text-xs">({percentage}%)</span>
               </div>
             </div>
