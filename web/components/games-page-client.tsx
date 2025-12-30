@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import { GamesClient } from '@/components/games-client'
 import { PieChart } from '@/components'
-import { Clock, Trophy, Gamepad2, BarChart3 } from 'lucide-react'
+import { SteamSection } from '@/components/steam-section'
+import { Clock, Trophy, Gamepad2, BarChart3, Activity } from 'lucide-react'
 import { Game } from '@/lib/types'
 
 interface GamesPageClientProps {
@@ -15,7 +16,7 @@ interface GamesPageClientProps {
   totalHours: number
 }
 
-type Tab = 'games' | 'stats'
+type Tab = 'games' | 'steam' | 'stats'
 
 export function GamesPageClient({
   games,
@@ -62,6 +63,17 @@ export function GamesPageClient({
           Jeux
         </button>
         <button
+          onClick={() => setActiveTab('steam')}
+          className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-all border-b-2 ${
+            activeTab === 'steam'
+              ? 'text-accent-primary border-accent-primary'
+              : 'text-text-secondary border-transparent hover:text-text-primary'
+          }`}
+        >
+          <Activity className="w-4 h-4" />
+          Steam
+        </button>
+        <button
           onClick={() => setActiveTab('stats')}
           className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-all border-b-2 ${
             activeTab === 'stats'
@@ -82,6 +94,8 @@ export function GamesPageClient({
           initialFilter={selectedPlatform || undefined}
         />
       )}
+
+      {activeTab === 'steam' && <SteamSection />}
 
       {activeTab === 'stats' && (
         <>

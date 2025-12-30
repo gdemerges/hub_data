@@ -3,15 +3,16 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Gamepad2, Film, Tv, Github, LayoutDashboard, Activity, Music, Terminal, MapPin, Dumbbell } from 'lucide-react'
+import { Gamepad2, Film, Tv, Github, LayoutDashboard, Activity, Music, Terminal, MapPin, Dumbbell, TrendingUp, BookOpen } from 'lucide-react'
 
 const navItems = [
   { href: '/', label: 'Aperçu', icon: LayoutDashboard, color: 'cyan' },
+  { href: '/insights', label: 'Insights', icon: TrendingUp, color: 'magenta' },
   { href: '/games', label: 'Jeux', icon: Gamepad2, color: 'green' },
   { href: '/films', label: 'Films', icon: Film, color: 'magenta' },
   { href: '/series', label: 'Séries', icon: Tv, color: 'yellow' },
+  { href: '/books', label: 'Livres', icon: BookOpen, color: 'yellow' },
   { href: '/github', label: 'GitHub', icon: Github, color: 'cyan' },
-  { href: '/steam', label: 'Steam', icon: Activity, color: 'blue' },
   { href: '/spotify', label: 'Spotify', icon: Music, color: 'green' },
   { href: '/sport', label: 'Sport', icon: Dumbbell, color: 'orange' },
   { href: '/voyages', label: 'Voyages', icon: MapPin, color: 'orange' },

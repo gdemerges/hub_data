@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Gamepad2, Film, Tv, Github, Footprints, Heart, Globe } from 'lucide-react'
+import { Gamepad2, Film, Tv, Github, Footprints, Heart, Globe, BookOpen } from 'lucide-react'
 import { StatCard } from './stat-card'
 
 interface OverviewStatsProps {
@@ -16,6 +16,7 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributio
   const [runDistance, setRunDistance] = useState<number | null>(null)
   const [partnersCount, setPartnersCount] = useState<number | null>(null)
   const [countriesCount, setCountriesCount] = useState<number | null>(null)
+  const [booksRead, setBooksRead] = useState<number | null>(null)
 
   useEffect(() => {
     async function fetchStravaStats() {
@@ -74,12 +75,40 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributio
     fetchCountriesCount()
   }, [])
 
+  useEffect(() => {
+    async function fetchBooksRead() {
+      try {
+        const response = await fetch('/api/books')
+        if (response.ok) {
+          const data = await response.json()
+          if (data.books) {
+            const readCount = data.books.filter((book: any) => book.dateRead).length
+            setBooksRead(readCount)
+          }
+        }
+      } catch (err) {
+        // Silently fail if no data
+      }
+    }
+    fetchBooksRead()
+  }, [])
+
   const stats = [
     { label: 'Jeux joués', value: gamesCount, icon: Gamepad2, color: 'green' as const },
     { label: 'Films vus', value: filmsCount, icon: Film, color: 'magenta' as const },
     { label: 'Séries suivies', value: seriesCount, icon: Tv, color: 'yellow' as const },
-    { label: 'Contributions', value: contributions, icon: Github, color: 'cyan' as const },
   ]
+
+  if (booksRead !== null) {
+    stats.push({
+      label: 'Livres lus',
+      value: booksRead,
+      icon: BookOpen,
+      color: 'blue' as const,
+    })
+  }
+
+  stats.push({ label: 'Contributions', value: contributions, icon: Github, color: 'cyan' as const })
 
   if (runDistance !== null) {
     stats.push({
@@ -95,7 +124,7 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributio
       label: 'Pays visités',
       value: countriesCount,
       icon: Globe,
-      color: 'cyan' as const,
+      color: 'purple' as const,
     })
   }
 
