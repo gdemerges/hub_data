@@ -93,10 +93,16 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributio
     fetchBooksRead()
   }, [])
 
-  const stats = [
-    { label: 'Jeux joués', value: gamesCount, icon: Gamepad2, color: 'green' as const },
-    { label: 'Films vus', value: filmsCount, icon: Film, color: 'magenta' as const },
-    { label: 'Séries suivies', value: seriesCount, icon: Tv, color: 'yellow' as const },
+  const stats: Array<{
+    label: string
+    value: string | number
+    icon: typeof Gamepad2
+    color: 'green' | 'magenta' | 'yellow' | 'blue' | 'cyan' | 'orange' | 'purple' | 'red'
+    href: string
+  }> = [
+    { label: 'Jeux joués', value: gamesCount, icon: Gamepad2, color: 'green', href: '/games' },
+    { label: 'Films vus', value: filmsCount, icon: Film, color: 'magenta', href: '/films' },
+    { label: 'Séries suivies', value: seriesCount, icon: Tv, color: 'yellow', href: '/series' },
   ]
 
   if (booksRead !== null) {
@@ -104,18 +110,20 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributio
       label: 'Livres lus',
       value: booksRead,
       icon: BookOpen,
-      color: 'blue' as const,
+      color: 'blue',
+      href: '/books',
     })
   }
 
-  stats.push({ label: 'Contributions', value: contributions, icon: Github, color: 'cyan' as const })
+  stats.push({ label: 'Contributions', value: contributions, icon: Github, color: 'cyan', href: '/github' })
 
   if (runDistance !== null) {
     stats.push({
       label: 'Km courus',
       value: `${runDistance} km`,
       icon: Footprints,
-      color: 'orange' as const,
+      color: 'orange',
+      href: '/sport',
     })
   }
 
@@ -124,7 +132,8 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributio
       label: 'Pays visités',
       value: countriesCount,
       icon: Globe,
-      color: 'purple' as const,
+      color: 'purple',
+      href: '/voyages',
     })
   }
 
@@ -133,7 +142,8 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributio
       label: 'Partenaires',
       value: partnersCount,
       icon: Heart,
-      color: 'red' as const,
+      color: 'red',
+      href: '/rencontres',
     })
   }
 
@@ -146,6 +156,7 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributio
           value={stat.value}
           icon={stat.icon}
           color={stat.color}
+          href={stat.href}
         />
       ))}
     </div>

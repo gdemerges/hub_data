@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import { LucideIcon } from 'lucide-react'
+import Link from 'next/link'
 
 interface StatCardProps {
   label: string
@@ -9,6 +10,7 @@ interface StatCardProps {
   icon?: LucideIcon
   className?: string
   color?: 'cyan' | 'magenta' | 'green' | 'yellow' | 'orange' | 'red' | 'blue' | 'purple'
+  href?: string
 }
 
 const colorClasses = {
@@ -62,19 +64,11 @@ const colorClasses = {
   },
 }
 
-export function StatCard({ label, value, icon: Icon, className, color = 'cyan' }: StatCardProps) {
+export function StatCard({ label, value, icon: Icon, className, color = 'cyan', href }: StatCardProps) {
   const colors = colorClasses[color]
 
-  return (
-    <div
-      className={cn(
-        'tech-card p-5 text-center group',
-        'transition-all duration-300 hover:-translate-y-1',
-        colors.border,
-        'hover:' + colors.glow,
-        className
-      )}
-    >
+  const content = (
+    <>
       {/* Corner decorations are handled by tech-card class */}
 
       {Icon && (
@@ -108,6 +102,29 @@ export function StatCard({ label, value, icon: Icon, className, color = 'cyan' }
         </span>
         <span className="w-2 h-px bg-current opacity-50" />
       </div>
+    </>
+  )
+
+  const cardClasses = cn(
+    'tech-card p-5 text-center group',
+    'transition-all duration-300 hover:-translate-y-1',
+    colors.border,
+    'hover:' + colors.glow,
+    href && 'cursor-pointer',
+    className
+  )
+
+  if (href) {
+    return (
+      <Link href={href} className={cardClasses}>
+        {content}
+      </Link>
+    )
+  }
+
+  return (
+    <div className={cardClasses}>
+      {content}
     </div>
   )
 }
