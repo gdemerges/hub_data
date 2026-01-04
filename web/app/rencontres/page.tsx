@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Terminal, Heart, MapPin, Globe, Calendar, TrendingUp, Users } from 'lucide-react'
-import { StatCard, BarChart, PieChart } from '@/components'
+import { StatCard, BarChart, PieChart, NationalityMap } from '@/components'
 
 interface RencontresStats {
   total: number
@@ -157,6 +157,21 @@ export default function RencontresPage() {
         <StatCard label="Villes" value={stats.villes.length} icon={MapPin} color="cyan" />
         <StatCard label="Nationalités" value={stats.nationalites.length} icon={Globe} color="magenta" />
         <StatCard label="Années" value={stats.parAnnee.length} icon={Calendar} color="green" />
+      </div>
+
+      {/* Nationality Map */}
+      <div className="tech-card p-6 mb-8">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-2 bg-neon-red/10 border border-neon-red/30 rounded">
+            <Globe className="w-5 h-5 text-neon-red" />
+          </div>
+          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+            Carte_des_Nationalités
+          </h3>
+        </div>
+        <div className="h-[400px]">
+          <NationalityMap data={stats.nationalites} />
+        </div>
       </div>
 
       {/* Charts Grid */}
