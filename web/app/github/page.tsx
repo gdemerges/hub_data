@@ -314,10 +314,18 @@ export default function GitHubPage() {
           </div>
         ) : yearlyContributions && yearlyContributions.yearlyContributions.length > 0 ? (
           <>
-            <p className="text-xs font-mono text-text-muted mb-6">
-              {yearlyContributions.totalContributions.toLocaleString('fr-FR')} commits // {yearlyContributions.totalYears} years
-            </p>
-            <BarChart data={yearlyContributions.yearlyContributions} />
+            {(() => {
+              const filteredData = yearlyContributions.yearlyContributions.filter(y => y.year >= 2022)
+              const filteredTotal = filteredData.reduce((acc, y) => acc + y.contributions, 0)
+              return (
+                <>
+                  <p className="text-xs font-mono text-text-muted mb-6">
+                    {filteredTotal.toLocaleString('fr-FR')} commits // {filteredData.length} years
+                  </p>
+                  <BarChart data={filteredData} />
+                </>
+              )
+            })()}
           </>
         ) : (
           <div className="flex items-center justify-center h-64">
