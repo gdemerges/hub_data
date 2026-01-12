@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { Terminal, Activity, Timer, Route, Flame, TrendingUp, Calendar, Award, Mountain, Bike, Footprints } from 'lucide-react'
+import { Terminal, Activity, Timer, Route, Flame, TrendingUp, Calendar, Award, Mountain, Bike, Footprints, AlertTriangle, Target, Zap, CheckCircle, TrendingDown } from 'lucide-react'
 import { StatCard } from '@/components'
 
 interface StravaAthlete {
@@ -56,7 +56,7 @@ export default function SportPage() {
   const [loading, setLoading] = useState(true)
   const [isConnected, setIsConnected] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [activityFilter, setActivityFilter] = useState<string>('all')
+  const [activityFilter, setActivityFilter] = useState<string>('Run')
 
   useEffect(() => {
     async function fetchData() {
@@ -329,6 +329,238 @@ export default function SportPage() {
                   </div>
                 </div>
               </>
+            )
+          })()}
+
+          {/* Training Analysis - Only for running */}
+          {activityFilter === 'Run' && (() => {
+            const runs = data.recentActivities.filter((a) => a.type === 'Run')
+
+            // Helper function to get week number
+            const getWeekStart = (date: Date) => {
+              const d = new Date(date)
+              d.setHours(0, 0, 0, 0)
+              d.setDate(d.getDate() - d.getDay() + 1) // Monday
+              return d.getTime()
+            }
+
+            // Group runs by week
+            const weeklyData = new Map<number, { distance: number; runs: number; dates: Date[] }>()
+            for (const run of runs) {
+              const runDate = new Date(run.startDate)
+              const weekStart = getWeekStart(runDate)
+              const existing = weeklyData.get(weekStart) || { distance: 0, runs: 0, dates: [] }
+              existing.distance += run.distance
+              existing.runs++
+              existing.dates.push(runDate)
+              weeklyData.set(weekStart, existing)
+            }
+
+            // Sort weeks and get last 8 weeks
+            const sortedWeeks = Array.from(weeklyData.entries())
+              .sort((a, b) => b[0] - a[0])
+              .slice(0, 8)
+
+            const currentWeek = sortedWeeks[0]
+            const lastWeek = sortedWeeks[1]
+            const last4Weeks = sortedWeeks.slice(1, 5)
+
+            // Calculate averages
+            const avgDistance4Weeks = last4Weeks.length > 0
+              ? last4Weeks.reduce((sum, [, data]) => sum + data.distance, 0) / last4Weeks.length
+              : 0
+
+            const avgRunsPerWeek = last4Weeks.length > 0
+              ? last4Weeks.reduce((sum, [, data]) => sum + data.runs, 0) / last4Weeks.length
+              : 0
+
+            // Current week stats
+            const currentWeekDistance = currentWeek ? currentWeek[1].distance : 0
+            const currentWeekRuns = currentWeek ? currentWeek[1].runs : 0
+            const lastWeekDistance = lastWeek ? lastWeek[1].distance : 0
+
+            // Calculate increase percentage
+            const increaseFromLastWeek = lastWeekDistance > 0
+              ? ((currentWeekDistance - lastWeekDistance) / lastWeekDistance) * 100
+              : 0
+
+            const increaseFromAvg = avgDistance4Weeks > 0
+              ? ((currentWeekDistance - avgDistance4Weeks) / avgDistance4Weeks) * 100
+              : 0
+
+            // Longest run this week vs average
+            const longestRunThisWeek = runs
+              .filter((r) => currentWeek && getWeekStart(new Date(r.startDate)) === currentWeek[0])
+              .reduce((max, r) => Math.max(max, r.distance), 0)
+
+            const avgLongestRun = last4Weeks.length > 0
+              ? last4Weeks.reduce((sum, [weekStart]) => {
+                  const weekRuns = runs.filter((r) => getWeekStart(new Date(r.startDate)) === weekStart)
+                  return sum + Math.max(...weekRuns.map((r) => r.distance), 0)
+                }, 0) / last4Weeks.length
+              : 0
+
+            // Alerts
+            const alerts: { type: 'warning' | 'danger' | 'success'; message: string }[] = []
+
+            if (increaseFromLastWeek > 10) {
+              alerts.push({
+                type: increaseFromLastWeek > 20 ? 'danger' : 'warning',
+                message: `Volume en hausse de ${Math.round(increaseFromLastWeek)}% vs semaine dernière (règle des 10%)`
+              })
+            }
+
+            if (increaseFromAvg > 15) {
+              alerts.push({
+                type: increaseFromAvg > 25 ? 'danger' : 'warning',
+                message: `Volume ${Math.round(increaseFromAvg)}% au-dessus de ta moyenne des 4 dernières semaines`
+              })
+            }
+
+            if (longestRunThisWeek > avgLongestRun * 1.2 && avgLongestRun > 0) {
+              const increase = ((longestRunThisWeek - avgLongestRun) / avgLongestRun) * 100
+              alerts.push({
+                type: increase > 30 ? 'danger' : 'warning',
+                message: `Sortie longue de ${longestRunThisWeek.toFixed(1)}km (+${Math.round(increase)}% vs moyenne)`
+              })
+            }
+
+            if (alerts.length === 0 && currentWeekDistance > 0) {
+              alerts.push({
+                type: 'success',
+                message: 'Charge d\'entraînement équilibrée, continue comme ça !'
+              })
+            }
+
+            // Predictions
+            const predictedWeeklyDistance = avgDistance4Weeks * 1.05 // 5% increase recommendation
+            const predictedMonthlyDistance = avgDistance4Weeks * 4
+            const recommendedLongRun = avgLongestRun * 1.1 // 10% increase max
+
+            // Days since last run
+            const lastRun = runs[0]
+            const daysSinceLastRun = lastRun
+              ? Math.floor((Date.now() - new Date(lastRun.startDate).getTime()) / (1000 * 60 * 60 * 24))
+              : null
+
+            return (
+              <div className="tech-card p-6 mb-8 border-neon-cyan/30">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
+                    <Target className="w-5 h-5 text-neon-cyan" />
+                  </div>
+                  <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+                    Training_Analysis
+                  </h3>
+                </div>
+
+                {/* Alerts */}
+                {alerts.length > 0 && (
+                  <div className="space-y-2 mb-6">
+                    {alerts.map((alert, i) => (
+                      <div
+                        key={i}
+                        className={`flex items-center gap-3 p-3 rounded-lg border ${
+                          alert.type === 'danger'
+                            ? 'bg-red-500/10 border-red-500/30 text-red-400'
+                            : alert.type === 'warning'
+                            ? 'bg-neon-yellow/10 border-neon-yellow/30 text-neon-yellow'
+                            : 'bg-neon-green/10 border-neon-green/30 text-neon-green'
+                        }`}
+                      >
+                        {alert.type === 'success' ? (
+                          <CheckCircle className="w-5 h-5 shrink-0" />
+                        ) : (
+                          <AlertTriangle className="w-5 h-5 shrink-0" />
+                        )}
+                        <span className="font-mono text-sm">{alert.message}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Weekly comparison */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                  <div className="bg-bg-primary p-4 rounded-lg border border-border-subtle">
+                    <p className="text-xs font-mono text-text-muted mb-1">Cette semaine</p>
+                    <p className="text-2xl font-mono font-bold text-neon-cyan">
+                      {currentWeekDistance.toFixed(1)} km
+                    </p>
+                    <p className="text-xs font-mono text-text-muted">{currentWeekRuns} sortie(s)</p>
+                  </div>
+                  <div className="bg-bg-primary p-4 rounded-lg border border-border-subtle">
+                    <p className="text-xs font-mono text-text-muted mb-1">Semaine dernière</p>
+                    <p className="text-2xl font-mono font-bold text-text-primary">
+                      {lastWeekDistance.toFixed(1)} km
+                    </p>
+                    {increaseFromLastWeek !== 0 && (
+                      <p className={`text-xs font-mono flex items-center gap-1 ${
+                        increaseFromLastWeek > 10 ? 'text-neon-yellow' : 'text-neon-green'
+                      }`}>
+                        {increaseFromLastWeek > 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                        {increaseFromLastWeek > 0 ? '+' : ''}{Math.round(increaseFromLastWeek)}%
+                      </p>
+                    )}
+                  </div>
+                  <div className="bg-bg-primary p-4 rounded-lg border border-border-subtle">
+                    <p className="text-xs font-mono text-text-muted mb-1">Moyenne (4 sem.)</p>
+                    <p className="text-2xl font-mono font-bold text-text-primary">
+                      {avgDistance4Weeks.toFixed(1)} km
+                    </p>
+                    <p className="text-xs font-mono text-text-muted">{avgRunsPerWeek.toFixed(1)} sortie(s)/sem</p>
+                  </div>
+                  <div className="bg-bg-primary p-4 rounded-lg border border-border-subtle">
+                    <p className="text-xs font-mono text-text-muted mb-1">Dernière sortie</p>
+                    <p className="text-2xl font-mono font-bold text-text-primary">
+                      {daysSinceLastRun !== null ? (
+                        daysSinceLastRun === 0 ? "Aujourd'hui" : `Il y a ${daysSinceLastRun}j`
+                      ) : '-'}
+                    </p>
+                    {lastRun && (
+                      <p className="text-xs font-mono text-text-muted">{lastRun.distance.toFixed(1)} km</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Predictions & Recommendations */}
+                <div className="border-t border-border-subtle pt-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Zap className="w-4 h-4 text-neon-magenta" />
+                    <h4 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+                      Recommandations
+                    </h4>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="bg-bg-primary p-4 rounded-lg border border-neon-green/20">
+                      <p className="text-xs font-mono text-neon-green mb-2">Objectif semaine</p>
+                      <p className="text-xl font-mono font-bold text-text-primary">
+                        {predictedWeeklyDistance.toFixed(0)} km
+                      </p>
+                      <p className="text-xs font-mono text-text-muted mt-1">
+                        +5% progressif recommandé
+                      </p>
+                    </div>
+                    <div className="bg-bg-primary p-4 rounded-lg border border-neon-magenta/20">
+                      <p className="text-xs font-mono text-neon-magenta mb-2">Sortie longue max</p>
+                      <p className="text-xl font-mono font-bold text-text-primary">
+                        {recommendedLongRun.toFixed(1)} km
+                      </p>
+                      <p className="text-xs font-mono text-text-muted mt-1">
+                        +10% vs moyenne ({avgLongestRun.toFixed(1)} km)
+                      </p>
+                    </div>
+                    <div className="bg-bg-primary p-4 rounded-lg border border-neon-cyan/20">
+                      <p className="text-xs font-mono text-neon-cyan mb-2">Projection mensuelle</p>
+                      <p className="text-xl font-mono font-bold text-text-primary">
+                        {predictedMonthlyDistance.toFixed(0)} km
+                      </p>
+                      <p className="text-xs font-mono text-text-muted mt-1">
+                        Sur base du rythme actuel
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             )
           })()}
 
