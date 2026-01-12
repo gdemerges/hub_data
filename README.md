@@ -15,8 +15,19 @@ Un dashboard personnel cyberpunk pour visualiser et analyser toutes vos données
 - **Rencontres** - Statistiques sociales (villes, nationalités, années)
 - **GitHub** - Profil et contributions GitHub
 - **Spotify** - Top artistes et statistiques d'écoute
-- **Sport** - Activités Strava avec calendrier et statistiques
+- **Sport** - Activités Strava avec analyse d'entraînement avancée
 - **Voyages** - Carte mondiale des pays visités et lieux fréquentés
+
+### 🏃 Sport - Fonctionnalités détaillées
+
+- **Filtres par activité** : Course à pied, Vélo, ou Global
+- **Statistiques filtrées** : Distance, temps, dénivelé, nombre d'activités
+- **Page de détail d'activité** : Carte du parcours, splits par km, profils d'altitude et fréquence cardiaque
+- **Analyse d'entraînement (course à pied)** :
+  - Comparaison hebdomadaire (cette semaine vs précédente vs moyenne 4 semaines)
+  - Alertes de surcharge (règle des 10% : ne pas augmenter de plus de 10%/semaine)
+  - Recommandations : objectif semaine, sortie longue max, projection mensuelle
+- **Graphique annuel** : Évolution de la distance par année
 
 ### 🎨 Design
 
@@ -110,6 +121,7 @@ Prénom;Ville;Genre;Nationalité;Année;Pénétration;Année de naissance
 ### Mode développement
 
 ```bash
+cd web
 npm run dev
 ```
 
@@ -118,48 +130,136 @@ L'application sera accessible sur `http://localhost:3001`
 ### Build production
 
 ```bash
+cd web
 npm run build
 npm start
 ```
 
+## 🔄 Mise à jour des données (Pipelines)
+
+### Prérequis Python
+
+```bash
+pip install requests pandas python-dotenv browser-cookie3
+```
+
+### Mise à jour complète (Jeux, Films, Séries)
+
+Le script principal télécharge les données depuis SerieBox et génère les fichiers JSON avec images :
+
+```bash
+cd pipelines
+python update-data.py
+```
+
+Options :
+- `--skip-seriebox` ou `-s` : Utiliser les données existantes sans re-télécharger depuis SerieBox
+
+### Étapes détaillées
+
+#### 1. Téléchargement depuis SerieBox
+
+Le script télécharge automatiquement vos listes depuis SerieBox en utilisant les cookies de votre navigateur (Firefox ou Chrome). Assurez-vous d'être connecté à SerieBox dans votre navigateur.
+
+```bash
+python pipelines/seriesbox.py
+```
+
+Fichiers générés dans `data/seriebox/` :
+- `shows.csv` - Séries
+- `films_vus.csv` - Films
+- `jeux.csv` - Jeux
+
+#### 2. Génération des JSON avec images
+
+Ce script récupère les images depuis IGDB (jeux) et TMDB (films/séries) :
+
+```bash
+cd web
+npx tsx scripts/build-data.ts
+```
+
+Fichiers générés dans `web/data/` :
+- `games.json` - Jeux avec covers IGDB
+- `films.json` - Films avec posters TMDB
+- `series.json` - Séries avec posters TMDB
+
+#### 3. Enrichissement manuel des images (optionnel)
+
+Si certaines images manquent, vous pouvez lancer les scripts d'enrichissement séparément :
+
+```bash
+# Images des jeux (IGDB)
+python pipelines/image_game.py
+
+# Images des films et séries (TMDB)
+python pipelines/image_movies_series.py
+```
+
+### Variables d'environnement requises
+
+Dans `web/.env` :
+
+```env
+# SerieBox (optionnel si vous utilisez les cookies navigateur)
+SERIEBOX_USERNAME=votre_username
+SERIEBOX_PASSWORD=votre_password
+
+# IGDB (pour les covers de jeux)
+IGDB_CLIENT_ID=votre_client_id
+IGDB_CLIENT_SECRET=votre_client_secret
+
+# TMDB (pour les posters films/séries)
+TMDB_API_KEY=votre_api_key
+```
+
+### Workflow recommandé
+
+1. Connectez-vous à SerieBox dans votre navigateur
+2. Lancez `python pipelines/update-data.py`
+3. Vérifiez les images manquantes et relancez les scripts d'enrichissement si nécessaire
+
 ## 📁 Structure du projet
 
 ```
-web/
-├── app/                    # Pages Next.js (App Router)
-│   ├── page.tsx           # Page d'aperçu
-│   ├── games/             # Page Jeux
-│   ├── films/             # Page Films
-│   ├── series/            # Page Séries
-│   ├── books/             # Page Livres
-│   ├── rencontres/        # Page Rencontres
-│   ├── insights/          # Page Insights
-│   ├── voyages/           # Page Voyages
-│   ├── sport/             # Page Sport
-│   ├── github/            # Page GitHub
-│   ├── spotify/           # Page Spotify
-│   └── api/               # API Routes
-│       ├── books/
-│       ├── games/
-│       ├── films/
-│       ├── series/
-│       ├── rencontres/
-│       ├── voyages/
-│       ├── strava/
-│       ├── github/
-│       └── spotify/
-├── components/            # Composants React réutilisables
-│   ├── navigation.tsx    # Barre de navigation
-│   ├── stat-card.tsx     # Cartes de statistiques
-│   ├── pie-chart.tsx     # Graphiques circulaires
-│   ├── world-map.tsx     # Carte mondiale
-│   └── ...
-├── lib/                   # Utilitaires et types
-│   ├── types.ts          # Types TypeScript
-│   ├── data.ts           # Fonctions de chargement de données
-│   └── utils.ts          # Fonctions utilitaires
-├── data/                  # Fichiers de données (gitignored)
-└── public/               # Fichiers statiques
+hub_data/
+├── pipelines/                 # Scripts de mise à jour des données
+│   ├── update-data.py        # Script principal de mise à jour
+│   ├── seriesbox.py          # Téléchargement depuis SerieBox
+│   ├── image_game.py         # Enrichissement images IGDB
+│   └── image_movies_series.py # Enrichissement images TMDB
+├── data/                      # Données brutes (gitignored)
+│   ├── seriebox/             # CSV téléchargés depuis SerieBox
+│   └── seriebox_cleaned/     # CSV nettoyés
+└── web/                       # Application Next.js
+    ├── app/                   # Pages Next.js (App Router)
+    │   ├── page.tsx          # Page d'aperçu
+    │   ├── games/            # Page Jeux
+    │   ├── films/            # Page Films
+    │   ├── series/           # Page Séries
+    │   ├── books/            # Page Livres
+    │   ├── rencontres/       # Page Rencontres
+    │   ├── insights/         # Page Insights
+    │   ├── voyages/          # Page Voyages
+    │   ├── sport/            # Page Sport
+    │   │   ├── page.tsx      # Liste des activités + analyse
+    │   │   └── activity/[id] # Détail d'une activité
+    │   ├── github/           # Page GitHub
+    │   ├── spotify/          # Page Spotify
+    │   └── api/              # API Routes
+    │       ├── strava/       # API Strava
+    │       │   ├── route.ts  # Liste des activités
+    │       │   └── activity/[id] # Détail d'une activité
+    │       └── ...
+    ├── components/           # Composants React réutilisables
+    ├── scripts/              # Scripts de build
+    │   └── build-data.ts     # Génération JSON avec images
+    ├── lib/                  # Utilitaires et types
+    ├── data/                 # JSON générés (gitignored)
+    │   ├── games.json
+    │   ├── films.json
+    │   └── series.json
+    └── public/               # Fichiers statiques
 ```
 
 ## 🎯 APIs Utilisées
