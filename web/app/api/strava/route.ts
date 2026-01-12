@@ -155,17 +155,19 @@ export async function GET() {
       ),
     }
 
-    // Process recent activities
-    const recentActivities = activities.map((activity: any) => ({
-      id: activity.id,
-      name: activity.name,
-      type: activity.type,
-      distance: activity.distance / 1000, // Convert to km
-      movingTime: activity.moving_time / 60, // Convert to minutes
-      totalElevationGain: activity.total_elevation_gain,
-      startDate: activity.start_date_local,
-      averageSpeed: (activity.average_speed || 0) * 3.6, // Convert m/s to km/h
-    }))
+    // Process recent activities (sorted by date, most recent first)
+    const recentActivities = activities
+      .sort((a: any, b: any) => new Date(b.start_date_local).getTime() - new Date(a.start_date_local).getTime())
+      .map((activity: any) => ({
+        id: activity.id,
+        name: activity.name,
+        type: activity.type,
+        distance: activity.distance / 1000, // Convert to km
+        movingTime: activity.moving_time / 60, // Convert to minutes
+        totalElevationGain: activity.total_elevation_gain,
+        startDate: activity.start_date_local,
+        averageSpeed: (activity.average_speed || 0) * 3.6, // Convert m/s to km/h
+      }))
 
     // Calculate yearly stats from activities
     const yearlyMap = new Map<number, { distance: number; activities: number }>()

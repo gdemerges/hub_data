@@ -45,11 +45,18 @@ interface StravaData {
   yearlyStats: { year: number; distance: number; activities: number }[]
 }
 
+const ACTIVITY_FILTERS = [
+  { key: 'all', label: 'Tout', icon: Activity },
+  { key: 'Run', label: 'Course', icon: Footprints },
+  { key: 'Ride', label: 'Vélo', icon: Bike },
+]
+
 export default function SportPage() {
   const [data, setData] = useState<StravaData | null>(null)
   const [loading, setLoading] = useState(true)
   const [isConnected, setIsConnected] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [activityFilter, setActivityFilter] = useState<string>('all')
 
   useEffect(() => {
     async function fetchData() {
@@ -219,65 +226,111 @@ export default function SportPage() {
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <StatCard
-              label="Distance (vélo + course)"
-              value={`${Math.round(data.stats.totalDistance)} km`}
-              icon={Route}
-              color="orange"
-            />
-            <StatCard
-              label="Temps total"
-              value={`${Math.round(data.stats.totalTime)}h`}
-              icon={Timer}
-              color="cyan"
-            />
-            <StatCard
-              label="Dénivelé total"
-              value={`${Math.round(data.stats.totalElevation)} m`}
-              icon={Mountain}
-              color="green"
-            />
-            <StatCard
-              label="Activités"
-              value={data.stats.totalRides + data.stats.totalRuns}
-              icon={Flame}
-              color="magenta"
-            />
+          {/* Global Filter */}
+          <div className="flex items-center justify-center gap-2 mb-8">
+            {ACTIVITY_FILTERS.map((filter) => {
+              const Icon = filter.icon
+              const isActive = activityFilter === filter.key
+              return (
+                <button
+                  key={filter.key}
+                  onClick={() => setActivityFilter(filter.key)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-sm transition-all duration-300 border ${
+                    isActive
+                      ? 'bg-neon-orange/20 border-neon-orange/50 text-neon-orange shadow-[0_0_15px_rgba(255,136,0,0.2)]'
+                      : 'bg-bg-card border-border-subtle text-text-muted hover:border-neon-orange/30 hover:text-text-primary'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span>{filter.label}</span>
+                </button>
+              )
+            })}
           </div>
 
-          {/* This Year Stats */}
-          <div className="tech-card p-6 mb-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
-                <Calendar className="w-5 h-5 text-neon-cyan" />
-              </div>
-              <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-                This_Year_Stats
-              </h3>
-            </div>
-            <div className="grid grid-cols-3 gap-6">
-              <div className="text-center">
-                <p className="text-3xl font-mono font-bold text-neon-cyan">
-                  {Math.round(data.stats.thisYearDistance)}
-                </p>
-                <p className="text-xs font-mono text-text-muted mt-1">km parcourus</p>
-              </div>
-              <div className="text-center">
-                <p className="text-3xl font-mono font-bold text-neon-magenta">
-                  {Math.round(data.stats.thisYearTime)}
-                </p>
-                <p className="text-xs font-mono text-text-muted mt-1">heures d'activité</p>
-              </div>
-              <div className="text-center">
-                <p className="text-3xl font-mono font-bold text-neon-green">
-                  {data.stats.thisYearActivities}
-                </p>
-                <p className="text-xs font-mono text-text-muted mt-1">activités</p>
-              </div>
-            </div>
-          </div>
+          {/* Stats - calculated from filtered activities */}
+          {(() => {
+            const filteredActivities = data.recentActivities.filter(
+              (a) => activityFilter === 'all' || a.type === activityFilter
+            )
+            const totalDistance = filteredActivities.reduce((sum, a) => sum + a.distance, 0)
+            const totalTime = filteredActivities.reduce((sum, a) => sum + a.movingTime, 0) / 60 // hours
+            const totalElevation = filteredActivities.reduce((sum, a) => sum + a.totalElevationGain, 0)
+            const totalActivities = filteredActivities.length
+
+            const currentYear = new Date().getFullYear()
+            const thisYearActivities = filteredActivities.filter(
+              (a) => new Date(a.startDate).getFullYear() === currentYear
+            )
+            const thisYearDistance = thisYearActivities.reduce((sum, a) => sum + a.distance, 0)
+            const thisYearTime = thisYearActivities.reduce((sum, a) => sum + a.movingTime, 0) / 60
+            const thisYearCount = thisYearActivities.length
+
+            const filterLabel = activityFilter === 'all' ? 'Total' : activityFilter === 'Run' ? 'Course' : 'Vélo'
+
+            return (
+              <>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                  <StatCard
+                    label={`Distance (${filterLabel})`}
+                    value={`${Math.round(totalDistance)} km`}
+                    icon={Route}
+                    color="orange"
+                  />
+                  <StatCard
+                    label="Temps total"
+                    value={`${Math.round(totalTime)}h`}
+                    icon={Timer}
+                    color="cyan"
+                  />
+                  <StatCard
+                    label="Dénivelé total"
+                    value={`${Math.round(totalElevation)} m`}
+                    icon={Mountain}
+                    color="green"
+                  />
+                  <StatCard
+                    label="Activités"
+                    value={totalActivities}
+                    icon={Flame}
+                    color="magenta"
+                  />
+                </div>
+
+                {/* This Year Stats */}
+                <div className="tech-card p-6 mb-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
+                      <Calendar className="w-5 h-5 text-neon-cyan" />
+                    </div>
+                    <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+                      This_Year_Stats ({filterLabel})
+                    </h3>
+                  </div>
+                  <div className="grid grid-cols-3 gap-6">
+                    <div className="text-center">
+                      <p className="text-3xl font-mono font-bold text-neon-cyan">
+                        {Math.round(thisYearDistance)}
+                      </p>
+                      <p className="text-xs font-mono text-text-muted mt-1">km parcourus</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-3xl font-mono font-bold text-neon-magenta">
+                        {Math.round(thisYearTime)}
+                      </p>
+                      <p className="text-xs font-mono text-text-muted mt-1">heures d'activité</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-3xl font-mono font-bold text-neon-green">
+                        {thisYearCount}
+                      </p>
+                      <p className="text-xs font-mono text-text-muted mt-1">activités</p>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )
+          })()}
 
           {/* Recent Activities */}
           <div className="tech-card p-6 mb-8">
@@ -290,10 +343,14 @@ export default function SportPage() {
               </h3>
             </div>
             <div className="space-y-3">
-              {data.recentActivities.slice(0, 8).map((activity) => (
-                <div
+              {data.recentActivities
+                .filter((activity) => activityFilter === 'all' || activity.type === activityFilter)
+                .slice(0, 10)
+                .map((activity) => (
+                <a
                   key={activity.id}
-                  className="group flex items-center gap-4 p-4 bg-bg-primary border border-border-subtle rounded-lg hover:border-neon-magenta/50 transition-all duration-300"
+                  href={`/sport/activity/${activity.id}`}
+                  className="group flex items-center gap-4 p-4 bg-bg-primary border border-border-subtle rounded-lg hover:border-neon-magenta/50 hover:bg-neon-magenta/5 transition-all duration-300 cursor-pointer"
                 >
                   <div className="w-10 h-10 rounded-lg bg-neon-magenta/10 border border-neon-magenta/30 flex items-center justify-center text-neon-magenta">
                     {getActivityIcon(activity.type)}
@@ -322,46 +379,67 @@ export default function SportPage() {
                       </div>
                     )}
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
 
           {/* Yearly Evolution */}
-          {data.yearlyStats.length > 0 && (
-            <div className="tech-card p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-neon-green/10 border border-neon-green/30 rounded">
-                  <TrendingUp className="w-5 h-5 text-neon-green" />
+          {(() => {
+            const filteredActivities = data.recentActivities.filter(
+              (a) => activityFilter === 'all' || a.type === activityFilter
+            )
+
+            // Calculate yearly stats from filtered activities
+            const yearlyMap = new Map<number, number>()
+            for (const activity of filteredActivities) {
+              const year = new Date(activity.startDate).getFullYear()
+              yearlyMap.set(year, (yearlyMap.get(year) || 0) + activity.distance)
+            }
+
+            const yearlyStats = Array.from(yearlyMap.entries())
+              .map(([year, distance]) => ({ year, distance }))
+              .sort((a, b) => a.year - b.year)
+
+            const filterLabel = activityFilter === 'all' ? 'Total' : activityFilter === 'Run' ? 'Course' : 'Vélo'
+
+            if (yearlyStats.length === 0) return null
+
+            return (
+              <div className="tech-card p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2 bg-neon-green/10 border border-neon-green/30 rounded">
+                    <TrendingUp className="w-5 h-5 text-neon-green" />
+                  </div>
+                  <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+                    Yearly_Distance ({filterLabel})
+                  </h3>
                 </div>
-                <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-                  Yearly_Running_Distance
-                </h3>
-              </div>
-              <div className="flex items-end justify-center gap-8 h-48">
-                {data.yearlyStats.map((year) => {
-                  const maxDistance = Math.max(...data.yearlyStats.map(y => y.distance))
-                  const height = maxDistance > 0 ? (year.distance / maxDistance) * 100 : 0
-                  return (
-                    <div key={year.year} className="flex flex-col items-center gap-2 w-24">
-                      <span className="text-sm font-mono font-bold text-neon-orange">
-                        {Math.round(year.distance)} km
-                      </span>
-                      <div className="w-full h-32 flex items-end">
-                        <div
-                          className="w-full bg-gradient-to-t from-neon-orange/50 to-neon-orange rounded-t transition-all hover:from-neon-orange/70 hover:to-neon-orange"
-                          style={{ height: `${height}%`, minHeight: year.distance > 0 ? '8px' : '0' }}
-                        />
+                <div className="flex items-end justify-center gap-8 h-48">
+                  {yearlyStats.map((year) => {
+                    const maxDistance = Math.max(...yearlyStats.map(y => y.distance))
+                    const height = maxDistance > 0 ? (year.distance / maxDistance) * 100 : 0
+                    return (
+                      <div key={year.year} className="flex flex-col items-center gap-2 w-24">
+                        <span className="text-sm font-mono font-bold text-neon-orange">
+                          {Math.round(year.distance)} km
+                        </span>
+                        <div className="w-full h-32 flex items-end">
+                          <div
+                            className="w-full bg-gradient-to-t from-neon-orange/50 to-neon-orange rounded-t transition-all hover:from-neon-orange/70 hover:to-neon-orange"
+                            style={{ height: `${height}%`, minHeight: year.distance > 0 ? '8px' : '0' }}
+                          />
+                        </div>
+                        <span className="text-sm font-mono font-semibold text-text-primary">
+                          {year.year}
+                        </span>
                       </div>
-                      <span className="text-sm font-mono font-semibold text-text-primary">
-                        {year.year}
-                      </span>
-                    </div>
-                  )
-                })}
+                    )
+                  })}
+                </div>
               </div>
-            </div>
-          )}
+            )
+          })()}
         </>
       )}
 
