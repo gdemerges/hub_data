@@ -73,66 +73,73 @@ const navItems = [
 export function Navigation() {
   const pathname = usePathname()
 
+  const NavLink = ({ item }: { item: typeof navItems[0] }) => {
+    const isActive = pathname === item.href
+    const Icon = item.icon
+    const colors = colorClasses[item.color]
+    return (
+      <Link
+        href={item.href}
+        className={cn(
+          'relative flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-mono font-medium transition-all duration-300 border',
+          isActive
+            ? `${colors.active} border-current shadow-[0_0_15px_rgba(0,255,255,0.15)]`
+            : `text-text-secondary ${colors.hover} border-transparent hover:border-current/30`
+        )}
+      >
+        <Icon className={cn(
+          'w-4 h-4 transition-all',
+          isActive && 'drop-shadow-[0_0_8px_currentColor]'
+        )} />
+        <span className="uppercase tracking-wider text-xs whitespace-nowrap">
+          {item.label}
+        </span>
+      </Link>
+    )
+  }
+
   return (
-    <header className="sticky top-0 z-50 bg-bg-primary/90 backdrop-blur-xl border-b border-neon-cyan/20">
+    <header className="sticky top-0 z-50 bg-bg-primary/95 backdrop-blur-xl border-b border-neon-cyan/20">
       {/* Scan line effect */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-neon-cyan/5 to-transparent opacity-50" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-4 relative">
-        <div className="flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 py-3 relative">
+        {/* Top row: Logo + first line of nav */}
+        <div className="flex items-center justify-between gap-8">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="/" className="flex items-center gap-3 group shrink-0">
             <div className="relative">
-              <Terminal className="w-8 h-8 text-neon-cyan group-hover:animate-glitch" />
+              <Terminal className="w-7 h-7 text-neon-cyan group-hover:animate-glitch" />
               <div className="absolute inset-0 text-neon-magenta opacity-0 group-hover:opacity-50 blur-sm">
-                <Terminal className="w-8 h-8" />
+                <Terminal className="w-7 h-7" />
               </div>
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-display font-bold tracking-wider text-neon-cyan neon-text-subtle">
+              <span className="text-lg font-display font-bold tracking-wider text-neon-cyan neon-text-subtle">
                 HUB_LIFE
               </span>
-              <span className="text-[10px] font-mono text-neon-green/70 tracking-widest">
+              <span className="text-[9px] font-mono text-neon-green/70 tracking-widest">
                 v2.0.0 // ONLINE
               </span>
             </div>
           </Link>
 
-          {/* Nav */}
-          <nav className="flex items-center gap-1">
-            {navItems.map((item) => {
-              const isActive = pathname === item.href
-              const Icon = item.icon
-              const colors = colorClasses[item.color]
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    'relative flex items-center gap-2 px-4 py-2 rounded text-sm font-mono font-medium transition-all duration-300',
-                    isActive
-                      ? `${colors.active} neon-border`
-                      : `text-text-secondary ${colors.hover}`
-                  )}
-                >
-                  <Icon className={cn(
-                    'w-4 h-4 transition-all',
-                    isActive && 'drop-shadow-[0_0_8px_currentColor]'
-                  )} />
-                  <span className="hidden sm:inline uppercase tracking-wider text-xs">
-                    {item.label}
-                  </span>
-                  {isActive && (
-                    <span className={cn(
-                      'absolute -bottom-px left-1/2 -translate-x-1/2 w-8 h-0.5',
-                      colors.shadow
-                    )} />
-                  )}
-                </Link>
-              )
-            })}
+          {/* Nav - 2 rows */}
+          <nav className="flex flex-col gap-1.5 flex-1">
+            {/* First row */}
+            <div className="flex items-center justify-end gap-1">
+              {navItems.slice(0, 6).map((item) => (
+                <NavLink key={item.href} item={item} />
+              ))}
+            </div>
+            {/* Second row */}
+            <div className="flex items-center justify-end gap-1">
+              {navItems.slice(6).map((item) => (
+                <NavLink key={item.href} item={item} />
+              ))}
+            </div>
           </nav>
         </div>
       </div>

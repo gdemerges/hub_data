@@ -95,12 +95,29 @@ export async function GET() {
     const statsResponse = await fetch(`${STRAVA_API}/athletes/${athlete.id}/stats`, { headers })
     const statsData = statsResponse.ok ? await statsResponse.json() : null
 
-    // Fetch recent activities
-    const activitiesResponse = await fetch(
-      `${STRAVA_API}/athlete/activities?per_page=30`,
-      { headers }
-    )
-    const activities = activitiesResponse.ok ? await activitiesResponse.json() : []
+    // Fetch all activities since January 1st 2025 (with pagination)
+    const jan2025 = Math.floor(new Date('2025-01-01').getTime() / 1000)
+    const activities: any[] = []
+    let page = 1
+    let hasMore = true
+
+    while (hasMore && page <= 10) { // Max 10 pages (2000 activities)
+      const activitiesResponse = await fetch(
+        `${STRAVA_API}/athlete/activities?per_page=200&after=${jan2025}&page=${page}`,
+        { headers }
+      )
+      if (activitiesResponse.ok) {
+        const pageActivities = await activitiesResponse.json()
+        if (pageActivities.length > 0) {
+          activities.push(...pageActivities)
+          page++
+        } else {
+          hasMore = false
+        }
+      } else {
+        hasMore = false
+      }
+    }
 
     // Process stats
     const stats = {
@@ -154,13 +171,14 @@ export async function GET() {
     const yearlyMap = new Map<number, { distance: number; activities: number }>()
     const currentYear = new Date().getFullYear()
 
-    // Initialize last 5 years
-    for (let year = currentYear - 4; year <= currentYear; year++) {
+    // Initialize years from 2025 onwards
+    for (let year = 2025; year <= currentYear; year++) {
       yearlyMap.set(year, { distance: 0, activities: 0 })
     }
 
-    // Add activity data (limited by what we fetched)
+    // Add activity data (only running activities)
     for (const activity of activities) {
+      if (activity.type !== 'Run') continue // Only count running
       const year = new Date(activity.start_date_local).getFullYear()
       const existing = yearlyMap.get(year)
       if (existing) {
@@ -169,12 +187,12 @@ export async function GET() {
       }
     }
 
-    // Use stats data for more accurate yearly totals
+    // Use stats data for more accurate yearly totals (running only)
     if (statsData) {
       const currentYearData = yearlyMap.get(currentYear)
       if (currentYearData) {
-        currentYearData.distance = stats.thisYearDistance
-        currentYearData.activities = stats.thisYearActivities
+        currentYearData.distance = (statsData.ytd_run_totals?.distance || 0) / 1000
+        currentYearData.activities = statsData.ytd_run_totals?.count || 0
       }
     }
 

@@ -335,22 +335,26 @@ export default function SportPage() {
                   <TrendingUp className="w-5 h-5 text-neon-green" />
                 </div>
                 <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-                  Yearly_Distance
+                  Yearly_Running_Distance
                 </h3>
               </div>
-              <div className="flex items-end gap-2 h-40">
+              <div className="flex items-end justify-center gap-8 h-48">
                 {data.yearlyStats.map((year) => {
                   const maxDistance = Math.max(...data.yearlyStats.map(y => y.distance))
-                  const height = (year.distance / maxDistance) * 100
+                  const height = maxDistance > 0 ? (year.distance / maxDistance) * 100 : 0
                   return (
-                    <div key={year.year} className="flex-1 flex flex-col items-center gap-2">
-                      <div
-                        className="w-full bg-gradient-to-t from-neon-orange/50 to-neon-orange rounded-t transition-all hover:from-neon-orange/70 hover:to-neon-orange"
-                        style={{ height: `${height}%`, minHeight: year.distance > 0 ? '4px' : '0' }}
-                        title={`${Math.round(year.distance)} km`}
-                      />
-                      <span className="text-xs font-mono text-text-muted">
-                        {year.year.toString().slice(-2)}
+                    <div key={year.year} className="flex flex-col items-center gap-2 w-24">
+                      <span className="text-sm font-mono font-bold text-neon-orange">
+                        {Math.round(year.distance)} km
+                      </span>
+                      <div className="w-full h-32 flex items-end">
+                        <div
+                          className="w-full bg-gradient-to-t from-neon-orange/50 to-neon-orange rounded-t transition-all hover:from-neon-orange/70 hover:to-neon-orange"
+                          style={{ height: `${height}%`, minHeight: year.distance > 0 ? '8px' : '0' }}
+                        />
+                      </div>
+                      <span className="text-sm font-mono font-semibold text-text-primary">
+                        {year.year}
                       </span>
                     </div>
                   )
