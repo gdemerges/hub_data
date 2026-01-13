@@ -194,7 +194,16 @@ python pipelines/image_game.py
 
 # Images des films et séries (TMDB)
 python pipelines/image_movies_series.py
+
+# Couvertures des livres (Open Library + Google Books)
+python pipelines/image_books.py
 ```
+
+Le script `image_books.py` :
+- Recherche les couvertures via ISBN sur Open Library
+- Fallback sur Google Books si non trouvé
+- Recherche par titre/auteur si pas d'ISBN
+- Cache les résultats dans `data/books-covers-cache.json`
 
 ### Variables d'environnement requises
 

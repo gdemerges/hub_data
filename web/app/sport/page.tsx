@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { Terminal, Activity, Timer, Route, Flame, TrendingUp, Calendar, Award, Mountain, Bike, Footprints, AlertTriangle, Target, Zap, CheckCircle, TrendingDown } from 'lucide-react'
+import { Terminal, Activity, Timer, Route, Flame, TrendingUp, Calendar, Award, Mountain, Bike, Footprints, AlertTriangle, Target, Zap, CheckCircle, TrendingDown, Disc } from 'lucide-react'
 import { StatCard } from '@/components'
 
 interface StravaAthlete {
@@ -49,7 +49,16 @@ const ACTIVITY_FILTERS = [
   { key: 'all', label: 'Tout', icon: Activity },
   { key: 'Run', label: 'Course', icon: Footprints },
   { key: 'Ride', label: 'Vélo', icon: Bike },
+  { key: 'RPM', label: 'RPM', icon: Disc },
 ]
+
+// Helper function to filter activities
+function filterActivity(activity: { type: string; name: string }, filter: string): boolean {
+  if (filter === 'all') return true
+  if (filter === 'RPM') return activity.name.toUpperCase().includes('RPM')
+  if (filter === 'Ride') return activity.type === 'Ride' && !activity.name.toUpperCase().includes('RPM')
+  return activity.type === filter
+}
 
 export default function SportPage() {
   const [data, setData] = useState<StravaData | null>(null)
@@ -251,7 +260,7 @@ export default function SportPage() {
           {/* Stats - calculated from filtered activities */}
           {(() => {
             const filteredActivities = data.recentActivities.filter(
-              (a) => activityFilter === 'all' || a.type === activityFilter
+              (a) => filterActivity(a, activityFilter)
             )
             const totalDistance = filteredActivities.reduce((sum, a) => sum + a.distance, 0)
             const totalTime = filteredActivities.reduce((sum, a) => sum + a.movingTime, 0) / 60 // hours
@@ -266,7 +275,7 @@ export default function SportPage() {
             const thisYearTime = thisYearActivities.reduce((sum, a) => sum + a.movingTime, 0) / 60
             const thisYearCount = thisYearActivities.length
 
-            const filterLabel = activityFilter === 'all' ? 'Total' : activityFilter === 'Run' ? 'Course' : 'Vélo'
+            const filterLabel = activityFilter === 'all' ? 'Total' : activityFilter === 'Run' ? 'Course' : activityFilter === 'RPM' ? 'RPM' : 'Vélo'
 
             return (
               <>
@@ -576,7 +585,7 @@ export default function SportPage() {
             </div>
             <div className="space-y-3">
               {data.recentActivities
-                .filter((activity) => activityFilter === 'all' || activity.type === activityFilter)
+                .filter((activity) => filterActivity(activity, activityFilter))
                 .slice(0, 10)
                 .map((activity) => (
                 <a
@@ -619,7 +628,7 @@ export default function SportPage() {
           {/* Yearly Evolution */}
           {(() => {
             const filteredActivities = data.recentActivities.filter(
-              (a) => activityFilter === 'all' || a.type === activityFilter
+              (a) => filterActivity(a, activityFilter)
             )
 
             // Calculate yearly stats from filtered activities
@@ -633,7 +642,7 @@ export default function SportPage() {
               .map(([year, distance]) => ({ year, distance }))
               .sort((a, b) => a.year - b.year)
 
-            const filterLabel = activityFilter === 'all' ? 'Total' : activityFilter === 'Run' ? 'Course' : 'Vélo'
+            const filterLabel = activityFilter === 'all' ? 'Total' : activityFilter === 'Run' ? 'Course' : activityFilter === 'RPM' ? 'RPM' : 'Vélo'
 
             if (yearlyStats.length === 0) return null
 

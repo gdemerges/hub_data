@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { Terminal, BookOpen, Star, Calendar, User, Hash } from 'lucide-react'
 import { StatCard } from '@/components'
 import { Book } from '@/lib/types'
@@ -116,45 +117,47 @@ export default function BooksPage() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
           {topBooks.map((book) => (
             <div
               key={book.id}
-              className="group tech-card p-4 hover:border-neon-yellow/60 transition-all duration-300"
+              className="group tech-card p-3 hover:border-neon-yellow/60 transition-all duration-300"
             >
               <div className="flex flex-col h-full">
-                <div className="flex-1">
-                  <h3 className="font-medium text-text-primary group-hover:text-neon-yellow transition-colors mb-2 line-clamp-2">
-                    {book.title}
-                  </h3>
-                  {book.author && (
-                    <div className="flex items-center gap-2 text-xs text-text-muted mb-2">
-                      <User className="w-3 h-3" />
-                      <span className="font-mono truncate">{book.author}</span>
+                {/* Cover */}
+                <div className="relative aspect-[2/3] mb-3 rounded-lg overflow-hidden bg-bg-primary border border-border-subtle">
+                  {book.coverUrl ? (
+                    <img
+                      src={book.coverUrl}
+                      alt={book.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <BookOpen className="w-12 h-12 text-text-muted/30" />
                     </div>
                   )}
-                  {book.year && (
-                    <div className="flex items-center gap-2 text-xs text-text-muted mb-2">
-                      <Calendar className="w-3 h-3" />
-                      <span className="font-mono">{book.year}</span>
-                    </div>
-                  )}
-                  {book.pages && (
-                    <div className="flex items-center gap-2 text-xs text-text-muted mb-2">
-                      <Hash className="w-3 h-3" />
-                      <span className="font-mono">{book.pages} pages</span>
+                  {book.rating && (
+                    <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-bg-primary/90 rounded-full border border-neon-yellow/30">
+                      <Star className="w-3 h-3 text-neon-yellow fill-neon-yellow" />
+                      <span className="text-xs font-mono font-bold text-neon-yellow">
+                        {book.rating}
+                      </span>
                     </div>
                   )}
                 </div>
 
-                {book.rating && (
-                  <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border-subtle">
-                    <Star className="w-4 h-4 text-neon-yellow fill-neon-yellow" />
-                    <span className="text-sm font-mono font-bold text-neon-yellow">
-                      {book.rating}/10
-                    </span>
-                  </div>
-                )}
+                {/* Info */}
+                <div className="flex-1 min-h-0">
+                  <h3 className="font-medium text-sm text-text-primary group-hover:text-neon-yellow transition-colors mb-1 line-clamp-2">
+                    {book.title}
+                  </h3>
+                  {book.author && (
+                    <p className="text-xs text-text-muted font-mono truncate">
+                      {book.author}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           ))}
@@ -178,10 +181,19 @@ export default function BooksPage() {
               key={book.id}
               className="group flex items-center gap-4 p-3 bg-bg-primary border border-border-subtle rounded-lg hover:border-neon-cyan/50 transition-all duration-300"
             >
-              <div className="w-8 text-center">
-                <span className="text-xs font-mono text-text-muted">
-                  {index + 1}
-                </span>
+              {/* Mini cover */}
+              <div className="w-10 h-14 rounded overflow-hidden bg-bg-card border border-border-subtle shrink-0">
+                {book.coverUrl ? (
+                  <img
+                    src={book.coverUrl}
+                    alt={book.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <BookOpen className="w-4 h-4 text-text-muted/30" />
+                  </div>
+                )}
               </div>
 
               <div className="flex-1 min-w-0">
@@ -190,7 +202,7 @@ export default function BooksPage() {
                 </h3>
                 <div className="flex items-center gap-3 mt-1">
                   {book.author && (
-                    <span className="text-xs text-text-muted font-mono">
+                    <span className="text-xs text-text-muted font-mono truncate max-w-[200px]">
                       {book.author}
                     </span>
                   )}
@@ -200,13 +212,8 @@ export default function BooksPage() {
                     </span>
                   )}
                   {book.genre1 && (
-                    <span className="text-xs text-text-muted font-mono">
+                    <span className="text-xs text-text-muted font-mono hidden sm:inline">
                       {book.genre1}
-                    </span>
-                  )}
-                  {book.genre2 && (
-                    <span className="text-xs text-text-muted font-mono">
-                      {book.genre2}
                     </span>
                   )}
                 </div>
@@ -214,7 +221,7 @@ export default function BooksPage() {
 
               <div className="flex items-center gap-4">
                 {book.pages && (
-                  <span className="text-xs font-mono text-text-muted">
+                  <span className="text-xs font-mono text-text-muted hidden sm:inline">
                     {book.pages}p
                   </span>
                 )}

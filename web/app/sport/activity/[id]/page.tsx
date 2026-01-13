@@ -363,29 +363,42 @@ export default function ActivityPage() {
               Profil_Altitude
             </h3>
           </div>
-          <div className="h-32 flex items-end gap-px">
-            {(() => {
-              const altitudes = streams.altitude
-              const minAlt = Math.min(...altitudes)
-              const maxAlt = Math.max(...altitudes)
-              const range = maxAlt - minAlt || 1
-              const step = Math.max(1, Math.floor(altitudes.length / 100))
-              const sampled = altitudes.filter((_, i) => i % step === 0)
+          <div className="flex gap-3">
+            {/* Y-axis labels */}
+            <div className="flex flex-col justify-between h-32 text-xs font-mono text-text-muted py-1">
+              <span className="text-neon-green">{Math.round(Math.max(...streams.altitude))}m</span>
+              <span>{Math.round((Math.max(...streams.altitude) + Math.min(...streams.altitude)) / 2)}m</span>
+              <span>{Math.round(Math.min(...streams.altitude))}m</span>
+            </div>
+            {/* Chart */}
+            <div className="flex-1 h-32 flex items-end gap-px">
+              {(() => {
+                const altitudes = streams.altitude
+                const minAlt = Math.min(...altitudes)
+                const maxAlt = Math.max(...altitudes)
+                const range = maxAlt - minAlt || 1
+                const step = Math.max(1, Math.floor(altitudes.length / 100))
+                const sampled = altitudes.filter((_, i) => i % step === 0)
 
-              return sampled.map((alt, i) => {
-                const height = ((alt - minAlt) / range) * 100
-                return (
-                  <div
-                    key={i}
-                    className="flex-1 bg-gradient-to-t from-neon-green/30 to-neon-green/70 rounded-t"
-                    style={{ height: `${Math.max(5, height)}%` }}
-                    title={`${Math.round(alt)}m`}
-                  />
-                )
-              })
-            })()}
+                return sampled.map((alt, i) => {
+                  const height = ((alt - minAlt) / range) * 100
+                  return (
+                    <div
+                      key={i}
+                      className="group relative flex-1 bg-gradient-to-t from-neon-green/30 to-neon-green/70 rounded-t transition-all duration-150 hover:from-neon-green/50 hover:to-neon-green hover:scale-x-150 hover:z-10 cursor-crosshair"
+                      style={{ height: `${Math.max(5, height)}%` }}
+                    >
+                      {/* Tooltip on hover */}
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-bg-card border border-neon-green/50 rounded text-xs font-mono text-neon-green whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg">
+                        {Math.round(alt)}m
+                      </div>
+                    </div>
+                  )
+                })
+              })()}
+            </div>
           </div>
-          <div className="flex justify-between mt-2 text-xs font-mono text-text-muted">
+          <div className="flex justify-between mt-2 ml-12 text-xs font-mono text-text-muted">
             <span>0 km</span>
             <span>{activity.distance.toFixed(1)} km</span>
           </div>
@@ -403,31 +416,44 @@ export default function ActivityPage() {
               Fréquence_Cardiaque
             </h3>
           </div>
-          <div className="h-32 flex items-end gap-px">
-            {(() => {
-              const hrs = streams.heartrate
-              const minHr = Math.min(...hrs)
-              const maxHr = Math.max(...hrs)
-              const range = maxHr - minHr || 1
-              const step = Math.max(1, Math.floor(hrs.length / 100))
-              const sampled = hrs.filter((_, i) => i % step === 0)
+          <div className="flex gap-3">
+            {/* Y-axis labels */}
+            <div className="flex flex-col justify-between h-32 text-xs font-mono text-text-muted py-1">
+              <span className="text-neon-red">{Math.round(Math.max(...streams.heartrate))}</span>
+              <span>{Math.round((Math.max(...streams.heartrate) + Math.min(...streams.heartrate)) / 2)}</span>
+              <span>{Math.round(Math.min(...streams.heartrate))}</span>
+            </div>
+            {/* Chart */}
+            <div className="flex-1 h-32 flex items-end gap-px">
+              {(() => {
+                const hrs = streams.heartrate
+                const minHr = Math.min(...hrs)
+                const maxHr = Math.max(...hrs)
+                const range = maxHr - minHr || 1
+                const step = Math.max(1, Math.floor(hrs.length / 100))
+                const sampled = hrs.filter((_, i) => i % step === 0)
 
-              return sampled.map((hr, i) => {
-                const height = ((hr - minHr) / range) * 100
-                return (
-                  <div
-                    key={i}
-                    className="flex-1 bg-gradient-to-t from-neon-red/30 to-neon-red/70 rounded-t"
-                    style={{ height: `${Math.max(5, height)}%` }}
-                    title={`${Math.round(hr)} bpm`}
-                  />
-                )
-              })
-            })()}
+                return sampled.map((hr, i) => {
+                  const height = ((hr - minHr) / range) * 100
+                  return (
+                    <div
+                      key={i}
+                      className="group relative flex-1 bg-gradient-to-t from-neon-red/30 to-neon-red/70 rounded-t transition-all duration-150 hover:from-neon-red/50 hover:to-neon-red hover:scale-x-150 hover:z-10 cursor-crosshair"
+                      style={{ height: `${Math.max(5, height)}%` }}
+                    >
+                      {/* Tooltip on hover */}
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-bg-card border border-neon-red/50 rounded text-xs font-mono text-neon-red whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg">
+                        {Math.round(hr)} bpm
+                      </div>
+                    </div>
+                  )
+                })
+              })()}
+            </div>
           </div>
-          <div className="flex justify-between mt-2 text-xs font-mono text-text-muted">
-            <span>{Math.round(Math.min(...streams.heartrate))} bpm</span>
-            <span>{Math.round(Math.max(...streams.heartrate))} bpm</span>
+          <div className="flex justify-between mt-2 ml-8 text-xs font-mono text-text-muted">
+            <span>Début</span>
+            <span>Fin</span>
           </div>
         </div>
       )}

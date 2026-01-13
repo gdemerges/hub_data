@@ -1,5 +1,6 @@
 .DS_Store
 .claude/
+data/
 
 # Données JSON générées (reconstruites via npm run build:data)
 web/data/
