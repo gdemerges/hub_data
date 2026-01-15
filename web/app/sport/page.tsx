@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { Terminal, Activity, Timer, Route, Flame, TrendingUp, Calendar, Award, Mountain, Bike, Footprints, AlertTriangle, Target, Zap, CheckCircle, TrendingDown, Disc } from 'lucide-react'
-import { StatCard, FitnessChart, RacePredictor, RecoveryAdvisor, HeartRateZones } from '@/components'
-import { calculateFitnessMetrics, predictRaceTimes, analyzeRecovery, calculateTimeToTarget, calculateLTHR } from '@/lib/fitness-calculator'
+import { Terminal, Activity, Timer, Route, Flame, TrendingUp, Calendar, Award, Mountain, Bike, Footprints, AlertTriangle, Target, Zap, CheckCircle, TrendingDown, Disc, Shield, Heart, BarChart3 } from 'lucide-react'
+import { StatCard, FitnessChart, RacePredictor, RecoveryAdvisor, HeartRateZones, PerformanceFactors, ExpandableSection } from '@/components'
+import { calculateFitnessMetrics, predictRaceTimes, analyzeRecovery, calculateTimeToTarget, calculateLTHR, analyzePerformanceFactors } from '@/lib/fitness-calculator'
 
 interface StravaAthlete {
   id: number
@@ -365,7 +365,7 @@ export default function SportPage() {
             )
           })()}
 
-          {/* Training Analysis - Only for running */}
+          {/* Training Analysis - Section repliable pour Course */}
           {activityFilter === 'Run' && (() => {
             const runs = data.recentActivities.filter((a) => a.type === 'Run')
 
@@ -476,17 +476,15 @@ export default function SportPage() {
               ? Math.floor((Date.now() - new Date(lastRun.startDate).getTime()) / (1000 * 60 * 60 * 24))
               : null
 
-            return (
-              <div className="tech-card p-6 mb-8 border-neon-cyan/30">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
-                    <Target className="w-5 h-5 text-neon-cyan" />
-                  </div>
-                  <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-                    Training_Analysis
-                  </h3>
-                </div>
+            const alertMessage = alerts.length > 0 ? alerts[0].message : 'Analyse hebdomadaire disponible'
 
+            return (
+              <ExpandableSection
+                title="Training_Analysis"
+                subtitle={alertMessage}
+                icon={<Target className="w-5 h-5 text-neon-cyan" />}
+                defaultExpanded={false}
+              >
                 {/* Alerts */}
                 {alerts.length > 0 && (
                   <div className="space-y-2 mb-6">
@@ -593,7 +591,7 @@ export default function SportPage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </ExpandableSection>
             )
           })()}
 
@@ -711,8 +709,8 @@ export default function SportPage() {
           })()}
 
           {/* AI/ML Features Section */}
-          <div className="mb-6 border-t-2 border-neon-cyan/20 pt-6">
-            <div className="flex items-center gap-3 mb-6">
+          <div className="mb-8 border-t-2 border-neon-cyan/20 pt-8">
+            <div className="flex items-center gap-3 mb-8">
               <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
                 <Zap className="w-6 h-6 text-neon-cyan" />
               </div>
@@ -721,71 +719,34 @@ export default function SportPage() {
                   <span className="text-neon-cyan">AI</span>_PERFORMANCE_ANALYSIS
                 </h2>
                 <p className="text-xs font-mono text-neon-cyan/70">
-                  Analyse avancée avec Machine Learning
+                  Analyses avancées avec Machine Learning
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Recovery Advisor - Only for Run filter */}
-          {activityFilter === 'Run' && (() => {
-            try {
-              const runs = data.recentActivities.filter((a) => a.type === 'Run')
-              if (runs.length === 0) return null
-              const recoveryAdvice = analyzeRecovery(runs)
-              return (
-                <div className="mb-8">
-                  <RecoveryAdvisor advice={recoveryAdvice} />
-                </div>
-              )
-            } catch (error) {
-              console.error('Recovery Advisor error:', error)
-              return null
-            }
-          })()}
+          {/* Recovery Advisor - Visible par défaut (info importante) */}
+          <div className="mb-6">
+            {activityFilter === 'Run' && (() => {
+              try {
+                const runs = data.recentActivities.filter((a) => a.type === 'Run')
+                if (runs.length === 0) return null
+                const recoveryAdvice = analyzeRecovery(runs)
+                return <RecoveryAdvisor advice={recoveryAdvice} />
+              } catch (error) {
+                console.error('Recovery Advisor error:', error)
+                return null
+              }
+            })()}
+          </div>
 
-          {/* Heart Rate Zones - Only for Run filter */}
-          {activityFilter === 'Run' && (() => {
-            try {
-              const runs = data.recentActivities.filter((a) => a.type === 'Run')
-              if (runs.length === 0) return null
-              const lthr = calculateLTHR(runs)
-              return (
-                <div className="mb-8">
-                  <HeartRateZones activities={runs} lthr={lthr} />
-                </div>
-              )
-            } catch (error) {
-              console.error('Heart Rate Zones error:', error)
-              return null
-            }
-          })()}
-
-          {/* Fitness Metrics (CTL/ATL/TSB) */}
-          {(() => {
-            try {
-              const allActivities = data.recentActivities
-              if (!allActivities || allActivities.length === 0) return null
-              const fitnessMetrics = calculateFitnessMetrics(allActivities)
-              return (
-                <div className="mb-8">
-                  <FitnessChart data={fitnessMetrics} />
-                </div>
-              )
-            } catch (error) {
-              console.error('Fitness Metrics error:', error)
-              return null
-            }
-          })()}
-
-          {/* Race Predictor - Only for Run filter */}
+          {/* Race Predictor - Section repliable */}
           {activityFilter === 'Run' && (() => {
             try {
               const runs = data.recentActivities.filter((a) => a.type === 'Run')
               if (runs.length === 0) return null
               let predictions = predictRaceTimes(runs)
 
-              // Add timeToTarget for predictions with goals
               predictions = predictions.map(pred => {
                 try {
                   const goal = typeof window !== 'undefined'
@@ -805,9 +766,85 @@ export default function SportPage() {
                 return pred
               })
 
-              return <RacePredictor predictions={predictions} />
+              return (
+                <ExpandableSection
+                  title="Race_Predictor"
+                  subtitle="Prédictions de temps de course avec objectifs"
+                  icon={<Award className="w-5 h-5 text-neon-cyan" />}
+                  defaultExpanded={false}
+                >
+                  <RacePredictor predictions={predictions} />
+                </ExpandableSection>
+              )
             } catch (error) {
               console.error('Race Predictor error:', error)
+              return null
+            }
+          })()}
+
+          {/* Fitness Metrics - Section repliable */}
+          {(() => {
+            try {
+              const allActivities = data.recentActivities
+              if (!allActivities || allActivities.length === 0) return null
+              const fitnessMetrics = calculateFitnessMetrics(allActivities)
+              return (
+                <ExpandableSection
+                  title="Fitness_Metrics // CTL/ATL/TSB"
+                  subtitle="Analyse de ta forme physique et fatigue"
+                  icon={<TrendingUp className="w-5 h-5 text-neon-cyan" />}
+                  defaultExpanded={false}
+                >
+                  <FitnessChart data={fitnessMetrics} />
+                </ExpandableSection>
+              )
+            } catch (error) {
+              console.error('Fitness Metrics error:', error)
+              return null
+            }
+          })()}
+
+          {/* Heart Rate Zones - Section repliable */}
+          {activityFilter === 'Run' && (() => {
+            try {
+              const runs = data.recentActivities.filter((a) => a.type === 'Run')
+              if (runs.length === 0) return null
+              const lthr = calculateLTHR(runs)
+              return (
+                <ExpandableSection
+                  title="Heart_Rate_Zones"
+                  subtitle="Analyse des zones de fréquence cardiaque"
+                  icon={<Heart className="w-5 h-5 text-neon-cyan" />}
+                  defaultExpanded={false}
+                >
+                  <HeartRateZones activities={runs} lthr={lthr} />
+                </ExpandableSection>
+              )
+            } catch (error) {
+              console.error('Heart Rate Zones error:', error)
+              return null
+            }
+          })()}
+
+          {/* Performance Factors - Section repliable */}
+          {activityFilter === 'Run' && (() => {
+            try {
+              const runs = data.recentActivities.filter((a) => a.type === 'Run')
+              if (runs.length < 10) return null
+              const performanceAnalysis = analyzePerformanceFactors(runs)
+              if (!performanceAnalysis) return null
+              return (
+                <ExpandableSection
+                  title="Performance_Factors"
+                  subtitle="Corrélations entre performances et conditions"
+                  icon={<BarChart3 className="w-5 h-5 text-neon-cyan" />}
+                  defaultExpanded={false}
+                >
+                  <PerformanceFactors analysis={performanceAnalysis} />
+                </ExpandableSection>
+              )
+            } catch (error) {
+              console.error('Performance Factors error:', error)
               return null
             }
           })()}
