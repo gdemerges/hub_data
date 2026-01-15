@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { Terminal, Activity, Timer, Route, Flame, TrendingUp, Calendar, Award, Mountain, Bike, Footprints, AlertTriangle, Target, Zap, CheckCircle, TrendingDown, Disc } from 'lucide-react'
-import { StatCard } from '@/components'
+import { StatCard, FitnessChart, RacePredictor, RecoveryAdvisor, HeartRateZones } from '@/components'
+import { calculateFitnessMetrics, predictRaceTimes, analyzeRecovery, calculateTimeToTarget, calculateLTHR } from '@/lib/fitness-calculator'
 
 interface StravaAthlete {
   id: number
@@ -66,6 +67,7 @@ export default function SportPage() {
   const [isConnected, setIsConnected] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [activityFilter, setActivityFilter] = useState<string>('Run')
+  const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear())
 
   useEffect(() => {
     async function fetchData() {
@@ -267,9 +269,13 @@ export default function SportPage() {
             const totalElevation = filteredActivities.reduce((sum, a) => sum + a.totalElevationGain, 0)
             const totalActivities = filteredActivities.length
 
-            const currentYear = new Date().getFullYear()
+            // Get available years from activities
+            const availableYears = Array.from(
+              new Set(filteredActivities.map((a) => new Date(a.startDate).getFullYear()))
+            ).sort((a, b) => b - a) // Most recent first
+
             const thisYearActivities = filteredActivities.filter(
-              (a) => new Date(a.startDate).getFullYear() === currentYear
+              (a) => new Date(a.startDate).getFullYear() === selectedYear
             )
             const thisYearDistance = thisYearActivities.reduce((sum, a) => sum + a.distance, 0)
             const thisYearTime = thisYearActivities.reduce((sum, a) => sum + a.movingTime, 0) / 60
@@ -308,13 +314,31 @@ export default function SportPage() {
 
                 {/* This Year Stats */}
                 <div className="tech-card p-6 mb-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
-                      <Calendar className="w-5 h-5 text-neon-cyan" />
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
+                        <Calendar className="w-5 h-5 text-neon-cyan" />
+                      </div>
+                      <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+                        Year_Stats ({filterLabel})
+                      </h3>
                     </div>
-                    <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-                      This_Year_Stats ({filterLabel})
-                    </h3>
+                    {/* Year selector */}
+                    <div className="flex items-center gap-2">
+                      {availableYears.map((year) => (
+                        <button
+                          key={year}
+                          onClick={() => setSelectedYear(year)}
+                          className={`px-3 py-1 rounded font-mono text-sm transition-all duration-300 border ${
+                            selectedYear === year
+                              ? 'bg-neon-cyan/20 border-neon-cyan/50 text-neon-cyan shadow-[0_0_10px_rgba(0,255,255,0.2)]'
+                              : 'bg-bg-card border-border-subtle text-text-muted hover:border-neon-cyan/30 hover:text-text-primary'
+                          }`}
+                        >
+                          {year}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                   <div className="grid grid-cols-3 gap-6">
                     <div className="text-center">
@@ -631,44 +655,48 @@ export default function SportPage() {
               (a) => filterActivity(a, activityFilter)
             )
 
-            // Calculate yearly stats from filtered activities
+            // For RPM, calculate hours; for others, calculate distance
+            const isRPM = activityFilter === 'RPM'
             const yearlyMap = new Map<number, number>()
             for (const activity of filteredActivities) {
               const year = new Date(activity.startDate).getFullYear()
-              yearlyMap.set(year, (yearlyMap.get(year) || 0) + activity.distance)
+              const value = isRPM ? activity.movingTime / 60 : activity.distance // hours or km
+              yearlyMap.set(year, (yearlyMap.get(year) || 0) + value)
             }
 
             const yearlyStats = Array.from(yearlyMap.entries())
-              .map(([year, distance]) => ({ year, distance }))
+              .map(([year, value]) => ({ year, value }))
               .sort((a, b) => a.year - b.year)
 
             const filterLabel = activityFilter === 'all' ? 'Total' : activityFilter === 'Run' ? 'Course' : activityFilter === 'RPM' ? 'RPM' : 'Vélo'
+            const metricLabel = isRPM ? 'Yearly_Hours' : 'Yearly_Distance'
+            const unit = isRPM ? 'h' : 'km'
 
             if (yearlyStats.length === 0) return null
 
             return (
-              <div className="tech-card p-6">
+              <div className="tech-card p-6 mb-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="p-2 bg-neon-green/10 border border-neon-green/30 rounded">
                     <TrendingUp className="w-5 h-5 text-neon-green" />
                   </div>
                   <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-                    Yearly_Distance ({filterLabel})
+                    {metricLabel} ({filterLabel})
                   </h3>
                 </div>
                 <div className="flex items-end justify-center gap-8 h-48">
                   {yearlyStats.map((year) => {
-                    const maxDistance = Math.max(...yearlyStats.map(y => y.distance))
-                    const height = maxDistance > 0 ? (year.distance / maxDistance) * 100 : 0
+                    const maxValue = Math.max(...yearlyStats.map(y => y.value))
+                    const height = maxValue > 0 ? (year.value / maxValue) * 100 : 0
                     return (
                       <div key={year.year} className="flex flex-col items-center gap-2 w-24">
                         <span className="text-sm font-mono font-bold text-neon-orange">
-                          {Math.round(year.distance)} km
+                          {Math.round(year.value)} {unit}
                         </span>
                         <div className="w-full h-32 flex items-end">
                           <div
                             className="w-full bg-gradient-to-t from-neon-orange/50 to-neon-orange rounded-t transition-all hover:from-neon-orange/70 hover:to-neon-orange"
-                            style={{ height: `${height}%`, minHeight: year.distance > 0 ? '8px' : '0' }}
+                            style={{ height: `${height}%`, minHeight: year.value > 0 ? '8px' : '0' }}
                           />
                         </div>
                         <span className="text-sm font-mono font-semibold text-text-primary">
@@ -680,6 +708,108 @@ export default function SportPage() {
                 </div>
               </div>
             )
+          })()}
+
+          {/* AI/ML Features Section */}
+          <div className="mb-6 border-t-2 border-neon-cyan/20 pt-6">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
+                <Zap className="w-6 h-6 text-neon-cyan" />
+              </div>
+              <div>
+                <h2 className="text-xl font-display font-bold tracking-wider text-text-primary">
+                  <span className="text-neon-cyan">AI</span>_PERFORMANCE_ANALYSIS
+                </h2>
+                <p className="text-xs font-mono text-neon-cyan/70">
+                  Analyse avancée avec Machine Learning
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Recovery Advisor - Only for Run filter */}
+          {activityFilter === 'Run' && (() => {
+            try {
+              const runs = data.recentActivities.filter((a) => a.type === 'Run')
+              if (runs.length === 0) return null
+              const recoveryAdvice = analyzeRecovery(runs)
+              return (
+                <div className="mb-8">
+                  <RecoveryAdvisor advice={recoveryAdvice} />
+                </div>
+              )
+            } catch (error) {
+              console.error('Recovery Advisor error:', error)
+              return null
+            }
+          })()}
+
+          {/* Heart Rate Zones - Only for Run filter */}
+          {activityFilter === 'Run' && (() => {
+            try {
+              const runs = data.recentActivities.filter((a) => a.type === 'Run')
+              if (runs.length === 0) return null
+              const lthr = calculateLTHR(runs)
+              return (
+                <div className="mb-8">
+                  <HeartRateZones activities={runs} lthr={lthr} />
+                </div>
+              )
+            } catch (error) {
+              console.error('Heart Rate Zones error:', error)
+              return null
+            }
+          })()}
+
+          {/* Fitness Metrics (CTL/ATL/TSB) */}
+          {(() => {
+            try {
+              const allActivities = data.recentActivities
+              if (!allActivities || allActivities.length === 0) return null
+              const fitnessMetrics = calculateFitnessMetrics(allActivities)
+              return (
+                <div className="mb-8">
+                  <FitnessChart data={fitnessMetrics} />
+                </div>
+              )
+            } catch (error) {
+              console.error('Fitness Metrics error:', error)
+              return null
+            }
+          })()}
+
+          {/* Race Predictor - Only for Run filter */}
+          {activityFilter === 'Run' && (() => {
+            try {
+              const runs = data.recentActivities.filter((a) => a.type === 'Run')
+              if (runs.length === 0) return null
+              let predictions = predictRaceTimes(runs)
+
+              // Add timeToTarget for predictions with goals
+              predictions = predictions.map(pred => {
+                try {
+                  const goal = typeof window !== 'undefined'
+                    ? JSON.parse(localStorage.getItem('training-goals') || '[]').find((g: any) => g.distance === pred.distance)
+                    : null
+
+                  if (goal && pred.predictedTime > goal.targetTime) {
+                    return {
+                      ...pred,
+                      targetTime: goal.targetTime,
+                      timeToTarget: calculateTimeToTarget(pred.predictedTime, goal.targetTime, runs)
+                    }
+                  }
+                } catch (e) {
+                  console.error('Goal parsing error:', e)
+                }
+                return pred
+              })
+
+              return <RacePredictor predictions={predictions} />
+            } catch (error) {
+              console.error('Race Predictor error:', error)
+              return null
+            }
           })()}
         </>
       )}
