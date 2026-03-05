@@ -1,9 +1,19 @@
 import { NextResponse } from 'next/server'
 
+export const revalidate = 3600 // Revalidate every hour
+
 const SPOTIFY_TOKEN_URL = 'https://accounts.spotify.com/api/token'
 const SPOTIFY_API_URL = 'https://api.spotify.com/v1'
 
+// Module-level token cache — avoids re-fetching for every request
+let cachedToken: { token: string; expiresAt: number } | null = null
+
 async function getAccessToken(): Promise<string | null> {
+  // Return cached token if still valid (with 60s buffer)
+  if (cachedToken && Date.now() < cachedToken.expiresAt - 60_000) {
+    return cachedToken.token
+  }
+
   const clientId = process.env.SPOTIFY_CLIENT_ID
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET
   const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN
@@ -27,7 +37,11 @@ async function getAccessToken(): Promise<string | null> {
     })
 
     const data = await response.json()
-    return data.access_token
+    cachedToken = {
+      token: data.access_token,
+      expiresAt: Date.now() + (data.expires_in ?? 3600) * 1000,
+    }
+    return cachedToken.token
   } catch (error) {
     console.error('Error getting Spotify access token:', error)
     return null

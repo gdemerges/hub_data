@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 
+export const revalidate = 21600 // Revalidate every 6 hours
+
 const STEAM_API_BASE = 'https://api.steampowered.com'
 
 export async function GET() {

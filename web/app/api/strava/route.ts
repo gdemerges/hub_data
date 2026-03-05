@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
 
+export const revalidate = 3600 // Revalidate every hour
+
 const STRAVA_API = 'https://www.strava.com/api/v3'
 
 interface TokenData {
@@ -95,15 +97,16 @@ export async function GET() {
     const statsResponse = await fetch(`${STRAVA_API}/athletes/${athlete.id}/stats`, { headers })
     const statsData = statsResponse.ok ? await statsResponse.json() : null
 
-    // Fetch all activities since January 1st 2025 (with pagination)
-    const jan2025 = Math.floor(new Date('2025-01-01').getTime() / 1000)
+    // Fetch all activities since January 1st of last year (rolling 2-year window)
+    const currentYear = new Date().getFullYear()
+    const since = Math.floor(new Date(`${currentYear - 1}-01-01`).getTime() / 1000)
     const activities: any[] = []
     let page = 1
     let hasMore = true
 
     while (hasMore && page <= 10) { // Max 10 pages (2000 activities)
       const activitiesResponse = await fetch(
-        `${STRAVA_API}/athlete/activities?per_page=200&after=${jan2025}&page=${page}`,
+        `${STRAVA_API}/athlete/activities?per_page=200&after=${since}&page=${page}`,
         { headers }
       )
       if (activitiesResponse.ok) {
@@ -169,12 +172,11 @@ export async function GET() {
         averageSpeed: (activity.average_speed || 0) * 3.6, // Convert m/s to km/h
       }))
 
-    // Calculate yearly stats from activities
+    // Calculate yearly stats from activities (rolling 2-year window)
     const yearlyMap = new Map<number, { distance: number; activities: number }>()
-    const currentYear = new Date().getFullYear()
 
-    // Initialize years from 2025 onwards
-    for (let year = 2025; year <= currentYear; year++) {
+    // Initialize from last year to current year
+    for (let year = currentYear - 1; year <= currentYear; year++) {
       yearlyMap.set(year, { distance: 0, activities: 0 })
     }
 

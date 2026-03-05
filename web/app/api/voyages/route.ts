@@ -123,7 +123,7 @@ export async function GET() {
     const geocodeCache = new Map<string, { city?: string; country?: string }>()
 
     // Read all JSON files
-    function readJsonFiles(dir: string) {
+    const readJsonFiles = (dir: string) => {
       if (!fs.existsSync(dir)) return
 
       const entries = fs.readdirSync(dir, { withFileTypes: true })
