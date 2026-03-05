@@ -8,11 +8,39 @@ config({ path: resolve(__dirname, '../.env') })
 
 const DATA_DIR = resolve(__dirname, '../../data/seriebox')
 const OUTPUT_DIR = resolve(__dirname, '../data')
+const COVERS_CACHE_FILE = resolve(__dirname, '../../data/media-covers-cache.json')
 
 // Ensure output directory exists
 if (!existsSync(OUTPUT_DIR)) {
   mkdirSync(OUTPUT_DIR, { recursive: true })
 }
+
+// ============ COVERS CACHE ============
+
+interface CoversCache {
+  games: Record<string, string | null>
+  films: Record<string, string | null>
+  series: Record<string, string | null>
+}
+
+function loadCoversCache(): CoversCache {
+  try {
+    if (existsSync(COVERS_CACHE_FILE)) {
+      return JSON.parse(readFileSync(COVERS_CACHE_FILE, 'utf-8'))
+    }
+  } catch {}
+  return { games: {}, films: {}, series: {} }
+}
+
+function saveCoversCache(cache: CoversCache): void {
+  try {
+    writeFileSync(COVERS_CACHE_FILE, JSON.stringify(cache, null, 2))
+  } catch (e) {
+    console.error('Failed to save covers cache:', e)
+  }
+}
+
+const coversCache = loadCoversCache()
 
 // ============ GAME NAME MAPPING ============
 
@@ -128,10 +156,15 @@ async function getIGDBToken(): Promise<string> {
 }
 
 async function fetchGameCover(gameName: string): Promise<string | undefined> {
+  // Check cache first
+  if (gameName in coversCache.games) {
+    return coversCache.games[gameName] ?? undefined
+  }
+
   try {
     const token = await getIGDBToken()
     const clientId = process.env.IGDB_CLIENT_ID!
-    
+
     // Normalize the game name for better search results
     const searchName = normalizeGameTitle(gameName)
 
@@ -145,13 +178,22 @@ async function fetchGameCover(gameName: string): Promise<string | undefined> {
       body: `search "${searchName}"; fields cover.image_id; limit 1;`,
     })
 
-    if (!response.ok) return undefined
+    if (!response.ok) {
+      coversCache.games[gameName] = null
+      return undefined
+    }
 
     const games = await response.json()
-    if (games.length === 0 || !games[0].cover?.image_id) return undefined
+    if (games.length === 0 || !games[0].cover?.image_id) {
+      coversCache.games[gameName] = null
+      return undefined
+    }
 
-    return `https://images.igdb.com/igdb/image/upload/t_cover_big/${games[0].cover.image_id}.jpg`
+    const url = `https://images.igdb.com/igdb/image/upload/t_cover_big/${games[0].cover.image_id}.jpg`
+    coversCache.games[gameName] = url
+    return url
   } catch {
+    coversCache.games[gameName] = null
     return undefined
   }
 }
@@ -162,6 +204,15 @@ const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500'
 
 async function fetchTMDBPoster(title: string, type: 'movie' | 'tv', year?: number): Promise<string | undefined> {
+  const cacheKey = `${title}|${type}|${year ?? ''}`
+
+  // Check cache first
+  if (cacheKey in coversCache[type === 'movie' ? 'films' : 'series']) {
+    return coversCache[type === 'movie' ? 'films' : 'series'][cacheKey] ?? undefined
+  }
+
+  const cacheSection = type === 'movie' ? coversCache.films : coversCache.series
+
   try {
     const apiKey = process.env.TMDB_API_KEY
     if (!apiKey) return undefined
@@ -170,13 +221,22 @@ async function fetchTMDBPoster(title: string, type: 'movie' | 'tv', year?: numbe
     if (year) url += `&year=${year}`
 
     const response = await fetch(url)
-    if (!response.ok) return undefined
+    if (!response.ok) {
+      cacheSection[cacheKey] = null
+      return undefined
+    }
 
     const data = await response.json()
-    if (data.results.length === 0 || !data.results[0].poster_path) return undefined
+    if (data.results.length === 0 || !data.results[0].poster_path) {
+      cacheSection[cacheKey] = null
+      return undefined
+    }
 
-    return `${TMDB_IMAGE_BASE}${data.results[0].poster_path}`
+    const posterUrl = `${TMDB_IMAGE_BASE}${data.results[0].poster_path}`
+    cacheSection[cacheKey] = posterUrl
+    return posterUrl
   } catch {
+    cacheSection[cacheKey] = null
     return undefined
   }
 }
@@ -265,9 +325,11 @@ async function processGames() {
   }
 
   writeFileSync(resolve(OUTPUT_DIR, 'games.json'), JSON.stringify(games, null, 2))
+  saveCoversCache(coversCache)
   const withCovers = games.filter(g => g.coverUrl).length
   const withMultiplePlatforms = games.filter(g => g.platforms && g.platforms.length > 1).length
-  console.log(`\n   ✅ ${games.length} unique games (${withCovers} with covers, ${withMultiplePlatforms} on multiple platforms)`)
+  const cached = Object.keys(coversCache.games).length
+  console.log(`\n   ✅ ${games.length} unique games (${withCovers} with covers, ${withMultiplePlatforms} on multiple platforms, ${cached} cached)`)
 }
 
 // ============ PROCESS FILMS ============
@@ -320,8 +382,10 @@ async function processFilms() {
   }
 
   writeFileSync(resolve(OUTPUT_DIR, 'films.json'), JSON.stringify(films, null, 2))
+  saveCoversCache(coversCache)
   const withPosters = films.filter(f => f.posterUrl).length
-  console.log(`\n   ✅ ${films.length} films (${withPosters} with posters)`)
+  const cached = Object.keys(coversCache.films).length
+  console.log(`\n   ✅ ${films.length} films (${withPosters} with posters, ${cached} cached)`)
 }
 
 // ============ PROCESS SERIES ============
@@ -378,8 +442,10 @@ async function processSeries() {
   }
 
   writeFileSync(resolve(OUTPUT_DIR, 'series.json'), JSON.stringify(series, null, 2))
+  saveCoversCache(coversCache)
   const withPosters = series.filter(s => s.posterUrl).length
-  console.log(`\n   ✅ ${series.length} series (${withPosters} with posters)`)
+  const cached = Object.keys(coversCache.series).length
+  console.log(`\n   ✅ ${series.length} series (${withPosters} with posters, ${cached} cached)`)
 }
 
 // ============ MAIN ============

@@ -1,0 +1,48 @@
+name: Sync data
+
+on:
+  schedule:
+    # Every Sunday at 3am UTC
+    - cron: '0 3 * * 0'
+  workflow_dispatch:
+    inputs:
+      skip_seriebox:
+        description: 'Skip SerieBox download (use existing CSVs)'
+        type: boolean
+        default: false
+
+jobs:
+  build-data:
+    runs-on: ubuntu-latest
+    # NOTE: This job requires the data CSVs to exist.
+    # For SerieBox data, run `make update` locally first then commit the
+    # generated web/data/*.json files (they are NOT gitignored).
+    # This job is most useful for rebuilding images cache from existing CSVs.
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install Node dependencies
+        run: npm ci
+        working-directory: web
+
+      - name: Build data (games/films/series JSON with covers)
+        run: npx tsx scripts/build-data.ts
+        working-directory: web
+        env:
+          IGDB_CLIENT_ID: ${{ secrets.IGDB_CLIENT_ID }}
+          IGDB_CLIENT_SECRET: ${{ secrets.IGDB_CLIENT_SECRET }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+
+      - name: Commit updated JSON and cache
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add web/data/*.json data/media-covers-cache.json || true
+          git diff --cached --quiet || git commit -m "chore: auto-sync media data [skip ci]"
+          git push

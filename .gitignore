@@ -1,9 +1,17 @@
 .DS_Store
 .claude/
 data/
+# Autoriser le cache des couvertures (pas sensible, economise des appels API)
+!data/media-covers-cache.json
+!data/books-covers-cache.json
+!data/geocode-cache.json
 
 # Données JSON générées (reconstruites via npm run build:data)
 web/data/
+# Autoriser les JSON construits (utiles pour CI/CD)
+!web/data/games.json
+!web/data/films.json
+!web/data/series.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
