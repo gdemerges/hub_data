@@ -1,62 +1,8 @@
 import { NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
+
+import { getValidStravaToken } from '@/lib/strava-token'
 
 const STRAVA_API = 'https://www.strava.com/api/v3'
-
-interface TokenData {
-  access_token: string
-  refresh_token: string
-  expires_at: number
-}
-
-async function getValidToken(): Promise<string | null> {
-  const tokenFile = path.join(process.cwd(), 'data', 'strava-tokens.json')
-
-  if (!fs.existsSync(tokenFile)) {
-    return null
-  }
-
-  const tokenData: TokenData = JSON.parse(fs.readFileSync(tokenFile, 'utf-8'))
-
-  const now = Math.floor(Date.now() / 1000)
-  if (tokenData.expires_at < now + 300) {
-    const clientId = process.env.STRAVA_CLIENT_ID
-    const clientSecret = process.env.STRAVA_CLIENT_SECRET
-
-    if (!clientId || !clientSecret) {
-      return null
-    }
-
-    try {
-      const response = await fetch('https://www.strava.com/oauth/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          client_id: clientId,
-          client_secret: clientSecret,
-          refresh_token: tokenData.refresh_token,
-          grant_type: 'refresh_token',
-        }),
-      })
-
-      if (!response.ok) return null
-
-      const newTokenData = await response.json()
-      fs.writeFileSync(tokenFile, JSON.stringify({
-        access_token: newTokenData.access_token,
-        refresh_token: newTokenData.refresh_token,
-        expires_at: newTokenData.expires_at,
-      }, null, 2))
-
-      return newTokenData.access_token
-    } catch {
-      return null
-    }
-  }
-
-  return tokenData.access_token
-}
 
 export async function GET(
   request: Request,
@@ -69,7 +15,7 @@ export async function GET(
       return NextResponse.json({ error: 'Invalid activity ID' }, { status: 400 })
     }
 
-    const accessToken = await getValidToken()
+    const accessToken = await getValidStravaToken()
 
     if (!accessToken) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })

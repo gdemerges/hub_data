@@ -1,76 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
+
+import { getValidStravaToken } from '@/lib/strava-token'
 
 const STRAVA_API = 'https://www.strava.com/api/v3'
-
-interface TokenData {
-  access_token: string
-  refresh_token: string
-  expires_at: number
-}
-
-async function refreshToken(tokenData: TokenData, tokenFile: string): Promise<string | null> {
-  const clientId = process.env.STRAVA_CLIENT_ID
-  const clientSecret = process.env.STRAVA_CLIENT_SECRET
-
-  if (!clientId || !clientSecret) {
-    console.error('Strava: Missing client credentials')
-    return null
-  }
-
-  try {
-    const formData = new URLSearchParams()
-    formData.append('client_id', clientId)
-    formData.append('client_secret', clientSecret)
-    formData.append('refresh_token', tokenData.refresh_token)
-    formData.append('grant_type', 'refresh_token')
-
-    const response = await fetch('https://www.strava.com/oauth/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: formData.toString(),
-    })
-
-    if (!response.ok) {
-      console.error('Strava: Token refresh failed with status', response.status)
-      return null
-    }
-
-    const newTokenData = await response.json()
-
-    fs.writeFileSync(tokenFile, JSON.stringify({
-      access_token: newTokenData.access_token,
-      refresh_token: newTokenData.refresh_token,
-      expires_at: newTokenData.expires_at,
-    }, null, 2))
-
-    return newTokenData.access_token
-  } catch (err) {
-    console.error('Strava: Token refresh error', err)
-    return null
-  }
-}
-
-async function getValidToken(forceRefresh = false): Promise<string | null> {
-  const tokenFile = path.join(process.cwd(), 'data', 'strava-tokens.json')
-
-  if (!fs.existsSync(tokenFile)) {
-    return null
-  }
-
-  const tokenData: TokenData = JSON.parse(fs.readFileSync(tokenFile, 'utf-8'))
-
-  // Check if token is expired or force refresh requested
-  const now = Math.floor(Date.now() / 1000)
-  if (forceRefresh || tokenData.expires_at < now + 300) {
-    return refreshToken(tokenData, tokenFile)
-  }
-
-  return tokenData.access_token
-}
 
 async function fetchStravaData(accessToken: string, year: string | null) {
   const headers = {
@@ -144,7 +76,7 @@ export async function GET(request: NextRequest) {
     }
 
     // First attempt with current token
-    let accessToken = await getValidToken()
+    let accessToken = await getValidStravaToken()
     if (!accessToken) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
     }
@@ -153,7 +85,7 @@ export async function GET(request: NextRequest) {
 
     // If failed with 401, try refreshing token and retry once
     if (result.error && result.status === 401) {
-      accessToken = await getValidToken(true) // Force refresh
+      accessToken = await getValidStravaToken(true) // Force refresh
       if (accessToken) {
         result = await fetchStravaData(accessToken, year)
       }

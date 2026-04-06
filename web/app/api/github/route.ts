@@ -1,35 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
 
 const GITHUB_API = 'https://api.github.com'
 const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql'
 
-// Cache TTL: 24h in ms
-const LANG_CACHE_TTL = 24 * 60 * 60 * 1000
-const LANG_CACHE_FILE = path.join(process.cwd(), '..', 'data', 'github-languages-cache.json')
-
-interface LangCacheEntry {
-  languages: Record<string, number>
-  fetchedAt: number
-}
-
-function loadLangCache(): Record<string, LangCacheEntry> {
-  try {
-    if (fs.existsSync(LANG_CACHE_FILE)) {
-      return JSON.parse(fs.readFileSync(LANG_CACHE_FILE, 'utf-8'))
-    }
-  } catch {}
-  return {}
-}
-
-function saveLangCache(cache: Record<string, LangCacheEntry>): void {
-  try {
-    fs.writeFileSync(LANG_CACHE_FILE, JSON.stringify(cache, null, 2))
-  } catch (e) {
-    console.error('Failed to save GitHub languages cache:', e)
-  }
-}
+// In-memory language cache — valid for the lifetime of the server process.
+// Next.js ISR (revalidate: 21600) handles full response caching.
+const LANG_CACHE_TTL = 6 * 60 * 60 * 1000 // 6h in ms
+const langCache = new Map<string, { languages: Record<string, number>; fetchedAt: number }>()
 
 export async function GET(request: NextRequest) {
   try {
@@ -65,8 +42,7 @@ export async function GET(request: NextRequest) {
     const totalStars = repos.reduce((acc: number, repo: any) => acc + repo.stargazers_count, 0)
     const totalForks = repos.reduce((acc: number, repo: any) => acc + repo.forks_count, 0)
 
-    // Languages: use file cache, limit to 20 most-starred repos
-    const langCache = loadLangCache()
+    // Languages: use in-memory cache, limit to 20 most-starred repos
     const now = Date.now()
     const languageBytes = new Map<string, number>()
 
@@ -76,7 +52,7 @@ export async function GET(request: NextRequest) {
 
     const languagePromises = topReposByStars.map(async (repo: any) => {
       const cacheKey = `${username}/${repo.name}`
-      const cached = langCache[cacheKey]
+      const cached = langCache.get(cacheKey)
 
       if (cached && now - cached.fetchedAt < LANG_CACHE_TTL) {
         return cached.languages
@@ -89,7 +65,7 @@ export async function GET(request: NextRequest) {
         )
         if (langResponse.ok) {
           const languages = await langResponse.json()
-          langCache[cacheKey] = { languages, fetchedAt: now }
+          langCache.set(cacheKey, { languages, fetchedAt: now })
           return languages as Record<string, number>
         }
       } catch (error) {
@@ -99,7 +75,6 @@ export async function GET(request: NextRequest) {
     })
 
     const languageResults = await Promise.all(languagePromises)
-    saveLangCache(langCache)
 
     languageResults.forEach(languages => {
       if (languages) {
@@ -199,6 +174,7 @@ export async function GET(request: NextRequest) {
           topLanguages,
         },
         topRepos,
+        fetchedAt: new Date().toISOString(),
       },
       { headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=3600' } }
     )

@@ -8,15 +8,15 @@ interface OverviewStatsProps {
   gamesCount: number
   filmsCount: number
   seriesCount: number
-  contributions: number
   selectedYear: number | null
 }
 
-export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributions, selectedYear }: OverviewStatsProps) {
+export function OverviewStats({ gamesCount, filmsCount, seriesCount, selectedYear }: OverviewStatsProps) {
   const [runDistance, setRunDistance] = useState<number | null>(null)
   const [partnersCount, setPartnersCount] = useState<number | null>(null)
   const [countriesCount, setCountriesCount] = useState<number | null>(null)
   const [booksRead, setBooksRead] = useState<number | null>(null)
+  const [contributions, setContributions] = useState<number | null>(null)
 
   useEffect(() => {
     async function fetchStravaStats() {
@@ -93,6 +93,22 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributio
     fetchBooksRead()
   }, [])
 
+  useEffect(() => {
+    async function fetchContributions() {
+      try {
+        const year = selectedYear ?? new Date().getFullYear()
+        const response = await fetch(`/api/github/contributions?username=gdemerges&year=${year}`)
+        if (response.ok) {
+          const data = await response.json()
+          setContributions(data.totalContributions ?? 0)
+        }
+      } catch {
+        // Silently fail if GitHub not configured
+      }
+    }
+    fetchContributions()
+  }, [selectedYear])
+
   const stats: Array<{
     label: string
     value: string | number
@@ -115,7 +131,9 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, contributio
     })
   }
 
-  stats.push({ label: 'Contributions', value: contributions, icon: Github, color: 'cyan', href: '/github' })
+  if (contributions !== null) {
+    stats.push({ label: 'Contributions', value: contributions, icon: Github, color: 'cyan', href: '/github' })
+  }
 
   if (runDistance !== null) {
     stats.push({

@@ -125,6 +125,7 @@ export async function GET() {
         totalArtists: topArtists.items?.length || 0,
         totalGenres: topGenres.length,
       },
+      fetchedAt: new Date().toISOString(),
     })
   } catch (error) {
     console.error('Spotify API error:', error)

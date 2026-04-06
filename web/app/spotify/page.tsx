@@ -1,57 +1,29 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import useSWR from 'swr'
-import { Music, Users, Clock, Disc, Mic2, ListMusic, ExternalLink } from 'lucide-react'
+import { Music, Users, Clock, Disc, Mic2, ListMusic, ExternalLink, RefreshCw } from 'lucide-react'
 import { StatCard } from '@/components'
-import { SkeletonPage, SkeletonProfile, SkeletonStatCard, SkeletonGrid } from '@/components/skeleton'
+import { SkeletonProfile, SkeletonStatCard } from '@/components/skeleton'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/page-transition'
-
-interface SpotifyData {
-  user: {
-    name: string
-    avatar: string
-    followers: number
-    profileUrl: string
-  }
-  topTracks: {
-    name: string
-    artist: string
-    album: string
-    albumCover: string
-    duration: number
-    spotifyUrl: string
-  }[]
-  topArtists: {
-    name: string
-    image: string
-    genres: string[]
-    followers: number
-    spotifyUrl: string
-  }[]
-  recentlyPlayed: {
-    name: string
-    artist: string
-    album: string
-    albumCover: string
-    playedAt: string
-    spotifyUrl: string
-  }[]
-  topGenres: { genre: string; count: number }[]
-  stats: {
-    totalTracks: number
-    totalArtists: number
-    totalGenres: number
-  }
-}
+import type { SpotifyData } from '@/lib/types'
 
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
+function timeAgo(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime()
+  const mins = Math.floor(diff / 60000)
+  if (mins < 1) return 'à l\'instant'
+  if (mins < 60) return `il y a ${mins} min`
+  const hours = Math.floor(mins / 60)
+  if (hours < 24) return `il y a ${hours}h`
+  return `il y a ${Math.floor(hours / 24)}j`
+}
+
 export default function SpotifyPage() {
-  const { data, error, isLoading } = useSWR<SpotifyData>('/api/spotify', fetcher, {
+  const { data, error, isLoading, mutate } = useSWR<SpotifyData>('/api/spotify', fetcher, {
     revalidateOnFocus: false,
-    dedupingInterval: 60000,
+    dedupingInterval: 300000,
   })
 
   const formatDuration = (ms: number) => {
@@ -122,14 +94,29 @@ export default function SpotifyPage() {
     <div className="max-w-7xl mx-auto px-6 py-8">
       {/* Header */}
       <FadeIn>
-        <div className="flex items-center gap-3 mb-8">
-          <div className="p-2 bg-green-500/10 rounded-xl">
-            <Music className="w-6 h-6 text-green-500" />
+        <div className="flex items-center justify-between gap-3 mb-8">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-green-500/10 rounded-xl">
+              <Music className="w-6 h-6 text-green-500" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-text-primary">Spotify</h1>
+              <p className="text-sm text-text-muted">
+                Statistiques d'écoute
+                {data?.fetchedAt && (
+                  <span className="ml-2 text-xs text-text-muted/60">· sync {timeAgo(data.fetchedAt)}</span>
+                )}
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-2xl font-bold text-text-primary">Spotify</h1>
-            <p className="text-sm text-text-muted">Statistiques d'écoute</p>
-          </div>
+          <button
+            onClick={() => mutate()}
+            className="flex items-center gap-2 px-3 py-1.5 text-xs font-mono text-green-500/70 border border-green-500/30 rounded hover:bg-green-500/10 hover:text-green-500 transition-all"
+            title="Rafraîchir les données"
+          >
+            <RefreshCw className="w-3 h-3" />
+            SYNC
+          </button>
         </div>
       </FadeIn>
 

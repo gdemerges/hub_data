@@ -1,7 +1,7 @@
 import { Terminal } from 'lucide-react'
 import { YearFilter, OverviewSections, TemporalStats, YearComparison } from '@/components'
 import { OverviewStats } from '@/components/overview-stats'
-import { getGamesData, getFilmsData, getSeriesData, getGitHubContributions } from '@/lib/data'
+import { getGamesData, getFilmsData, getSeriesData } from '@/lib/data'
 
 export default async function HomePage({
   searchParams,
@@ -10,11 +10,11 @@ export default async function HomePage({
 }) {
   const selectedYear = searchParams.year ? parseInt(searchParams.year) : null
 
-  const [allGames, allFilms, allSeries, contributions] = await Promise.all([
+  // GitHub contributions fetched client-side in OverviewStats (non-blocking)
+  const [allGames, allFilms, allSeries] = await Promise.all([
     getGamesData(),
     getFilmsData(),
     getSeriesData(),
-    getGitHubContributions(selectedYear),
   ])
 
   // Filter by year if selected
@@ -71,7 +71,6 @@ export default async function HomePage({
         gamesCount={games.length}
         filmsCount={films.length}
         seriesCount={series.length}
-        contributions={contributions}
         selectedYear={selectedYear}
       />
 

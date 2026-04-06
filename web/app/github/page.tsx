@@ -6,37 +6,8 @@ import useSWR from 'swr'
 import { StatCard, ContributionCalendar, BarChart } from '@/components'
 import { SkeletonProfile, SkeletonStatCard, SkeletonChart } from '@/components/skeleton'
 import { FadeIn } from '@/components/page-transition'
-import { Github, Star, GitFork, Users, MapPin, Building, ExternalLink, Code, ChevronLeft, ChevronRight, TrendingUp, Terminal, Zap, Activity } from 'lucide-react'
-
-interface GitHubData {
-  user: {
-    login: string
-    name: string
-    avatar: string
-    bio: string
-    location: string
-    company: string
-    blog: string
-    publicRepos: number
-    followers: number
-    following: number
-  }
-  stats: {
-    totalRepos: number
-    totalStars: number
-    totalForks: number
-    totalContributions: number
-    topLanguages: { language: string; count: number; percentage: string }[]
-  }
-  topRepos: {
-    name: string
-    description: string
-    stars: number
-    forks: number
-    language: string
-    url: string
-  }[]
-}
+import { Github, Star, GitFork, Users, MapPin, Building, Code, ChevronLeft, ChevronRight, TrendingUp, Terminal, Activity, RefreshCw } from 'lucide-react'
+import type { GitHubData } from '@/lib/types'
 
 interface ContributionsData {
   totalContributions: number
@@ -59,26 +30,35 @@ interface YearlyContributionsData {
 const GITHUB_USERNAME = 'gdemerges'
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
+function timeAgo(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime()
+  const mins = Math.floor(diff / 60000)
+  if (mins < 1) return 'à l\'instant'
+  if (mins < 60) return `il y a ${mins} min`
+  const hours = Math.floor(mins / 60)
+  if (hours < 24) return `il y a ${hours}h`
+  return `il y a ${Math.floor(hours / 24)}j`
+}
+
 export default function GitHubPage() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
 
-  // Use SWR for data fetching with caching
-  const { data, error, isLoading: loading } = useSWR<GitHubData>(
+  const { data, error, isLoading: loading, mutate } = useSWR<GitHubData>(
     `/api/github?username=${GITHUB_USERNAME}`,
     fetcher,
-    { revalidateOnFocus: false, dedupingInterval: 60000 }
+    { revalidateOnFocus: false, dedupingInterval: 300000 }
   )
 
   const { data: contributions, isLoading: loadingContributions } = useSWR<ContributionsData>(
     `/api/github/contributions?username=${GITHUB_USERNAME}&year=${selectedYear}`,
     fetcher,
-    { revalidateOnFocus: false, dedupingInterval: 60000 }
+    { revalidateOnFocus: false, dedupingInterval: 300000 }
   )
 
   const { data: yearlyContributions, isLoading: loadingYearly } = useSWR<YearlyContributionsData>(
     `/api/github/yearly-contributions?username=${GITHUB_USERNAME}`,
     fetcher,
-    { revalidateOnFocus: false, dedupingInterval: 300000 } // 5 minutes cache
+    { revalidateOnFocus: false, dedupingInterval: 300000 }
   )
 
   if (loading) {
@@ -129,19 +109,32 @@ export default function GitHubPage() {
     <div className="max-w-7xl mx-auto px-6 py-8">
       {/* Header */}
       <div className="mb-10">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="p-3 bg-bg-card border border-neon-magenta/30 rounded-lg">
-            <Terminal className="w-8 h-8 text-neon-magenta" />
+        <div className="flex items-center justify-between gap-4 mb-4">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-bg-card border border-neon-magenta/30 rounded-lg">
+              <Terminal className="w-8 h-8 text-neon-magenta" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
+                <span className="text-neon-magenta">GITHUB</span>_SYSTEM
+              </h1>
+              <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
+                STATUS: ONLINE // CODE_TRACKER v2.0
+                {data?.fetchedAt && (
+                  <span className="text-neon-cyan/40">· sync {timeAgo(data.fetchedAt)}</span>
+                )}
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-              <span className="text-neon-magenta">GITHUB</span>_SYSTEM
-            </h1>
-            <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
-              STATUS: ONLINE // CODE_TRACKER v2.0
-            </p>
-          </div>
+          <button
+            onClick={() => mutate()}
+            className="flex items-center gap-2 px-3 py-1.5 text-xs font-mono text-neon-magenta/70 border border-neon-magenta/30 rounded hover:bg-neon-magenta/10 hover:text-neon-magenta transition-all"
+            title="Rafraîchir les données"
+          >
+            <RefreshCw className="w-3 h-3" />
+            SYNC
+          </button>
         </div>
         <div className="font-mono text-sm text-text-secondary border-l-2 border-neon-magenta/30 pl-4">
           &gt; Loading GitHub developer profile...
