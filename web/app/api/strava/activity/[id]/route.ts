@@ -64,6 +64,11 @@ export async function GET(
 ) {
   try {
     const { id } = await params
+
+    if (!/^\d+$/.test(id)) {
+      return NextResponse.json({ error: 'Invalid activity ID' }, { status: 400 })
+    }
+
     const accessToken = await getValidToken()
 
     if (!accessToken) {

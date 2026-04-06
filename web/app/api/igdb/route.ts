@@ -40,10 +40,18 @@ async function getAccessToken(): Promise<string> {
 
 export async function POST(request: NextRequest) {
   try {
-    const { gameName } = await request.json()
+    const body = await request.json()
+    const rawName = body?.gameName
+
+    if (!rawName || typeof rawName !== 'string') {
+      return NextResponse.json({ error: 'Game name required' }, { status: 400 })
+    }
+
+    // Sanitize: max 100 chars, strip characters that break IGDB query syntax
+    const gameName = rawName.trim().slice(0, 100).replace(/["\\]/g, '')
 
     if (!gameName) {
-      return NextResponse.json({ error: 'Game name required' }, { status: 400 })
+      return NextResponse.json({ error: 'Invalid game name' }, { status: 400 })
     }
 
     const accessToken = await getAccessToken()

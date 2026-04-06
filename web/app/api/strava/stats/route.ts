@@ -47,7 +47,6 @@ async function refreshToken(tokenData: TokenData, tokenFile: string): Promise<st
       expires_at: newTokenData.expires_at,
     }, null, 2))
 
-    console.log('Strava: Token refreshed successfully')
     return newTokenData.access_token
   } catch (err) {
     console.error('Strava: Token refresh error', err)
@@ -134,7 +133,15 @@ async function fetchStravaData(accessToken: string, year: string | null) {
 
 export async function GET(request: NextRequest) {
   try {
-    const year = request.nextUrl.searchParams.get('year')
+    const yearParam = request.nextUrl.searchParams.get('year')
+    const currentYear = new Date().getFullYear()
+    let year: string | null = null
+    if (yearParam !== null) {
+      const parsedYear = parseInt(yearParam, 10)
+      if (!isNaN(parsedYear) && parsedYear >= 1900 && parsedYear <= currentYear + 1) {
+        year = String(parsedYear)
+      }
+    }
 
     // First attempt with current token
     let accessToken = await getValidToken()
@@ -146,7 +153,6 @@ export async function GET(request: NextRequest) {
 
     // If failed with 401, try refreshing token and retry once
     if (result.error && result.status === 401) {
-      console.log('Strava: Token rejected, attempting refresh...')
       accessToken = await getValidToken(true) // Force refresh
       if (accessToken) {
         result = await fetchStravaData(accessToken, year)

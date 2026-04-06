@@ -17,7 +17,8 @@ interface TimelineEvent {
 export async function GET(request: NextRequest) {
   try {
     const limitParam = request.nextUrl.searchParams.get('limit')
-    const limit = limitParam ? parseInt(limitParam) : 50
+    const parsedLimit = limitParam ? parseInt(limitParam, 10) : 50
+    const limit = isNaN(parsedLimit) ? 50 : Math.max(1, Math.min(500, parsedLimit))
 
     const events: TimelineEvent[] = []
 

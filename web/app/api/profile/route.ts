@@ -6,7 +6,9 @@ import { getGamesData, getFilmsData, getSeriesData, getGitHubContributions } fro
 export async function GET(request: NextRequest) {
   try {
     const yearParam = request.nextUrl.searchParams.get('year')
-    const year = yearParam ? parseInt(yearParam) : new Date().getFullYear()
+    const currentYear = new Date().getFullYear()
+    const parsedYear = yearParam ? parseInt(yearParam, 10) : currentYear
+    const year = isNaN(parsedYear) ? currentYear : Math.max(1900, Math.min(currentYear + 1, parsedYear))
 
     // Fetch all data
     const [allGames, allFilms, allSeries, contributions] = await Promise.all([

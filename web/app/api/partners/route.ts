@@ -23,7 +23,11 @@ export async function GET(request: NextRequest) {
     }
 
     // Filter by year - parse CSV and check "Année" column (index 4)
-    const targetYear = parseInt(year)
+    const parsedYear = parseInt(year, 10)
+    if (isNaN(parsedYear) || parsedYear < 1900 || parsedYear > new Date().getFullYear() + 1) {
+      return NextResponse.json({ count: 0, hasData: false })
+    }
+    const targetYear = parsedYear
     let count = 0
 
     for (let i = 1; i < lines.length; i++) {

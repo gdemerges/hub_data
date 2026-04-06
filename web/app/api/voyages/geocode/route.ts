@@ -67,7 +67,12 @@ export async function POST() {
       return NextResponse.json({ error: 'No location history found' }, { status: 404 })
     }
 
-    const historyData = JSON.parse(fs.readFileSync(historyFile, 'utf-8'))
+    let historyData: unknown
+    try {
+      historyData = JSON.parse(fs.readFileSync(historyFile, 'utf-8'))
+    } catch {
+      return NextResponse.json({ error: 'Invalid location history format' }, { status: 400 })
+    }
 
     if (!Array.isArray(historyData)) {
       return NextResponse.json({ error: 'Invalid location history format' }, { status: 400 })

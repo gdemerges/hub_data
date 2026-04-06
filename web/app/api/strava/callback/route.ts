@@ -5,30 +5,20 @@ import path from 'path'
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get('code')
   const errorParam = request.nextUrl.searchParams.get('error')
-  const debug = request.nextUrl.searchParams.get('debug') === 'true'
-
-  console.log('=== STRAVA CALLBACK ===')
-  console.log('Code:', code?.substring(0, 20) + '...')
-  console.log('Error param:', errorParam)
 
   if (errorParam) {
-    if (debug) return NextResponse.json({ error: 'access_denied', errorParam })
     return NextResponse.redirect(new URL('/sport?error=access_denied', request.url))
   }
 
   if (!code) {
-    if (debug) return NextResponse.json({ error: 'no_code' })
     return NextResponse.redirect(new URL('/sport?error=no_code', request.url))
   }
 
   const clientId = process.env.STRAVA_CLIENT_ID
   const clientSecret = process.env.STRAVA_CLIENT_SECRET
 
-  console.log('Client ID:', clientId)
-  console.log('Has secret:', !!clientSecret)
-
   if (!clientId || !clientSecret) {
-    if (debug) return NextResponse.json({ error: 'config_error', clientId, hasSecret: !!clientSecret })
+    console.error('Strava callback: missing client credentials')
     return NextResponse.redirect(new URL('/sport?error=config_error', request.url))
   }
 
@@ -39,8 +29,6 @@ export async function GET(request: NextRequest) {
     formData.append('code', code)
     formData.append('grant_type', 'authorization_code')
 
-    console.log('Sending token request to Strava...')
-
     const tokenResponse = await fetch('https://www.strava.com/oauth/token', {
       method: 'POST',
       headers: {
@@ -49,20 +37,12 @@ export async function GET(request: NextRequest) {
       body: formData.toString(),
     })
 
-    const responseText = await tokenResponse.text()
-    console.log('Strava response status:', tokenResponse.status)
-    console.log('Strava response body:', responseText)
-
     if (!tokenResponse.ok) {
-      if (debug) return NextResponse.json({
-        error: 'token_error',
-        status: tokenResponse.status,
-        response: responseText
-      })
+      console.error('Strava token exchange failed:', tokenResponse.status)
       return NextResponse.redirect(new URL(`/sport?error=token_error&status=${tokenResponse.status}`, request.url))
     }
 
-    const tokenData = JSON.parse(responseText)
+    const tokenData = await tokenResponse.json()
 
     // Store tokens in a file
     const dataDir = path.join(process.cwd(), 'data')
@@ -78,13 +58,9 @@ export async function GET(request: NextRequest) {
       athlete_id: tokenData.athlete?.id,
     }, null, 2))
 
-    console.log('=== STRAVA SUCCESS ===')
-
-    if (debug) return NextResponse.json({ success: true, athlete: tokenData.athlete })
     return NextResponse.redirect(new URL('/sport', request.url))
   } catch (err: any) {
-    console.error('Strava callback error:', err)
-    if (debug) return NextResponse.json({ error: 'exception', message: err.message })
+    console.error('Strava callback error:', err.message)
     return NextResponse.redirect(new URL('/sport?error=unknown', request.url))
   }
 }
