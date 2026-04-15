@@ -97,7 +97,8 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, selectedYea
     async function fetchContributions() {
       try {
         const year = selectedYear ?? new Date().getFullYear()
-        const response = await fetch(`/api/github/contributions?username=gdemerges&year=${year}`)
+        const githubUsername = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'gdemerges'
+        const response = await fetch(`/api/github/contributions?username=${githubUsername}&year=${year}`)
         if (response.ok) {
           const data = await response.json()
           setContributions(data.totalContributions ?? 0)

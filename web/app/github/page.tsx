@@ -27,7 +27,7 @@ interface YearlyContributionsData {
   totalContributions: number
 }
 
-const GITHUB_USERNAME = 'gdemerges'
+const GITHUB_USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'gdemerges'
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 function timeAgo(iso: string): string {

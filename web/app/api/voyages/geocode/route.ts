@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import fs from 'fs'
 import { promises as fsp } from 'fs'
 import path from 'path'
+import { nominatimFetch } from '@/lib/rate-limiter'
 
 interface GeocodeCache {
   [key: string]: {
@@ -21,13 +22,9 @@ interface LocationHistoryItem {
 
 async function reverseGeocode(lat: number, lng: number): Promise<{ city?: string; country?: string }> {
   try {
-    const response = await fetch(
+    const response = await nominatimFetch(
       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&accept-language=fr`,
-      {
-        headers: {
-          'User-Agent': 'HubDataApp/1.0'
-        }
-      }
+      { headers: { 'User-Agent': 'HubDataApp/1.0' } }
     )
 
     if (!response.ok) return {}
@@ -126,9 +123,7 @@ export async function POST() {
         cache[coordKey] = result
         geocoded++
       }
-
-      // Respect Nominatim rate limit (1 req/sec)
-      await new Promise(resolve => setTimeout(resolve, 1100))
+      // Rate limiting is handled by nominatimFetch (1100ms min interval)
     }
 
     // Save updated cache

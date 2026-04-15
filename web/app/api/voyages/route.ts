@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import fs from 'fs'
 import { promises as fsp } from 'fs'
 import path from 'path'
+import { nominatimFetch } from '@/lib/rate-limiter'
 
 interface PlaceVisit {
   location: {
@@ -76,13 +77,9 @@ function parseGeoLocation(geoStr: string): { lat: number; lng: number } | null {
 // Simple reverse geocoding using Nominatim (rate limited to 1 req/sec)
 async function reverseGeocode(lat: number, lng: number): Promise<{ city?: string; country?: string }> {
   try {
-    const response = await fetch(
+    const response = await nominatimFetch(
       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&accept-language=fr`,
-      {
-        headers: {
-          'User-Agent': 'HubDataApp/1.0'
-        }
-      }
+      { headers: { 'User-Agent': 'HubDataApp/1.0' } }
     )
 
     if (!response.ok) return {}

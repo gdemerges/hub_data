@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { tmdbFetch } from '@/lib/rate-limiter'
 
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500'
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest) {
     const mediaType = type === 'series' ? 'tv' : 'movie'
     const searchUrl = `${TMDB_BASE_URL}/search/${mediaType}?api_key=${apiKey}&query=${encodeURIComponent(title)}&language=fr-FR`
 
-    const searchResponse = await fetch(searchUrl)
+    const searchResponse = await tmdbFetch(searchUrl)
     if (!searchResponse.ok) {
       throw new Error('TMDB API error')
     }
@@ -62,7 +63,7 @@ export async function POST(request: NextRequest) {
 
     // Get additional details
     const detailsUrl = `${TMDB_BASE_URL}/${mediaType}/${result.id}?api_key=${apiKey}&language=fr-FR`
-    const detailsResponse = await fetch(detailsUrl)
+    const detailsResponse = await tmdbFetch(detailsUrl)
     const details: TMDBDetails = await detailsResponse.json()
 
     return NextResponse.json({
