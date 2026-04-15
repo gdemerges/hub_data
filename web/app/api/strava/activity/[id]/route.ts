@@ -4,6 +4,18 @@ import { getValidStravaToken } from '@/lib/strava-token'
 
 const STRAVA_API = 'https://www.strava.com/api/v3'
 
+interface StravaLap {
+  name: string
+  distance: number
+  moving_time: number
+  elapsed_time: number
+  average_speed: number
+  average_heartrate?: number
+  max_heartrate?: number
+  total_elevation_gain: number
+  lap_index: number
+}
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -73,7 +85,7 @@ export async function GET(
         velocity: streams.velocity_smooth?.data,
         cadence: streams.cadence?.data,
       } : null,
-      laps: laps.map((lap: any) => ({
+      laps: (laps as StravaLap[]).map((lap) => ({
         name: lap.name,
         distance: lap.distance / 1000,
         movingTime: lap.moving_time,

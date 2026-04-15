@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs'
+import { promises as fsp } from 'fs'
 import path from 'path'
 
 export async function GET(request: NextRequest) {
@@ -10,7 +11,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ count: 0, hasData: false })
     }
 
-    const content = fs.readFileSync(dataFile, 'utf-8')
+    const content = await fsp.readFile(dataFile, 'utf-8')
     const lines = content.trim().split('\n')
 
     // Get year parameter from query string

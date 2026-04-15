@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import fs from 'fs'
+import { promises as fsp } from 'fs'
 import path from 'path'
 
 import { getValidStravaToken } from '@/lib/strava-token'
@@ -10,29 +11,41 @@ const STRAVA_API = 'https://www.strava.com/api/v3'
 const ACTIVITIES_CACHE_FILE = path.join(process.cwd(), 'data', 'strava-activities-cache.json')
 const CACHE_MAX_AGE_SECONDS = 3600 // 1 hour
 
-interface ActivityCache {
-  cachedAt: number // unix timestamp
-  activities: any[]
+interface StravaRawActivity {
+  id: number
+  name: string
+  type: string
+  distance: number
+  moving_time: number
+  total_elevation_gain: number
+  start_date_local: string
+  average_speed: number
 }
 
-function readActivitiesCache(): ActivityCache | null {
+interface ActivityCache {
+  cachedAt: number // unix timestamp
+  activities: StravaRawActivity[]
+}
+
+async function readActivitiesCache(): Promise<ActivityCache | null> {
   if (!fs.existsSync(ACTIVITIES_CACHE_FILE)) return null
   try {
-    return JSON.parse(fs.readFileSync(ACTIVITIES_CACHE_FILE, 'utf-8'))
+    const content = await fsp.readFile(ACTIVITIES_CACHE_FILE, 'utf-8')
+    return JSON.parse(content) as ActivityCache
   } catch {
     return null
   }
 }
 
-function writeActivitiesCache(activities: any[]): void {
+async function writeActivitiesCache(activities: StravaRawActivity[]): Promise<void> {
   const dataDir = path.join(process.cwd(), 'data')
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true })
   const cache: ActivityCache = { cachedAt: Math.floor(Date.now() / 1000), activities }
-  fs.writeFileSync(ACTIVITIES_CACHE_FILE, JSON.stringify(cache, null, 2))
+  await fsp.writeFile(ACTIVITIES_CACHE_FILE, JSON.stringify(cache, null, 2))
 }
 
-async function fetchActivities(headers: HeadersInit, after: number): Promise<any[]> {
-  const activities: any[] = []
+async function fetchActivities(headers: HeadersInit, after: number): Promise<StravaRawActivity[]> {
+  const activities: StravaRawActivity[] = []
   let page = 1
   let hasMore = true
 
@@ -42,7 +55,8 @@ async function fetchActivities(headers: HeadersInit, after: number): Promise<any
       { headers }
     )
     if (response.ok) {
-      const pageActivities = await response.json()
+      const pageActivities: StravaRawActivity[] = await response.json()
+      if (!Array.isArray(pageActivities)) break
       if (pageActivities.length > 0) {
         activities.push(...pageActivities)
         page++
@@ -68,7 +82,7 @@ export async function GET() {
     const headers = { Authorization: `Bearer ${accessToken}` }
 
     // Fetch athlete data and stats in parallel
-    const [athleteResponse, athleteStatsNeeded] = await Promise.all([
+    const [athleteResponse] = await Promise.all([
       fetch(`${STRAVA_API}/athlete`, { headers }),
       Promise.resolve(true),
     ])
@@ -88,27 +102,27 @@ export async function GET() {
     const currentYear = new Date().getFullYear()
     const fullSyncAfter = Math.floor(new Date(`${currentYear - 1}-01-01`).getTime() / 1000)
 
-    const cache = readActivitiesCache()
+    const cache = await readActivitiesCache()
     const now = Math.floor(Date.now() / 1000)
-    let activities: any[]
+    let activities: StravaRawActivity[]
 
     if (!cache || now - cache.cachedAt > CACHE_MAX_AGE_SECONDS) {
       if (cache && cache.activities.length > 0) {
         // Delta: only fetch activities newer than the most recent cached one
         const latestCachedDate = cache.activities
-          .map((a: any) => new Date(a.start_date_local).getTime() / 1000)
+          .map((a) => new Date(a.start_date_local).getTime() / 1000)
           .reduce((max, t) => Math.max(max, t), 0)
 
         const newActivities = await fetchActivities(headers, Math.floor(latestCachedDate))
         // Merge: replace/add new activities by id
-        const cachedById = new Map(cache.activities.map((a: any) => [a.id, a]))
+        const cachedById = new Map(cache.activities.map((a) => [a.id, a]))
         for (const a of newActivities) cachedById.set(a.id, a)
         activities = Array.from(cachedById.values())
       } else {
         // Full sync
         activities = await fetchActivities(headers, fullSyncAfter)
       }
-      writeActivitiesCache(activities)
+      await writeActivitiesCache(activities)
     } else {
       activities = cache.activities
     }
@@ -148,8 +162,8 @@ export async function GET() {
     }
 
     const recentActivities = activities
-      .sort((a: any, b: any) => new Date(b.start_date_local).getTime() - new Date(a.start_date_local).getTime())
-      .map((activity: any) => ({
+      .sort((a, b) => new Date(b.start_date_local).getTime() - new Date(a.start_date_local).getTime())
+      .map((activity) => ({
         id: activity.id,
         name: activity.name,
         type: activity.type,

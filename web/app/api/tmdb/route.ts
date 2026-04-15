@@ -3,6 +3,34 @@ import { NextRequest, NextResponse } from 'next/server'
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500'
 
+interface TMDBGenre {
+  id: number
+  name: string
+}
+
+interface TMDBSearchResult {
+  id: number
+  title?: string
+  name?: string
+  poster_path: string | null
+  backdrop_path: string | null
+  overview: string
+  vote_average: number
+  release_date?: string
+  first_air_date?: string
+}
+
+interface TMDBSearchResponse {
+  results: TMDBSearchResult[]
+}
+
+interface TMDBDetails {
+  genres?: TMDBGenre[]
+  runtime?: number
+  number_of_seasons?: number
+  number_of_episodes?: number
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { title, type } = await request.json()
@@ -24,9 +52,9 @@ export async function POST(request: NextRequest) {
       throw new Error('TMDB API error')
     }
 
-    const searchData = await searchResponse.json()
+    const searchData: TMDBSearchResponse = await searchResponse.json()
 
-    if (searchData.results.length === 0) {
+    if (!Array.isArray(searchData.results) || searchData.results.length === 0) {
       return NextResponse.json({ poster: null })
     }
 
@@ -35,7 +63,7 @@ export async function POST(request: NextRequest) {
     // Get additional details
     const detailsUrl = `${TMDB_BASE_URL}/${mediaType}/${result.id}?api_key=${apiKey}&language=fr-FR`
     const detailsResponse = await fetch(detailsUrl)
-    const details = await detailsResponse.json()
+    const details: TMDBDetails = await detailsResponse.json()
 
     return NextResponse.json({
       id: result.id,
@@ -49,10 +77,10 @@ export async function POST(request: NextRequest) {
       overview: result.overview || null,
       rating: result.vote_average ? Math.round(result.vote_average * 10) / 10 : null,
       releaseDate: mediaType === 'tv' ? result.first_air_date : result.release_date,
-      genres: details.genres?.map((g: any) => g.name) || [],
-      runtime: details.runtime || null,
-      seasons: details.number_of_seasons || null,
-      episodes: details.number_of_episodes || null,
+      genres: details.genres?.map((g: TMDBGenre) => g.name) ?? [],
+      runtime: details.runtime ?? null,
+      seasons: details.number_of_seasons ?? null,
+      episodes: details.number_of_episodes ?? null,
     })
   } catch (error) {
     console.error('TMDB API error:', error)

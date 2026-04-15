@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs'
+import { promises as fsp } from 'fs'
 import path from 'path'
 import { getGamesData, getFilmsData, getSeriesData, getGitHubContributions } from '@/lib/data'
 
@@ -43,7 +44,7 @@ export async function GET(request: NextRequest) {
     try {
       const partnersFile = path.join(process.cwd(), 'data', 'partners.csv')
       if (fs.existsSync(partnersFile)) {
-        const content = fs.readFileSync(partnersFile, 'utf-8')
+        const content = await fsp.readFile(partnersFile, 'utf-8')
         const lines = content.trim().split('\n')
         for (let i = 1; i < lines.length; i++) {
           const columns = lines[i].split(';')

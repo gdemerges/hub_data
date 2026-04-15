@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import fs from 'fs'
+import { promises as fsp } from 'fs'
 import path from 'path'
 
 interface Partner {
@@ -24,7 +25,7 @@ export async function GET() {
       })
     }
 
-    const content = fs.readFileSync(dataFile, 'utf-8')
+    const content = await fsp.readFile(dataFile, 'utf-8')
     const lines = content.trim().split('\n')
 
     if (lines.length <= 1) {

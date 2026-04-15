@@ -25,12 +25,13 @@ export async function POST() {
     }
 
     const gamesData = await gamesResponse.json()
-    const games = gamesData.response?.games || []
+    interface SteamGameRaw { appid: number; name: string; playtime_forever: number }
+    const games: SteamGameRaw[] = gamesData.response?.games || []
 
     // Create snapshot with total playtime for each game
     const currentSnapshot: GameSnapshot[] = games
-      .filter((game: any) => game.playtime_forever > 0) // Only games with playtime
-      .map((game: any) => ({
+      .filter((game) => game.playtime_forever > 0) // Only games with playtime
+      .map((game) => ({
         appid: game.appid,
         name: game.name,
         playtimeForever: game.playtime_forever,

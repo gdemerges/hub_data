@@ -1,11 +1,21 @@
 import { NextResponse } from 'next/server'
 import fs from 'fs'
+import { promises as fsp } from 'fs'
 import path from 'path'
 
 interface GeocodeCache {
   [key: string]: {
     city?: string
     country?: string
+  }
+}
+
+interface LocationHistoryItem {
+  startTime?: string
+  visit?: {
+    topCandidate?: {
+      placeLocation?: string
+    }
   }
 }
 
@@ -23,7 +33,7 @@ async function reverseGeocode(lat: number, lng: number): Promise<{ city?: string
     if (!response.ok) return {}
 
     const data = await response.json()
-    const address = data.address || {}
+    const address = data?.address ?? {}
 
     return {
       city: address.city || address.town || address.village || address.municipality,
@@ -56,7 +66,7 @@ export async function POST() {
     let cache: GeocodeCache = {}
     if (fs.existsSync(cacheFile)) {
       try {
-        cache = JSON.parse(fs.readFileSync(cacheFile, 'utf-8'))
+        cache = JSON.parse(await fsp.readFile(cacheFile, 'utf-8'))
       } catch (err) {
         console.error('Error reading cache:', err)
       }
@@ -67,14 +77,14 @@ export async function POST() {
       return NextResponse.json({ error: 'No location history found' }, { status: 404 })
     }
 
-    let historyData: unknown
+    let historyData: LocationHistoryItem[]
     try {
-      historyData = JSON.parse(fs.readFileSync(historyFile, 'utf-8'))
+      const raw = JSON.parse(await fsp.readFile(historyFile, 'utf-8'))
+      if (!Array.isArray(raw)) {
+        return NextResponse.json({ error: 'Invalid location history format' }, { status: 400 })
+      }
+      historyData = raw as LocationHistoryItem[]
     } catch {
-      return NextResponse.json({ error: 'Invalid location history format' }, { status: 400 })
-    }
-
-    if (!Array.isArray(historyData)) {
       return NextResponse.json({ error: 'Invalid location history format' }, { status: 400 })
     }
 
@@ -82,8 +92,9 @@ export async function POST() {
     const locationCounts = new Map<string, number>()
 
     for (const item of historyData) {
-      if (item.visit?.topCandidate?.placeLocation) {
-        const coords = item.visit.topCandidate.placeLocation.replace('geo:', '')
+      const placeLocation = item.visit?.topCandidate?.placeLocation
+      if (placeLocation) {
+        const coords = placeLocation.replace('geo:', '')
         const parts = coords.split(',')
         if (parts.length === 2) {
           const lat = parseFloat(parts[0])
@@ -121,7 +132,7 @@ export async function POST() {
     }
 
     // Save updated cache
-    fs.writeFileSync(cacheFile, JSON.stringify(cache, null, 2))
+    await fsp.writeFile(cacheFile, JSON.stringify(cache, null, 2))
 
     return NextResponse.json({
       success: true,

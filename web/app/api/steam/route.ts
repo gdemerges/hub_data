@@ -4,6 +4,14 @@ export const revalidate = 21600 // Revalidate every 6 hours
 
 const STEAM_API_BASE = 'https://api.steampowered.com'
 
+interface SteamGame {
+  appid: number
+  name: string
+  playtime_forever: number
+  playtime_2weeks?: number
+  img_icon_url: string
+}
+
 export async function GET() {
   try {
     const apiKey = process.env.STEAM_API_KEY
@@ -30,7 +38,7 @@ export async function GET() {
     const gamesData = await gamesResponse.json()
 
     const player = summaryData.response?.players?.[0]
-    const games = gamesData.response?.games || []
+    const games: SteamGame[] = gamesData.response?.games || []
 
     if (!player) {
       throw new Error('Player not found')
@@ -38,15 +46,15 @@ export async function GET() {
 
     // Calculate stats
     const totalGames = games.length
-    const totalPlaytimeMinutes = games.reduce((acc: number, game: any) => acc + (game.playtime_forever || 0), 0)
+    const totalPlaytimeMinutes = games.reduce((acc, game) => acc + (game.playtime_forever || 0), 0)
     const totalPlaytimeHours = Math.floor(totalPlaytimeMinutes / 60)
 
     // Get top games by playtime
     const topGames = games
-      .filter((game: any) => game.playtime_forever > 0)
-      .sort((a: any, b: any) => b.playtime_forever - a.playtime_forever)
+      .filter((game) => game.playtime_forever > 0)
+      .sort((a, b) => b.playtime_forever - a.playtime_forever)
       .slice(0, 10)
-      .map((game: any) => ({
+      .map((game) => ({
         appid: game.appid,
         name: game.name,
         playtimeHours: Math.floor(game.playtime_forever / 60),
@@ -56,13 +64,13 @@ export async function GET() {
 
     // Get recently played games
     const recentGames = games
-      .filter((game: any) => game.playtime_2weeks > 0)
-      .sort((a: any, b: any) => b.playtime_2weeks - a.playtime_2weeks)
-      .map((game: any) => ({
+      .filter((game) => (game.playtime_2weeks ?? 0) > 0)
+      .sort((a, b) => (b.playtime_2weeks ?? 0) - (a.playtime_2weeks ?? 0))
+      .map((game) => ({
         appid: game.appid,
         name: game.name,
-        playtimeHours: Math.floor(game.playtime_2weeks / 60),
-        playtimeMinutes: game.playtime_2weeks,
+        playtimeHours: Math.floor((game.playtime_2weeks ?? 0) / 60),
+        playtimeMinutes: game.playtime_2weeks ?? 0,
         iconUrl: `https://media.steampowered.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`,
       }))
 

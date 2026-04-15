@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs'
+import { promises as fsp } from 'fs'
 import path from 'path'
 
 export async function GET(request: NextRequest) {
@@ -51,7 +52,7 @@ export async function GET(request: NextRequest) {
     }
 
     const tokenFile = path.join(dataDir, 'strava-tokens.json')
-    fs.writeFileSync(tokenFile, JSON.stringify({
+    await fsp.writeFile(tokenFile, JSON.stringify({
       access_token: tokenData.access_token,
       refresh_token: tokenData.refresh_token,
       expires_at: tokenData.expires_at,
@@ -59,8 +60,8 @@ export async function GET(request: NextRequest) {
     }, null, 2))
 
     return NextResponse.redirect(new URL('/sport', request.url))
-  } catch (err: any) {
-    console.error('Strava callback error:', err.message)
+  } catch (err: unknown) {
+    console.error('Strava callback error:', err instanceof Error ? err.message : err)
     return NextResponse.redirect(new URL('/sport?error=unknown', request.url))
   }
 }

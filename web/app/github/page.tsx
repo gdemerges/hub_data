@@ -265,7 +265,7 @@ export default function GitHubPage() {
           </div>
         </div>
         <div className="space-y-3">
-          {data.stats.topLanguages.map((lang: any, i: number) => (
+          {data.stats.topLanguages.map((lang, i) => (
             <div key={lang.language} className="group flex items-center gap-3">
               <div className="w-6 h-6 flex items-center justify-center bg-neon-cyan/10 border border-neon-cyan/30 rounded text-xs font-mono font-bold text-neon-cyan">
                 {i + 1}

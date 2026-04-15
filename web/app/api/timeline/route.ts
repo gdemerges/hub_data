@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs'
+import { promises as fsp } from 'fs'
 import path from 'path'
 import { getFilmsData, getSeriesData, getGamesData } from '@/lib/data'
 
@@ -89,7 +90,7 @@ export async function GET(request: NextRequest) {
     try {
       const tokenFile = path.join(process.cwd(), 'data', 'strava-tokens.json')
       if (fs.existsSync(tokenFile)) {
-        const tokenData = JSON.parse(fs.readFileSync(tokenFile, 'utf-8'))
+        const tokenData = JSON.parse(await fsp.readFile(tokenFile, 'utf-8'))
 
         // Check if token is valid
         const now = Math.floor(Date.now() / 1000)
@@ -125,8 +126,12 @@ export async function GET(request: NextRequest) {
       const historyFile = path.join(process.cwd(), 'data', 'location-history', 'location-history.json')
 
       if (fs.existsSync(historyFile) && fs.existsSync(cacheFile)) {
-        const cache = JSON.parse(fs.readFileSync(cacheFile, 'utf-8'))
-        const history = JSON.parse(fs.readFileSync(historyFile, 'utf-8'))
+        const [cacheContent, historyContent] = await Promise.all([
+          fsp.readFile(cacheFile, 'utf-8'),
+          fsp.readFile(historyFile, 'utf-8'),
+        ])
+        const cache = JSON.parse(cacheContent)
+        const history = JSON.parse(historyContent)
 
         // Get unique cities visited by month
         const cityByMonth = new Map<string, { city: string; country: string; date: string }>()
@@ -178,7 +183,7 @@ export async function GET(request: NextRequest) {
     try {
       const partnersFile = path.join(process.cwd(), 'data', 'partners.csv')
       if (fs.existsSync(partnersFile)) {
-        const content = fs.readFileSync(partnersFile, 'utf-8')
+        const content = await fsp.readFile(partnersFile, 'utf-8')
         const lines = content.trim().split('\n')
 
         for (let i = 1; i < lines.length; i++) {

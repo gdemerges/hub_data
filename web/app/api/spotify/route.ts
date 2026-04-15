@@ -8,6 +8,32 @@ const SPOTIFY_API_URL = 'https://api.spotify.com/v1'
 // Module-level token cache — avoids re-fetching for every request
 let cachedToken: { token: string; expiresAt: number } | null = null
 
+interface SpotifyImage {
+  url: string
+}
+
+interface SpotifyArtist {
+  name: string
+  images: SpotifyImage[]
+  genres: string[]
+  followers: { total: number }
+  external_urls: { spotify: string }
+}
+
+interface SpotifyTrack {
+  name: string
+  artists: { name: string }[]
+  album: { name: string; images: SpotifyImage[] }
+  duration_ms: number
+  preview_url?: string
+  external_urls: { spotify: string }
+}
+
+interface SpotifyRecentlyPlayedItem {
+  track: SpotifyTrack
+  played_at: string
+}
+
 async function getAccessToken(): Promise<string | null> {
   // Return cached token if still valid (with 60s buffer)
   if (cachedToken && Date.now() < cachedToken.expiresAt - 60_000) {
@@ -76,9 +102,9 @@ export async function GET() {
     ])
 
     // Calculate listening stats from recently played
-    const genreCount: { [key: string]: number } = {}
-    topArtists.items?.forEach((artist: any) => {
-      artist.genres?.forEach((genre: string) => {
+    const genreCount: Record<string, number> = {}
+    ;(topArtists.items as SpotifyArtist[] | undefined)?.forEach((artist) => {
+      artist.genres?.forEach((genre) => {
         genreCount[genre] = (genreCount[genre] || 0) + 1
       })
     })
@@ -95,30 +121,30 @@ export async function GET() {
         followers: profile.followers?.total || 0,
         profileUrl: profile.external_urls?.spotify,
       },
-      topTracks: topTracks.items?.map((track: any) => ({
+      topTracks: (topTracks.items as SpotifyTrack[] | undefined)?.map((track) => ({
         name: track.name,
-        artist: track.artists?.map((a: any) => a.name).join(', '),
+        artist: track.artists?.map((a) => a.name).join(', '),
         album: track.album?.name,
         albumCover: track.album?.images?.[0]?.url,
         duration: track.duration_ms,
         previewUrl: track.preview_url,
         spotifyUrl: track.external_urls?.spotify,
-      })) || [],
-      topArtists: topArtists.items?.map((artist: any) => ({
+      })) ?? [],
+      topArtists: (topArtists.items as SpotifyArtist[] | undefined)?.map((artist) => ({
         name: artist.name,
         image: artist.images?.[0]?.url,
-        genres: artist.genres?.slice(0, 3) || [],
+        genres: artist.genres?.slice(0, 3) ?? [],
         followers: artist.followers?.total || 0,
         spotifyUrl: artist.external_urls?.spotify,
-      })) || [],
-      recentlyPlayed: recentlyPlayed.items?.map((item: any) => ({
+      })) ?? [],
+      recentlyPlayed: (recentlyPlayed.items as SpotifyRecentlyPlayedItem[] | undefined)?.map((item) => ({
         name: item.track?.name,
-        artist: item.track?.artists?.map((a: any) => a.name).join(', '),
+        artist: item.track?.artists?.map((a) => a.name).join(', '),
         album: item.track?.album?.name,
         albumCover: item.track?.album?.images?.[0]?.url,
         playedAt: item.played_at,
         spotifyUrl: item.track?.external_urls?.spotify,
-      })) || [],
+      })) ?? [],
       topGenres,
       stats: {
         totalTracks: topTracks.items?.length || 0,

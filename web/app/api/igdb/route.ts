@@ -91,8 +91,8 @@ export async function POST(request: NextRequest) {
         : null,
       rating: game.rating ? Math.round(game.rating) : null,
       summary: game.summary || null,
-      genres: game.genres?.map((g: any) => g.name) || [],
-      platforms: game.platforms?.map((p: any) => p.name) || [],
+      genres: (game.genres as { name: string }[] | undefined)?.map((g) => g.name) ?? [],
+      platforms: (game.platforms as { name: string }[] | undefined)?.map((p) => p.name) ?? [],
     })
   } catch (error) {
     console.error('IGDB API error:', error)

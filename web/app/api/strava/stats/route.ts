@@ -46,9 +46,11 @@ async function fetchStravaData(accessToken: string, year: string | null) {
       const activities = await activitiesResponse.json()
 
       // Sum only Run activities
-      yearRunDistance = activities
-        .filter((activity: any) => activity.type === 'Run')
-        .reduce((sum: number, activity: any) => sum + (activity.distance || 0), 0) / 1000
+      interface StravaActivityMin { type: string; distance: number }
+      const typedActivities = activities as StravaActivityMin[]
+      yearRunDistance = typedActivities
+        .filter((activity) => activity.type === 'Run')
+        .reduce((sum, activity) => sum + (activity.distance || 0), 0) / 1000
     }
   }
 

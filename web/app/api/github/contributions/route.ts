@@ -54,9 +54,11 @@ export async function GET(request: NextRequest) {
 
     // Process contributions data
     const contributionCalendar = contributionsData.data?.user?.contributionsCollection?.contributionCalendar
-    const contributions = contributionCalendar?.weeks
-      ?.flatMap((week: any) => week.contributionDays)
-      .map((day: any) => ({
+    interface ContributionDay { date: string; contributionCount: number; contributionLevel: string }
+    interface ContributionWeek { contributionDays: ContributionDay[] }
+    const contributions = (contributionCalendar?.weeks as ContributionWeek[] | undefined)
+      ?.flatMap((week) => week.contributionDays)
+      .map((day) => ({
         date: day.date,
         count: day.contributionCount,
         level: ['NONE', 'FIRST_QUARTILE', 'SECOND_QUARTILE', 'THIRD_QUARTILE', 'FOURTH_QUARTILE'].indexOf(

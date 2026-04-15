@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import fs from 'fs'
+import { promises as fsp } from 'fs'
 import path from 'path'
 
 interface PlaceVisit {
@@ -33,6 +34,15 @@ interface OldLocationHistory {
       semanticType?: string
     }
   }
+}
+
+interface VisitRecord {
+  name: string
+  address: string
+  city?: string
+  country?: string
+  startTime: string
+  duration: number
 }
 
 function extractCityCountry(address: string): { city?: string; country?: string } {
@@ -78,7 +88,7 @@ async function reverseGeocode(lat: number, lng: number): Promise<{ city?: string
     if (!response.ok) return {}
 
     const data = await response.json()
-    const address = data.address || {}
+    const address = data?.address ?? {}
 
     return {
       city: address.city || address.town || address.village || address.municipality,
@@ -87,6 +97,104 @@ async function reverseGeocode(lat: number, lng: number): Promise<{ city?: string
   } catch (err) {
     console.error('Reverse geocoding error:', err)
     return {}
+  }
+}
+
+async function readJsonFiles(
+  dir: string,
+  allVisits: VisitRecord[],
+  geocodeCache: Map<string, { city?: string; country?: string }>
+): Promise<void> {
+  if (!fs.existsSync(dir)) return
+
+  const entries = await fsp.readdir(dir, { withFileTypes: true })
+
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name)
+
+    if (entry.isDirectory()) {
+      await readJsonFiles(fullPath, allVisits, geocodeCache)
+    } else if (entry.name.endsWith('.json')) {
+      try {
+        const content = await fsp.readFile(fullPath, 'utf-8')
+        const data: SemanticLocationHistory | OldLocationHistory[] = JSON.parse(content)
+
+        // Check if it's the new format (timelineObjects)
+        if (!Array.isArray(data) && data.timelineObjects) {
+          for (const obj of data.timelineObjects) {
+            if (obj.placeVisit?.location?.name) {
+              const visit = obj.placeVisit
+              const { city, country } = extractCityCountry(visit.location.address || '')
+
+              const startTime = visit.duration?.startTimestamp || ''
+              const endTime = visit.duration?.endTimestamp || ''
+
+              let duration = 0
+              if (startTime && endTime) {
+                duration = Math.round(
+                  (new Date(endTime).getTime() - new Date(startTime).getTime()) / 60000
+                )
+              }
+
+              allVisits.push({
+                name: visit.location.name!,
+                address: visit.location.address || '',
+                city,
+                country,
+                startTime,
+                duration,
+              })
+            }
+          }
+        }
+        // Check if it's the old format (array of visits)
+        else if (Array.isArray(data)) {
+          for (const item of data) {
+            const oldVisit = item as OldLocationHistory
+            if (oldVisit.visit?.topCandidate?.placeLocation) {
+              const coords = parseGeoLocation(oldVisit.visit.topCandidate.placeLocation)
+
+              if (coords) {
+                // Round coordinates to group nearby locations
+                const roundedKey = `${coords.lat.toFixed(2)},${coords.lng.toFixed(2)}`
+
+                // Get city/country from cache or approximate based on coordinates
+                let city = geocodeCache.get(roundedKey)?.city
+                let country = geocodeCache.get(roundedKey)?.country
+
+                // Approximate city name based on rounded coordinates if not in cache
+                if (!city) {
+                  city = `Location ${roundedKey}`
+                  country = 'Unknown'
+                  geocodeCache.set(roundedKey, { city, country })
+                }
+
+                const startTime = oldVisit.startTime
+                const endTime = oldVisit.endTime
+
+                let duration = 0
+                if (startTime && endTime) {
+                  duration = Math.round(
+                    (new Date(endTime).getTime() - new Date(startTime).getTime()) / 60000
+                  )
+                }
+
+                allVisits.push({
+                  name: city || `Location (${coords.lat.toFixed(3)}, ${coords.lng.toFixed(3)})`,
+                  address: roundedKey,
+                  city,
+                  country,
+                  startTime,
+                  duration,
+                })
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.error(`Error parsing ${fullPath}:`, err)
+      }
+    }
   }
 }
 
@@ -104,120 +212,18 @@ export async function GET() {
 
     if (!fs.existsSync(semanticDir)) {
       // Try to find any JSON files in the data dir
-      const files = fs.readdirSync(dataDir).filter(f => f.endsWith('.json'))
+      const files = (await fsp.readdir(dataDir)).filter(f => f.endsWith('.json'))
       if (files.length === 0) {
         return NextResponse.json({ error: 'No location history data found' }, { status: 404 })
       }
     }
 
-    const allVisits: Array<{
-      name: string
-      address: string
-      city?: string
-      country?: string
-      startTime: string
-      duration: number
-    }> = []
+    const allVisits: VisitRecord[] = []
 
     // Cache for geocoding results to avoid duplicate API calls
     const geocodeCache = new Map<string, { city?: string; country?: string }>()
 
-    // Read all JSON files
-    const readJsonFiles = (dir: string) => {
-      if (!fs.existsSync(dir)) return
-
-      const entries = fs.readdirSync(dir, { withFileTypes: true })
-
-      for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name)
-
-        if (entry.isDirectory()) {
-          readJsonFiles(fullPath)
-        } else if (entry.name.endsWith('.json')) {
-          try {
-            const content = fs.readFileSync(fullPath, 'utf-8')
-            const data = JSON.parse(content)
-
-            // Check if it's the new format (timelineObjects)
-            if (data.timelineObjects) {
-              for (const obj of data.timelineObjects) {
-                if (obj.placeVisit?.location?.name) {
-                  const visit = obj.placeVisit
-                  const { city, country } = extractCityCountry(visit.location.address || '')
-
-                  const startTime = visit.duration?.startTimestamp || ''
-                  const endTime = visit.duration?.endTimestamp || ''
-
-                  let duration = 0
-                  if (startTime && endTime) {
-                    duration = Math.round(
-                      (new Date(endTime).getTime() - new Date(startTime).getTime()) / 60000
-                    )
-                  }
-
-                  allVisits.push({
-                    name: visit.location.name,
-                    address: visit.location.address || '',
-                    city,
-                    country,
-                    startTime,
-                    duration,
-                  })
-                }
-              }
-            }
-            // Check if it's the old format (array of visits)
-            else if (Array.isArray(data)) {
-              for (const item of data) {
-                const oldVisit = item as OldLocationHistory
-                if (oldVisit.visit?.topCandidate?.placeLocation) {
-                  const coords = parseGeoLocation(oldVisit.visit.topCandidate.placeLocation)
-
-                  if (coords) {
-                    // Round coordinates to group nearby locations
-                    const roundedKey = `${coords.lat.toFixed(2)},${coords.lng.toFixed(2)}`
-
-                    // Get city/country from cache or approximate based on coordinates
-                    let city = geocodeCache.get(roundedKey)?.city
-                    let country = geocodeCache.get(roundedKey)?.country
-
-                    // Approximate city name based on rounded coordinates if not in cache
-                    if (!city) {
-                      city = `Location ${roundedKey}`
-                      country = 'Unknown'
-                      geocodeCache.set(roundedKey, { city, country })
-                    }
-
-                    const startTime = oldVisit.startTime
-                    const endTime = oldVisit.endTime
-
-                    let duration = 0
-                    if (startTime && endTime) {
-                      duration = Math.round(
-                        (new Date(endTime).getTime() - new Date(startTime).getTime()) / 60000
-                      )
-                    }
-
-                    allVisits.push({
-                      name: city || `Location (${coords.lat.toFixed(3)}, ${coords.lng.toFixed(3)})`,
-                      address: roundedKey,
-                      city,
-                      country,
-                      startTime,
-                      duration,
-                    })
-                  }
-                }
-              }
-            }
-          } catch (err) {
-            console.error(`Error parsing ${fullPath}:`, err)
-          }
-        }
-      }
-    }
-
-    readJsonFiles(dataDir)
+    await readJsonFiles(dataDir, allVisits, geocodeCache)
 
     if (allVisits.length === 0) {
       return NextResponse.json({ error: 'No visits found in data' }, { status: 404 })
@@ -229,7 +235,7 @@ export async function GET() {
 
     if (fs.existsSync(cacheFile)) {
       try {
-        persistentCache = JSON.parse(fs.readFileSync(cacheFile, 'utf-8'))
+        persistentCache = JSON.parse(await fsp.readFile(cacheFile, 'utf-8'))
       } catch (err) {
         console.error('Error reading geocode cache:', err)
       }

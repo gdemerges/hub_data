@@ -8,6 +8,16 @@ const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql'
 const LANG_CACHE_TTL = 6 * 60 * 60 * 1000 // 6h in ms
 const langCache = new Map<string, { languages: Record<string, number>; fetchedAt: number }>()
 
+interface GitHubRawRepo {
+  name: string
+  description: string | null
+  language: string | null
+  stargazers_count: number
+  forks_count: number
+  html_url: string
+  updated_at: string
+}
+
 export async function GET(request: NextRequest) {
   try {
     const username = request.nextUrl.searchParams.get('username')
@@ -36,21 +46,26 @@ export async function GET(request: NextRequest) {
     }
 
     const user = await userResponse.json()
-    const repos = await reposResponse.json()
+    const reposRaw = await reposResponse.json()
+
+    if (!Array.isArray(reposRaw)) {
+      throw new Error('Unexpected GitHub repos response')
+    }
+    const repos: GitHubRawRepo[] = reposRaw
 
     // Calculate stats
-    const totalStars = repos.reduce((acc: number, repo: any) => acc + repo.stargazers_count, 0)
-    const totalForks = repos.reduce((acc: number, repo: any) => acc + repo.forks_count, 0)
+    const totalStars = repos.reduce((acc, repo) => acc + repo.stargazers_count, 0)
+    const totalForks = repos.reduce((acc, repo) => acc + repo.forks_count, 0)
 
     // Languages: use in-memory cache, limit to 20 most-starred repos
     const now = Date.now()
     const languageBytes = new Map<string, number>()
 
     const topReposByStars = [...repos]
-      .sort((a: any, b: any) => b.stargazers_count - a.stargazers_count)
+      .sort((a, b) => b.stargazers_count - a.stargazers_count)
       .slice(0, 20)
 
-    const languagePromises = topReposByStars.map(async (repo: any) => {
+    const languagePromises = topReposByStars.map(async (repo) => {
       const cacheKey = `${username}/${repo.name}`
       const cached = langCache.get(cacheKey)
 
@@ -139,9 +154,9 @@ export async function GET(request: NextRequest) {
 
     // Top repos by stars
     const topRepos = repos
-      .sort((a: any, b: any) => b.stargazers_count - a.stargazers_count)
+      .sort((a, b) => b.stargazers_count - a.stargazers_count)
       .slice(0, 6)
-      .map((repo: any) => ({
+      .map((repo) => ({
         name: repo.name,
         description: repo.description,
         stars: repo.stargazers_count,

@@ -750,7 +750,7 @@ export default function SportPage() {
               predictions = predictions.map(pred => {
                 try {
                   const goal = typeof window !== 'undefined'
-                    ? JSON.parse(localStorage.getItem('training-goals') || '[]').find((g: any) => g.distance === pred.distance)
+                    ? (JSON.parse(localStorage.getItem('training-goals') || '[]') as { distance: number; targetTime: number }[]).find((g) => g.distance === pred.distance)
                     : null
 
                   if (goal && pred.predictedTime > goal.targetTime) {
