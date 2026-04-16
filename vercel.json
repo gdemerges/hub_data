@@ -1,3 +1,9 @@
 {
-  "rootDirectory": "web"
+  "rootDirectory": "web",
+  "crons": [
+    { "path": "/api/cron/steam-sync",    "schedule": "0 */6 * * *" },
+    { "path": "/api/cron/github-sync",   "schedule": "0 */6 * * *" },
+    { "path": "/api/cron/spotify-sync",  "schedule": "0 * * * *"   },
+    { "path": "/api/cron/strava-sync",   "schedule": "0 * * * *"   }
+  ]
 }

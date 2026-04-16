@@ -9,7 +9,8 @@
     "build:data": "tsx scripts/build-data.ts",
     "start": "next start",
     "lint": "next lint",
-    "steam:sync": "curl -X POST http://localhost:3000/api/steam/sync"
+    "steam:sync": "curl -X POST http://localhost:3000/api/steam/sync",
+    "refresh:covers": "tsx scripts/refresh-covers.ts"
   },
   "dependencies": {
     "@tanstack/react-virtual": "^3.13.13",

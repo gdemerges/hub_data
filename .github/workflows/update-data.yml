@@ -1,0 +1,71 @@
+name: Update data from SerieBox
+
+# Full pipeline: SerieBox download → JSON generation
+# After this commits, refresh-covers.yml auto-triggers to fetch missing covers.
+#
+# Required GitHub Secrets:
+#   SERIEBOX_USERNAME    — SerieBox login
+#   SERIEBOX_PASSWORD    — SerieBox password
+#   IGDB_CLIENT_ID       — for game covers
+#   IGDB_CLIENT_SECRET   — for game covers
+#   TMDB_API_KEY         — for film/series posters
+
+on:
+  schedule:
+    # Every Sunday at 2am UTC
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+    inputs:
+      skip_seriebox:
+        description: 'Skip SerieBox download (rebuild JSON from existing CSVs only)'
+        type: boolean
+        default: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install Python dependencies
+        # browser-cookie3 is not needed in CI (username/password fallback is used)
+        run: pip install requests pandas python-dotenv
+
+      - name: Install Node dependencies
+        run: npm ci
+        working-directory: web
+
+      - name: Download from SerieBox + build JSON
+        run: |
+          if [ "${{ inputs.skip_seriebox }}" = "true" ]; then
+            python pipelines/update-data.py --skip-seriebox
+          else
+            python pipelines/update-data.py
+          fi
+        env:
+          SERIEBOX_USERNAME: ${{ secrets.SERIEBOX_USERNAME }}
+          SERIEBOX_PASSWORD: ${{ secrets.SERIEBOX_PASSWORD }}
+          IGDB_CLIENT_ID: ${{ secrets.IGDB_CLIENT_ID }}
+          IGDB_CLIENT_SECRET: ${{ secrets.IGDB_CLIENT_SECRET }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+
+      - name: Commit updated JSON files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add web/data/games.json web/data/films.json web/data/series.json data/media-covers-cache.json || true
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "chore: update data from SerieBox [skip ci]"
+          git push

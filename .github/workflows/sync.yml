@@ -1,4 +1,14 @@
-name: Sync data
+name: Sync data from CSV
+
+# This workflow requires CSV files in data/seriebox/ (gitignored).
+# Typical workflow:
+#   1. Update CSVs locally (Seriebox export, etc.)
+#   2. Run locally: cd web && npm run build:data
+#   3. git add web/data/*.json && git push
+#   → refresh-covers.yml then auto-fetches any missing covers
+#
+# This workflow is kept for reference / manual rebuilds on CI if CSVs
+# are uploaded as artifacts first.
 
 on:
   schedule:
@@ -6,18 +16,14 @@ on:
     - cron: '0 3 * * 0'
   workflow_dispatch:
     inputs:
-      skip_seriebox:
-        description: 'Skip SerieBox download (use existing CSVs)'
+      skip_covers:
+        description: 'Skip cover image fetching (faster, use refresh-covers.yml separately)'
         type: boolean
         default: false
 
 jobs:
   build-data:
     runs-on: ubuntu-latest
-    # NOTE: This job requires the data CSVs to exist.
-    # For SerieBox data, run `make update` locally first then commit the
-    # generated web/data/*.json files (they are NOT gitignored).
-    # This job is most useful for rebuilding images cache from existing CSVs.
     steps:
       - uses: actions/checkout@v4
 
@@ -27,17 +33,21 @@ jobs:
           cache: 'npm'
           cache-dependency-path: web/package-lock.json
 
-      - name: Install Node dependencies
+      - name: Install dependencies
         run: npm ci
         working-directory: web
 
-      - name: Build data (games/films/series JSON with covers)
+      - name: Build data JSON from CSV files
         run: npx tsx scripts/build-data.ts
         working-directory: web
         env:
-          IGDB_CLIENT_ID: ${{ secrets.IGDB_CLIENT_ID }}
-          IGDB_CLIENT_SECRET: ${{ secrets.IGDB_CLIENT_SECRET }}
-          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          IGDB_CLIENT_ID: ${{ inputs.skip_covers && '' || secrets.IGDB_CLIENT_ID }}
+          IGDB_CLIENT_SECRET: ${{ inputs.skip_covers && '' || secrets.IGDB_CLIENT_SECRET }}
+          TMDB_API_KEY: ${{ inputs.skip_covers && '' || secrets.TMDB_API_KEY }}
+        # NOTE: This step will fail if data/seriebox/*.csv files are not present.
+        # For CI use, upload the CSV files as artifacts before running this step,
+        # or run build-data.ts locally and commit the resulting JSON files instead.
+        continue-on-error: true
 
       - name: Commit updated JSON and cache
         run: |

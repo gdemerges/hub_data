@@ -1,26 +1,24 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 const MAX_RETRIES = 3
-const RETRY_DELAY_MS = 5000 // 5 seconds
+const RETRY_DELAY_MS = 5000
 
-async function syncWithRetry(retries = MAX_RETRIES): Promise<any> {
+function getBaseUrl(): string {
+  if (process.env.NEXT_PUBLIC_BASE_URL) return process.env.NEXT_PUBLIC_BASE_URL
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`
+  return 'http://localhost:3000'
+}
+
+async function syncWithRetry(retries = MAX_RETRIES): Promise<unknown> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-    const response = await fetch(`${baseUrl}/api/steam/sync`, {
+    const response = await fetch(`${getBaseUrl()}/api/steam/sync`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
     })
-
-    if (!response.ok) {
-      throw new Error(`Sync failed with status ${response.status}`)
-    }
-
+    if (!response.ok) throw new Error(`Sync failed with status ${response.status}`)
     return await response.json()
   } catch (error) {
     if (retries > 0) {
-      console.log(`Sync failed, retrying... (${MAX_RETRIES - retries + 1}/${MAX_RETRIES})`)
       await new Promise(resolve => setTimeout(resolve, RETRY_DELAY_MS))
       return syncWithRetry(retries - 1)
     }
@@ -28,25 +26,24 @@ async function syncWithRetry(retries = MAX_RETRIES): Promise<any> {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const authHeader = request.headers.get('authorization')
+  if (process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const result = await syncWithRetry()
-
     return NextResponse.json({
       success: true,
-      message: 'Automatic Steam sync completed',
+      message: 'Steam sync completed',
       timestamp: new Date().toISOString(),
       syncResult: result,
     })
   } catch (error) {
-    console.error('Automatic Steam sync failed after retries:', error)
+    console.error('Steam cron sync failed:', error)
     return NextResponse.json(
-      {
-        success: false,
-        message: 'Failed to sync Steam data after multiple retries',
-        timestamp: new Date().toISOString(),
-        error: error instanceof Error ? error.message : 'Unknown error',
-      },
+      { success: false, error: error instanceof Error ? error.message : 'Unknown error', timestamp: new Date().toISOString() },
       { status: 500 }
     )
   }
