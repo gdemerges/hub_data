@@ -1,41 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { TokenCache } from '@/lib/token-cache'
 
-let cachedToken: { token: string; expiresAt: number } | null = null
+const tokenCache = new TokenCache()
 
 async function getAccessToken(): Promise<string> {
-  // Return cached token if still valid
-  if (cachedToken && Date.now() < cachedToken.expiresAt - 60000) {
-    return cachedToken.token
-  }
+  const cached = tokenCache.get()
+  if (cached) return cached
 
   const clientId = process.env.IGDB_CLIENT_ID
   const clientSecret = process.env.IGDB_CLIENT_SECRET
-
-  if (!clientId || !clientSecret) {
-    throw new Error('IGDB credentials not configured')
-  }
+  if (!clientId || !clientSecret) throw new Error('IGDB credentials not configured')
 
   const response = await fetch('https://id.twitch.tv/oauth2/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      client_id: clientId,
-      client_secret: clientSecret,
-      grant_type: 'client_credentials',
-    }),
+    body: new URLSearchParams({ client_id: clientId, client_secret: clientSecret, grant_type: 'client_credentials' }),
   })
-
-  if (!response.ok) {
-    throw new Error('Failed to get IGDB access token')
-  }
+  if (!response.ok) throw new Error('Failed to get IGDB access token')
 
   const data = await response.json()
-  cachedToken = {
-    token: data.access_token,
-    expiresAt: Date.now() + data.expires_in * 1000,
-  }
-
-  return cachedToken.token
+  tokenCache.set(data.access_token, data.expires_in)
+  return data.access_token
 }
 
 export async function POST(request: NextRequest) {

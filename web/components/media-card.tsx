@@ -39,10 +39,9 @@ export function MediaCard({ title, imageUrl, subtitle, badge, progressBadge, onC
               alt={title}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-              className="!absolute !inset-0 !w-full !h-full object-cover transition-transform duration-500 scale-110 group-hover:scale-125"
+              className="!absolute !inset-0 !w-full !h-full object-cover object-center transition-transform duration-500 scale-110 group-hover:scale-125"
               priority={priority}
               loading={priority ? 'eager' : 'lazy'}
-              style={{ objectFit: 'cover', objectPosition: 'center center' }}
             />
             {/* Scan line effect on hover */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">

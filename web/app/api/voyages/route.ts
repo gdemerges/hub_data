@@ -3,6 +3,7 @@ import fs from 'fs'
 import { promises as fsp } from 'fs'
 import path from 'path'
 import { nominatimFetch } from '@/lib/rate-limiter'
+import { readFileCache, writeFileCache, isCacheFresh } from '@/lib/file-cache'
 
 interface PlaceVisit {
   location: {
@@ -196,28 +197,21 @@ async function readJsonFiles(
 }
 
 const VOYAGES_CACHE_TTL = 24 * 3600 * 1000 // 24h — location history is static between manual geocode runs
+const VOYAGES_CACHE_FILE = path.join(process.cwd(), 'data', 'voyages-cache.json')
 const VOYAGES_CACHE_HEADERS = { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600' }
 
 export async function GET() {
   try {
     const dataDir = path.join(process.cwd(), 'data', 'location-history')
 
-    // Check if directory exists
     if (!fs.existsSync(dataDir)) {
       return NextResponse.json({ error: 'No location history data found' }, { status: 404 })
     }
 
     // Serve from file cache if still fresh
-    const voyagesCacheFile = path.join(process.cwd(), 'data', 'voyages-cache.json')
-    if (fs.existsSync(voyagesCacheFile)) {
-      try {
-        const cached = JSON.parse(await fsp.readFile(voyagesCacheFile, 'utf-8'))
-        if (Date.now() - cached.cachedAt < VOYAGES_CACHE_TTL) {
-          return NextResponse.json(cached.result, { headers: VOYAGES_CACHE_HEADERS })
-        }
-      } catch {
-        // Stale or corrupt cache — fall through
-      }
+    const cached = await readFileCache<object>(VOYAGES_CACHE_FILE)
+    if (cached && isCacheFresh(cached.cachedAt, VOYAGES_CACHE_TTL)) {
+      return NextResponse.json(cached.data, { headers: VOYAGES_CACHE_HEADERS })
     }
 
     // Find all JSON files recursively in the Semantic Location History folder
@@ -338,12 +332,7 @@ export async function GET() {
       visitsByYear,
     }
 
-    // Persist cache
-    try {
-      await fsp.writeFile(voyagesCacheFile, JSON.stringify({ result, cachedAt: Date.now() }))
-    } catch (e) {
-      console.error('Failed to write voyages cache:', e)
-    }
+    await writeFileCache(VOYAGES_CACHE_FILE, result)
 
     return NextResponse.json(result, { headers: VOYAGES_CACHE_HEADERS })
   } catch (error) {

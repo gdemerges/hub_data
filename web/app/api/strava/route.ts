@@ -1,15 +1,14 @@
 import { NextResponse } from 'next/server'
-import fs from 'fs'
-import { promises as fsp } from 'fs'
 import path from 'path'
 
 import { getValidStravaToken } from '@/lib/strava-token'
+import { readFileCache, writeFileCache, isCacheFresh } from '@/lib/file-cache'
 
 export const revalidate = 3600 // Revalidate every hour
 
 const STRAVA_API = 'https://www.strava.com/api/v3'
 const ACTIVITIES_CACHE_FILE = path.join(process.cwd(), 'data', 'strava-activities-cache.json')
-const CACHE_MAX_AGE_SECONDS = 3600 // 1 hour
+const CACHE_TTL_MS = 3600_000 // 1 hour
 
 interface StravaRawActivity {
   id: number
@@ -20,28 +19,6 @@ interface StravaRawActivity {
   total_elevation_gain: number
   start_date_local: string
   average_speed: number
-}
-
-interface ActivityCache {
-  cachedAt: number // unix timestamp
-  activities: StravaRawActivity[]
-}
-
-async function readActivitiesCache(): Promise<ActivityCache | null> {
-  if (!fs.existsSync(ACTIVITIES_CACHE_FILE)) return null
-  try {
-    const content = await fsp.readFile(ACTIVITIES_CACHE_FILE, 'utf-8')
-    return JSON.parse(content) as ActivityCache
-  } catch {
-    return null
-  }
-}
-
-async function writeActivitiesCache(activities: StravaRawActivity[]): Promise<void> {
-  const dataDir = path.join(process.cwd(), 'data')
-  if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true })
-  const cache: ActivityCache = { cachedAt: Math.floor(Date.now() / 1000), activities }
-  await fsp.writeFile(ACTIVITIES_CACHE_FILE, JSON.stringify(cache, null, 2))
 }
 
 async function fetchActivities(headers: HeadersInit, after: number): Promise<StravaRawActivity[]> {
@@ -102,29 +79,28 @@ export async function GET() {
     const currentYear = new Date().getFullYear()
     const fullSyncAfter = Math.floor(new Date(`${currentYear - 1}-01-01`).getTime() / 1000)
 
-    const cache = await readActivitiesCache()
-    const now = Math.floor(Date.now() / 1000)
+    const cache = await readFileCache<StravaRawActivity[]>(ACTIVITIES_CACHE_FILE)
     let activities: StravaRawActivity[]
 
-    if (!cache || now - cache.cachedAt > CACHE_MAX_AGE_SECONDS) {
-      if (cache && cache.activities.length > 0) {
+    if (!cache || !isCacheFresh(cache.cachedAt, CACHE_TTL_MS)) {
+      if (cache && cache.data.length > 0) {
         // Delta: only fetch activities newer than the most recent cached one
-        const latestCachedDate = cache.activities
+        const latestCachedDate = cache.data
           .map((a) => new Date(a.start_date_local).getTime() / 1000)
           .reduce((max, t) => Math.max(max, t), 0)
 
         const newActivities = await fetchActivities(headers, Math.floor(latestCachedDate))
         // Merge: replace/add new activities by id
-        const cachedById = new Map(cache.activities.map((a) => [a.id, a]))
+        const cachedById = new Map(cache.data.map((a) => [a.id, a]))
         for (const a of newActivities) cachedById.set(a.id, a)
         activities = Array.from(cachedById.values())
       } else {
         // Full sync
         activities = await fetchActivities(headers, fullSyncAfter)
       }
-      await writeActivitiesCache(activities)
+      await writeFileCache(ACTIVITIES_CACHE_FILE, activities)
     } else {
-      activities = cache.activities
+      activities = cache.data
     }
 
     // Process stats

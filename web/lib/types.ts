@@ -121,19 +121,6 @@ export interface Book {
   updated_at?: string
 }
 
-export interface DashboardStats {
-  totalGames: number
-  totalFilms: number
-  totalSeries: number
-  totalHours: number
-  gamesPlayed: number
-}
-
-export interface IGDBToken {
-  accessToken: string
-  expiresAt: number
-}
-
 // Types pour l'analyse fitness (Sport)
 export interface FitnessMetrics {
   ctl: number // Chronic Training Load (fitness long terme - 42 jours)
