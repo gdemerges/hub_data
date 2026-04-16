@@ -1,6 +1,6 @@
 .DS_Store
 .claude/
-data/
+data/*
 # Autoriser les caches (pas sensibles, economisent des appels API)
 !data/media-covers-cache.json
 !data/books-covers-cache.json
@@ -8,7 +8,7 @@ data/
 !data/github-languages-cache.json
 
 # Données JSON générées (reconstruites via npm run build:data)
-web/data/
+web/data/*
 # Autoriser les JSON construits (utiles pour CI/CD)
 !web/data/games.json
 !web/data/films.json

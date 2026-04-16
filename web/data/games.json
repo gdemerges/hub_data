@@ -1,0 +1,3600 @@
+[
+  {
+    "title": "Age of Empires",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "RTS"
+    ],
+    "rating": 17,
+    "avgRating": 15.6429,
+    "releaseYear": 1998,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1zsh.jpg"
+  },
+  {
+    "title": "Age of Empires II : The Age of Kings",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 15,
+    "genres": [
+      "RTS"
+    ],
+    "rating": 18,
+    "avgRating": 16.7267,
+    "releaseYear": 1999,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co55xo.jpg"
+  },
+  {
+    "title": "Age of Empires III",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "RTS"
+    ],
+    "rating": 16,
+    "avgRating": 15.5288,
+    "releaseYear": 2005,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1xy6.jpg"
+  },
+  {
+    "title": "Age of Empires: Definitive Edition",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 1,
+    "genres": [
+      "RTS"
+    ],
+    "avgRating": 14.3333,
+    "releaseYear": 2018,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1rdy.jpg"
+  },
+  {
+    "title": "Alan Wake",
+    "platform": "PC",
+    "status": "En pause",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "avgRating": 15.3818,
+    "releaseYear": 2010,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6jar.jpg"
+  },
+  {
+    "title": "Animal Crossing: New Horizons",
+    "platform": "Nintendo Switch",
+    "status": "Joué",
+    "hoursPlayed": 20,
+    "genres": [
+      "Simulation de vie"
+    ],
+    "rating": 16,
+    "avgRating": 17.1529,
+    "releaseYear": 2020,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3wls.jpg"
+  },
+  {
+    "title": "Animal Crossing: New Leaf",
+    "platform": "Nintendo 3DS",
+    "status": "Joué",
+    "hoursPlayed": 17,
+    "genres": [
+      "Gestion"
+    ],
+    "rating": 15,
+    "avgRating": 17.0545,
+    "releaseYear": 2013,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob8m6.jpg"
+  },
+  {
+    "title": "Anno 1404",
+    "platform": "PC",
+    "status": "En pause",
+    "hoursPlayed": 0,
+    "genres": [
+      "RTS"
+    ],
+    "avgRating": 16.3125,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2coe.jpg"
+  },
+  {
+    "title": "Assassin's Creed",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "rating": 16,
+    "avgRating": 16.0702,
+    "releaseYear": 2007,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3ka7.jpg"
+  },
+  {
+    "title": "Assassin's Creed II",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure",
+      "Infiltration"
+    ],
+    "rating": 17,
+    "avgRating": 17.0638,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1rcf.jpg"
+  },
+  {
+    "title": "Assassin's Creed III",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure",
+      "Infiltration"
+    ],
+    "rating": 15,
+    "avgRating": 15.7699,
+    "releaseYear": 2012,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1xii.jpg"
+  },
+  {
+    "title": "Assassin's Creed IV: Black Flag",
+    "platforms": [
+      {
+        "platform": "PC",
+        "status": "En cours",
+        "hoursPlayed": 3
+      },
+      {
+        "platform": "PC",
+        "status": "En cours",
+        "hoursPlayed": 3
+      }
+    ],
+    "hoursPlayed": 6,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "avgRating": 16.2453,
+    "releaseYear": 2013,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3tx9.jpg"
+  },
+  {
+    "title": "Assassin's Creed Origins",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 2,
+    "genres": [
+      "Action-RPG",
+      "Aventure"
+    ],
+    "avgRating": 16.5267,
+    "releaseYear": 2017,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1rbe.jpg"
+  },
+  {
+    "title": "Assassin's Creed: Brotherhood",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "rating": 16,
+    "avgRating": 16.5895,
+    "releaseYear": 2010,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5j8z.jpg"
+  },
+  {
+    "title": "Assassin's Creed: Revelations",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "rating": 15,
+    "avgRating": 15.7846,
+    "releaseYear": 2011,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5j90.jpg"
+  },
+  {
+    "title": "Asterix",
+    "platform": "Playstation",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action",
+      "Stratégie"
+    ],
+    "rating": 16,
+    "avgRating": 14.2,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co50nu.jpg"
+  },
+  {
+    "title": "Astérix",
+    "platform": "Super Nintendo",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action",
+      "Plates-Formes"
+    ],
+    "rating": 16,
+    "avgRating": 13.7143,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co50nu.jpg"
+  },
+  {
+    "title": "Baten Kaitos",
+    "platform": "GameCube",
+    "status": "Fini",
+    "hoursPlayed": 127,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 19,
+    "avgRating": 17.5625,
+    "releaseYear": 2005
+  },
+  {
+    "title": "Baten Kaitos Origins",
+    "platform": "GameCube",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 19,
+    "avgRating": 18.25,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co25na.jpg"
+  },
+  {
+    "title": "Batman: Arkham Asylum",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Beat'em All",
+      "Action/Aventure"
+    ],
+    "rating": 18,
+    "avgRating": 17.5229,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1voj.jpg"
+  },
+  {
+    "title": "Batman: Arkham City",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Beat'em All",
+      "Action/Aventure"
+    ],
+    "rating": 16,
+    "avgRating": 17.5156,
+    "releaseYear": 2011,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1voh.jpg"
+  },
+  {
+    "title": "Batman: Arkham Origins",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "avgRating": 15.3103,
+    "releaseYear": 2013,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3zg8.jpg"
+  },
+  {
+    "title": "Beyond: Two Souls",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 9,
+    "genres": [
+      "Aventure Narrative"
+    ],
+    "rating": 17,
+    "avgRating": 16.5652,
+    "releaseYear": 2019,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8r4w.jpg"
+  },
+  {
+    "title": "Blue Dragon",
+    "platform": "Xbox 360",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 13,
+    "avgRating": 14.4,
+    "releaseYear": 2007,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1qad.jpg"
+  },
+  {
+    "title": "Bravely Default",
+    "platform": "Nintendo 3DS",
+    "status": "Joué",
+    "hoursPlayed": 53,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 17.2895,
+    "releaseYear": 2013,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co25nj.jpg"
+  },
+  {
+    "title": "Bravely Default II",
+    "platform": "Nintendo Switch",
+    "status": "Jamais joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 14.1111,
+    "releaseYear": 2021,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob8gd.jpg"
+  },
+  {
+    "title": "Bully: Scholarship Edition",
+    "platform": "PC",
+    "status": "En pause",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "avgRating": 16.0667,
+    "releaseYear": 2008,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2gvl.jpg"
+  },
+  {
+    "title": "Call Of Duty: World At War",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "FPS"
+    ],
+    "rating": 13,
+    "avgRating": 13.2069,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wl8.jpg"
+  },
+  {
+    "title": "Chrono Trigger",
+    "platforms": [
+      {
+        "platform": "Nintendo DS",
+        "status": "Joué",
+        "hoursPlayed": 0
+      },
+      {
+        "platform": "PC",
+        "status": "En cours",
+        "hoursPlayed": 7
+      }
+    ],
+    "hoursPlayed": 7,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 18.0909,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co87df.jpg"
+  },
+  {
+    "title": "Cities: Skylines",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 48,
+    "genres": [
+      "City Builder"
+    ],
+    "avgRating": 15.5263,
+    "releaseYear": 2015,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1yw7.jpg"
+  },
+  {
+    "title": "Civilization V",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 62,
+    "genres": [
+      "RTS"
+    ],
+    "rating": 17,
+    "avgRating": 16.1494,
+    "releaseYear": 2010,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co85uv.jpg"
+  },
+  {
+    "title": "Civilization VI",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 2,
+    "genres": [
+      "Gestion",
+      "Stratégie"
+    ],
+    "avgRating": 16.5882,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9qfw.jpg"
+  },
+  {
+    "title": "Clair Obscur : Expedition 33",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 36,
+    "genres": [
+      "Aventure-RPG"
+    ],
+    "rating": 19,
+    "avgRating": 18.775,
+    "releaseYear": 2025,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9gam.jpg"
+  },
+  {
+    "title": "Clash Royale",
+    "platform": "iOS",
+    "status": "Joué",
+    "hoursPlayed": 58,
+    "genres": [
+      "Tower défense"
+    ],
+    "avgRating": 14.3636,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobb48.jpg"
+  },
+  {
+    "title": "Crash Team Racing",
+    "platform": "Playstation",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Course"
+    ],
+    "rating": 16,
+    "avgRating": 17.2197,
+    "releaseYear": 1999,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7r52.jpg"
+  },
+  {
+    "title": "Crisis Core: Final Fantasy VII",
+    "platform": "PSP",
+    "status": "Joué",
+    "hoursPlayed": 14,
+    "genres": [
+      "Action-RPG"
+    ],
+    "rating": 16,
+    "avgRating": 16.7361,
+    "releaseYear": 2008,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1trb.jpg"
+  },
+  {
+    "title": "Cyberpunk 2077",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 40,
+    "genres": [
+      "Action-RPG",
+      "FPS"
+    ],
+    "rating": 18,
+    "avgRating": 17.4684,
+    "releaseYear": 2020,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7iy1.jpg"
+  },
+  {
+    "title": "Destiny 2",
+    "platform": "Stadia",
+    "status": "En pause",
+    "hoursPlayed": 0,
+    "genres": [
+      "FPS"
+    ],
+    "avgRating": 16,
+    "releaseYear": 2027,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9v5i.jpg"
+  },
+  {
+    "title": "Deus Ex: Human Revolution",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 1,
+    "genres": [
+      "FPS",
+      "RPG"
+    ],
+    "avgRating": 16.3929,
+    "releaseYear": 2011,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1rd2.jpg"
+  },
+  {
+    "title": "Digimon World",
+    "platform": "Playstation",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Aventure"
+    ],
+    "rating": 17,
+    "avgRating": 14.7143,
+    "releaseYear": 2001,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2dyy.jpg"
+  },
+  {
+    "title": "Digimon World 3: Aratanaru Bôken no Tobira (Digimon World 2003)",
+    "platform": "Playstation",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 16,
+    "avgRating": 16.4,
+    "releaseYear": 2002
+  },
+  {
+    "title": "Disaster : Day of Crisis",
+    "platform": "Wii",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action"
+    ],
+    "avgRating": 14.8,
+    "releaseYear": 2008,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8ra0.jpg"
+  },
+  {
+    "title": "Dissidia : Final Fantasy",
+    "platform": "PSP",
+    "status": "Fini",
+    "hoursPlayed": 49,
+    "genres": [
+      "Jeu de combat"
+    ],
+    "rating": 16,
+    "avgRating": 15.3871,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co205i.jpg"
+  },
+  {
+    "title": "Divinity: Original Sin Enhanced Edition",
+    "platform": "PC",
+    "status": "En pause",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 17.2667,
+    "releaseYear": 2015,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2v6a.jpg"
+  },
+  {
+    "title": "Donkey Kong Country",
+    "platform": "Super Nintendo",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Aventure / Plates-Formes"
+    ],
+    "rating": 17,
+    "avgRating": 16.6721,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3jhu.jpg"
+  },
+  {
+    "title": "Dragon Age: Origins",
+    "platform": "PC",
+    "status": "En pause",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 16.8132,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2mvs.jpg"
+  },
+  {
+    "title": "Dragon Quest Builders",
+    "platform": "Nintendo Switch",
+    "status": "En cours",
+    "hoursPlayed": 10,
+    "genres": [
+      "Action-RPG",
+      "Plates-Formes"
+    ],
+    "avgRating": 16.5,
+    "releaseYear": 2018,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob9mq.jpg"
+  },
+  {
+    "title": "Dragon Quest Heroes - Le Crépuscule de l'Arbre Monde",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 6,
+    "genres": [
+      "Action/Aventure",
+      "Beat'em All"
+    ],
+    "avgRating": 14.5,
+    "releaseYear": 2015
+  },
+  {
+    "title": "Dragon Quest IV : L'Épopée des élus",
+    "platform": "Nintendo DS",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 15.4118,
+    "releaseYear": 2008
+  },
+  {
+    "title": "????????IX ?????? - Dragon Quest IX: Hoshizora no Mamoribito (Dragon Quest IX : Les Sentinelles du Firmament)",
+    "platform": "Nintendo DS",
+    "status": "Joué",
+    "hoursPlayed": 30,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 16.9592,
+    "releaseYear": 2010
+  },
+  {
+    "title": "Dragon Quest V: Hand of the Heavenly Bride (Dragon Quest V : La Fiancée Céleste)",
+    "platform": "Nintendo DS",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 17.5714,
+    "releaseYear": 2009
+  },
+  {
+    "title": "Dragon Quest VII - La Quête des Vestiges du Monde",
+    "platform": "Nintendo 3DS",
+    "status": "Joué",
+    "hoursPlayed": 8,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 15.4,
+    "releaseYear": 2016
+  },
+  {
+    "title": "Doragon Kuesuto Eito Sora to Umi to Daichi to Norowareshi Himegimi (Dragon Quest VIII : L'Odyssée du Roi Maudit)",
+    "platform": "Playstation 2",
+    "status": "Joué",
+    "hoursPlayed": 18,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 17.589,
+    "releaseYear": 2006
+  },
+  {
+    "title": "Dragon Quest XI S: Echoes of an Elusive Age - Definitive Edition (Dragon Quest XI S : Les Combattants de la destinée - Edition Ultime)",
+    "platform": "Nintendo Switch",
+    "status": "Fini",
+    "hoursPlayed": 65,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 17,
+    "avgRating": 17.8235,
+    "releaseYear": 2019
+  },
+  {
+    "title": "Driver: You Are the Wheelman (Driver)",
+    "platform": "Playstation",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Course"
+    ],
+    "rating": 14,
+    "avgRating": 14.9153,
+    "releaseYear": 1999,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5vez.jpg"
+  },
+  {
+    "title": "Empire: Total War",
+    "platform": "PC",
+    "status": "En pause",
+    "hoursPlayed": 0,
+    "genres": [
+      "RTS",
+      "Gestion"
+    ],
+    "avgRating": 15.5217,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co214k.jpg"
+  },
+  {
+    "title": "TrustyBell ~ Chopin no Yume ~ (Eternal Sonata)",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 15,
+    "avgRating": 15.75,
+    "releaseYear": 2007,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1n47.jpg"
+  },
+  {
+    "title": "Fable II (Fable 2)",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action-RPG",
+      "Gestion"
+    ],
+    "rating": 8,
+    "avgRating": 16.2308,
+    "releaseYear": 2008,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1y2h.jpg"
+  },
+  {
+    "title": "Fall Guys: Ultimate Knockout",
+    "platform": "Nintendo Switch",
+    "status": "En cours",
+    "hoursPlayed": 0,
+    "genres": [
+      "Party-Game",
+      "MMO"
+    ],
+    "avgRating": 14.5833,
+    "releaseYear": 2022,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2mh0.jpg"
+  },
+  {
+    "title": "Fallout Shelter",
+    "platforms": [
+      {
+        "platform": "iOS",
+        "status": "En cours",
+        "hoursPlayed": 4
+      },
+      {
+        "platform": "PC",
+        "status": "Joué",
+        "hoursPlayed": 10
+      },
+      {
+        "platform": "Nintendo Switch",
+        "status": "En cours",
+        "hoursPlayed": 5
+      }
+    ],
+    "hoursPlayed": 19,
+    "genres": [
+      "Gestion"
+    ],
+    "avgRating": 15.6667,
+    "releaseYear": 2015,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co20qp.jpg"
+  },
+  {
+    "title": "FIFA 09",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Sport "
+    ],
+    "rating": 15,
+    "avgRating": 13.75,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9oj5.jpg"
+  },
+  {
+    "title": "FIFA 10",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Sport "
+    ],
+    "rating": 16,
+    "avgRating": 12.5
+  },
+  {
+    "title": "FIFA 11",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Sport "
+    ],
+    "rating": 17,
+    "avgRating": 13,
+    "releaseYear": 2010,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6k6i.jpg"
+  },
+  {
+    "title": "FIFA 16",
+    "platform": "Playstation 4",
+    "status": "Fini",
+    "hoursPlayed": 12,
+    "genres": [
+      "Sport "
+    ],
+    "avgRating": 14.9667,
+    "releaseYear": 2015,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co206v.jpg"
+  },
+  {
+    "title": "FIFA 99",
+    "platform": "Playstation",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Sport "
+    ],
+    "rating": 15,
+    "avgRating": 15.6154,
+    "releaseYear": 1998,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6w2v.jpg"
+  },
+  {
+    "title": "Final Fantasy Crystal Chronicles",
+    "platform": "GameCube",
+    "status": "Fini",
+    "hoursPlayed": 87,
+    "genres": [
+      "Action-RPG"
+    ],
+    "rating": 15,
+    "avgRating": 14.3333,
+    "releaseYear": 2004,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vjk.jpg"
+  },
+  {
+    "title": "Fainaru Fantaj? Sur? (Final Fantasy III)",
+    "platform": "Nintendo DS",
+    "status": "Fini",
+    "hoursPlayed": 43,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 15,
+    "avgRating": 15.2941,
+    "releaseYear": 2007,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9ojk.jpg"
+  },
+  {
+    "title": "Fainaru Fantaj? F? (Final Fantasy IV)",
+    "platform": "Nintendo DS",
+    "status": "Joué",
+    "hoursPlayed": 10,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 17.32,
+    "releaseYear": 2008,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7nd8.jpg"
+  },
+  {
+    "title": "Final Fantasy IX",
+    "platforms": [
+      {
+        "platform": "Playstation",
+        "status": "Fini",
+        "hoursPlayed": 0
+      },
+      {
+        "platform": "PC",
+        "status": "En cours",
+        "hoursPlayed": 37
+      }
+    ],
+    "hoursPlayed": 37,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 19,
+    "avgRating": 17.8963,
+    "releaseYear": 2001,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob2dk.jpg"
+  },
+  {
+    "title": "Final Fantasy Tactics",
+    "platform": "Playstation",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Tactical-RPG"
+    ],
+    "avgRating": 18.4,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2yx4.jpg"
+  },
+  {
+    "title": "Final Fantasy VII",
+    "platforms": [
+      {
+        "platform": "Playstation",
+        "status": "Fini",
+        "hoursPlayed": 40
+      },
+      {
+        "platform": "PC",
+        "status": "En cours",
+        "hoursPlayed": 3
+      }
+    ],
+    "hoursPlayed": 43,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 18,
+    "avgRating": 18.004,
+    "releaseYear": 1997,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vn2.jpg"
+  },
+  {
+    "title": "Final Fantasy VIII",
+    "platform": "Playstation",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action-RPG"
+    ],
+    "avgRating": 17.465,
+    "releaseYear": 1999,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co4tsp.jpg"
+  },
+  {
+    "title": "Final Fantasy X",
+    "platform": "Playstation 2",
+    "status": "Joué",
+    "hoursPlayed": 33,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 18,
+    "avgRating": 17.925,
+    "releaseYear": 2002,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1tr1.jpg"
+  },
+  {
+    "title": "Final Fantasy X / X-2 HD Remaster",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 35,
+    "genres": [
+      "RPG",
+      "Compilation"
+    ],
+    "avgRating": 17.0833,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2zpl.jpg"
+  },
+  {
+    "title": "Final Fantasy XII",
+    "platform": "Playstation 2",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 15.5872,
+    "releaseYear": 2007,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3rhx.jpg"
+  },
+  {
+    "title": "Final Fantasy XIII",
+    "platforms": [
+      {
+        "platform": "Xbox 360",
+        "status": "Fini",
+        "hoursPlayed": 80
+      },
+      {
+        "platform": "PC",
+        "status": "En pause",
+        "hoursPlayed": 21
+      }
+    ],
+    "hoursPlayed": 101,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 15,
+    "avgRating": 14.1622,
+    "releaseYear": 2010,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2ukg.jpg"
+  },
+  {
+    "title": "Fainaru Fantaj? S?t?n Ts? (Final Fantasy XIII-2)",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 23,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 16,
+    "avgRating": 15.8333,
+    "releaseYear": 2012,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1tr9.jpg"
+  },
+  {
+    "title": "Final Fantasy XIV Shinsei Eorzea (Final Fantasy XIV : A Realm Reborn)",
+    "platform": "PC",
+    "status": "Joué",
+    "hoursPlayed": 19,
+    "genres": [
+      "MMORPG",
+      "RPG"
+    ],
+    "avgRating": 15.9667,
+    "releaseYear": 2013,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob2iq.jpg"
+  },
+  {
+    "title": "Final Fantasy XV",
+    "platform": "Playstation 4",
+    "status": "Fini",
+    "hoursPlayed": 35,
+    "genres": [
+      "Action-RPG"
+    ],
+    "rating": 16,
+    "avgRating": 15.4364,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6nz1.jpg"
+  },
+  {
+    "title": "Final Fantasy XV: Pocket Edition",
+    "platform": "Nintendo Switch",
+    "status": "Joué",
+    "hoursPlayed": 2,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 17,
+    "releaseYear": 2018,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vjc.jpg"
+  },
+  {
+    "title": "Final Fantasy XVI",
+    "platform": "PC",
+    "status": "Wishé",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action-RPG"
+    ],
+    "avgRating": 13.75,
+    "releaseYear": 2024,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobd9i.jpg"
+  },
+  {
+    "title": "Fire Emblem : Awakening",
+    "platform": "Nintendo 3DS",
+    "status": "Joué",
+    "hoursPlayed": 15,
+    "genres": [
+      "Tactical-RPG"
+    ],
+    "avgRating": 17.5362,
+    "releaseYear": 2013,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobcko.jpg"
+  },
+  {
+    "title": "Football Manager 2012",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 121,
+    "genres": [
+      "Gestion",
+      "Sport "
+    ],
+    "rating": 17,
+    "avgRating": 17.5455,
+    "releaseYear": 2011,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2k6y.jpg"
+  },
+  {
+    "title": "Football Manager 2014",
+    "platform": "Macintosh",
+    "status": "Fini",
+    "hoursPlayed": 161,
+    "genres": [
+      "Simulation",
+      "Sport "
+    ],
+    "rating": 17,
+    "avgRating": 17,
+    "releaseYear": 2013,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2k7a.jpg"
+  },
+  {
+    "title": "Football Manager 2016",
+    "platform": "PC",
+    "status": "Joué",
+    "hoursPlayed": 23,
+    "genres": [
+      "Simulation",
+      "Sport "
+    ],
+    "avgRating": 16.125,
+    "releaseYear": 2015,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2k7b.jpg"
+  },
+  {
+    "title": "Fortnite",
+    "platform": "Nintendo Switch",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure",
+      "Tower défense"
+    ],
+    "avgRating": 15.96,
+    "releaseYear": 2018,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co89n1.jpg"
+  },
+  {
+    "title": "Game Dev Tycoon",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 28,
+    "genres": [
+      "Stratégie",
+      "Simulation"
+    ],
+    "rating": 17,
+    "avgRating": 14.84,
+    "releaseYear": 2013,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coaug7.jpg"
+  },
+  {
+    "title": "Gears 5",
+    "platform": "PC",
+    "status": "En pause",
+    "hoursPlayed": 4,
+    "genres": [
+      "TPS",
+      "Action"
+    ],
+    "avgRating": 14.8333,
+    "releaseYear": 2018,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2oz5.jpg"
+  },
+  {
+    "title": "Gears of War",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action"
+    ],
+    "rating": 16,
+    "avgRating": 16.4,
+    "releaseYear": 2006,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8wct.jpg"
+  },
+  {
+    "title": "Gears of War 2",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action",
+      "TPS"
+    ],
+    "rating": 16,
+    "avgRating": 16.8243,
+    "releaseYear": 2008,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co28gg.jpg"
+  },
+  {
+    "title": "Gears of war 3",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action",
+      "TPS"
+    ],
+    "rating": 16,
+    "avgRating": 16.8551,
+    "releaseYear": 2011,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2a21.jpg"
+  },
+  {
+    "title": "Genshin Impact",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 2,
+    "genres": [
+      "Action-RPG"
+    ],
+    "avgRating": 17.1633,
+    "releaseYear": 2020,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7u0c.jpg"
+  },
+  {
+    "title": "Gran Turismo",
+    "platform": "Playstation",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Course"
+    ],
+    "rating": 16,
+    "avgRating": 15.9818,
+    "releaseYear": 1998,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co20bh.jpg"
+  },
+  {
+    "title": "Grindstone",
+    "platform": "iOS",
+    "status": "Joué",
+    "hoursPlayed": 1,
+    "genres": [
+      "Réflexion"
+    ],
+    "releaseYear": 2019,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2f2q.jpg"
+  },
+  {
+    "title": "Grand Theft Auto: Chinatown Wars (GTA : Chinatown Wars)",
+    "platform": "Nintendo DS",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "rating": 13,
+    "avgRating": 14.9286,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2lba.jpg"
+  },
+  {
+    "title": "Grand Theft Auto : Episodes from Liberty City (GTA : Episodes from Liberty City)",
+    "platform": "Xbox 360",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action"
+    ],
+    "rating": 16,
+    "avgRating": 16.04,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2lbe.jpg"
+  },
+  {
+    "title": "Grand Theft Auto: San Andreas (GTA : San Andreas)",
+    "platform": "PC",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure",
+      "TPS"
+    ],
+    "rating": 16,
+    "avgRating": 17.1111,
+    "releaseYear": 2005,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8q4j.jpg"
+  },
+  {
+    "title": "Grand Theft Auto IV (GTA IV)",
+    "platforms": [
+      {
+        "platform": "Xbox 360",
+        "status": "Fini",
+        "hoursPlayed": 0
+      },
+      {
+        "platform": "PC",
+        "status": "En cours",
+        "hoursPlayed": 12
+      }
+    ],
+    "hoursPlayed": 12,
+    "genres": [
+      "TPS",
+      "Action/Aventure"
+    ],
+    "rating": 17,
+    "avgRating": 16.7816,
+    "releaseYear": 2008,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1twe.jpg"
+  },
+  {
+    "title": "Grand Theft Auto V (GTA V)",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 41,
+    "genres": [
+      "Action"
+    ],
+    "rating": 18,
+    "avgRating": 17.3264,
+    "releaseYear": 2015,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2nbc.jpg"
+  },
+  {
+    "title": "GWENT: The Witcher Card Game",
+    "platform": "PC",
+    "status": "Joué",
+    "hoursPlayed": 20,
+    "genres": [
+      "Jeu de cartes",
+      "Stratégie"
+    ],
+    "rating": 17,
+    "avgRating": 15.875,
+    "releaseYear": 2018,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co4hk2.jpg"
+  },
+  {
+    "title": "Halo 3",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "FPS"
+    ],
+    "rating": 16,
+    "avgRating": 16.6957,
+    "releaseYear": 2007,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1xhh.jpg"
+  },
+  {
+    "title": "Halo Wars",
+    "platform": "PC",
+    "status": "En pause",
+    "hoursPlayed": 0,
+    "genres": [
+      "RTS"
+    ],
+    "avgRating": 15.4,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wc0.jpg"
+  },
+  {
+    "title": "Halo: Reach",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "FPS"
+    ],
+    "rating": 14,
+    "avgRating": 15.7534,
+    "releaseYear": 2010,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1xha.jpg"
+  },
+  {
+    "title": "Harry Potter: Quidditch World Cup (Harry Potter : Coupe du Monde de Quidditch)",
+    "platform": "GameBoy Advance",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Sport "
+    ],
+    "rating": 13,
+    "avgRating": 12.6667,
+    "releaseYear": 2003
+  },
+  {
+    "title": "Harry Potter and the Philosopher's Stone (Harry Potter à l'Ecole des Sorciers)",
+    "platform": "Playstation",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Aventure",
+      "Plates-Formes"
+    ],
+    "rating": 17,
+    "avgRating": 14.2258,
+    "releaseYear": 2001
+  },
+  {
+    "title": "Harry Potter and the Chamber of Secrets (Harry Potter et la Chambre des Secrets)",
+    "platform": "Playstation",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure",
+      "Plates-Formes"
+    ],
+    "rating": 16,
+    "avgRating": 15.1429,
+    "releaseYear": 2002
+  },
+  {
+    "title": "Harry Potter and the Prisoner of Azkaban (Harry Potter et le Prisonnier d'Azkaban)",
+    "platform": "GameCube",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action",
+      "Aventure"
+    ],
+    "rating": 16,
+    "avgRating": 15.5714,
+    "releaseYear": 2004
+  },
+  {
+    "title": "Hearthstone - Heroes of Warcraft",
+    "platform": "PC",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Stratégie",
+      "Jeu de cartes"
+    ],
+    "avgRating": 15.7664
+  },
+  {
+    "title": "Heavy Rain",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 8,
+    "genres": [
+      "Aventure Narrative"
+    ],
+    "rating": 18,
+    "avgRating": 15.6341,
+    "releaseYear": 2019,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coaajv.jpg"
+  },
+  {
+    "title": "Hercules (Hercule)",
+    "platform": "Playstation",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action"
+    ],
+    "rating": 15,
+    "avgRating": 15.5,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobkd4.jpg"
+  },
+  {
+    "title": "Hogwarts Legacy (Hogwarts Legacy : L'Héritage de Poudlard)",
+    "platforms": [
+      {
+        "platform": "PC",
+        "status": "En pause",
+        "hoursPlayed": 18
+      },
+      {
+        "platform": "Nintendo Switch 2",
+        "status": "Fini",
+        "hoursPlayed": 50
+      }
+    ],
+    "hoursPlayed": 68,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 16.0978,
+    "releaseYear": 2023
+  },
+  {
+    "title": "Zeruda Mus? Hairaru ?rusut?zu (Hyrule Warriors : Legends)",
+    "platform": "Nintendo 3DS",
+    "status": "Joué",
+    "hoursPlayed": 4,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "avgRating": 14,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co4mxs.jpg"
+  },
+  {
+    "title": "Inazuma Eleven",
+    "platform": "Nintendo DS",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG",
+      "Sport "
+    ],
+    "rating": 17,
+    "avgRating": 16.3333,
+    "releaseYear": 2011,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co407q.jpg"
+  },
+  {
+    "title": "Inazuma Eleven 3 : Foudre Céleste",
+    "platform": "Nintendo 3DS",
+    "status": "Fini",
+    "hoursPlayed": 15,
+    "genres": [
+      "RPG",
+      "Sport "
+    ],
+    "rating": 17,
+    "avgRating": 16,
+    "releaseYear": 2013
+  },
+  {
+    "title": "Inazuma Eleven Go : Lumière",
+    "platform": "Nintendo 3DS",
+    "status": "Joué",
+    "hoursPlayed": 2,
+    "genres": [
+      "Sport ",
+      "RPG"
+    ],
+    "avgRating": 11,
+    "releaseYear": 2014
+  },
+  {
+    "title": "Journey",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "avgRating": 15.64,
+    "releaseYear": 2019,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2fro.jpg"
+  },
+  {
+    "title": "Kingdom Hearts 358/2 Days",
+    "platform": "Nintendo DS",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action-RPG"
+    ],
+    "avgRating": 15.2632,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co31qj.jpg"
+  },
+  {
+    "title": "Kingdom Hearts: Birth by Sleep",
+    "platform": "PSP",
+    "status": "Joué",
+    "hoursPlayed": 7,
+    "genres": [
+      "RPG",
+      "Action"
+    ],
+    "avgRating": 17.5263,
+    "releaseYear": 2010,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2ych.jpg"
+  },
+  {
+    "title": "L.A. Noire",
+    "platforms": [
+      {
+        "platform": "PC",
+        "status": "En cours",
+        "hoursPlayed": 6
+      },
+      {
+        "platform": "Xbox 360",
+        "status": "Fini",
+        "hoursPlayed": 0
+      }
+    ],
+    "hoursPlayed": 6,
+    "genres": [
+      "Aventure",
+      "Action"
+    ],
+    "avgRating": 16.0345,
+    "releaseYear": 2011,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2ldn.jpg"
+  },
+  {
+    "title": "Middle-earth: Shadow of Mordor (La Terre du Milieu : L'Ombre du Mordor)",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 1,
+    "genres": [
+      "Action/Aventure",
+      "Beat'em All"
+    ],
+    "avgRating": 15.4464,
+    "releaseYear": 2014
+  },
+  {
+    "title": "League Of Legends",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 131,
+    "genres": [
+      "MOBA"
+    ],
+    "rating": 17,
+    "avgRating": 16.2454,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobpn7.jpg"
+  },
+  {
+    "title": "Legends of Runeterra",
+    "platform": "PC",
+    "status": "Joué",
+    "hoursPlayed": 1,
+    "genres": [
+      "Stratégie",
+      "Jeu de cartes"
+    ],
+    "avgRating": 15.6667,
+    "releaseYear": 2020,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3wnv.jpg"
+  },
+  {
+    "title": "The Sims 2 (Les Sims 2)",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Simulation de vie"
+    ],
+    "rating": 16,
+    "avgRating": 16.3885,
+    "releaseYear": 2004
+  },
+  {
+    "title": "The Sims 3 (Les Sims 3)",
+    "platform": "PC",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Simulation de vie"
+    ],
+    "avgRating": 16.3474,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6nas.jpg"
+  },
+  {
+    "title": "Life is Strange",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 12,
+    "genres": [
+      "Aventure Narrative"
+    ],
+    "rating": 17,
+    "avgRating": 17.4254,
+    "releaseYear": 2015,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1r7p.jpg"
+  },
+  {
+    "title": "Life is Strange: Before the Storm",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 13,
+    "genres": [
+      "Aventure Narrative"
+    ],
+    "rating": 18,
+    "avgRating": 16.8265,
+    "releaseYear": 2017,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1twj.jpg"
+  },
+  {
+    "title": "Raitoningu Rit?nzu: Fainaru Fantaj? S?t?n (Lightning Returns : Final Fantasy XIII)",
+    "platform": "Xbox 360",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 14.7143,
+    "releaseYear": 2014,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1trf.jpg"
+  },
+  {
+    "title": "Limbo",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 1,
+    "genres": [
+      "Plates-Formes",
+      "Réflexion"
+    ],
+    "avgRating": 16.1368,
+    "releaseYear": 2011,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1qrs.jpg"
+  },
+  {
+    "title": "Lost Odyssey",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 112,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 16,
+    "avgRating": 15.6667,
+    "releaseYear": 2008,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3tos.jpg"
+  },
+  {
+    "title": "Mafia 2",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 10,
+    "genres": [
+      "Action"
+    ],
+    "avgRating": 16.0488,
+    "releaseYear": 2010,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2n13.jpg"
+  },
+  {
+    "title": "Mario Kart 7",
+    "platform": "Nintendo 3DS",
+    "status": "Fini",
+    "hoursPlayed": 10,
+    "genres": [
+      "Course"
+    ],
+    "rating": 17,
+    "avgRating": 15.5638,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2146.jpg"
+  },
+  {
+    "title": "Mario Kart 8",
+    "platform": "Nintendo Switch",
+    "status": "Fini",
+    "hoursPlayed": 90,
+    "genres": [
+      "Course"
+    ],
+    "rating": 17,
+    "avgRating": 16.8144,
+    "releaseYear": 2017,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co213q.jpg"
+  },
+  {
+    "title": "Mario Kart DS",
+    "platform": "Nintendo DS",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Course"
+    ],
+    "rating": 16,
+    "avgRating": 16.3371,
+    "releaseYear": 2005,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob9rx.jpg"
+  },
+  {
+    "title": "Mario Kart Wii",
+    "platform": "Wii",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Course"
+    ],
+    "rating": 16,
+    "avgRating": 16.4341,
+    "releaseYear": 2008,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5ycm.jpg"
+  },
+  {
+    "title": "Mario Kart World",
+    "platform": "Nintendo Switch 2",
+    "status": "En cours",
+    "hoursPlayed": 7,
+    "genres": [
+      "Course"
+    ],
+    "avgRating": 15,
+    "releaseYear": 2025,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob9s9.jpg"
+  },
+  {
+    "title": "Mario Kart: Double Dash !!",
+    "platform": "GameCube",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Course"
+    ],
+    "rating": 17,
+    "avgRating": 17.3457,
+    "releaseYear": 2003,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7ndu.jpg"
+  },
+  {
+    "title": "Marvel's Spider-Man",
+    "platform": "PC",
+    "status": "Wishé",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "avgRating": 16.9583,
+    "releaseYear": 2022,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co4w2o.jpg"
+  },
+  {
+    "title": "Mass Effect",
+    "platforms": [
+      {
+        "platform": "PC",
+        "status": "En cours",
+        "hoursPlayed": 10
+      },
+      {
+        "platform": "Xbox 360",
+        "status": "Fini",
+        "hoursPlayed": 0
+      }
+    ],
+    "hoursPlayed": 10,
+    "genres": [
+      "Action-RPG"
+    ],
+    "avgRating": 17.0483,
+    "releaseYear": 2008,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7c1f.jpg"
+  },
+  {
+    "title": "Mass Effect 2",
+    "platforms": [
+      {
+        "platform": "PC",
+        "status": "En cours",
+        "hoursPlayed": 0
+      },
+      {
+        "platform": "Xbox 360",
+        "status": "Fini",
+        "hoursPlayed": 0
+      }
+    ],
+    "hoursPlayed": 0,
+    "genres": [
+      "Action-RPG"
+    ],
+    "avgRating": 17.5956,
+    "releaseYear": 2010,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9jdu.jpg"
+  },
+  {
+    "title": "Mass Effect 3",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action-RPG"
+    ],
+    "rating": 17,
+    "avgRating": 17.7381,
+    "releaseYear": 2012,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5rwt.jpg"
+  },
+  {
+    "title": "Medieval II: Total War",
+    "platform": "PC",
+    "status": "En pause",
+    "hoursPlayed": 0,
+    "genres": [
+      "RTS",
+      "Gestion"
+    ],
+    "avgRating": 15.619,
+    "releaseYear": 2006,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6hdl.jpg"
+  },
+  {
+    "title": "Metal Gear Solid V: The Phantom Pain",
+    "platform": "Playstation 4",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Infiltration",
+      "Action"
+    ],
+    "avgRating": 16.7021,
+    "releaseYear": 2015,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1v85.jpg"
+  },
+  {
+    "title": "Mickey's Wild Adventure",
+    "platform": "Playstation",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action",
+      "Plates-Formes"
+    ],
+    "avgRating": 13.5556,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6qh8.jpg"
+  },
+  {
+    "title": "Mirror's Edge",
+    "platforms": [
+      {
+        "platform": "PC",
+        "status": "En pause",
+        "hoursPlayed": 0
+      },
+      {
+        "platform": "Xbox 360",
+        "status": "Joué",
+        "hoursPlayed": 0
+      }
+    ],
+    "hoursPlayed": 0,
+    "genres": [
+      "FPS",
+      "Plates-Formes"
+    ],
+    "avgRating": 15.3333,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2sf5.jpg"
+  },
+  {
+    "title": "Monster Hunter 4G (Monster Hunter 4 Ultimate)",
+    "platform": "Nintendo 3DS",
+    "status": "Joué",
+    "hoursPlayed": 14,
+    "genres": [
+      "Action-RPG"
+    ],
+    "avgRating": 17.1765,
+    "releaseYear": 2015,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2gkk.jpg"
+  },
+  {
+    "title": "Monster Hunter Freedom Unite",
+    "platform": "PSP",
+    "status": "Joué",
+    "hoursPlayed": 17,
+    "genres": [
+      "Action",
+      "RPG"
+    ],
+    "rating": 15,
+    "avgRating": 17.7778,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2hcz.jpg"
+  },
+  {
+    "title": "Monster Hunter Rise",
+    "platform": "Nintendo Switch",
+    "status": "En cours",
+    "hoursPlayed": 1,
+    "genres": [
+      "Action-RPG"
+    ],
+    "avgRating": 16.25,
+    "releaseYear": 2021,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7i5f.jpg"
+  },
+  {
+    "title": "Monument Valley",
+    "platform": "iOS",
+    "status": "Fini",
+    "hoursPlayed": 1,
+    "genres": [
+      "Réflexion"
+    ],
+    "rating": 17,
+    "avgRating": 18,
+    "releaseYear": 2014,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8v8p.jpg"
+  },
+  {
+    "title": "Monument Valley II",
+    "platform": "iOS",
+    "status": "Fini",
+    "hoursPlayed": 2,
+    "genres": [
+      "Puzzle-Game",
+      "Réflexion"
+    ],
+    "rating": 17,
+    "avgRating": 16.7143,
+    "releaseYear": 2017,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coaev4.jpg"
+  },
+  {
+    "title": "Mortal Kombat",
+    "platform": "Super Nintendo",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Jeu de combat"
+    ],
+    "rating": 14,
+    "avgRating": 14.3636,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobaja.jpg"
+  },
+  {
+    "title": "Napoléon: Total War",
+    "platform": "PC",
+    "status": "En pause",
+    "hoursPlayed": 0,
+    "genres": [
+      "RTS",
+      "Gestion"
+    ],
+    "avgRating": 15.6818,
+    "releaseYear": 2010,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8im0.jpg"
+  },
+  {
+    "title": "Naruto: Rise of a Ninja",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action",
+      "Jeu de combat"
+    ],
+    "rating": 15,
+    "avgRating": 14.3571,
+    "releaseYear": 2007,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1u9s.jpg"
+  },
+  {
+    "title": "NBA 2K16",
+    "platform": "PC",
+    "status": "Joué",
+    "hoursPlayed": 20,
+    "genres": [
+      "Sport "
+    ],
+    "avgRating": 16.3333,
+    "releaseYear": 2015,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co257u.jpg"
+  },
+  {
+    "title": "New Super Mario Bros.",
+    "platform": "Nintendo DS",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Plates-Formes"
+    ],
+    "rating": 15,
+    "avgRating": 16.0121,
+    "releaseYear": 2006,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co21ts.jpg"
+  },
+  {
+    "title": "Ni no Kuni II: Revenant Kingdom (Ni no Kuni 2 : L'avènement d'un nouveau Royaume)",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 43,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 17,
+    "avgRating": 15.1111,
+    "releaseYear": 2018
+  },
+  {
+    "title": "Ninokuni Shikkoku no Madôshi (Ni no Kuni : La Vengeance de la Sorcière Céleste)",
+    "platform": "Nintendo Switch",
+    "status": "Fini",
+    "hoursPlayed": 35,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 18,
+    "avgRating": 16.125,
+    "releaseYear": 2019
+  },
+  {
+    "title": "Nier",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action-RPG",
+      "Hack'n'slash"
+    ],
+    "rating": 17,
+    "avgRating": 17.5714,
+    "releaseYear": 2012,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coapbf.jpg"
+  },
+  {
+    "title": "NieR : Automata",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 21,
+    "genres": [
+      "Action-RPG"
+    ],
+    "avgRating": 16,
+    "releaseYear": 2017,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5pcj.jpg"
+  },
+  {
+    "title": "No Man's Sky",
+    "platforms": [
+      {
+        "platform": "PC",
+        "status": "En cours",
+        "hoursPlayed": 22
+      },
+      {
+        "platform": "Nintendo Switch 2",
+        "status": "En cours",
+        "hoursPlayed": 0
+      }
+    ],
+    "hoursPlayed": 22,
+    "genres": [
+      "Action/Aventure",
+      "Survie"
+    ],
+    "avgRating": 13.575,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9c2w.jpg"
+  },
+  {
+    "title": "Octopath Traveler",
+    "platform": "Nintendo Switch",
+    "status": "Jamais joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG",
+      "Aventure"
+    ],
+    "avgRating": 16.7308,
+    "releaseYear": 2018,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coa302.jpg"
+  },
+  {
+    "title": "Ori and the Blind Forest : Definitive Edition",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 0,
+    "genres": [
+      "Aventure / Plates-Formes"
+    ],
+    "avgRating": 17.9634,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2s0m.jpg"
+  },
+  {
+    "title": "Overwatch",
+    "platform": "PC",
+    "status": "Joué",
+    "hoursPlayed": 4,
+    "genres": [
+      "FPS",
+      "MMO"
+    ],
+    "avgRating": 16.1129,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobjxl.jpg"
+  },
+  {
+    "title": "Oxenfree",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 0,
+    "genres": [
+      "Aventure Narrative"
+    ],
+    "avgRating": 17.1667,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2hlq.jpg"
+  },
+  {
+    "title": "Persona 4: Golden",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 45,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 18,
+    "avgRating": 17.2222,
+    "releaseYear": 2020,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1n1x.jpg"
+  },
+  {
+    "title": "Persona 5 Royal",
+    "platform": "Nintendo Switch",
+    "status": "Fini",
+    "hoursPlayed": 75,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 18,
+    "avgRating": 17.8333,
+    "releaseYear": 2022,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8h07.jpg"
+  },
+  {
+    "title": "Persona 5 Scramble: The Phantom Strikers (Persona 5 Strikers)",
+    "platform": "Nintendo Switch",
+    "status": "En cours",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action-RPG"
+    ],
+    "avgRating": 17.3333,
+    "releaseYear": 2021,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2zoq.jpg"
+  },
+  {
+    "title": "Gyakuten Saiban (Phoenix Wright : Ace Attorney)",
+    "platform": "Nintendo DS",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Aventure",
+      "Réflexion"
+    ],
+    "rating": 16,
+    "avgRating": 17.2113,
+    "releaseYear": 2006,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob8er.jpg"
+  },
+  {
+    "title": "Plague Inc: Evolved",
+    "platform": "iOS",
+    "status": "En cours",
+    "hoursPlayed": 8,
+    "genres": [
+      "Stratégie",
+      "Simulation"
+    ],
+    "avgRating": 14.6667,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coa98w.jpg"
+  },
+  {
+    "title": "Pokemon Koroshiamu (Pokémon Colosseum)",
+    "platform": "GameCube",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG",
+      "Jeu de combat"
+    ],
+    "rating": 15,
+    "avgRating": 15.4474,
+    "releaseYear": 2004,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2tpe.jpg"
+  },
+  {
+    "title": "Pokémon Fushigi no Dungeon Ao no Ky?jotai (Pokémon Donjon Mystère : Équipe de Secours Bleue)",
+    "platform": "Nintendo DS",
+    "status": "Fini",
+    "hoursPlayed": 76,
+    "genres": [
+      "RPG",
+      "Action"
+    ],
+    "rating": 15,
+    "avgRating": 16.2778,
+    "releaseYear": 2006
+  },
+  {
+    "title": "Pokemon Fushigi no Dungeon: Toki no Tankentai (Pokémon Donjon Mystère : Explorateurs du Temps)",
+    "platform": "Nintendo DS",
+    "status": "Fini",
+    "hoursPlayed": 23,
+    "genres": [
+      "RPG",
+      "Action"
+    ],
+    "rating": 17,
+    "avgRating": 16.7778
+  },
+  {
+    "title": "Pokémon GO",
+    "platform": "iOS",
+    "status": "Joué",
+    "hoursPlayed": 85,
+    "genres": [
+      "Aventure"
+    ],
+    "avgRating": 14.8889,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1zjz.jpg"
+  },
+  {
+    "title": "Pokémon Quest",
+    "platform": "Nintendo Switch",
+    "status": "Joué",
+    "hoursPlayed": 1,
+    "genres": [
+      "Action",
+      "RPG"
+    ],
+    "avgRating": 12.9167,
+    "releaseYear": 2018,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1zjv.jpg"
+  },
+  {
+    "title": "Pocket Monsters Omega Ruby (Pokémon Rubis Omega)",
+    "platform": "Nintendo 3DS",
+    "status": "Fini",
+    "hoursPlayed": 53,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 16,
+    "avgRating": 16.6923,
+    "releaseYear": 2014,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6sz3.jpg"
+  },
+  {
+    "title": "Pokémon Shuffle",
+    "platform": "Nintendo 3DS",
+    "status": "Joué",
+    "hoursPlayed": 5,
+    "genres": [
+      "Puzzle-Game"
+    ],
+    "avgRating": 13.7692,
+    "releaseYear": 2015,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6i7h.jpg"
+  },
+  {
+    "title": "Pocket Monsters Sun (Pokémon Soleil)",
+    "platform": "Nintendo 3DS",
+    "status": "Joué",
+    "hoursPlayed": 11,
+    "genres": [
+      "RPG",
+      "Aventure"
+    ],
+    "avgRating": 15.0169,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3co7.jpg"
+  },
+  {
+    "title": "Pocket Monsters Gin (Pokémon Version Argent)",
+    "platform": "GameBoy Color",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 18,
+    "avgRating": 17.2676,
+    "releaseYear": 2001,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5pid.jpg"
+  },
+  {
+    "title": "Pocket Monsters White (Pokémon Version Blanche)",
+    "platform": "Nintendo DS",
+    "status": "Fini",
+    "hoursPlayed": 39,
+    "genres": [
+      "Aventure",
+      "RPG"
+    ],
+    "rating": 16,
+    "avgRating": 15.5735,
+    "releaseYear": 2011
+  },
+  {
+    "title": "Pocket Monsters Ao (Pokémon Version Bleue)",
+    "platform": "GameBoy",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 17,
+    "avgRating": 17.2,
+    "releaseYear": 1999
+  },
+  {
+    "title": "Pocket Monsters Crystal Version (Pokémon Version Cristal)",
+    "platform": "GameBoy Color",
+    "status": "Fini",
+    "hoursPlayed": 94,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 17,
+    "avgRating": 16.9355,
+    "releaseYear": 2001,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5pil.jpg"
+  },
+  {
+    "title": "Pocket Monsters Diamond (Pokémon Version Diamant)",
+    "platform": "Nintendo DS",
+    "status": "Fini",
+    "hoursPlayed": 193,
+    "genres": [
+      "Aventure",
+      "RPG"
+    ],
+    "rating": 16,
+    "avgRating": 15.8774,
+    "releaseYear": 2007,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1zht.jpg"
+  },
+  {
+    "title": "Pocket Monsters Emerald (Pokémon Version Émeraude)",
+    "platform": "GameBoy Advance",
+    "status": "Fini",
+    "hoursPlayed": 110,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 15,
+    "avgRating": 16.8315,
+    "releaseYear": 2005
+  },
+  {
+    "title": "Pocket Monsters Pikachu (Pokémon Version Jaune)",
+    "platforms": [
+      {
+        "platform": "GameBoy",
+        "status": "Fini",
+        "hoursPlayed": 0
+      },
+      {
+        "platform": "Console Virtuelle",
+        "status": "Joué",
+        "hoursPlayed": 7
+      }
+    ],
+    "hoursPlayed": 7,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 18,
+    "avgRating": 17.4378,
+    "releaseYear": 2000
+  },
+  {
+    "title": "Pocket Monsters Heartgold (Pokémon Version Or : HeartGold)",
+    "platform": "Nintendo DS",
+    "status": "Fini",
+    "hoursPlayed": 31,
+    "genres": [
+      "Aventure",
+      "RPG"
+    ],
+    "rating": 15,
+    "avgRating": 16.9136,
+    "releaseYear": 2010,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1z57.jpg"
+  },
+  {
+    "title": "Pocket Monsters Kin (Pokémon Version Or)",
+    "platform": "GameBoy Color",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 18,
+    "avgRating": 16.7604,
+    "releaseYear": 2001,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8o11.jpg"
+  },
+  {
+    "title": "Pocket Monsters Pearl (Pokémon Version Perle)",
+    "platform": "Nintendo DS",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Aventure",
+      "RPG"
+    ],
+    "rating": 15,
+    "avgRating": 15.9853,
+    "releaseYear": 2007,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1zio.jpg"
+  },
+  {
+    "title": "Pocket Monsters Platinum (Pokémon Version Platine)",
+    "platform": "Nintendo DS",
+    "status": "Fini",
+    "hoursPlayed": 70,
+    "genres": [
+      "Aventure",
+      "RPG"
+    ],
+    "rating": 15,
+    "avgRating": 16.3398,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8gvp.jpg"
+  },
+  {
+    "title": "Pocket Monsters Ruby (Pokémon Version Rubis)",
+    "platform": "GameBoy Advance",
+    "status": "Fini",
+    "hoursPlayed": 429,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 18,
+    "avgRating": 16.9524,
+    "releaseYear": 2003,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1zhq.jpg"
+  },
+  {
+    "title": "Pocket Monsters Sapphire (Pokémon Version Saphir)",
+    "platform": "GameBoy Advance",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 17,
+    "avgRating": 17.0132,
+    "releaseYear": 2003,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1zhp.jpg"
+  },
+  {
+    "title": "Pocket Monsters Leaf Green (Pokémon Version Vert Feuille)",
+    "platform": "GameBoy Advance",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Aventure",
+      "RPG"
+    ],
+    "rating": 18,
+    "avgRating": 17.2364,
+    "releaseYear": 2004
+  },
+  {
+    "title": "Pocket Monsters X (Pokémon X)",
+    "platform": "Nintendo 3DS",
+    "status": "Fini",
+    "hoursPlayed": 124,
+    "genres": [
+      "Action-RPG",
+      "Aventure"
+    ],
+    "rating": 18,
+    "avgRating": 16.5664,
+    "releaseYear": 2013,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1z8y.jpg"
+  },
+  {
+    "title": "Layton-ky?uju to Fushigi na Machi (Professeur Layton et l'Étrange Village)",
+    "platform": "Nintendo DS",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action",
+      "Réflexion"
+    ],
+    "rating": 16,
+    "avgRating": 16.6133,
+    "releaseYear": 2008
+  },
+  {
+    "title": "Red Dead Redemption",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "rating": 18,
+    "avgRating": 17.4037,
+    "releaseYear": 2010,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6zwq.jpg"
+  },
+  {
+    "title": "Red Dead Redemption II",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 57,
+    "genres": [
+      "TPS"
+    ],
+    "avgRating": 17.4643,
+    "releaseYear": 2019,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1q1f.jpg"
+  },
+  {
+    "title": "Reigns",
+    "platform": "PC",
+    "status": "En pause",
+    "hoursPlayed": 1,
+    "genres": [
+      "Autre",
+      "Stratégie"
+    ],
+    "avgRating": 14.9286,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1xuq.jpg"
+  },
+  {
+    "title": "Shiritsu Justice Gakuen: LEGION OF HEROES (Rival Schools : United by Fate)",
+    "platform": "Playstation",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Jeu de combat"
+    ],
+    "rating": 16,
+    "avgRating": 16.6667,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co97h0.jpg"
+  },
+  {
+    "title": "Rocket League",
+    "platforms": [
+      {
+        "platform": "PC",
+        "status": "Fini",
+        "hoursPlayed": 51
+      },
+      {
+        "platform": "Nintendo Switch",
+        "status": "En cours",
+        "hoursPlayed": 1
+      }
+    ],
+    "hoursPlayed": 52,
+    "genres": [
+      "Action",
+      "Sport "
+    ],
+    "rating": 17,
+    "avgRating": 16.0472,
+    "releaseYear": 2015,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coaiyq.jpg"
+  },
+  {
+    "title": "Rome: Total War",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 57,
+    "genres": [
+      "RTS",
+      "Gestion"
+    ],
+    "rating": 17,
+    "avgRating": 17,
+    "releaseYear": 2004,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1qs5.jpg"
+  },
+  {
+    "title": "Ruined King: A League of Legends Story",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 6,
+    "genres": [
+      "RPG"
+    ],
+    "releaseYear": 2021,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2jtl.jpg"
+  },
+  {
+    "title": "Shadow of the Colossus",
+    "platform": "Playstation 4",
+    "status": "En cours",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "avgRating": 16.3415,
+    "releaseYear": 2018,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2ijk.jpg"
+  },
+  {
+    "title": "SimCity 4",
+    "platform": "PC",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "City Builder"
+    ],
+    "avgRating": 15.3158,
+    "releaseYear": 2003,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1o4h.jpg"
+  },
+  {
+    "title": "SimCity BuildIt",
+    "platform": "iOS",
+    "status": "En cours",
+    "hoursPlayed": 17,
+    "genres": [
+      "City Builder"
+    ],
+    "releaseYear": 2014,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1o4k.jpg"
+  },
+  {
+    "title": "Sleeping Dogs",
+    "platforms": [
+      {
+        "platform": "PC",
+        "status": "En pause",
+        "hoursPlayed": 0
+      },
+      {
+        "platform": "Xbox 360",
+        "status": "Joué",
+        "hoursPlayed": 7
+      }
+    ],
+    "hoursPlayed": 7,
+    "genres": [
+      "Action"
+    ],
+    "avgRating": 15.5581,
+    "releaseYear": 2012,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2e3z.jpg"
+  },
+  {
+    "title": "Spider-Man 2",
+    "platform": "GameCube",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action",
+      "Plates-Formes"
+    ],
+    "rating": 16,
+    "avgRating": 15.1667,
+    "releaseYear": 2004,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2nc6.jpg"
+  },
+  {
+    "title": "Spore",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 11,
+    "genres": [
+      "Gestion",
+      "Simulation"
+    ],
+    "rating": 16,
+    "avgRating": 15.7692,
+    "releaseYear": 2008,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coa3qw.jpg"
+  },
+  {
+    "title": "Star Citizen",
+    "platform": "PC",
+    "status": "Wishé",
+    "hoursPlayed": 0,
+    "genres": [
+      "Simulation",
+      "Action"
+    ],
+    "avgRating": 14,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coauzg.jpg"
+  },
+  {
+    "title": "Star Ocean: The Last Hope",
+    "platform": "Xbox 360",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 12,
+    "avgRating": 13.875,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1nnh.jpg"
+  },
+  {
+    "title": "Star Wars: The Force Unleashed (Star Wars : Le Pouvoir de la Force)",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action",
+      "Beat'em All"
+    ],
+    "rating": 14,
+    "avgRating": 15.5217,
+    "releaseYear": 2008,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co25xx.jpg"
+  },
+  {
+    "title": "Star Wars : Rogue Squadron III - Rebel Strike",
+    "platform": "GameCube",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Shoot'em Up"
+    ],
+    "rating": 16,
+    "avgRating": 16.3529,
+    "releaseYear": 2003,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1w3t.jpg"
+  },
+  {
+    "title": "Star Wars Jedi: Fallen Order",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "avgRating": 15.8966,
+    "releaseYear": 2019,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1rbi.jpg"
+  },
+  {
+    "title": "Star Wars Outlaws",
+    "platforms": [
+      {
+        "platform": "PC",
+        "status": "Wishé",
+        "hoursPlayed": 0
+      },
+      {
+        "platform": "Nintendo Switch 2",
+        "status": "Jamais joué",
+        "hoursPlayed": 0
+      }
+    ],
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "avgRating": 14.8333,
+    "releaseYear": 2024,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9nh7.jpg"
+  },
+  {
+    "title": "Star Wars: Episode I - The Phantom Menace (Star Wars: Episode I - La Menace Fantôme)",
+    "platform": "Playstation",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "rating": 16,
+    "avgRating": 14.4737,
+    "releaseYear": 1999
+  },
+  {
+    "title": "Star Wars: Knights of the Old Republic",
+    "platform": "PC",
+    "status": "En pause",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 17.1957,
+    "releaseYear": 2003,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1tmz.jpg"
+  },
+  {
+    "title": "Starcraft II: Wings of Liberty (StarCraft 2 : Les ailes de la liberté)",
+    "platform": "PC",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "RTS"
+    ],
+    "avgRating": 17.1368,
+    "releaseYear": 2010
+  },
+  {
+    "title": "Stardew Valley",
+    "platforms": [
+      {
+        "platform": "PC",
+        "status": "En cours",
+        "hoursPlayed": 43
+      },
+      {
+        "platform": "Nintendo Switch",
+        "status": "En cours",
+        "hoursPlayed": 20
+      }
+    ],
+    "hoursPlayed": 63,
+    "genres": [
+      "Simulation",
+      "RPG"
+    ],
+    "avgRating": 17.2245,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coa93h.jpg"
+  },
+  {
+    "title": "Starfield",
+    "platform": "PC",
+    "status": "Wishé",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 13.875,
+    "releaseYear": 2023,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co39vv.jpg"
+  },
+  {
+    "title": "Startup Company",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 7,
+    "genres": [
+      "Simulation"
+    ],
+    "avgRating": 17.3333,
+    "releaseYear": 2017,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1nri.jpg"
+  },
+  {
+    "title": "Street Fighter II: The World Warrior",
+    "platform": "Super Nintendo",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Jeu de combat"
+    ],
+    "rating": 17,
+    "avgRating": 16.6786
+  },
+  {
+    "title": "Suikoden Tierkreis",
+    "platform": "Nintendo DS",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 17,
+    "avgRating": 16.7895,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2cvp.jpg"
+  },
+  {
+    "title": "Super Mario Bros.",
+    "platform": "Nintendo Entertainment System",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Plates-Formes"
+    ],
+    "rating": 16,
+    "avgRating": 16.337,
+    "releaseYear": 1987,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5k7b.jpg"
+  },
+  {
+    "title": "S?p? Mario Gyarakush? (Super Mario Galaxy)",
+    "platform": "Wii",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Plates-Formes"
+    ],
+    "avgRating": 16.9949,
+    "releaseYear": 2007,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coavv6.jpg"
+  },
+  {
+    "title": "Super Mario Kart",
+    "platform": "Super Nintendo",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Course"
+    ],
+    "rating": 17,
+    "avgRating": 16.717,
+    "releaseYear": 1993,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coabiz.jpg"
+  },
+  {
+    "title": "Super Mario Odyssey",
+    "platform": "Nintendo Switch",
+    "status": "Fini",
+    "hoursPlayed": 15,
+    "genres": [
+      "Plates-Formes"
+    ],
+    "rating": 18,
+    "avgRating": 16.9945,
+    "releaseYear": 2017,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co63jd.jpg"
+  },
+  {
+    "title": "Super Mario Party",
+    "platform": "Nintendo Switch",
+    "status": "En cours",
+    "hoursPlayed": 11,
+    "genres": [
+      "Party-Game"
+    ],
+    "avgRating": 14.9149,
+    "releaseYear": 2018,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobaa9.jpg"
+  },
+  {
+    "title": "Super Mario Run",
+    "platform": "iOS",
+    "status": "Fini",
+    "hoursPlayed": 2,
+    "genres": [
+      "Runner",
+      "Course"
+    ],
+    "avgRating": 9.83333,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1te0.jpg"
+  },
+  {
+    "title": "Super Smash Bros. Brawl",
+    "platform": "Wii",
+    "status": "Fini",
+    "hoursPlayed": 15,
+    "genres": [
+      "Jeu de combat",
+      "Plates-Formes"
+    ],
+    "rating": 16,
+    "avgRating": 16.9067,
+    "releaseYear": 2008,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coa3v2.jpg"
+  },
+  {
+    "title": "Super Smash Bros. Melee",
+    "platform": "GameCube",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Jeu de combat"
+    ],
+    "rating": 16,
+    "avgRating": 17.6159,
+    "releaseYear": 2002,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3kpq.jpg"
+  },
+  {
+    "title": "Super Street Fighter IV",
+    "platform": "Xbox 360",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Jeu de combat"
+    ],
+    "rating": 15,
+    "avgRating": 14.5,
+    "releaseYear": 2010,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2up2.jpg"
+  },
+  {
+    "title": "Tales of Symphonia",
+    "platforms": [
+      {
+        "platform": "GameCube",
+        "status": "Fini",
+        "hoursPlayed": 114
+      },
+      {
+        "platform": "PC",
+        "status": "Fini",
+        "hoursPlayed": 38
+      }
+    ],
+    "hoursPlayed": 152,
+    "genres": [
+      "RPG"
+    ],
+    "rating": 19,
+    "avgRating": 17.8642,
+    "releaseYear": 2004,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobenl.jpg"
+  },
+  {
+    "title": "Tales Of Vesperia",
+    "platform": "Xbox 360",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action-RPG"
+    ],
+    "rating": 17,
+    "avgRating": 16.4091,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5gb1.jpg"
+  },
+  {
+    "title": "Teamfight Tactics",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 375,
+    "genres": [
+      "Stratégie"
+    ],
+    "rating": 18,
+    "avgRating": 16.5,
+    "releaseYear": 2019,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8jux.jpg"
+  },
+  {
+    "title": "Tekken 3",
+    "platform": "Playstation",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Jeu de combat"
+    ],
+    "rating": 15,
+    "avgRating": 15.757,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coajyh.jpg"
+  },
+  {
+    "title": "Temtem",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 1,
+    "genres": [
+      "MMORPG"
+    ],
+    "avgRating": 15.7778,
+    "releaseYear": 2022,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1on0.jpg"
+  },
+  {
+    "title": "The Elder Scrolls IV: Oblivion",
+    "platform": "Xbox 360",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action-RPG"
+    ],
+    "rating": 15,
+    "avgRating": 15.9615,
+    "releaseYear": 2006,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8fpz.jpg"
+  },
+  {
+    "title": "The Elder Scrolls V: Skyrim - Special Edition",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 74,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 17.6458,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vco.jpg"
+  },
+  {
+    "title": "The Elder Scrolls VI",
+    "platform": "PC",
+    "status": "Wishé",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG",
+      "Action/Aventure"
+    ],
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1ycv.jpg"
+  },
+  {
+    "title": "The Elder Scrolls: Blades",
+    "platform": "iOS",
+    "status": "En cours",
+    "hoursPlayed": 5,
+    "genres": [
+      "Action-RPG"
+    ],
+    "avgRating": 13,
+    "releaseYear": 2019,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1ybt.jpg"
+  },
+  {
+    "title": "The Last of Us",
+    "platform": "Playstation 4",
+    "status": "Fini",
+    "hoursPlayed": 14,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "rating": 18,
+    "avgRating": 18.2624,
+    "releaseYear": 2014,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5ziw.jpg"
+  },
+  {
+    "title": "The Last of Us : Part II",
+    "platform": "Playstation 4",
+    "status": "En cours",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "avgRating": 17.9286,
+    "releaseYear": 2020,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5ziw.jpg"
+  },
+  {
+    "title": "The Last of Us: Left Behind",
+    "platform": "Playstation 4",
+    "status": "Fini",
+    "hoursPlayed": 3,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "rating": 17,
+    "avgRating": 16.4783,
+    "releaseYear": 2015,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5xg8.jpg"
+  },
+  {
+    "title": "The Legend of Zelda : Breath of the Wild",
+    "platform": "Nintendo Switch",
+    "status": "En cours",
+    "hoursPlayed": 70,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "avgRating": 18.0942,
+    "releaseYear": 2017,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co67oa.jpg"
+  },
+  {
+    "title": "The Legend of Zelda : Ocarina of Time",
+    "platform": "Nintendo 3DS",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "avgRating": 17.6077,
+    "releaseYear": 2011,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6fxc.jpg"
+  },
+  {
+    "title": "The Legend of Zelda : The Wind Waker",
+    "platform": "GameCube",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "rating": 16,
+    "avgRating": 18.2321,
+    "releaseYear": 2003,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6txb.jpg"
+  },
+  {
+    "title": "Wied?min 2: Zabójcy królów (The Witcher 2 - Assassins of Kings)",
+    "platforms": [
+      {
+        "platform": "PC",
+        "status": "Fini",
+        "hoursPlayed": 26
+      },
+      {
+        "platform": "Xbox 360",
+        "status": "Joué",
+        "hoursPlayed": 0
+      }
+    ],
+    "hoursPlayed": 26,
+    "genres": [
+      "Aventure-RPG"
+    ],
+    "rating": 17,
+    "avgRating": 16.6636,
+    "releaseYear": 2011,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wy4.jpg"
+  },
+  {
+    "title": "Wied?min 3: Dziki Gon (The Witcher 3 - Wild Hunt)",
+    "platforms": [
+      {
+        "platform": "Playstation 4",
+        "status": "Fini",
+        "hoursPlayed": 42
+      },
+      {
+        "platform": "PC",
+        "status": "Fini",
+        "hoursPlayed": 97
+      }
+    ],
+    "hoursPlayed": 139,
+    "genres": [
+      "Aventure-RPG"
+    ],
+    "rating": 18,
+    "avgRating": 18.4525,
+    "releaseYear": 2015,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7zoz.jpg"
+  },
+  {
+    "title": "Wied?min (The Witcher)",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 31,
+    "genres": [
+      "RPG",
+      "Aventure"
+    ],
+    "rating": 17,
+    "avgRating": 16.0775,
+    "releaseYear": 2007,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co95i0.jpg"
+  },
+  {
+    "title": "Theatrhythm Final Bar Line",
+    "platform": "Nintendo Switch",
+    "status": "En cours",
+    "hoursPlayed": 20,
+    "genres": [
+      "Musical-Rythme"
+    ],
+    "avgRating": 17.6667,
+    "releaseYear": 2023,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7dnm.jpg"
+  },
+  {
+    "title": "Theatrhythm Final Fantasy: Curtain Call",
+    "platform": "Nintendo 3DS",
+    "status": "Fini",
+    "hoursPlayed": 16,
+    "genres": [
+      "Musical-Rythme"
+    ],
+    "rating": 17,
+    "avgRating": 17.1176,
+    "releaseYear": 2014,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2roh.jpg"
+  },
+  {
+    "title": "Thronebreaker: The Witcher Tales",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 2,
+    "genres": [
+      "Stratégie"
+    ],
+    "avgRating": 15.3333,
+    "releaseYear": 2018,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1qsk.jpg"
+  },
+  {
+    "title": "Tintin au Tibet",
+    "platform": "Super Nintendo",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Plates-Formes",
+      "Aventure"
+    ],
+    "rating": 14,
+    "avgRating": 11.125,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6ps2.jpg"
+  },
+  {
+    "title": "Tiny Glade",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 2,
+    "genres": [
+      "Autre"
+    ],
+    "avgRating": 15.6667,
+    "releaseYear": 2024,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5vaz.jpg"
+  },
+  {
+    "title": "Tomb Raider",
+    "platform": "Playstation",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "avgRating": 16.2315,
+    "releaseYear": 1996,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3lq1.jpg"
+  },
+  {
+    "title": "Tomb Raider (2013)",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 9,
+    "genres": [
+      "Action/Aventure"
+    ],
+    "rating": 17,
+    "avgRating": 16.7714,
+    "releaseYear": 2013,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coabn8.jpg"
+  },
+  {
+    "title": "Top Spin 4",
+    "platform": "Xbox 360",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Sport "
+    ],
+    "rating": 15,
+    "avgRating": 16.125,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3a8h.jpg"
+  },
+  {
+    "title": "Total War: ROME II",
+    "platform": "PC",
+    "status": "En pause",
+    "hoursPlayed": 0,
+    "genres": [
+      "RTS",
+      "Gestion"
+    ],
+    "avgRating": 16.2857,
+    "releaseYear": 2013,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1qs5.jpg"
+  },
+  {
+    "title": "Triangle Strategy",
+    "platform": "Nintendo Switch",
+    "status": "Jamais joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "Tactical-RPG",
+      "Stratégie"
+    ],
+    "avgRating": 16.1538,
+    "releaseYear": 2022,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8wc9.jpg"
+  },
+  {
+    "title": "Trine",
+    "platform": "PC",
+    "status": "En pause",
+    "hoursPlayed": 0,
+    "genres": [
+      "Aventure / Plates-Formes",
+      "RPG"
+    ],
+    "avgRating": 15.62,
+    "releaseYear": 2009,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co25z6.jpg"
+  },
+  {
+    "title": "Trine 2",
+    "platform": "PC",
+    "status": "En pause",
+    "hoursPlayed": 0,
+    "genres": [
+      "Plates-Formes",
+      "Réflexion"
+    ],
+    "avgRating": 16.4828,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co25z7.jpg"
+  },
+  {
+    "title": "Untitled Goose Game",
+    "platform": "Nintendo Switch",
+    "status": "Wishé",
+    "hoursPlayed": 0,
+    "genres": [
+      "Genre à la con"
+    ],
+    "avgRating": 15.6667,
+    "releaseYear": 2019,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vqc.jpg"
+  },
+  {
+    "title": "Watch Dogs",
+    "platforms": [
+      {
+        "platform": "PC",
+        "status": "Fini",
+        "hoursPlayed": 21
+      },
+      {
+        "platform": "Playstation 4",
+        "status": "Joué",
+        "hoursPlayed": 0
+      }
+    ],
+    "hoursPlayed": 21,
+    "genres": [
+      "Action"
+    ],
+    "rating": 16,
+    "avgRating": 13.759,
+    "releaseYear": 2014,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2j2m.jpg"
+  },
+  {
+    "title": "Watch Dogs 2",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 21,
+    "genres": [
+      "Action",
+      "Infiltration"
+    ],
+    "avgRating": 15.3704,
+    "releaseYear": 2016,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2p3j.jpg"
+  },
+  {
+    "title": "World of WarCraft",
+    "platform": "PC",
+    "status": "Joué",
+    "hoursPlayed": 0,
+    "genres": [
+      "MMORPG"
+    ],
+    "avgRating": 16.8,
+    "releaseYear": 2005
+  },
+  {
+    "title": "Xenoblade Chronicles",
+    "platforms": [
+      {
+        "platform": "Wii",
+        "status": "Joué",
+        "hoursPlayed": 32
+      },
+      {
+        "platform": "Nintendo Switch",
+        "status": "Fini",
+        "hoursPlayed": 57
+      }
+    ],
+    "hoursPlayed": 89,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 18,
+    "releaseYear": 2011,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8jeg.jpg"
+  },
+  {
+    "title": "Xenoblade Chronicles 2",
+    "platform": "Nintendo Switch",
+    "status": "Fini",
+    "hoursPlayed": 86,
+    "genres": [
+      "RPG",
+      "Tactical-RPG"
+    ],
+    "rating": 18,
+    "avgRating": 17.0909,
+    "releaseYear": 2017,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6nb4.jpg"
+  },
+  {
+    "title": "Xenoblade Chronicles 3",
+    "platform": "Nintendo Switch",
+    "status": "En cours",
+    "hoursPlayed": 50,
+    "genres": [
+      "Aventure-RPG"
+    ],
+    "avgRating": 15.8182,
+    "releaseYear": 2022,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8jeg.jpg"
+  },
+  {
+    "title": "Zoo Tycoon",
+    "platform": "PC",
+    "status": "Fini",
+    "hoursPlayed": 0,
+    "genres": [
+      "Gestion"
+    ],
+    "rating": 15,
+    "avgRating": 16.1875,
+    "releaseYear": 2001,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co22u7.jpg"
+  }
+]
