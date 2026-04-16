@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
       yearlyContributions: filteredData,
       totalYears: filteredData.length,
       totalContributions: filteredData.reduce((sum, d) => sum + d.contributions, 0),
-    })
+    }, { headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=3600' } })
   } catch (error) {
     console.error('GitHub yearly contributions API error:', error)
     return NextResponse.json(

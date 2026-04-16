@@ -71,7 +71,7 @@
       "Simulation de vie"
     ],
     "rating": 16,
-    "avgRating": 17.1529,
+    "avgRating": 17.1484,
     "releaseYear": 2020,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3wls.jpg"
   },
@@ -159,7 +159,7 @@
     "genres": [
       "Action/Aventure"
     ],
-    "avgRating": 16.2453,
+    "avgRating": 16.2523,
     "releaseYear": 2013,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3tx9.jpg"
   },
@@ -167,7 +167,7 @@
     "title": "Assassin's Creed Origins",
     "platform": "PC",
     "status": "En cours",
-    "hoursPlayed": 2,
+    "hoursPlayed": 11,
     "genres": [
       "Action-RPG",
       "Aventure"
@@ -338,9 +338,9 @@
     "genres": [
       "RPG"
     ],
-    "avgRating": 14.1111,
+    "avgRating": 14.5,
     "releaseYear": 2021,
-    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob8gd.jpg"
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobrao.jpg"
   },
   {
     "title": "Bully: Scholarship Edition",
@@ -422,7 +422,7 @@
       "Gestion",
       "Stratégie"
     ],
-    "avgRating": 16.5882,
+    "avgRating": 16.5942,
     "releaseYear": 2016,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9qfw.jpg"
   },
@@ -435,7 +435,7 @@
       "Aventure-RPG"
     ],
     "rating": 19,
-    "avgRating": 18.775,
+    "avgRating": 18.7302,
     "releaseYear": 2025,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9gam.jpg"
   },
@@ -473,7 +473,7 @@
       "Action-RPG"
     ],
     "rating": 16,
-    "avgRating": 16.7361,
+    "avgRating": 16.7808,
     "releaseYear": 2008,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1trb.jpg"
   },
@@ -487,7 +487,7 @@
       "FPS"
     ],
     "rating": 18,
-    "avgRating": 17.4684,
+    "avgRating": 17.4815,
     "releaseYear": 2020,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7iy1.jpg"
   },
@@ -562,7 +562,7 @@
       "Jeu de combat"
     ],
     "rating": 16,
-    "avgRating": 15.3871,
+    "avgRating": 15.375,
     "releaseYear": 2009,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co205i.jpg"
   },
@@ -598,7 +598,7 @@
     "genres": [
       "RPG"
     ],
-    "avgRating": 16.8132,
+    "avgRating": 16.8043,
     "releaseYear": 2009,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2mvs.jpg"
   },
@@ -611,7 +611,7 @@
       "Action-RPG",
       "Plates-Formes"
     ],
-    "avgRating": 16.5,
+    "avgRating": 16.1538,
     "releaseYear": 2018,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob9mq.jpg"
   },
@@ -831,7 +831,7 @@
     "genres": [
       "Sport "
     ],
-    "avgRating": 14.9667,
+    "avgRating": 14.8966,
     "releaseYear": 2015,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co206v.jpg"
   },
@@ -870,7 +870,7 @@
       "RPG"
     ],
     "rating": 15,
-    "avgRating": 15.2941,
+    "avgRating": 15.2857,
     "releaseYear": 2007,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9ojk.jpg"
   },
@@ -939,9 +939,21 @@
       "RPG"
     ],
     "rating": 18,
-    "avgRating": 18.004,
+    "avgRating": 17.996,
     "releaseYear": 1997,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vn2.jpg"
+  },
+  {
+    "title": "Final Fantasy VII Remake",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 16,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 16.8182,
+    "releaseYear": 2021,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobcwt.jpg"
   },
   {
     "title": "Final Fantasy VIII",
@@ -951,7 +963,7 @@
     "genres": [
       "Action-RPG"
     ],
-    "avgRating": 17.465,
+    "avgRating": 17.4684,
     "releaseYear": 1999,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co4tsp.jpg"
   },
@@ -989,7 +1001,7 @@
     "genres": [
       "RPG"
     ],
-    "avgRating": 15.5872,
+    "avgRating": 15.5636,
     "releaseYear": 2007,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3rhx.jpg"
   },
@@ -1014,7 +1026,7 @@
     "rating": 15,
     "avgRating": 14.1622,
     "releaseYear": 2010,
-    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2ukg.jpg"
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coboys.jpg"
   },
   {
     "title": "Fainaru Fantaj? S?t?n Ts? (Final Fantasy XIII-2)",
@@ -1038,7 +1050,7 @@
       "MMORPG",
       "RPG"
     ],
-    "avgRating": 15.9667,
+    "avgRating": 16.0645,
     "releaseYear": 2013,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob2iq.jpg"
   },
@@ -1221,7 +1233,7 @@
     "genres": [
       "Action-RPG"
     ],
-    "avgRating": 17.1633,
+    "avgRating": 17.08,
     "releaseYear": 2020,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7u0c.jpg"
   },
@@ -1285,7 +1297,7 @@
       "TPS"
     ],
     "rating": 16,
-    "avgRating": 17.1111,
+    "avgRating": 17.12,
     "releaseYear": 2005,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8q4j.jpg"
   },
@@ -1400,7 +1412,7 @@
       "Plates-Formes"
     ],
     "rating": 17,
-    "avgRating": 14.2258,
+    "avgRating": 14.2188,
     "releaseYear": 2001
   },
   {
@@ -1557,7 +1569,7 @@
     "genres": [
       "Action-RPG"
     ],
-    "avgRating": 15.2632,
+    "avgRating": 15.2821,
     "releaseYear": 2009,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co31qj.jpg"
   },
@@ -1570,7 +1582,7 @@
       "RPG",
       "Action"
     ],
-    "avgRating": 17.5263,
+    "avgRating": 17.5385,
     "releaseYear": 2010,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2ych.jpg"
   },
@@ -1618,7 +1630,7 @@
       "MOBA"
     ],
     "rating": 17,
-    "avgRating": 16.2454,
+    "avgRating": 16.2418,
     "releaseYear": 2009,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobpn7.jpg"
   },
@@ -1695,7 +1707,7 @@
     ],
     "avgRating": 14.7143,
     "releaseYear": 2014,
-    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1trf.jpg"
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coblfq.jpg"
   },
   {
     "title": "Limbo",
@@ -1744,7 +1756,7 @@
       "Course"
     ],
     "rating": 17,
-    "avgRating": 15.5638,
+    "avgRating": 15.5684,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2146.jpg"
   },
   {
@@ -1756,7 +1768,7 @@
       "Course"
     ],
     "rating": 17,
-    "avgRating": 16.8144,
+    "avgRating": 16.848,
     "releaseYear": 2017,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co213q.jpg"
   },
@@ -1769,7 +1781,7 @@
       "Course"
     ],
     "rating": 16,
-    "avgRating": 16.3371,
+    "avgRating": 16.3667,
     "releaseYear": 2005,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob9rx.jpg"
   },
@@ -1782,7 +1794,7 @@
       "Course"
     ],
     "rating": 16,
-    "avgRating": 16.4341,
+    "avgRating": 16.4406,
     "releaseYear": 2008,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5ycm.jpg"
   },
@@ -1794,7 +1806,7 @@
     "genres": [
       "Course"
     ],
-    "avgRating": 15,
+    "avgRating": 15.3077,
     "releaseYear": 2025,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob9s9.jpg"
   },
@@ -1937,7 +1949,7 @@
       "FPS",
       "Plates-Formes"
     ],
-    "avgRating": 15.3333,
+    "avgRating": 15.3594,
     "releaseYear": 2009,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2sf5.jpg"
   },
@@ -2066,7 +2078,7 @@
       "Plates-Formes"
     ],
     "rating": 15,
-    "avgRating": 16.0121,
+    "avgRating": 16.012,
     "releaseYear": 2006,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co21ts.jpg"
   },
@@ -2164,7 +2176,7 @@
     "genres": [
       "Aventure / Plates-Formes"
     ],
-    "avgRating": 17.9634,
+    "avgRating": 17.9277,
     "releaseYear": 2016,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2s0m.jpg"
   },
@@ -2330,7 +2342,7 @@
       "RPG"
     ],
     "rating": 16,
-    "avgRating": 16.6923,
+    "avgRating": 16.6515,
     "releaseYear": 2014,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6sz3.jpg"
   },
@@ -2355,7 +2367,7 @@
       "RPG",
       "Aventure"
     ],
-    "avgRating": 15.0169,
+    "avgRating": 15.0333,
     "releaseYear": 2016,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3co7.jpg"
   },
@@ -2368,7 +2380,7 @@
       "RPG"
     ],
     "rating": 18,
-    "avgRating": 17.2676,
+    "avgRating": 17.2587,
     "releaseYear": 2001,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5pid.jpg"
   },
@@ -2382,7 +2394,7 @@
       "RPG"
     ],
     "rating": 16,
-    "avgRating": 15.5735,
+    "avgRating": 15.5857,
     "releaseYear": 2011
   },
   {
@@ -2394,7 +2406,7 @@
       "RPG"
     ],
     "rating": 17,
-    "avgRating": 17.2,
+    "avgRating": 17.1923,
     "releaseYear": 1999
   },
   {
@@ -2406,7 +2418,7 @@
       "RPG"
     ],
     "rating": 17,
-    "avgRating": 16.9355,
+    "avgRating": 16.9206,
     "releaseYear": 2001,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5pil.jpg"
   },
@@ -2420,7 +2432,7 @@
       "RPG"
     ],
     "rating": 16,
-    "avgRating": 15.8774,
+    "avgRating": 15.8981,
     "releaseYear": 2007,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1zht.jpg"
   },
@@ -2433,7 +2445,7 @@
       "RPG"
     ],
     "rating": 15,
-    "avgRating": 16.8315,
+    "avgRating": 16.8043,
     "releaseYear": 2005
   },
   {
@@ -2455,7 +2467,7 @@
       "RPG"
     ],
     "rating": 18,
-    "avgRating": 17.4378,
+    "avgRating": 17.4236,
     "releaseYear": 2000
   },
   {
@@ -2468,7 +2480,7 @@
       "RPG"
     ],
     "rating": 15,
-    "avgRating": 16.9136,
+    "avgRating": 16.9157,
     "releaseYear": 2010,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1z57.jpg"
   },
@@ -2481,7 +2493,7 @@
       "RPG"
     ],
     "rating": 18,
-    "avgRating": 16.7604,
+    "avgRating": 16.7526,
     "releaseYear": 2001,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8o11.jpg"
   },
@@ -2495,7 +2507,7 @@
       "RPG"
     ],
     "rating": 15,
-    "avgRating": 15.9853,
+    "avgRating": 15.9143,
     "releaseYear": 2007,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1zio.jpg"
   },
@@ -2509,7 +2521,7 @@
       "RPG"
     ],
     "rating": 15,
-    "avgRating": 16.3398,
+    "avgRating": 16.3714,
     "releaseYear": 2009,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8gvp.jpg"
   },
@@ -2522,7 +2534,7 @@
       "RPG"
     ],
     "rating": 18,
-    "avgRating": 16.9524,
+    "avgRating": 16.9412,
     "releaseYear": 2003,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1zhq.jpg"
   },
@@ -2535,7 +2547,7 @@
       "RPG"
     ],
     "rating": 17,
-    "avgRating": 17.0132,
+    "avgRating": 17,
     "releaseYear": 2003,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1zhp.jpg"
   },
@@ -2549,7 +2561,7 @@
       "RPG"
     ],
     "rating": 18,
-    "avgRating": 17.2364,
+    "avgRating": 17.2143,
     "releaseYear": 2004
   },
   {
@@ -2562,7 +2574,7 @@
       "Aventure"
     ],
     "rating": 18,
-    "avgRating": 16.5664,
+    "avgRating": 16.5478,
     "releaseYear": 2013,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1z8y.jpg"
   },
@@ -2576,7 +2588,7 @@
       "Réflexion"
     ],
     "rating": 16,
-    "avgRating": 16.6133,
+    "avgRating": 16.587,
     "releaseYear": 2008
   },
   {
@@ -2595,12 +2607,13 @@
   {
     "title": "Red Dead Redemption II",
     "platform": "PC",
-    "status": "En cours",
-    "hoursPlayed": 57,
+    "status": "Fini",
+    "hoursPlayed": 71,
     "genres": [
       "TPS"
     ],
-    "avgRating": 17.4643,
+    "rating": 19,
+    "avgRating": 17.4912,
     "releaseYear": 2019,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1q1f.jpg"
   },
@@ -2649,7 +2662,7 @@
       "Sport "
     ],
     "rating": 17,
-    "avgRating": 16.0472,
+    "avgRating": 16.0374,
     "releaseYear": 2015,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coaiyq.jpg"
   },
@@ -2731,7 +2744,7 @@
     "genres": [
       "Action"
     ],
-    "avgRating": 15.5581,
+    "avgRating": 15.6591,
     "releaseYear": 2012,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2e3z.jpg"
   },
@@ -2773,7 +2786,7 @@
       "Action"
     ],
     "avgRating": 14,
-    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coauzg.jpg"
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobtrt.jpg"
   },
   {
     "title": "Star Ocean: The Last Hope",
@@ -2823,7 +2836,7 @@
     "genres": [
       "Action/Aventure"
     ],
-    "avgRating": 15.8966,
+    "avgRating": 15.8983,
     "releaseYear": 2019,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1rbi.jpg"
   },
@@ -2845,7 +2858,7 @@
     "genres": [
       "Action/Aventure"
     ],
-    "avgRating": 14.8333,
+    "avgRating": 14.4286,
     "releaseYear": 2024,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9nh7.jpg"
   },
@@ -2890,7 +2903,7 @@
       {
         "platform": "PC",
         "status": "En cours",
-        "hoursPlayed": 43
+        "hoursPlayed": 44
       },
       {
         "platform": "Nintendo Switch",
@@ -2898,12 +2911,12 @@
         "hoursPlayed": 20
       }
     ],
-    "hoursPlayed": 63,
+    "hoursPlayed": 64,
     "genres": [
       "Simulation",
       "RPG"
     ],
-    "avgRating": 17.2245,
+    "avgRating": 17.2323,
     "releaseYear": 2016,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coa93h.jpg"
   },
@@ -2930,6 +2943,18 @@
     "avgRating": 17.3333,
     "releaseYear": 2017,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1nri.jpg"
+  },
+  {
+    "title": "Stray",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 0,
+    "genres": [
+      "Aventure"
+    ],
+    "avgRating": 16.7091,
+    "releaseYear": 2022,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coaa4c.jpg"
   },
   {
     "title": "Street Fighter II: The World Warrior",
@@ -2964,7 +2989,7 @@
       "Plates-Formes"
     ],
     "rating": 16,
-    "avgRating": 16.337,
+    "avgRating": 16.3158,
     "releaseYear": 1987,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5k7b.jpg"
   },
@@ -2976,7 +3001,7 @@
     "genres": [
       "Plates-Formes"
     ],
-    "avgRating": 16.9949,
+    "avgRating": 17.0102,
     "releaseYear": 2007,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coavv6.jpg"
   },
@@ -2989,7 +3014,7 @@
       "Course"
     ],
     "rating": 17,
-    "avgRating": 16.717,
+    "avgRating": 16.6852,
     "releaseYear": 1993,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coabiz.jpg"
   },
@@ -3014,7 +3039,7 @@
     "genres": [
       "Party-Game"
     ],
-    "avgRating": 14.9149,
+    "avgRating": 14.8125,
     "releaseYear": 2018,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobaa9.jpg"
   },
@@ -3041,7 +3066,7 @@
       "Plates-Formes"
     ],
     "rating": 16,
-    "avgRating": 16.9067,
+    "avgRating": 16.9139,
     "releaseYear": 2008,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coa3v2.jpg"
   },
@@ -3129,7 +3154,7 @@
       "Jeu de combat"
     ],
     "rating": 15,
-    "avgRating": 15.757,
+    "avgRating": 15.7593,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coajyh.jpg"
   },
   {
@@ -3201,7 +3226,7 @@
       "Action/Aventure"
     ],
     "rating": 18,
-    "avgRating": 18.2624,
+    "avgRating": 18.2659,
     "releaseYear": 2014,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5ziw.jpg"
   },
@@ -3213,7 +3238,7 @@
     "genres": [
       "Action/Aventure"
     ],
-    "avgRating": 17.9286,
+    "avgRating": 17.9549,
     "releaseYear": 2020,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5ziw.jpg"
   },
@@ -3238,7 +3263,7 @@
     "genres": [
       "Action/Aventure"
     ],
-    "avgRating": 18.0942,
+    "avgRating": 18.0964,
     "releaseYear": 2017,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co67oa.jpg"
   },
@@ -3250,7 +3275,7 @@
     "genres": [
       "Action/Aventure"
     ],
-    "avgRating": 17.6077,
+    "avgRating": 17.6107,
     "releaseYear": 2011,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6fxc.jpg"
   },
@@ -3309,7 +3334,7 @@
       "Aventure-RPG"
     ],
     "rating": 18,
-    "avgRating": 18.4525,
+    "avgRating": 18.4685,
     "releaseYear": 2015,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7zoz.jpg"
   },

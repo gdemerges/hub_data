@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       totalContributions: contributionCalendar?.totalContributions || 0,
       contributions,
-    })
+    }, { headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=3600' } })
   } catch (error) {
     console.error('GitHub Contributions API error:', error)
     return NextResponse.json(

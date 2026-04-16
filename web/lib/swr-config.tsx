@@ -16,7 +16,7 @@ export function SWRProvider({ children }: SWRProviderProps) {
         fetcher,
         revalidateOnFocus: false,
         revalidateIfStale: false,
-        dedupingInterval: 300000, // 5 minutes
+        dedupingInterval: 300000, // 5 min default; per-route hooks override to match server TTL
         errorRetryCount: 3,
       }}
     >

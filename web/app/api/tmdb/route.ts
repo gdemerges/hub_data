@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
       runtime: details.runtime ?? null,
       seasons: details.number_of_seasons ?? null,
       episodes: details.number_of_episodes ?? null,
-    })
+    }, { headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600' } })
   } catch (error) {
     console.error('TMDB API error:', error)
     return NextResponse.json(

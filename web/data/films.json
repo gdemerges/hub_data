@@ -4,7 +4,7 @@
     "titleVO": "Spectre",
     "releaseYear": 2015,
     "rating": 15,
-    "avgRating": 13.66,
+    "avgRating": 13.67,
     "runtime": 148,
     "genres": [
       "Action",
@@ -55,7 +55,7 @@
     "titleVO": "2012",
     "releaseYear": 2009,
     "rating": 14,
-    "avgRating": 11.89,
+    "avgRating": 11.88,
     "runtime": 158,
     "genres": [
       "Action",
@@ -64,12 +64,12 @@
     "posterUrl": "https://image.tmdb.org/t/p/w500/fuImIBldvqlh21mJNJzFKUdUU3u.jpg"
   },
   {
-    "title": "24 heures chrono : Rédemption",
+    "title": "24 Heures Chrono : Rédemption",
     "titleVO": "24: Redemption",
     "releaseYear": 2008,
     "rating": 16,
     "avgRating": 14.49,
-    "runtime": 102,
+    "runtime": 87,
     "genres": [
       "Action",
       "Aventure"
@@ -142,7 +142,7 @@
     "titleVO": "Spy Hard",
     "releaseYear": 1996,
     "rating": 15,
-    "avgRating": 12.34,
+    "avgRating": 12.21,
     "runtime": 81,
     "genres": [
       "Comédie",
@@ -155,7 +155,7 @@
     "titleVO": "Akira",
     "releaseYear": 1988,
     "rating": 16,
-    "avgRating": 15.38,
+    "avgRating": 15.39,
     "runtime": 124,
     "genres": [
       "Animation",
@@ -194,7 +194,7 @@
     "titleVO": "Amélie et la métaphysique des tubes",
     "releaseYear": 2025,
     "rating": 17,
-    "avgRating": 16.14,
+    "avgRating": 16.06,
     "runtime": 77,
     "genres": [
       "Animation",
@@ -268,7 +268,7 @@
     "titleVO": "Angels &amp; Demons",
     "releaseYear": 2009,
     "rating": 16,
-    "avgRating": 14.06,
+    "avgRating": 14.05,
     "runtime": 138,
     "genres": [
       "Thriller"
@@ -291,7 +291,7 @@
     "titleVO": "Bakeneko Anzu-chan",
     "releaseYear": 2024,
     "rating": 15,
-    "avgRating": 12.81,
+    "avgRating": 12.82,
     "runtime": 97,
     "genres": [
       "Animation",
@@ -330,7 +330,7 @@
     "titleVO": "Argo",
     "releaseYear": 2012,
     "rating": 17,
-    "avgRating": 15.44,
+    "avgRating": 15.43,
     "runtime": 120,
     "genres": [
       "Thriller",
@@ -369,7 +369,7 @@
     "titleVO": "Assassin's Creed",
     "releaseYear": 2016,
     "rating": 14,
-    "avgRating": 12.01,
+    "avgRating": 12.02,
     "runtime": 116,
     "genres": [
       "Aventure",
@@ -394,7 +394,7 @@
     "titleVO": "Astérix &amp; Obélix : Mission Cléopâtre",
     "releaseYear": 2002,
     "rating": 17,
-    "avgRating": 15.9,
+    "avgRating": 15.89,
     "runtime": 107,
     "genres": [
       "Comédie",
@@ -406,7 +406,7 @@
     "titleVO": "Astérix &amp; Obélix contre César",
     "releaseYear": 1999,
     "rating": 15,
-    "avgRating": 12.14,
+    "avgRating": 12.13,
     "runtime": 109,
     "genres": [
       "Comédie",
@@ -444,7 +444,7 @@
     "titleVO": "Astérix aux Jeux Olympiques",
     "releaseYear": 2008,
     "rating": 12,
-    "avgRating": 8.88,
+    "avgRating": 8.89,
     "runtime": 116,
     "genres": [
       "Comédie",
@@ -567,25 +567,25 @@
     "titleVO": "Avatar",
     "releaseYear": 2009,
     "rating": 18,
-    "avgRating": 15.74,
+    "avgRating": 15.73,
     "runtime": 162,
     "genres": [
       "Science-Fiction",
       "Aventure"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/v5Y8pVwJK68SKQQ1GRbIB1hkPDy.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/7N8L80OaG8EBTDdRBjGqT8PBzCM.jpg"
   },
   {
     "title": "Avatar : De feu et de cendres",
     "titleVO": "Avatar: Fire and Ash",
     "releaseYear": 2025,
     "rating": 17,
-    "avgRating": 15.59,
+    "avgRating": 15.49,
     "runtime": 192,
     "genres": [
       "Science-Fiction"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/5BnOt0PRymp5mXuoKv1unQ9x8I8.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/kG3N8oQ10qiw2MsnSHFGJpQNyEy.jpg"
   },
   {
     "title": "Avatar : La Voie de l'Eau",
@@ -597,14 +597,14 @@
     "genres": [
       "Science-Fiction"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/kQYx143yujkwyjJdZH2skOGeQfA.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/7TOaaKbSYfilIpZsRCS1AyFCxaJ.jpg"
   },
   {
     "title": "Avengers : L'Ère d'Ultron",
     "titleVO": "Avengers: Age of Ultron",
     "releaseYear": 2015,
     "rating": 15,
-    "avgRating": 14.94,
+    "avgRating": 14.95,
     "runtime": 141,
     "genres": [
       "Science-Fiction",
@@ -669,7 +669,7 @@
     "titleVO": "Babe",
     "releaseYear": 1995,
     "rating": 12,
-    "avgRating": 12.35,
+    "avgRating": 12.33,
     "runtime": 91,
     "genres": [
       "Comédie",
@@ -706,7 +706,7 @@
     "titleVO": "Backdraft",
     "releaseYear": 1991,
     "rating": 15,
-    "avgRating": 14.5,
+    "avgRating": 14.48,
     "runtime": 137,
     "genres": [
       "Action",
@@ -731,7 +731,7 @@
     "titleVO": "Barbie",
     "releaseYear": 2023,
     "rating": 15,
-    "avgRating": 14.23,
+    "avgRating": 14.22,
     "runtime": 114,
     "genres": [
       "Comédie",
@@ -744,7 +744,7 @@
     "titleVO": "Batman",
     "releaseYear": 1989,
     "rating": 15,
-    "avgRating": 14.59,
+    "avgRating": 14.6,
     "runtime": 126,
     "genres": [
       "Fantastique",
@@ -862,7 +862,7 @@
     "genres": [
       "Aventure"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/iIjlxzt3HKVxcHdGqDOifhFRTWr.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/tG82TWp51tYPgocMkp2FpiV9sOu.jpg"
   },
   {
     "title": "Benjamin Gates et le Trésor des Templiers",
@@ -875,7 +875,7 @@
       "Aventure",
       "Action"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/iTXZpOVfQv8lPmLixHx38hDUw8r.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/ix7O8Kdb5cXDg5Pwnry7wvoeAn6.jpg"
   },
   {
     "title": "Bienvenue chez les Ch'tis",
@@ -894,7 +894,7 @@
     "titleVO": "Bird Box",
     "releaseYear": 2018,
     "rating": 16,
-    "avgRating": 14.23,
+    "avgRating": 14.22,
     "runtime": 117,
     "genres": [
       "Thriller",
@@ -907,7 +907,7 @@
     "titleVO": "Black Panther",
     "releaseYear": 2018,
     "rating": 17,
-    "avgRating": 15.22,
+    "avgRating": 15.23,
     "runtime": 135,
     "genres": [
       "Action",
@@ -920,7 +920,7 @@
     "titleVO": "Black Panther: Wakanda Forever",
     "releaseYear": 2022,
     "rating": 16,
-    "avgRating": 14.26,
+    "avgRating": 14.25,
     "runtime": 161,
     "genres": [
       "Action",
@@ -954,7 +954,7 @@
     "titleVO": "Blanche Gardin : Je parle toute seule",
     "releaseYear": 2017,
     "rating": 18,
-    "avgRating": 15.93,
+    "avgRating": 15.91,
     "runtime": 88,
     "genres": [
       "Stand-up"
@@ -979,7 +979,7 @@
     "titleVO": "Bohemian Rhapsody",
     "releaseYear": 2018,
     "rating": 18,
-    "avgRating": 16.52,
+    "avgRating": 16.51,
     "runtime": 135,
     "genres": [
       "Biographie",
@@ -1040,7 +1040,7 @@
     "titleVO": "Lightyear",
     "releaseYear": 2022,
     "rating": 16,
-    "avgRating": 14.11,
+    "avgRating": 14.12,
     "runtime": 105,
     "genres": [
       "Science-Fiction",
@@ -1053,7 +1053,7 @@
     "titleVO": "C'est arrivé près de chez vous",
     "releaseYear": 1992,
     "rating": 17,
-    "avgRating": 14.5,
+    "avgRating": 14.49,
     "runtime": 95,
     "genres": [
       "Thriller",
@@ -1159,7 +1159,7 @@
       "Comédie",
       "Animation"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/52ILcyaRoMegsAHlMSyHcw0B2XQ.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/5TJGBYOCX43UIJGuCpg3qJLklUq.jpg"
   },
   {
     "title": "Coco",
@@ -1179,7 +1179,7 @@
     "titleVO": "CODA",
     "releaseYear": 2021,
     "rating": 17,
-    "avgRating": 14.17,
+    "avgRating": 14.19,
     "runtime": 112,
     "genres": [
       "Comédie"
@@ -1204,7 +1204,7 @@
     "titleVO": "Conclave",
     "releaseYear": 2024,
     "rating": 17,
-    "avgRating": 14.92,
+    "avgRating": 14.9,
     "runtime": 120,
     "genres": [
       "Thriller"
@@ -1291,7 +1291,7 @@
     "titleVO": "De l'autre côté du lit",
     "releaseYear": 2008,
     "rating": 12,
-    "avgRating": 11.88,
+    "avgRating": 11.87,
     "runtime": 93,
     "genres": [
       "Comédie"
@@ -1302,7 +1302,7 @@
     "titleVO": "Deadpool",
     "releaseYear": 2016,
     "rating": 15,
-    "avgRating": 15.71,
+    "avgRating": 15.7,
     "runtime": 106,
     "genres": [
       "Action",
@@ -1362,7 +1362,7 @@
     "titleVO": "Gekijôban Kimetsu no Yaiba: Mugen Jô-hen",
     "releaseYear": 2025,
     "rating": 16,
-    "avgRating": 16.75,
+    "avgRating": 16.71,
     "runtime": 155,
     "genres": [
       "Animation",
@@ -1411,7 +1411,7 @@
     "titleVO": "Différente",
     "releaseYear": 2024,
     "rating": 17,
-    "avgRating": 15.32,
+    "avgRating": 15.3,
     "runtime": 100,
     "genres": [
       "Comédie dramatique"
@@ -1513,7 +1513,7 @@
     "titleVO": "Double Zéro",
     "releaseYear": 2004,
     "rating": 14,
-    "avgRating": 9.15,
+    "avgRating": 9.18,
     "runtime": 90,
     "genres": [
       "Comédie",
@@ -1539,7 +1539,7 @@
     "titleVO": "Downton Abbey: A New Era",
     "releaseYear": 2022,
     "rating": 18,
-    "avgRating": 15.68,
+    "avgRating": 15.69,
     "runtime": 126,
     "genres": [
       "Drame",
@@ -1552,7 +1552,7 @@
     "titleVO": "Downton Abbey: The Grand Finale",
     "releaseYear": 2025,
     "rating": 17,
-    "avgRating": 15.53,
+    "avgRating": 15.58,
     "runtime": 123,
     "genres": [
       "Comédie dramatique",
@@ -1578,7 +1578,7 @@
     "titleVO": "Dune",
     "releaseYear": 2021,
     "rating": 18,
-    "avgRating": 15.87,
+    "avgRating": 15.86,
     "runtime": 155,
     "genres": [
       "Drame",
@@ -1622,7 +1622,7 @@
     "genres": [
       "Comédie"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/nGyMTLluH8gi4nAY6l75ejbmWQq.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/5JXC451k9TD9zE4FSrASv66MowV.jpg"
   },
   {
     "title": "Élémentaire",
@@ -1642,7 +1642,7 @@
     "titleVO": "The Elephant Man",
     "releaseYear": 1980,
     "rating": 18,
-    "avgRating": 16.05,
+    "avgRating": 16.04,
     "runtime": 124,
     "genres": [
       "Drame",
@@ -1665,7 +1665,7 @@
     "titleVO": "Elio",
     "releaseYear": 2025,
     "rating": 17,
-    "avgRating": 14.65,
+    "avgRating": 14.63,
     "runtime": 99,
     "genres": [
       "Animation",
@@ -1727,7 +1727,7 @@
     "titleVO": "Entre les murs",
     "releaseYear": 2008,
     "rating": 16,
-    "avgRating": 13.16,
+    "avgRating": 13.17,
     "runtime": 128,
     "genres": [
       "Drame"
@@ -1739,7 +1739,7 @@
     "titleVO": "Eragon",
     "releaseYear": 2006,
     "rating": 12,
-    "avgRating": 10.57,
+    "avgRating": 10.58,
     "runtime": 104,
     "genres": [
       "Fantasy"
@@ -1776,7 +1776,7 @@
     "titleVO": "F1 The Movie",
     "releaseYear": 2025,
     "rating": 17,
-    "avgRating": 15.02,
+    "avgRating": 14.99,
     "runtime": 155,
     "genres": [
       "Drame",
@@ -1802,7 +1802,7 @@
     "titleVO": "Fantomas",
     "releaseYear": 1964,
     "rating": 16,
-    "avgRating": 13.77,
+    "avgRating": 13.79,
     "runtime": 104,
     "genres": [
       "Comédie policière"
@@ -1814,7 +1814,7 @@
     "titleVO": "Fantômas contre Scotland Yard",
     "releaseYear": 1967,
     "rating": 16,
-    "avgRating": 13.77,
+    "avgRating": 13.78,
     "runtime": 104,
     "genres": [
       "Aventure",
@@ -1840,7 +1840,7 @@
     "titleVO": "Fight Club",
     "releaseYear": 1999,
     "rating": 17,
-    "avgRating": 16.68,
+    "avgRating": 16.67,
     "runtime": 139,
     "genres": [
       "Thriller",
@@ -1853,7 +1853,7 @@
     "titleVO": "Final Fantasy VII: Advent Children",
     "releaseYear": 2005,
     "rating": 16,
-    "avgRating": 14.92,
+    "avgRating": 14.93,
     "runtime": 101,
     "genres": [
       "Animation",
@@ -1866,7 +1866,7 @@
     "titleVO": "Bios",
     "releaseYear": 2021,
     "rating": 16,
-    "avgRating": 14.3,
+    "avgRating": 14.28,
     "runtime": 115,
     "genres": [
       "Science-Fiction"
@@ -1940,7 +1940,7 @@
     "titleVO": "Goal!",
     "releaseYear": 2005,
     "rating": 15,
-    "avgRating": 13.15,
+    "avgRating": 13.16,
     "runtime": 118,
     "genres": [
       "Drame",
@@ -1966,7 +1966,7 @@
     "titleVO": "God Save The Tuche",
     "releaseYear": 2025,
     "rating": 13,
-    "avgRating": 11.38,
+    "avgRating": 11.43,
     "runtime": 95,
     "genres": [
       "Comédie"
@@ -2102,7 +2102,7 @@
     "titleVO": "Harry Potter and the Chamber of Secrets",
     "releaseYear": 2002,
     "rating": 19,
-    "avgRating": 15.93,
+    "avgRating": 15.94,
     "runtime": 161,
     "genres": [
       "Aventure",
@@ -2231,13 +2231,13 @@
     "titleVO": "High School Musical 2",
     "releaseYear": 2007,
     "rating": 13,
-    "avgRating": 12.18,
+    "avgRating": 12.17,
     "runtime": 104,
     "genres": [
       "Romance",
       "Musical"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/la2kiVWDm2vuB4APZDgCCmuBh4K.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/kqImEYXsDIlzPpu0KxyTXIx7smW.jpg"
   },
   {
     "title": "High School Musical 3 : Nos années lycée",
@@ -2257,7 +2257,7 @@
     "titleVO": "High School Musical",
     "releaseYear": 2006,
     "rating": 14,
-    "avgRating": 12.6,
+    "avgRating": 12.59,
     "runtime": 98,
     "genres": [
       "Comédie",
@@ -2295,7 +2295,7 @@
     "titleVO": "The Hunger Games: Mockingjay - Part 1",
     "releaseYear": 2014,
     "rating": 17,
-    "avgRating": 14.57,
+    "avgRating": 14.58,
     "runtime": 123,
     "genres": [
       "Aventure",
@@ -2308,7 +2308,7 @@
     "titleVO": "The Hunger Games: Mockingjay - Part 2",
     "releaseYear": 2015,
     "rating": 17,
-    "avgRating": 14.66,
+    "avgRating": 14.67,
     "runtime": 137,
     "genres": [
       "Aventure",
@@ -2398,7 +2398,7 @@
     "titleVO": "Inception",
     "releaseYear": 2010,
     "rating": 17,
-    "avgRating": 16.59,
+    "avgRating": 16.6,
     "runtime": 148,
     "genres": [
       "Thriller",
@@ -2411,7 +2411,7 @@
     "titleVO": "Independence Day",
     "releaseYear": 1996,
     "rating": 16,
-    "avgRating": 14.15,
+    "avgRating": 14.14,
     "runtime": 145,
     "genres": [
       "Science-Fiction",
@@ -2498,7 +2498,7 @@
     "titleVO": "Invictus",
     "releaseYear": 2009,
     "rating": 16,
-    "avgRating": 15.3,
+    "avgRating": 15.29,
     "runtime": 134,
     "genres": [
       "Drame",
@@ -2601,7 +2601,7 @@
     "titleVO": "Ainda estou aqui",
     "releaseYear": 2024,
     "rating": 18,
-    "avgRating": 15.3,
+    "avgRating": 15.28,
     "runtime": 135,
     "genres": [
       "Thriller",
@@ -2627,7 +2627,7 @@
     "titleVO": "Je verrai toujours vos visages",
     "releaseYear": 2023,
     "rating": 17,
-    "avgRating": 16.38,
+    "avgRating": 16.4,
     "runtime": 115,
     "genres": [
       "Drame"
@@ -2639,7 +2639,7 @@
     "titleVO": "Jo",
     "releaseYear": 1971,
     "rating": 14,
-    "avgRating": 14.39,
+    "avgRating": 14.37,
     "runtime": 85,
     "genres": [
       "Comédie"
@@ -2677,7 +2677,7 @@
     "titleVO": "Johnny English Strikes Again",
     "releaseYear": 2018,
     "rating": 16,
-    "avgRating": 12.68,
+    "avgRating": 12.67,
     "runtime": 89,
     "genres": [
       "Comédie",
@@ -2793,7 +2793,7 @@
     "titleVO": "Kaamelott - Deuxième Volet [partie 1]",
     "releaseYear": 2025,
     "rating": 15,
-    "avgRating": 13.9,
+    "avgRating": 13.76,
     "runtime": 139,
     "genres": [
       "Aventure",
@@ -2806,7 +2806,7 @@
     "titleVO": "Kaamelott, Premier volet",
     "releaseYear": 2021,
     "rating": 16,
-    "avgRating": 15.03,
+    "avgRating": 15.02,
     "runtime": 120,
     "genres": [
       "Comédie",
@@ -2858,7 +2858,7 @@
     "titleVO": "King Kong",
     "releaseYear": 2005,
     "rating": 15,
-    "avgRating": 14.52,
+    "avgRating": 14.51,
     "runtime": 188,
     "genres": [
       "Fantastique",
@@ -2897,7 +2897,7 @@
     "titleVO": "L'Aile ou la Cuisse",
     "releaseYear": 1976,
     "rating": 17,
-    "avgRating": 14.55,
+    "avgRating": 14.54,
     "runtime": 104,
     "genres": [
       "Comédie"
@@ -2945,7 +2945,7 @@
     "titleVO": "L'avare",
     "releaseYear": 1980,
     "rating": 13,
-    "avgRating": 13.36,
+    "avgRating": 13.35,
     "runtime": 125,
     "genres": [
       "Comédie"
@@ -2982,7 +2982,7 @@
     "titleVO": "L'établi",
     "releaseYear": 2023,
     "rating": 17,
-    "avgRating": 14.29,
+    "avgRating": 14.28,
     "runtime": 117,
     "genres": [
       "Drame"
@@ -3016,7 +3016,7 @@
     "titleVO": "L'histoire de Souleymane",
     "releaseYear": 2024,
     "rating": 18,
-    "avgRating": 15.54,
+    "avgRating": 15.52,
     "runtime": 94,
     "genres": [
       "Drame"
@@ -3028,7 +3028,7 @@
     "titleVO": "L'homme orchestre",
     "releaseYear": 1970,
     "rating": 13,
-    "avgRating": 13,
+    "avgRating": 13.02,
     "runtime": 85,
     "genres": [
       "Comédie"
@@ -3053,7 +3053,7 @@
     "titleVO": "Yaneura no Rudger",
     "releaseYear": 2023,
     "rating": 16,
-    "avgRating": 15.4,
+    "avgRating": 15.43,
     "runtime": 108,
     "genres": [
       "Animation",
@@ -3066,7 +3066,7 @@
     "titleVO": "Life of Pi",
     "releaseYear": 2012,
     "rating": 17,
-    "avgRating": 15.12,
+    "avgRating": 15.13,
     "runtime": 127,
     "genres": [
       "Drame",
@@ -3079,7 +3079,7 @@
     "titleVO": "La 7ème Compagnie au clair de lune",
     "releaseYear": 1977,
     "rating": 15,
-    "avgRating": 13.79,
+    "avgRating": 13.8,
     "runtime": 75,
     "genres": [
       "Comédie"
@@ -3185,14 +3185,14 @@
       "Guerre",
       "Comédie"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/835Yw9f0gYyR8RSsDKL34VEgCjL.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/m4eOID6yn4z2BKdIMoV853iMhPk.jpg"
   },
   {
     "title": "La Guerre des mondes",
     "titleVO": "War of the Worlds",
     "releaseYear": 2005,
     "rating": 16,
-    "avgRating": 13.33,
+    "avgRating": 13.32,
     "runtime": 116,
     "genres": [
       "Science-Fiction"
@@ -3229,7 +3229,7 @@
     "titleVO": "La Môme",
     "releaseYear": 2007,
     "rating": 11,
-    "avgRating": 14.59,
+    "avgRating": 14.6,
     "runtime": 140,
     "genres": [
       "Drame",
@@ -3242,7 +3242,7 @@
     "titleVO": "The Bourne Supremacy",
     "releaseYear": 2004,
     "rating": 15,
-    "avgRating": 14.63,
+    "avgRating": 14.62,
     "runtime": 108,
     "genres": [
       "Action",
@@ -3300,14 +3300,14 @@
       "Animation",
       "Aventure"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/fikeGulMBxdBmyCK8cvRbqaUcDR.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/nnQLuzh2H6tSk1U0Zyu0ju16FXU.jpg"
   },
   {
     "title": "La soupe aux choux",
     "titleVO": "La soupe aux choux",
     "releaseYear": 1981,
     "rating": 16,
-    "avgRating": 13.47,
+    "avgRating": 13.46,
     "runtime": 102,
     "genres": [
       "Comédie",
@@ -3345,7 +3345,7 @@
     "titleVO": "The Bourne Ultimatum",
     "releaseYear": 2007,
     "rating": 15,
-    "avgRating": 14.54,
+    "avgRating": 14.53,
     "runtime": 115,
     "genres": [
       "Action",
@@ -3371,7 +3371,7 @@
     "titleVO": "La zizanie",
     "releaseYear": 1978,
     "rating": 15,
-    "avgRating": 13.55,
+    "avgRating": 13.56,
     "runtime": 97,
     "genres": [
       "Comédie"
@@ -3383,7 +3383,7 @@
     "titleVO": "The Zone of Interest",
     "releaseYear": 2023,
     "rating": 17,
-    "avgRating": 13.89,
+    "avgRating": 13.88,
     "runtime": 105,
     "genres": [
       "Drame",
@@ -3396,7 +3396,7 @@
     "titleVO": "Up",
     "releaseYear": 2009,
     "rating": 16,
-    "avgRating": 15.87,
+    "avgRating": 15.88,
     "runtime": 96,
     "genres": [
       "Animation",
@@ -3409,7 +3409,7 @@
     "titleVO": "Langue étrangère",
     "releaseYear": 2024,
     "rating": 17,
-    "avgRating": 13.9,
+    "avgRating": 13.93,
     "runtime": 105,
     "genres": [
       "Comédie dramatique"
@@ -3421,7 +3421,7 @@
     "titleVO": "Lara Croft : Tomb Raider",
     "releaseYear": 2001,
     "rating": 14,
-    "avgRating": 12.42,
+    "avgRating": 12.43,
     "runtime": 100,
     "genres": [
       "Action",
@@ -3434,7 +3434,7 @@
     "titleVO": "Lara Croft Tomb Raider: The Cradle of Life",
     "releaseYear": 2003,
     "rating": 13,
-    "avgRating": 12,
+    "avgRating": 12.01,
     "runtime": 117,
     "genres": [
       "Action",
@@ -3486,7 +3486,7 @@
     "titleVO": "Le Comte de Monte-Cristo",
     "releaseYear": 2024,
     "rating": 18,
-    "avgRating": 17,
+    "avgRating": 16.99,
     "runtime": 178,
     "genres": [
       "Aventure"
@@ -3498,7 +3498,7 @@
     "titleVO": "Le Corniaud",
     "releaseYear": 1965,
     "rating": 17,
-    "avgRating": 15.21,
+    "avgRating": 15.2,
     "runtime": 111,
     "genres": [
       "Comédie"
@@ -3506,7 +3506,7 @@
     "posterUrl": "https://image.tmdb.org/t/p/w500/xkCGWJ0GYx3nK2PoFZdpl6L49q1.jpg"
   },
   {
-    "title": "Le Dernier Maître de l'air",
+    "title": "Le dernier maître de l'air",
     "titleVO": "The Last Airbender",
     "releaseYear": 2010,
     "rating": 11,
@@ -3535,7 +3535,7 @@
     "titleVO": "Le Dîner de cons",
     "releaseYear": 1998,
     "rating": 17,
-    "avgRating": 15.36,
+    "avgRating": 15.37,
     "runtime": 80,
     "genres": [
       "Comédie"
@@ -3547,7 +3547,7 @@
     "titleVO": "Le Discours",
     "releaseYear": 2020,
     "rating": 17,
-    "avgRating": 14.07,
+    "avgRating": 14.06,
     "runtime": 87,
     "genres": [
       "Comédie"
@@ -3572,19 +3572,19 @@
     "titleVO": "The Son",
     "releaseYear": 2022,
     "rating": 16,
-    "avgRating": 14.24,
+    "avgRating": 14.26,
     "runtime": 123,
     "genres": [
       "Drame"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/ms2mWjmcbunRknEt4q0mOpOQvtA.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/gBOdbtDZvq38FoDkTZ3FuvLjDuz.jpg"
   },
   {
     "title": "Le Garçon et Le Héron",
     "titleVO": "Kimitachi wa Dô Ikiru ka",
     "releaseYear": 2023,
     "rating": 16,
-    "avgRating": 14.39,
+    "avgRating": 14.36,
     "runtime": 124,
     "genres": [
       "Animation",
@@ -3683,7 +3683,7 @@
     "titleVO": "Le Grand Restaurant",
     "releaseYear": 1966,
     "rating": 16,
-    "avgRating": 13.77,
+    "avgRating": 13.78,
     "runtime": 85,
     "genres": [
       "Comédie"
@@ -3695,7 +3695,7 @@
     "titleVO": "How the Grinch Stole Christmas",
     "releaseYear": 2000,
     "rating": 15,
-    "avgRating": 13.69,
+    "avgRating": 13.7,
     "runtime": 104,
     "genres": [
       "Comédie",
@@ -3721,7 +3721,7 @@
     "titleVO": "The Hobbit: The Desolation of Smaug",
     "releaseYear": 2013,
     "rating": 17,
-    "avgRating": 15.66,
+    "avgRating": 15.65,
     "runtime": 161,
     "genres": [
       "Fantasy",
@@ -3747,7 +3747,7 @@
     "titleVO": "The Day After Tomorrow",
     "releaseYear": 2004,
     "rating": 15,
-    "avgRating": 13.94,
+    "avgRating": 13.93,
     "runtime": 124,
     "genres": [
       "Action",
@@ -3760,7 +3760,7 @@
     "titleVO": "Maze Runner: The Scorch Trials",
     "releaseYear": 2015,
     "rating": 16,
-    "avgRating": 13.88,
+    "avgRating": 13.89,
     "runtime": 133,
     "genres": [
       "Aventure",
@@ -3786,19 +3786,19 @@
     "titleVO": "The Jungle Book",
     "releaseYear": 2016,
     "rating": 16,
-    "avgRating": 14.83,
+    "avgRating": 14.82,
     "runtime": 106,
     "genres": [
       "Aventure"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/zH2eliStUSXAiUpGJrxNf874omX.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/pqFerT5MqAp2bZxlQwfwtc9GSb7.jpg"
   },
   {
     "title": "Le loup de Wall Street",
     "titleVO": "The Wolf of Wall Street",
     "releaseYear": 2013,
     "rating": 17,
-    "avgRating": 15.3,
+    "avgRating": 15.29,
     "runtime": 179,
     "genres": [
       "Biographie",
@@ -3811,7 +3811,7 @@
     "titleVO": "Aku wa sonzai shinai",
     "releaseYear": 2023,
     "rating": 16,
-    "avgRating": 13.3,
+    "avgRating": 13.31,
     "runtime": 106,
     "genres": [
       "Drame"
@@ -3860,7 +3860,7 @@
     "titleVO": "The Chronicles of Narnia: The Voyage of the Dawn Treader",
     "releaseYear": 2010,
     "rating": 14,
-    "avgRating": 13.54,
+    "avgRating": 13.53,
     "runtime": 113,
     "genres": [
       "Fantasy",
@@ -3873,7 +3873,7 @@
     "titleVO": "The Chronicles of Narnia : The Lion, the Witch and the Wardrobe",
     "releaseYear": 2005,
     "rating": 16,
-    "avgRating": 14.76,
+    "avgRating": 14.75,
     "runtime": 143,
     "genres": [
       "Fantasy",
@@ -3886,7 +3886,7 @@
     "titleVO": "The Chronicles of Narnia: Prince Caspian",
     "releaseYear": 2008,
     "rating": 16,
-    "avgRating": 14.19,
+    "avgRating": 14.2,
     "runtime": 150,
     "genres": [
       "Fantasy",
@@ -3962,7 +3962,7 @@
     "titleVO": "Le petit baigneur",
     "releaseYear": 1968,
     "rating": 14,
-    "avgRating": 13.17,
+    "avgRating": 13.15,
     "runtime": 96,
     "genres": [
       "Comédie"
@@ -3986,7 +3986,7 @@
     "titleVO": "Le Placard",
     "releaseYear": 2001,
     "rating": 14,
-    "avgRating": 12.84,
+    "avgRating": 12.83,
     "runtime": 84,
     "genres": [
       "Comédie"
@@ -4011,7 +4011,7 @@
     "titleVO": "The Lion King II: Simba's Pride",
     "releaseYear": 1998,
     "rating": 14,
-    "avgRating": 14.62,
+    "avgRating": 14.63,
     "runtime": 82,
     "genres": [
       "Animation"
@@ -4035,7 +4035,7 @@
     "titleVO": "Neko No Ongaeshi",
     "releaseYear": 2002,
     "rating": 15,
-    "avgRating": 15.19,
+    "avgRating": 15.2,
     "runtime": 75,
     "genres": [
       "Animation",
@@ -4100,19 +4100,19 @@
     "titleVO": "Le tatoué",
     "releaseYear": 1968,
     "rating": 15,
-    "avgRating": 14.13,
+    "avgRating": 14.16,
     "runtime": 90,
     "genres": [
       "Comédie"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/lGRMQw9fJs3WrNfsjrotnWgXBm0.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/AvxINMO5KmpUNBZw3DpYE9CpFnA.jpg"
   },
   {
     "title": "Le Tombeau des lucioles",
     "titleVO": "Hotaru no haka",
     "releaseYear": 1988,
     "rating": 18,
-    "avgRating": 16.57,
+    "avgRating": 16.58,
     "runtime": 89,
     "genres": [
       "Animation",
@@ -4125,7 +4125,7 @@
     "titleVO": "Kaze Tachinu",
     "releaseYear": 2013,
     "rating": 17,
-    "avgRating": 15.23,
+    "avgRating": 15.25,
     "runtime": 126,
     "genres": [
       "Animation",
@@ -4138,7 +4138,7 @@
     "titleVO": "Sen to Chihiro no kamikakushi",
     "releaseYear": 2001,
     "rating": 18,
-    "avgRating": 16.71,
+    "avgRating": 16.72,
     "runtime": 124,
     "genres": [
       "Animation",
@@ -4169,7 +4169,7 @@
     "genres": [
       "Comédie"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/n8NSoOobpR7QEoL8UYdoEkRR1le.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/3TPmWdZ74vUvF2yNfOU3iWrye3T.jpg"
   },
   {
     "title": "Les 12 Travaux d'Astérix",
@@ -4202,13 +4202,13 @@
     "titleVO": "Goodfellas",
     "releaseYear": 1990,
     "rating": 17,
-    "avgRating": 16.23,
+    "avgRating": 16.22,
     "runtime": 146,
     "genres": [
       "Biographie",
       "Policier"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/kc55cCUCZKtAFpsCnZKM5uLBzwh.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/v4c6WMVqUlSJHMyjHNj72iTFGhm.jpg"
   },
   {
     "title": "Les Algues vertes",
@@ -4277,7 +4277,7 @@
     "titleVO": "Raiders of the Lost Ark",
     "releaseYear": 1981,
     "rating": 17,
-    "avgRating": 15.28,
+    "avgRating": 15.27,
     "runtime": 115,
     "genres": [
       "Aventure"
@@ -4338,7 +4338,7 @@
     "titleVO": "Les compères",
     "releaseYear": 1983,
     "rating": 15,
-    "avgRating": 13.79,
+    "avgRating": 13.78,
     "runtime": 92,
     "genres": [
       "Comédie"
@@ -4350,7 +4350,7 @@
     "titleVO": "Gedo Senki",
     "releaseYear": 2006,
     "rating": 15,
-    "avgRating": 13.82,
+    "avgRating": 13.8,
     "runtime": 115,
     "genres": [
       "Animation",
@@ -4376,7 +4376,7 @@
     "titleVO": "Tenki no ko",
     "releaseYear": 2019,
     "rating": 17,
-    "avgRating": 15.76,
+    "avgRating": 15.77,
     "runtime": 111,
     "genres": [
       "Animation",
@@ -4389,7 +4389,7 @@
     "titleVO": "The Fabelmans",
     "releaseYear": 2022,
     "rating": 18,
-    "avgRating": 15.39,
+    "avgRating": 15.38,
     "runtime": 151,
     "genres": [
       "Drame"
@@ -4413,7 +4413,7 @@
     "titleVO": "Hidden Figures",
     "releaseYear": 2016,
     "rating": 17,
-    "avgRating": 16.52,
+    "avgRating": 16.53,
     "runtime": 127,
     "genres": [
       "Drame",
@@ -4452,7 +4452,7 @@
     "titleVO": "Les Garçons et Guillaume, à table !",
     "releaseYear": 2013,
     "rating": 17,
-    "avgRating": 14.03,
+    "avgRating": 14,
     "runtime": 85,
     "genres": [
       "Comédie"
@@ -4553,7 +4553,7 @@
     "titleVO": "The Incredibles",
     "releaseYear": 2004,
     "rating": 16,
-    "avgRating": 15.17,
+    "avgRating": 15.18,
     "runtime": 115,
     "genres": [
       "Animation",
@@ -4579,7 +4579,7 @@
     "titleVO": "Les jeunes amants",
     "releaseYear": 2021,
     "rating": 17,
-    "avgRating": 14.38,
+    "avgRating": 14.33,
     "runtime": 112,
     "genres": [
       "Comédie romantique"
@@ -4629,7 +4629,7 @@
     "titleVO": "Les Petites victoires",
     "releaseYear": 2023,
     "rating": 17,
-    "avgRating": 14.41,
+    "avgRating": 14.39,
     "runtime": 90,
     "genres": [
       "Comédie"
@@ -4678,7 +4678,7 @@
     "titleVO": "The Internship",
     "releaseYear": 2013,
     "rating": 13,
-    "avgRating": 13.12,
+    "avgRating": 13.13,
     "runtime": 119,
     "genres": [
       "Comédie"
@@ -4727,7 +4727,7 @@
     "titleVO": "Les Tuche",
     "releaseYear": 2011,
     "rating": 15,
-    "avgRating": 12.14,
+    "avgRating": 12.15,
     "runtime": 95,
     "genres": [
       "Comédie"
@@ -4751,7 +4751,7 @@
     "titleVO": "Les Tuche 3",
     "releaseYear": 2018,
     "rating": 16,
-    "avgRating": 11.36,
+    "avgRating": 11.38,
     "runtime": 92,
     "genres": [
       "Comédie"
@@ -4763,7 +4763,7 @@
     "titleVO": "Mr. Bean's Holiday",
     "releaseYear": 2007,
     "rating": 13,
-    "avgRating": 11.94,
+    "avgRating": 11.93,
     "runtime": 90,
     "genres": [
       "Comédie"
@@ -4775,7 +4775,7 @@
     "titleVO": "Les Visiteurs",
     "releaseYear": 1993,
     "rating": 17,
-    "avgRating": 14.74,
+    "avgRating": 14.75,
     "runtime": 107,
     "genres": [
       "Comédie"
@@ -4787,7 +4787,7 @@
     "titleVO": "Just Visiting",
     "releaseYear": 2001,
     "rating": 14,
-    "avgRating": 7.79,
+    "avgRating": 7.78,
     "runtime": 88,
     "genres": [
       "Comédie"
@@ -4834,7 +4834,7 @@
     "titleVO": "Little Miss Sunshine",
     "releaseYear": 2006,
     "rating": 15,
-    "avgRating": 15.37,
+    "avgRating": 15.38,
     "runtime": 101,
     "genres": [
       "Comédie",
@@ -4847,7 +4847,7 @@
     "titleVO": "Luca",
     "releaseYear": 2021,
     "rating": 19,
-    "avgRating": 15.17,
+    "avgRating": 15.16,
     "runtime": 96,
     "genres": [
       "Animation",
@@ -4860,7 +4860,7 @@
     "titleVO": "Lucy",
     "releaseYear": 2014,
     "rating": 16,
-    "avgRating": 13.14,
+    "avgRating": 13.13,
     "runtime": 89,
     "genres": [
       "Action",
@@ -4898,7 +4898,7 @@
     "titleVO": "Mais où est donc passée la 7ème Compagnie ?",
     "releaseYear": 1973,
     "rating": 16,
-    "avgRating": 14.48,
+    "avgRating": 14.49,
     "runtime": 95,
     "genres": [
       "Comédie"
@@ -4910,7 +4910,7 @@
     "titleVO": "Malcolm &amp; Marie",
     "releaseYear": 2021,
     "rating": 16,
-    "avgRating": 13.91,
+    "avgRating": 13.89,
     "runtime": 106,
     "genres": [
       "Romance"
@@ -4921,7 +4921,7 @@
     "titleVO": "Home Alone",
     "releaseYear": 1990,
     "rating": 15,
-    "avgRating": 14.72,
+    "avgRating": 14.73,
     "runtime": 103,
     "genres": [
       "Comédie"
@@ -4971,7 +4971,7 @@
     "titleVO": "Mars Attacks!",
     "releaseYear": 1996,
     "rating": 16,
-    "avgRating": 13.54,
+    "avgRating": 13.55,
     "runtime": 106,
     "genres": [
       "Science-Fiction",
@@ -5035,7 +5035,7 @@
     "titleVO": "Body of Lies",
     "releaseYear": 2008,
     "rating": 15,
-    "avgRating": 13.42,
+    "avgRating": 13.43,
     "runtime": 128,
     "genres": [
       "Action",
@@ -5073,7 +5073,7 @@
     "titleVO": "Million Dollar Baby",
     "releaseYear": 2004,
     "rating": 17,
-    "avgRating": 16.3,
+    "avgRating": 16.29,
     "runtime": 132,
     "genres": [
       "Drame",
@@ -5120,7 +5120,7 @@
     "titleVO": "Meet the Fockers",
     "releaseYear": 2004,
     "rating": 13,
-    "avgRating": 12.84,
+    "avgRating": 12.83,
     "runtime": 115,
     "genres": [
       "Comédie"
@@ -5132,7 +5132,7 @@
     "titleVO": "Mon crime",
     "releaseYear": 2023,
     "rating": 17,
-    "avgRating": 13.64,
+    "avgRating": 13.65,
     "runtime": 102,
     "genres": [
       "Historique",
@@ -5158,7 +5158,7 @@
     "titleVO": "Monsters, Inc.",
     "releaseYear": 2001,
     "rating": 16,
-    "avgRating": 15.71,
+    "avgRating": 15.72,
     "runtime": 92,
     "genres": [
       "Animation"
@@ -5170,7 +5170,7 @@
     "titleVO": "Monsters University",
     "releaseYear": 2013,
     "rating": 17,
-    "avgRating": 14.56,
+    "avgRating": 14.57,
     "runtime": 104,
     "genres": [
       "Animation"
@@ -5182,7 +5182,7 @@
     "titleVO": "Mookie",
     "releaseYear": 1998,
     "rating": 14,
-    "avgRating": 11.68,
+    "avgRating": 11.61,
     "runtime": 87,
     "genres": [
       "Comédie"
@@ -5244,7 +5244,7 @@
     "titleVO": "Napoleon",
     "releaseYear": 2023,
     "rating": 15,
-    "avgRating": 11.56,
+    "avgRating": 11.54,
     "runtime": 158,
     "genres": [
       "Aventure",
@@ -5257,7 +5257,7 @@
     "titleVO": "Kaze no tani no Naushika",
     "releaseYear": 1984,
     "rating": 18,
-    "avgRating": 16.15,
+    "avgRating": 16.14,
     "runtime": 117,
     "genres": [
       "Animation",
@@ -5332,7 +5332,7 @@
     "titleVO": "3 Ninjas",
     "releaseYear": 1992,
     "rating": 16,
-    "avgRating": 13.57,
+    "avgRating": 13.55,
     "runtime": 84,
     "genres": [
       "Action",
@@ -5380,7 +5380,7 @@
     "titleVO": "Nomadland",
     "releaseYear": 2020,
     "rating": 17,
-    "avgRating": 14.67,
+    "avgRating": 14.68,
     "runtime": 108,
     "genres": [
       "Drame"
@@ -5405,7 +5405,7 @@
     "titleVO": "The Fault in Our Stars",
     "releaseYear": 2014,
     "rating": 17,
-    "avgRating": 15.97,
+    "avgRating": 15.98,
     "runtime": 126,
     "genres": [
       "Romance",
@@ -5442,7 +5442,7 @@
     "titleVO": "Okja",
     "releaseYear": 2017,
     "rating": 18,
-    "avgRating": 15.72,
+    "avgRating": 15.71,
     "runtime": 120,
     "genres": [
       "Drame"
@@ -5479,7 +5479,7 @@
     "titleVO": "On a retrouvé la 7ème Compagnie !",
     "releaseYear": 1975,
     "rating": 15,
-    "avgRating": 14.34,
+    "avgRating": 14.35,
     "runtime": 90,
     "genres": [
       "Comédie"
@@ -5504,7 +5504,7 @@
     "titleVO": "One Piece: Chinjûjima no Chopper Ôkoku",
     "releaseYear": 2002,
     "rating": 14,
-    "avgRating": 12.67,
+    "avgRating": 12.69,
     "runtime": 55,
     "genres": [
       "Animation",
@@ -5516,7 +5516,7 @@
     "titleVO": "Gekijôban One Piece",
     "releaseYear": 2000,
     "rating": 15,
-    "avgRating": 13.46,
+    "avgRating": 13.47,
     "runtime": 50,
     "genres": [
       "Animation",
@@ -5528,7 +5528,7 @@
     "titleVO": "One Piece: Nejimakijima no Bôken",
     "releaseYear": 2001,
     "rating": 15,
-    "avgRating": 13.41,
+    "avgRating": 13.42,
     "runtime": 60,
     "genres": [
       "Animation",
@@ -5580,7 +5580,7 @@
     "titleVO": "Oscar (1967)",
     "releaseYear": 1967,
     "rating": 17,
-    "avgRating": 14.5,
+    "avgRating": 14.51,
     "runtime": 85,
     "genres": [
       "Comédie"
@@ -5591,7 +5591,7 @@
     "titleVO": "Gisaengchung",
     "releaseYear": 2019,
     "rating": 18,
-    "avgRating": 16.63,
+    "avgRating": 16.62,
     "runtime": 132,
     "genres": [
       "Drame",
@@ -5604,7 +5604,7 @@
     "titleVO": "Past Lives",
     "releaseYear": 2023,
     "rating": 16,
-    "avgRating": 15.49,
+    "avgRating": 15.5,
     "runtime": 101,
     "genres": [
       "Comédie dramatique",
@@ -5643,7 +5643,7 @@
     "titleVO": "Perfect Days",
     "releaseYear": 2023,
     "rating": 17,
-    "avgRating": 15.63,
+    "avgRating": 15.64,
     "runtime": 123,
     "genres": [
       "Comédie dramatique"
@@ -5655,7 +5655,7 @@
     "titleVO": "Petite fille",
     "releaseYear": 2020,
     "rating": 18,
-    "avgRating": 16.45,
+    "avgRating": 16.44,
     "runtime": 85,
     "genres": [],
     "posterUrl": "https://image.tmdb.org/t/p/w500/hJUQBaJn2hWYh33eYjTdgVTDi8H.jpg"
@@ -5687,11 +5687,11 @@
     "posterUrl": "https://image.tmdb.org/t/p/w500/5JjjjGg24IGRXIQtaZkPU59acjV.jpg"
   },
   {
-    "title": "Pirates des Caraïbes : La malédiction du Black Pearl",
+    "title": "Pirates des Caraïbes : La Malédiction du Black Pearl",
     "titleVO": "Pirates of the Caribbean: The Curse of the Black Pearl",
     "releaseYear": 2003,
     "rating": 16,
-    "avgRating": 16.16,
+    "avgRating": 16.17,
     "runtime": 143,
     "genres": [
       "Fantastique",
@@ -5704,7 +5704,7 @@
     "titleVO": "Pirates of the Caribbean: Dead Man's Chest",
     "releaseYear": 2006,
     "rating": 16,
-    "avgRating": 15.32,
+    "avgRating": 15.31,
     "runtime": 151,
     "genres": [
       "Aventure",
@@ -5717,7 +5717,7 @@
     "titleVO": "Gekijôban Pocket Monsters Diamond &amp; Pearl: Dialga vs. Palkia vs. Darkrai",
     "releaseYear": 2007,
     "rating": 16,
-    "avgRating": 15.42,
+    "avgRating": 15.4,
     "runtime": 95,
     "genres": [
       "Animation",
@@ -5765,7 +5765,7 @@
     "titleVO": "Gekijôban Pocket Monsters: Maboroshi no Pokemon Lugia Bakutan",
     "releaseYear": 1999,
     "rating": 16,
-    "avgRating": 14.31,
+    "avgRating": 14.28,
     "runtime": 100,
     "genres": [
       "Animation",
@@ -5801,7 +5801,7 @@
     "titleVO": "Gekijôban Pocket Monsters: Mizu no Miyako no Mamorigami Latias to Latios",
     "releaseYear": 2002,
     "rating": 14,
-    "avgRating": 13.64,
+    "avgRating": 13.65,
     "runtime": 80,
     "genres": [
       "Animation",
@@ -5849,7 +5849,7 @@
     "titleVO": "Gekijôban Pocket Monsters Advanced Generation: Pokemon Ranger to Umi no Ôji Manaphy",
     "releaseYear": 2006,
     "rating": 15,
-    "avgRating": 14.44,
+    "avgRating": 14.45,
     "runtime": 105,
     "genres": [
       "Animation",
@@ -5904,7 +5904,7 @@
     "genres": [
       "Comédie policière"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/nl7VSZ4iaOFONg47eDZbJ7rGyz1.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/5E4IC0RGjD1w4IQ41QP7T4jcYeG.jpg"
   },
   {
     "title": "Police Academy 2 : Au boulot !",
@@ -5928,7 +5928,7 @@
     "genres": [
       "Comédie"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/vZGhq0kBNQwsz50j9xhB1NGdpOX.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/tVgdx4sEBwHcmdEFQdyLUfzzNb1.jpg"
   },
   {
     "title": "Police Academy 4 : Aux armes citoyens",
@@ -5947,7 +5947,7 @@
     "titleVO": "Police Academy 5: Assignment: Miami Beach",
     "releaseYear": 1988,
     "rating": 12,
-    "avgRating": 10.58,
+    "avgRating": 10.57,
     "runtime": 90,
     "genres": [
       "Comédie policière"
@@ -5983,7 +5983,7 @@
     "titleVO": "Gake no ue no Ponyo",
     "releaseYear": 2008,
     "rating": 17,
-    "avgRating": 15.63,
+    "avgRating": 15.61,
     "runtime": 101,
     "genres": [
       "Animation",
@@ -5996,7 +5996,7 @@
     "titleVO": "Kurenai no Buta",
     "releaseYear": 1992,
     "rating": 16,
-    "avgRating": 15.54,
+    "avgRating": 15.53,
     "runtime": 90,
     "genres": [
       "Animation",
@@ -6009,7 +6009,7 @@
     "titleVO": "Portrait de la jeune fille en feu",
     "releaseYear": 2019,
     "rating": 18,
-    "avgRating": 15.96,
+    "avgRating": 15.95,
     "runtime": 120,
     "genres": [
       "Drame",
@@ -6022,7 +6022,7 @@
     "titleVO": "Pouic-pouic",
     "releaseYear": 1963,
     "rating": 12,
-    "avgRating": 13.21,
+    "avgRating": 13.2,
     "runtime": 86,
     "genres": [
       "Comédie"
@@ -6040,7 +6040,7 @@
       "Thriller",
       "Policier"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/e8iom9xZi9bE2nN2TTYp3efyqvj.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/jYqFLb9d2dfJjIix7PCKoDqdbw6.jpg"
   },
   {
     "title": "Presque comme les autres",
@@ -6070,7 +6070,7 @@
     "titleVO": "Pride",
     "releaseYear": 2014,
     "rating": 18,
-    "avgRating": 16.38,
+    "avgRating": 16.37,
     "runtime": 117,
     "genres": [
       "Comédie dramatique"
@@ -6095,7 +6095,7 @@
     "titleVO": "Psycho",
     "releaseYear": 1960,
     "rating": 18,
-    "avgRating": 15.8,
+    "avgRating": 15.81,
     "runtime": 109,
     "genres": [
       "Thriller",
@@ -6108,7 +6108,7 @@
     "titleVO": "Qu'est-ce qu'on a fait au Bon Dieu ?",
     "releaseYear": 2014,
     "rating": 17,
-    "avgRating": 13.76,
+    "avgRating": 13.77,
     "runtime": 97,
     "genres": [
       "Comédie"
@@ -6245,7 +6245,7 @@
     "titleVO": "Rogue One: A Star Wars Story",
     "releaseYear": 2016,
     "rating": 17,
-    "avgRating": 15.59,
+    "avgRating": 15.58,
     "runtime": 133,
     "genres": [
       "Science-Fiction"
@@ -6294,7 +6294,7 @@
     "titleVO": "All of Us Strangers",
     "releaseYear": 2023,
     "rating": 16,
-    "avgRating": 15.28,
+    "avgRating": 15.3,
     "runtime": 105,
     "genres": [
       "Drame",
@@ -6343,7 +6343,7 @@
     "titleVO": "Scary Movie 4",
     "releaseYear": 2006,
     "rating": 11,
-    "avgRating": 11.03,
+    "avgRating": 11.02,
     "runtime": 83,
     "genres": [
       "Comédie horrifique"
@@ -6355,7 +6355,7 @@
     "titleVO": "Scooby-Doo",
     "releaseYear": 2002,
     "rating": 10,
-    "avgRating": 11.6,
+    "avgRating": 11.59,
     "runtime": 89,
     "genres": [
       "Comédie",
@@ -6431,7 +6431,7 @@
     "titleVO": "Shrek",
     "releaseYear": 2001,
     "rating": 16,
-    "avgRating": 15.39,
+    "avgRating": 15.4,
     "runtime": 90,
     "genres": [
       "Animation"
@@ -6455,7 +6455,7 @@
     "titleVO": "Mimi wo Sumaseba",
     "releaseYear": 1995,
     "rating": 17,
-    "avgRating": 15.55,
+    "avgRating": 15.57,
     "runtime": 111,
     "genres": [
       "Animation",
@@ -6468,7 +6468,7 @@
     "titleVO": "Eiga Koe no Katachi",
     "releaseYear": 2016,
     "rating": 17,
-    "avgRating": 16.3,
+    "avgRating": 16.31,
     "runtime": 129,
     "genres": [
       "Animation",
@@ -6481,7 +6481,7 @@
     "titleVO": "Simone, le voyage du siècle",
     "releaseYear": 2022,
     "rating": 17,
-    "avgRating": 16.22,
+    "avgRating": 16.2,
     "runtime": 139,
     "genres": [
       "Biographie"
@@ -6505,7 +6505,7 @@
     "titleVO": "Sister Act",
     "releaseYear": 1992,
     "rating": 15,
-    "avgRating": 15.01,
+    "avgRating": 15,
     "runtime": 100,
     "genres": [
       "Comédie",
@@ -6557,7 +6557,7 @@
     "titleVO": "Soul",
     "releaseYear": 2020,
     "rating": 17,
-    "avgRating": 15.68,
+    "avgRating": 15.69,
     "runtime": 100,
     "genres": [
       "Animation",
@@ -6570,7 +6570,7 @@
     "titleVO": "Omoide no Marnie",
     "releaseYear": 2014,
     "rating": 17,
-    "avgRating": 15.73,
+    "avgRating": 15.74,
     "runtime": 103,
     "genres": [
       "Animation",
@@ -6596,7 +6596,7 @@
     "titleVO": "Spider-Man 2",
     "releaseYear": 2004,
     "rating": 17,
-    "avgRating": 14.49,
+    "avgRating": 14.5,
     "runtime": 127,
     "genres": [
       "Action",
@@ -6635,7 +6635,7 @@
     "titleVO": "Spider-Man: Across the Spider-Verse",
     "releaseYear": 2023,
     "rating": 18,
-    "avgRating": 17.18,
+    "avgRating": 17.2,
     "runtime": 141,
     "genres": [
       "Animation",
@@ -6687,7 +6687,7 @@
     "titleVO": "Don't Be a Menace to South Central While Drinking Your Juice in the Hood",
     "releaseYear": 1996,
     "rating": 13,
-    "avgRating": 11.44,
+    "avgRating": 11.42,
     "runtime": 89,
     "genres": [
       "Comédie",
@@ -6704,7 +6704,7 @@
     "runtime": 88,
     "genres": [
       "Aventure",
-      "Comédie"
+      "Action"
     ],
     "posterUrl": "https://image.tmdb.org/t/p/w500/vswRApLVmHmmgBHNPbD7w5xfU0D.jpg"
   },
@@ -6713,7 +6713,7 @@
     "titleVO": "Star Trek (2009)",
     "releaseYear": 2009,
     "rating": 17,
-    "avgRating": 15.04,
+    "avgRating": 15.03,
     "runtime": 127,
     "genres": [
       "Science-Fiction"
@@ -6724,7 +6724,7 @@
     "titleVO": "Star Trek Into Darkness",
     "releaseYear": 2013,
     "rating": 17,
-    "avgRating": 15,
+    "avgRating": 14.99,
     "runtime": 132,
     "genres": [
       "Science-Fiction",
@@ -6776,7 +6776,7 @@
     "titleVO": "Star Wars: Episode IV - A New Hope",
     "releaseYear": 1977,
     "rating": 18,
-    "avgRating": 15.76,
+    "avgRating": 15.75,
     "runtime": 121,
     "genres": [
       "Aventure",
@@ -6789,7 +6789,7 @@
     "titleVO": "Star Wars: Episode IX - The Rise of Skywalker",
     "releaseYear": 2019,
     "rating": 14,
-    "avgRating": 12.99,
+    "avgRating": 12.98,
     "runtime": 141,
     "genres": [
       "Aventure",
@@ -6802,7 +6802,7 @@
     "titleVO": "Star Wars: Episode V - The Empire Strikes Back",
     "releaseYear": 1980,
     "rating": 18,
-    "avgRating": 16.26,
+    "avgRating": 16.25,
     "runtime": 124,
     "genres": [
       "Aventure",
@@ -6854,7 +6854,7 @@
     "titleVO": "Stargate",
     "releaseYear": 1994,
     "rating": 14,
-    "avgRating": 15.13,
+    "avgRating": 15.15,
     "runtime": 121,
     "genres": [
       "Science-Fiction",
@@ -6904,7 +6904,7 @@
     "titleVO": "The Super Mario Bros. Movie",
     "releaseYear": 2023,
     "rating": 17,
-    "avgRating": 15.07,
+    "avgRating": 15.09,
     "runtime": 93,
     "genres": [
       "Animation",
@@ -6917,7 +6917,7 @@
     "titleVO": "Sur un arbre perché",
     "releaseYear": 1971,
     "rating": 12,
-    "avgRating": 11.35,
+    "avgRating": 11.34,
     "runtime": 90,
     "genres": [
       "Comédie"
@@ -7077,7 +7077,7 @@
     "titleVO": "The Amazing Spider-Man",
     "releaseYear": 2012,
     "rating": 16,
-    "avgRating": 14.37,
+    "avgRating": 14.38,
     "runtime": 136,
     "genres": [
       "Action",
@@ -7090,7 +7090,7 @@
     "titleVO": "The Amazing Spider-Man 2",
     "releaseYear": 2014,
     "rating": 17,
-    "avgRating": 14.25,
+    "avgRating": 14.26,
     "runtime": 142,
     "genres": [
       "Action",
@@ -7115,7 +7115,7 @@
     "titleVO": "The Banker",
     "releaseYear": 2019,
     "rating": 17,
-    "avgRating": 15.85,
+    "avgRating": 15.82,
     "runtime": 120,
     "genres": [
       "Drame"
@@ -7127,7 +7127,7 @@
     "titleVO": "The Batman",
     "releaseYear": 2022,
     "rating": 18,
-    "avgRating": 15.13,
+    "avgRating": 15.14,
     "runtime": 176,
     "genres": [
       "Action",
@@ -7166,7 +7166,7 @@
     "titleVO": "The Descendants",
     "releaseYear": 2011,
     "rating": 16,
-    "avgRating": 13.64,
+    "avgRating": 13.63,
     "runtime": 115,
     "genres": [
       "Comédie dramatique"
@@ -7188,7 +7188,7 @@
     "titleVO": "The Father",
     "releaseYear": 2020,
     "rating": 18,
-    "avgRating": 16.09,
+    "avgRating": 16.08,
     "runtime": 97,
     "genres": [
       "Drame"
@@ -7317,7 +7317,7 @@
     "titleVO": "Thor: The Dark World",
     "releaseYear": 2013,
     "rating": 16,
-    "avgRating": 14.05,
+    "avgRating": 14.04,
     "runtime": 112,
     "genres": [
       "Fantastique",
@@ -7355,7 +7355,7 @@
     "titleVO": "Titanic",
     "releaseYear": 1997,
     "rating": 18,
-    "avgRating": 16.27,
+    "avgRating": 16.28,
     "runtime": 194,
     "genres": [
       "Drame",
@@ -7406,7 +7406,7 @@
     "titleVO": "Toy Story",
     "releaseYear": 1995,
     "rating": 16,
-    "avgRating": 15.38,
+    "avgRating": 15.39,
     "runtime": 81,
     "genres": [
       "Animation"
@@ -7431,7 +7431,7 @@
     "titleVO": "Toy Story 3",
     "releaseYear": 2010,
     "rating": 17,
-    "avgRating": 15.34,
+    "avgRating": 15.35,
     "runtime": 103,
     "genres": [
       "Animation",
@@ -7444,7 +7444,7 @@
     "titleVO": "Toy Story 4",
     "releaseYear": 2019,
     "rating": 17,
-    "avgRating": 15.23,
+    "avgRating": 15.22,
     "runtime": 100,
     "genres": [
       "Animation",
@@ -7470,7 +7470,7 @@
     "titleVO": "Transformers: Revenge of the Fallen",
     "releaseYear": 2009,
     "rating": 15,
-    "avgRating": 12.99,
+    "avgRating": 13,
     "runtime": 149,
     "genres": [
       "Science-Fiction",
@@ -7496,7 +7496,7 @@
     "titleVO": "Cheaper by the Dozen 2",
     "releaseYear": 2005,
     "rating": 14,
-    "avgRating": 12.89,
+    "avgRating": 12.86,
     "runtime": 94,
     "genres": [
       "Comédie"
@@ -7558,7 +7558,7 @@
     "titleVO": "Un indien dans la ville",
     "releaseYear": 1994,
     "rating": 14,
-    "avgRating": 13.18,
+    "avgRating": 13.19,
     "runtime": 90,
     "genres": [
       "Comédie",
@@ -7571,7 +7571,7 @@
     "titleVO": "Un pays qui se tient sage",
     "releaseYear": 2020,
     "rating": 17,
-    "avgRating": 15.36,
+    "avgRating": 15.35,
     "runtime": 89,
     "genres": [],
     "posterUrl": "https://image.tmdb.org/t/p/w500/s6JOPaXECRXIkVYZqWdUeWzMm3u.jpg"
@@ -7581,7 +7581,7 @@
     "titleVO": "Un sac de billes",
     "releaseYear": 2017,
     "rating": 17,
-    "avgRating": 15.56,
+    "avgRating": 15.55,
     "runtime": 110,
     "genres": [
       "Drame"
@@ -7605,7 +7605,7 @@
     "titleVO": "One Battle After Another",
     "releaseYear": 2025,
     "rating": 18,
-    "avgRating": 15.23,
+    "avgRating": 15.11,
     "runtime": 162,
     "genres": [
       "Policier",
@@ -7643,7 +7643,7 @@
     "titleVO": "One Life",
     "releaseYear": 2023,
     "rating": 18,
-    "avgRating": 16.15,
+    "avgRating": 16.13,
     "runtime": 109,
     "genres": [
       "Biographie",
@@ -7656,7 +7656,7 @@
     "titleVO": "V for Vendetta",
     "releaseYear": 2006,
     "rating": 18,
-    "avgRating": 16.18,
+    "avgRating": 16.19,
     "runtime": 132,
     "genres": [
       "Science-Fiction",
@@ -7681,7 +7681,7 @@
     "titleVO": "The Hangover Part II",
     "releaseYear": 2011,
     "rating": 11,
-    "avgRating": 13.33,
+    "avgRating": 13.34,
     "runtime": 102,
     "genres": [
       "Comédie"
@@ -7705,7 +7705,7 @@
     "titleVO": "Inside Out 2",
     "releaseYear": 2024,
     "rating": 17,
-    "avgRating": 15.42,
+    "avgRating": 15.43,
     "runtime": 96,
     "genres": [
       "Animation"
@@ -7717,7 +7717,7 @@
     "titleVO": "Inside Out",
     "releaseYear": 2015,
     "rating": 18,
-    "avgRating": 16,
+    "avgRating": 16.01,
     "runtime": 94,
     "genres": [
       "Animation",
@@ -7730,7 +7730,7 @@
     "titleVO": "WALL·E",
     "releaseYear": 2008,
     "rating": 18,
-    "avgRating": 16.27,
+    "avgRating": 16.28,
     "runtime": 98,
     "genres": [
       "Animation",
@@ -7756,7 +7756,7 @@
     "titleVO": "Watchmen",
     "releaseYear": 2009,
     "rating": 15,
-    "avgRating": 14.82,
+    "avgRating": 14.81,
     "runtime": 162,
     "genres": [
       "Action",
@@ -7839,7 +7839,7 @@
     "titleVO": "X2",
     "releaseYear": 2003,
     "rating": 14,
-    "avgRating": 14.56,
+    "avgRating": 14.57,
     "runtime": 134,
     "genres": [
       "Fantastique",
@@ -7865,7 +7865,7 @@
     "titleVO": "X-Men: Days of Future Past",
     "releaseYear": 2014,
     "rating": 17,
-    "avgRating": 15.3,
+    "avgRating": 15.31,
     "runtime": 132,
     "genres": [
       "Action",
@@ -7891,7 +7891,7 @@
     "titleVO": "The Naked Gun 2½: The Smell of Fear",
     "releaseYear": 1991,
     "rating": 15,
-    "avgRating": 12.97,
+    "avgRating": 12.94,
     "runtime": 85,
     "genres": [
       "Comédie policière"
@@ -7903,7 +7903,7 @@
     "titleVO": "Yamakasi : Les samouraïs des temps modernes",
     "releaseYear": 2001,
     "rating": 15,
-    "avgRating": 11.9,
+    "avgRating": 11.89,
     "runtime": 90,
     "genres": [
       "Action",
@@ -7932,7 +7932,7 @@
     "avgRating": 15.88,
     "runtime": 125,
     "genres": [],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/vqjkvzcL69GeMJ7hpdGY7fD7Wg2.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/gUayMT0x2fOg7MpsFXW42TmEMkd.jpg"
   },
   {
     "title": "Ze Inconnus Story, Le bôcoup meilleur (vol 2)",

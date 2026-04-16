@@ -58,7 +58,7 @@
       "Drama",
       "Action / Aventure"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/zCGKf9QJLpxqSWbC4L9s6ADGji6.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/pez9BcRmtzaf0FMPJcgUl89gxhs.jpg"
   },
   {
     "title": "66-5",
@@ -77,7 +77,7 @@
   {
     "title": "A Knight of the Seven Kingdoms",
     "status": "A jour",
-    "avgRating": 16.09,
+    "avgRating": 15.89,
     "episodesWatched": 6,
     "episodes": 6,
     "releaseYear": 2026,
@@ -121,7 +121,7 @@
     "title": "Andor",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 16.29,
+    "avgRating": 16.27,
     "episodesWatched": 24,
     "episodes": 24,
     "releaseYear": 2022,
@@ -135,7 +135,7 @@
   {
     "title": "Anne with an E",
     "status": "En cours",
-    "avgRating": 17.39,
+    "avgRating": 17.4,
     "episodesWatched": 1,
     "episodes": 27,
     "releaseYear": 2017,
@@ -149,7 +149,7 @@
     "title": "Arcane",
     "status": "Terminée",
     "rating": 19,
-    "avgRating": 18.12,
+    "avgRating": 18.11,
     "episodesWatched": 18,
     "episodes": 18,
     "releaseYear": 2021,
@@ -192,7 +192,7 @@
     "title": "Astérix &amp; Obélix : Le Combat des Chefs",
     "status": "Terminée",
     "rating": 16,
-    "avgRating": 16.45,
+    "avgRating": 16.44,
     "episodesWatched": 5,
     "episodes": 5,
     "releaseYear": 2025,
@@ -206,7 +206,7 @@
     "title": "Atlantis",
     "status": "Terminée",
     "rating": 16,
-    "avgRating": 12.45,
+    "avgRating": 12.69,
     "episodesWatched": 26,
     "episodes": 26,
     "releaseYear": 2013,
@@ -221,7 +221,7 @@
     "title": "Atypical",
     "status": "Terminée",
     "rating": 18,
-    "avgRating": 16.52,
+    "avgRating": 16.51,
     "episodesWatched": 38,
     "episodes": 38,
     "releaseYear": 2017,
@@ -357,7 +357,7 @@
   {
     "title": "Bodyguard",
     "status": "Terminée",
-    "avgRating": 16.07,
+    "avgRating": 16.08,
     "episodesWatched": 6,
     "episodes": 6,
     "releaseYear": 2018,
@@ -371,7 +371,7 @@
   {
     "title": "Bones",
     "status": "Abandonnée",
-    "avgRating": 15.68,
+    "avgRating": 15.7,
     "episodesWatched": 43,
     "episodes": 246,
     "releaseYear": 2005,
@@ -394,12 +394,12 @@
       "Drama",
       "Thriller"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/4YLQj5XRrMJ7gp8eb0h6umd0iNx.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/hVVxgGZFR3JaXmkstnG1IR9Qbt6.jpg"
   },
   {
     "title": "Broadchurch",
     "status": "Terminée",
-    "avgRating": 17.03,
+    "avgRating": 17.04,
     "episodesWatched": 24,
     "episodes": 24,
     "releaseYear": 2013,
@@ -427,7 +427,7 @@
   {
     "title": "Californication",
     "status": "Abandonnée",
-    "avgRating": 15.49,
+    "avgRating": 15.5,
     "episodesWatched": 12,
     "episodes": 84,
     "releaseYear": 2007,
@@ -448,8 +448,7 @@
     "genres": [
       "Action &amp; Aventure",
       "Sport"
-    ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/19W9d5jEJKnjGT5szcUl6zOC9sN.jpg"
+    ]
   },
   {
     "title": "Carnival Row",
@@ -510,7 +509,7 @@
     "title": "Clem",
     "status": "En attente",
     "rating": 16,
-    "avgRating": 15.27,
+    "avgRating": 15.28,
     "episodesWatched": 45,
     "episodes": 73,
     "releaseYear": 2010,
@@ -569,7 +568,7 @@
     "title": "D'argent et de sang",
     "status": "Terminée",
     "rating": 18,
-    "avgRating": 16.59,
+    "avgRating": 16.62,
     "episodesWatched": 12,
     "episodes": 12,
     "releaseYear": 2023,
@@ -583,7 +582,7 @@
   {
     "title": "Dallas (2012)",
     "status": "Terminée",
-    "avgRating": 13.93,
+    "avgRating": 13.78,
     "episodesWatched": 40,
     "episodes": 40,
     "releaseYear": 2012,
@@ -596,7 +595,7 @@
   {
     "title": "Dandadan",
     "status": "En cours",
-    "avgRating": 16.53,
+    "avgRating": 16.57,
     "episodesWatched": 2,
     "episodes": 24,
     "releaseYear": 2024,
@@ -611,7 +610,7 @@
     "title": "Inside Bill?s Brain : Decoding Bill Gates",
     "titleVF": "Dans le cerveau de Bill Gates",
     "status": "Terminée",
-    "avgRating": 16.4,
+    "avgRating": 16.09,
     "episodesWatched": 3,
     "episodes": 3,
     "releaseYear": 2019,
@@ -669,7 +668,7 @@
     "title": "Death Note (2006)",
     "status": "Terminée",
     "rating": 19,
-    "avgRating": 17.18,
+    "avgRating": 17.17,
     "episodesWatched": 37,
     "episodes": 37,
     "releaseYear": 2006,
@@ -698,7 +697,7 @@
   {
     "title": "Des vivants",
     "status": "En cours",
-    "avgRating": 16.29,
+    "avgRating": 16.23,
     "episodesWatched": 1,
     "episodes": 8,
     "releaseYear": 2025,
@@ -712,7 +711,7 @@
     "title": "Disenchantment",
     "titleVF": "Désenchantée",
     "status": "En cours",
-    "avgRating": 14.75,
+    "avgRating": 14.73,
     "episodesWatched": 6,
     "episodes": 50,
     "releaseYear": 2018,
@@ -736,7 +735,7 @@
       "Comédie",
       "Comédie dramatique"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/4qeI51jDzH81PpUUNaJCBrfm7f6.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/yIRQ1FOJLUIqyWzAMVevxLhYuPC.jpg"
   },
   {
     "title": "Devs",
@@ -801,7 +800,7 @@
     "title": "Disclaimer*",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 15.21,
+    "avgRating": 15.08,
     "episodesWatched": 7,
     "episodes": 7,
     "releaseYear": 2024,
@@ -881,7 +880,7 @@
       "Drama",
       "Science-Fiction"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/2JP6NSmBwxg75uTcIHiv5R8PpPi.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/hpDopWiJ3JjC5UwgU83lJAs0tXL.jpg"
   },
   {
     "title": "Dolmen",
@@ -946,7 +945,7 @@
   {
     "title": "Dune: Prophecy",
     "status": "En cours",
-    "avgRating": 15.25,
+    "avgRating": 15.39,
     "episodesWatched": 0,
     "episodes": 6,
     "releaseYear": 2024,
@@ -989,7 +988,7 @@
   {
     "title": "Élite",
     "status": "En attente",
-    "avgRating": 14.61,
+    "avgRating": 14.6,
     "episodesWatched": 4,
     "episodes": 64,
     "releaseYear": 2018,
@@ -1004,7 +1003,7 @@
     "title": "Engrenages",
     "status": "Terminée",
     "rating": 18,
-    "avgRating": 16.48,
+    "avgRating": 16.51,
     "episodesWatched": 86,
     "episodes": 86,
     "releaseYear": 2005,
@@ -1048,9 +1047,9 @@
   {
     "title": "Euphoria (2019)",
     "status": "A jour",
-    "avgRating": 16.24,
-    "episodesWatched": 18,
-    "episodes": 18,
+    "avgRating": 16.22,
+    "episodesWatched": 19,
+    "episodes": 19,
     "releaseYear": 2019,
     "airingStatus": "Diffusion actuelle",
     "genres": [
@@ -1075,7 +1074,7 @@
     "title": "Fais pas ci, fais pas ça",
     "status": "Terminée",
     "rating": 18,
-    "avgRating": 16.16,
+    "avgRating": 16.11,
     "episodesWatched": 70,
     "episodes": 70,
     "releaseYear": 2007,
@@ -1088,7 +1087,7 @@
   {
     "title": "Fallout",
     "status": "En cours",
-    "avgRating": 16.03,
+    "avgRating": 16.04,
     "episodesWatched": 2,
     "episodes": 16,
     "releaseYear": 2024,
@@ -1159,10 +1158,10 @@
   },
   {
     "title": "For All Mankind",
-    "status": "A jour",
-    "avgRating": 15.93,
+    "status": "En cours",
+    "avgRating": 15.83,
     "episodesWatched": 40,
-    "episodes": 40,
+    "episodes": 43,
     "releaseYear": 2019,
     "airingStatus": "Diffusion actuelle",
     "genres": [
@@ -1174,7 +1173,7 @@
   {
     "title": "Foundation",
     "status": "En cours",
-    "avgRating": 15.23,
+    "avgRating": 15.24,
     "episodesWatched": 22,
     "episodes": 30,
     "releaseYear": 2021,
@@ -1203,7 +1202,7 @@
     "title": "Band of Brothers",
     "titleVF": "Frères d'Armes",
     "status": "Terminée",
-    "avgRating": 17.33,
+    "avgRating": 17.32,
     "episodesWatched": 10,
     "episodes": 10,
     "releaseYear": 2001,
@@ -1217,7 +1216,7 @@
   {
     "title": "Friends",
     "status": "En attente",
-    "avgRating": 17.52,
+    "avgRating": 17.51,
     "episodesWatched": 26,
     "episodes": 236,
     "releaseYear": 1994,
@@ -1232,9 +1231,9 @@
     "title": "Sôsô no Frieren",
     "titleVF": "Frieren: Beyond Journey's End",
     "status": "En cours",
-    "avgRating": 17.6,
+    "avgRating": 17.58,
     "episodesWatched": 0,
-    "episodes": 35,
+    "episodes": 38,
     "releaseYear": 2023,
     "airingStatus": "Diffusion actuelle",
     "genres": [
@@ -1246,7 +1245,7 @@
   {
     "title": "Fringe",
     "status": "En cours",
-    "avgRating": 16.43,
+    "avgRating": 16.42,
     "episodesWatched": 45,
     "episodes": 100,
     "releaseYear": 2008,
@@ -1276,7 +1275,7 @@
     "title": "Kakegurui (2017)",
     "titleVF": "Gambling School",
     "status": "Abandonnée",
-    "avgRating": 14.9,
+    "avgRating": 14.88,
     "episodesWatched": 2,
     "episodes": 24,
     "releaseYear": 2017,
@@ -1305,7 +1304,7 @@
   {
     "title": "Gangs of London",
     "status": "En cours",
-    "avgRating": 16.47,
+    "avgRating": 16.33,
     "episodesWatched": 9,
     "episodes": 25,
     "releaseYear": 2020,
@@ -1314,7 +1313,7 @@
       "Drama",
       "Thriller"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/tcs6El8ZI1s9CUSHJcrGP6b01F9.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/ovyJ246qOfs6XEmQOOasswYuPHC.jpg"
   },
   {
     "title": "Glee",
@@ -1334,7 +1333,7 @@
     "title": "Gomorra",
     "status": "En cours",
     "avgRating": 16.96,
-    "episodesWatched": 40,
+    "episodesWatched": 45,
     "episodes": 58,
     "releaseYear": 2014,
     "airingStatus": "Diffusion finie",
@@ -1388,9 +1387,9 @@
   {
     "title": "Grey's Anatomy",
     "status": "En cours",
-    "avgRating": 16.21,
+    "avgRating": 16.22,
     "episodesWatched": 420,
-    "episodes": 459,
+    "episodes": 464,
     "releaseYear": 2005,
     "airingStatus": "Diffusion actuelle",
     "genres": [
@@ -1413,13 +1412,13 @@
       "Comédie",
       "Ecchi"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/hanEVfXhpxscGQb0Sg1xI3quGfz.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/4jUhf9YpLmQMy00XfSR9w5p0HCO.jpg"
   },
   {
     "title": "H",
     "status": "Terminée",
     "rating": 18,
-    "avgRating": 15.4,
+    "avgRating": 15.42,
     "episodesWatched": 71,
     "episodes": 71,
     "releaseYear": 1998,
@@ -1433,7 +1432,7 @@
   {
     "title": "Halt and Catch Fire",
     "status": "En cours",
-    "avgRating": 16.59,
+    "avgRating": 16.61,
     "episodesWatched": 7,
     "episodes": 40,
     "releaseYear": 2014,
@@ -1457,6 +1456,19 @@
     "posterUrl": "https://image.tmdb.org/t/p/w500/xZK5iQSrn2mouZEk2PwyLPCwa4u.jpg"
   },
   {
+    "title": "Harry Potter",
+    "status": "A venir",
+    "episodesWatched": 0,
+    "episodes": 0,
+    "releaseYear": 2026,
+    "airingStatus": "Diffusion prochaine",
+    "genres": [
+      "Drama",
+      "Fantastique"
+    ],
+    "posterUrl": "https://image.tmdb.org/t/p/w500/zNH0vo3rvRTklF0gui5Ntr4DBAA.jpg"
+  },
+  {
     "title": "Hero Corp",
     "status": "Abandonnée",
     "avgRating": 15.47,
@@ -1473,7 +1485,7 @@
     "title": "Heroes",
     "status": "Abandonnée",
     "rating": 15,
-    "avgRating": 14.8,
+    "avgRating": 14.79,
     "episodesWatched": 68,
     "episodes": 78,
     "releaseYear": 2006,
@@ -1503,7 +1515,7 @@
     "titleVF": "High School of the Dead",
     "status": "En attente",
     "rating": 16,
-    "avgRating": 14.98,
+    "avgRating": 14.97,
     "episodesWatched": 12,
     "episodes": 13,
     "releaseYear": 2010,
@@ -1515,7 +1527,7 @@
     "posterUrl": "https://image.tmdb.org/t/p/w500/bKRK0jDz9jccNcqus2LP5mIhA24.jpg"
   },
   {
-    "title": "High Score",
+    "title": "High Score (US)",
     "titleVF": "High Score : L'âge d'or du gaming",
     "status": "En cours",
     "avgRating": 15.41,
@@ -1526,14 +1538,13 @@
     "genres": [
       "Documentaire",
       "Culture"
-    ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/pNEFBGln0dXE7TwzsymkCB56oH.jpg"
+    ]
   },
   {
     "title": "H/JACK",
     "titleVF": "Hijack",
     "status": "En cours",
-    "avgRating": 15.48,
+    "avgRating": 15.37,
     "episodesWatched": 7,
     "episodes": 15,
     "releaseYear": 2023,
@@ -1549,7 +1560,7 @@
     "titleVF": "His Dark Materials : À la croisée des mondes",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 15.83,
+    "avgRating": 15.81,
     "episodesWatched": 23,
     "episodes": 23,
     "releaseYear": 2019,
@@ -1577,7 +1588,7 @@
   {
     "title": "Homeland",
     "status": "En cours",
-    "avgRating": 16,
+    "avgRating": 16.02,
     "episodesWatched": 84,
     "episodes": 96,
     "releaseYear": 2011,
@@ -1592,7 +1603,7 @@
     "title": "House of Cards (US)",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 16.38,
+    "avgRating": 16.39,
     "episodesWatched": 73,
     "episodes": 73,
     "releaseYear": 2013,
@@ -1629,7 +1640,7 @@
       "Comédie",
       "Sitcom"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/zat4C4cnFYFhFLW922VmcxobD9C.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/e6PuvBDHqUrJ3dRI2co1G4WXVWf.jpg"
   },
   {
     "title": "Humans",
@@ -1720,7 +1731,7 @@
     "title": "It's a Sin",
     "status": "Terminée",
     "rating": 18,
-    "avgRating": 16.85,
+    "avgRating": 16.91,
     "episodesWatched": 5,
     "episodes": 5,
     "releaseYear": 2021,
@@ -1734,7 +1745,7 @@
     "title": "Odio il Natale",
     "titleVF": "Je déteste Noël",
     "status": "En cours",
-    "avgRating": 14.35,
+    "avgRating": 14.33,
     "episodesWatched": 1,
     "episodes": 12,
     "releaseYear": 2022,
@@ -1749,7 +1760,7 @@
     "title": "Jericho (US)",
     "status": "Abandonnée",
     "rating": 14,
-    "avgRating": 14.38,
+    "avgRating": 14.36,
     "episodesWatched": 19,
     "episodes": 29,
     "releaseYear": 2006,
@@ -1808,7 +1819,7 @@
     "title": "Kyle XY",
     "status": "Abandonnée",
     "rating": 14,
-    "avgRating": 14.21,
+    "avgRating": 14.22,
     "episodesWatched": 33,
     "episodes": 43,
     "releaseYear": 2006,
@@ -1824,7 +1835,7 @@
     "titleVF": "L'affaire Jacob Barber",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 15.53,
+    "avgRating": 15.52,
     "episodesWatched": 8,
     "episodes": 8,
     "releaseYear": 2020,
@@ -1854,7 +1865,7 @@
     "title": "Shingeki no Kyojin",
     "titleVF": "L'Attaque des Titans",
     "status": "En cours",
-    "avgRating": 17.53,
+    "avgRating": 17.54,
     "episodesWatched": 88,
     "episodes": 89,
     "releaseYear": 2013,
@@ -1896,7 +1907,7 @@
     "titleVF": "La petite maison dans la prairie",
     "status": "Terminée",
     "rating": 15,
-    "avgRating": 14.79,
+    "avgRating": 14.8,
     "episodesWatched": 211,
     "episodes": 211,
     "releaseYear": 1974,
@@ -1926,7 +1937,7 @@
     "titleVF": "Le 10ème Royaume",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 16.64,
+    "avgRating": 16.63,
     "episodesWatched": 10,
     "episodes": 10,
     "releaseYear": 2000,
@@ -1974,7 +1985,7 @@
     "episodesWatched": 2,
     "episodes": 8,
     "releaseYear": 2021,
-    "airingStatus": "Diffusion actuelle",
+    "airingStatus": "Diffusion finie",
     "genres": [
       "Documentaire"
     ],
@@ -2130,7 +2141,7 @@
   {
     "title": "Les Revenants",
     "status": "Abandonnée",
-    "avgRating": 14.81,
+    "avgRating": 14.8,
     "episodesWatched": 8,
     "episodes": 16,
     "releaseYear": 2012,
@@ -2146,7 +2157,7 @@
     "titleVF": "Les Sauvages",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 15.81,
+    "avgRating": 15.76,
     "episodesWatched": 19,
     "episodes": 19,
     "releaseYear": 2004,
@@ -2162,7 +2173,7 @@
     "titleVF": "Les Simpson",
     "status": "Abandonnée",
     "rating": 18,
-    "avgRating": 16.68,
+    "avgRating": 16.7,
     "episodesWatched": 401,
     "episodes": 804,
     "releaseYear": 1989,
@@ -2177,7 +2188,7 @@
     "title": "The Sopranos",
     "titleVF": "Les Soprano",
     "status": "En cours",
-    "avgRating": 16.9,
+    "avgRating": 16.91,
     "episodesWatched": 55,
     "episodes": 86,
     "releaseYear": 1999,
@@ -2207,7 +2218,7 @@
     "title": "Lessons in Chemistry",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 17.27,
+    "avgRating": 17.28,
     "episodesWatched": 8,
     "episodes": 8,
     "releaseYear": 2023,
@@ -2236,7 +2247,7 @@
     "title": "Lost",
     "titleVF": "Lost, les disparus",
     "status": "En attente",
-    "avgRating": 15.93,
+    "avgRating": 15.92,
     "episodesWatched": 110,
     "episodes": 122,
     "releaseYear": 2004,
@@ -2250,7 +2261,7 @@
   {
     "title": "Love, Death + Robots",
     "status": "En cours",
-    "avgRating": 16.13,
+    "avgRating": 16.12,
     "episodesWatched": 3,
     "episodes": 45,
     "releaseYear": 2019,
@@ -2264,7 +2275,7 @@
   {
     "title": "Luther",
     "status": "Terminée",
-    "avgRating": 16.35,
+    "avgRating": 16.36,
     "episodesWatched": 20,
     "episodes": 20,
     "releaseYear": 2010,
@@ -2280,7 +2291,7 @@
     "titleVF": "Ma famille d'abord",
     "status": "Terminée",
     "rating": 18,
-    "avgRating": 15.4,
+    "avgRating": 15.41,
     "episodesWatched": 123,
     "episodes": 123,
     "releaseYear": 2001,
@@ -2295,7 +2306,7 @@
     "title": "Mad Men",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 15.93,
+    "avgRating": 15.95,
     "episodesWatched": 92,
     "episodes": 92,
     "releaseYear": 2007,
@@ -2322,7 +2333,7 @@
   {
     "title": "MAID",
     "status": "En cours",
-    "avgRating": 16.67,
+    "avgRating": 16.65,
     "episodesWatched": 2,
     "episodes": 10,
     "releaseYear": 2021,
@@ -2351,7 +2362,7 @@
     "titleVF": "Malcolm",
     "status": "Terminée",
     "rating": 16,
-    "avgRating": 17.01,
+    "avgRating": 17.02,
     "episodesWatched": 151,
     "episodes": 151,
     "releaseYear": 2000,
@@ -2379,7 +2390,7 @@
     "title": "Marvel's Daredevil",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 16.28,
+    "avgRating": 16.29,
     "episodesWatched": 39,
     "episodes": 39,
     "releaseYear": 2015,
@@ -2407,7 +2418,7 @@
   {
     "title": "Marvel's Luke Cage",
     "status": "En attente",
-    "avgRating": 14.3,
+    "avgRating": 14.29,
     "episodesWatched": 7,
     "episodes": 26,
     "releaseYear": 2016,
@@ -2450,7 +2461,7 @@
     "title": "Masters of the Air",
     "status": "Terminée",
     "rating": 16,
-    "avgRating": 16.72,
+    "avgRating": 16.67,
     "episodesWatched": 9,
     "episodes": 9,
     "releaseYear": 2024,
@@ -2465,7 +2476,7 @@
     "title": "Wednesday",
     "titleVF": "Mercredi",
     "status": "En cours",
-    "avgRating": 15.77,
+    "avgRating": 15.76,
     "episodesWatched": 11,
     "episodes": 16,
     "releaseYear": 2022,
@@ -2555,7 +2566,7 @@
     "title": "Mr. Robot",
     "status": "Terminée",
     "rating": 19,
-    "avgRating": 16.58,
+    "avgRating": 16.59,
     "episodesWatched": 45,
     "episodes": 45,
     "releaseYear": 2015,
@@ -2583,7 +2594,7 @@
     "title": "Murderbot",
     "titleVF": "Murderbot : Journal d'un AssaSynth",
     "status": "En cours",
-    "avgRating": 14.71,
+    "avgRating": 14.72,
     "episodesWatched": 2,
     "episodes": 10,
     "releaseYear": 2025,
@@ -2598,7 +2609,7 @@
     "title": "Mystère",
     "status": "Terminée",
     "rating": 14,
-    "avgRating": 12.15,
+    "avgRating": 12.29,
     "episodesWatched": 12,
     "episodes": 12,
     "releaseYear": 2007,
@@ -2625,7 +2636,7 @@
   {
     "title": "Napoléon",
     "status": "Terminée",
-    "avgRating": 15.33,
+    "avgRating": 15.38,
     "episodesWatched": 4,
     "episodes": 4,
     "releaseYear": 2002,
@@ -2725,7 +2736,7 @@
     "title": "Obi-Wan Kenobi",
     "status": "Terminée",
     "rating": 14,
-    "avgRating": 13.64,
+    "avgRating": 13.62,
     "episodesWatched": 6,
     "episodes": 6,
     "releaseYear": 2022,
@@ -2740,7 +2751,7 @@
     "title": "Captain Tsubasa (1983)",
     "titleVF": "Olive et Tom",
     "status": "Terminée",
-    "avgRating": 15.11,
+    "avgRating": 15.1,
     "episodesWatched": 128,
     "episodes": 128,
     "releaseYear": 1983,
@@ -2768,7 +2779,7 @@
     "status": "En cours",
     "avgRating": 17.79,
     "episodesWatched": 848,
-    "episodes": 1155,
+    "episodes": 1157,
     "releaseYear": 1999,
     "airingStatus": "Diffusion actuelle",
     "genres": [
@@ -2778,10 +2789,10 @@
   },
   {
     "title": "One Piece (2023)",
-    "status": "A jour",
-    "avgRating": 16.11,
+    "status": "En cours",
+    "avgRating": 16.21,
     "episodesWatched": 8,
-    "episodes": 8,
+    "episodes": 16,
     "releaseYear": 2023,
     "airingStatus": "Diffusion actuelle",
     "genres": [
@@ -2794,7 +2805,7 @@
     "status": "En attente",
     "avgRating": 15.67,
     "episodesWatched": 6,
-    "episodes": 25,
+    "episodes": 28,
     "releaseYear": 1998,
     "airingStatus": "Diffusion actuelle",
     "genres": [
@@ -2806,7 +2817,7 @@
     "title": "Orange Is the New Black",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 16.32,
+    "avgRating": 16.31,
     "episodesWatched": 91,
     "episodes": 91,
     "releaseYear": 2013,
@@ -2821,9 +2832,9 @@
     "title": "Outlander",
     "titleVF": "Outlander : Le Chardon et le Tartan",
     "status": "En cours",
-    "avgRating": 17.11,
+    "avgRating": 17.12,
     "episodesWatched": 59,
-    "episodes": 91,
+    "episodes": 97,
     "releaseYear": 2014,
     "airingStatus": "Diffusion actuelle",
     "genres": [
@@ -2849,7 +2860,7 @@
   {
     "title": "Peaky Blinders",
     "status": "En cours",
-    "avgRating": 17.19,
+    "avgRating": 17.18,
     "episodesWatched": 20,
     "episodes": 36,
     "releaseYear": 2013,
@@ -2876,7 +2887,7 @@
   {
     "title": "Person of Interest",
     "status": "A commencer",
-    "avgRating": 16.7,
+    "avgRating": 16.72,
     "episodesWatched": 0,
     "episodes": 103,
     "releaseYear": 2011,
@@ -2907,7 +2918,7 @@
     "titleVF": "Pokémon",
     "status": "Abandonnée",
     "rating": 17,
-    "avgRating": 15.55,
+    "avgRating": 15.56,
     "episodesWatched": 329,
     "episodes": 1242,
     "releaseYear": 1997,
@@ -2950,7 +2961,7 @@
     "title": "Presumed Innocent",
     "titleVF": "Présumé innocent",
     "status": "A jour",
-    "avgRating": 15.43,
+    "avgRating": 15.46,
     "episodesWatched": 8,
     "episodes": 8,
     "releaseYear": 2024,
@@ -2978,7 +2989,7 @@
   {
     "title": "Private Practice",
     "status": "Abandonnée",
-    "avgRating": 15.05,
+    "avgRating": 15.02,
     "episodesWatched": 54,
     "episodes": 111,
     "releaseYear": 2007,
@@ -3030,7 +3041,7 @@
     "genres": [
       "Drama"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/bFLt2J0IVWMmZU0675KxdHMyZrK.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/ptJ1ThkbmeapXqvkg98tJkXlHat.jpg"
   },
   {
     "title": "Scènes de ménages",
@@ -3051,7 +3062,7 @@
     "title": "Sense8",
     "status": "Terminée",
     "rating": 18,
-    "avgRating": 17.33,
+    "avgRating": 17.34,
     "episodesWatched": 24,
     "episodes": 24,
     "releaseYear": 2015,
@@ -3080,7 +3091,7 @@
     "title": "Sex Education",
     "status": "Terminée",
     "rating": 18,
-    "avgRating": 16.09,
+    "avgRating": 16.08,
     "episodesWatched": 32,
     "episodes": 32,
     "releaseYear": 2019,
@@ -3089,12 +3100,12 @@
       "Drama",
       "Comédie"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/ikF16kXvZLi3feEAqX0oZu81uj2.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/hVk1hhJjyeTSCk3Fiy6p0W5pPxK.jpg"
   },
   {
     "title": "Shameless (US)",
     "status": "Abandonnée",
-    "avgRating": 17.13,
+    "avgRating": 17.12,
     "episodesWatched": 10,
     "episodes": 134,
     "releaseYear": 2011,
@@ -3163,9 +3174,9 @@
   {
     "title": "Shrinking",
     "status": "En cours",
-    "avgRating": 16.1,
-    "episodesWatched": 22,
-    "episodes": 28,
+    "avgRating": 16.2,
+    "episodesWatched": 23,
+    "episodes": 33,
     "releaseYear": 2023,
     "airingStatus": "Diffusion actuelle",
     "genres": [
@@ -3191,7 +3202,7 @@
   {
     "title": "Silo",
     "status": "A jour",
-    "avgRating": 16.09,
+    "avgRating": 16.08,
     "episodesWatched": 20,
     "episodes": 20,
     "releaseYear": 2023,
@@ -3200,7 +3211,7 @@
       "Drama",
       "Science-Fiction"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/uliRojvnww26Hn3hnSedLNlQk1O.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/dxktdopZCOlff10ocoEdn2TXBzl.jpg"
   },
   {
     "title": "Skins (UK)",
@@ -3233,9 +3244,9 @@
   },
   {
     "title": "Stalk",
-    "status": "En cours",
+    "status": "A jour",
     "avgRating": 14.63,
-    "episodesWatched": 20,
+    "episodesWatched": 30,
     "episodes": 30,
     "releaseYear": 2020,
     "airingStatus": "Diffusion actuelle",
@@ -3257,7 +3268,7 @@
       "Drama",
       "Science-Fiction"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/osRyS1EDYeAUXf3IYI5AoqBOjQk.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/xwpOHgym48Ftz7fbJq5te5xoiwu.jpg"
   },
   {
     "title": "Star Wars Rebels",
@@ -3276,7 +3287,7 @@
   {
     "title": "Stargate Atlantis",
     "status": "Abandonnée",
-    "avgRating": 16.32,
+    "avgRating": 16.33,
     "episodesWatched": 40,
     "episodes": 100,
     "releaseYear": 2004,
@@ -3291,7 +3302,7 @@
     "title": "Stargate SG-1",
     "status": "Terminée",
     "rating": 16,
-    "avgRating": 16.74,
+    "avgRating": 16.76,
     "episodesWatched": 194,
     "episodes": 214,
     "releaseYear": 1997,
@@ -3306,7 +3317,7 @@
     "title": "Stranger Things",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 17.01,
+    "avgRating": 17,
     "episodesWatched": 42,
     "episodes": 42,
     "releaseYear": 2016,
@@ -3321,7 +3332,7 @@
     "title": "Succession",
     "status": "Terminée",
     "rating": 19,
-    "avgRating": 15.77,
+    "avgRating": 15.79,
     "episodesWatched": 39,
     "episodes": 39,
     "releaseYear": 2018,
@@ -3350,7 +3361,7 @@
     "titleVF": "Sur écoute",
     "status": "Terminée",
     "rating": 18,
-    "avgRating": 17.61,
+    "avgRating": 17.62,
     "episodesWatched": 60,
     "episodes": 60,
     "releaseYear": 2002,
@@ -3359,7 +3370,7 @@
       "Drama",
       "Policier"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/5asMXKoeT2qA1CWQwjgXLnb2bOm.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/efV8dprxpU1JXNGqepVY68ZaHKZ.jpg"
   },
   {
     "title": "Suspectes",
@@ -3462,13 +3473,13 @@
       "Comédie",
       "Sitcom"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/5BzsgXhqtfbE71ScWL9gF7f4DjI.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/kMhMKG3IVJV8HhMGK7GEY6X73bP.jpg"
   },
   {
     "title": "The Crown",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 16.9,
+    "avgRating": 16.91,
     "episodesWatched": 60,
     "episodes": 60,
     "releaseYear": 2016,
@@ -3477,7 +3488,7 @@
       "Drama",
       "Historique"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/1dWaBW3AESKJDWeXdFaPkJiOseM.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/snrhOM9JOY3i7UGNDZBfBakiq4n.jpg"
   },
   {
     "title": "The Expanse",
@@ -3491,12 +3502,12 @@
       "Drama",
       "Science-Fiction"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/tZjp7TGJ1CFYDx0y5voS2rVYzYs.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/5vQlVWkIMPhZ88OWchJsgwGEK9.jpg"
   },
   {
     "title": "The Fall",
     "status": "En cours",
-    "avgRating": 16.26,
+    "avgRating": 16.24,
     "episodesWatched": 11,
     "episodes": 17,
     "releaseYear": 2013,
@@ -3554,7 +3565,7 @@
   {
     "title": "The Last of Us",
     "status": "A jour",
-    "avgRating": 16.14,
+    "avgRating": 16.12,
     "episodesWatched": 16,
     "episodes": 16,
     "releaseYear": 2023,
@@ -3582,7 +3593,7 @@
   {
     "title": "The Newsroom",
     "status": "En cours",
-    "avgRating": 16.71,
+    "avgRating": 16.68,
     "episodesWatched": 14,
     "episodes": 25,
     "releaseYear": 2012,
@@ -3622,12 +3633,12 @@
   },
   {
     "title": "The Penguin",
-    "status": "A jour",
-    "avgRating": 15.75,
+    "status": "Terminée",
+    "avgRating": 15.8,
     "episodesWatched": 8,
     "episodes": 8,
     "releaseYear": 2024,
-    "airingStatus": "Diffusion actuelle",
+    "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
@@ -3637,9 +3648,9 @@
   {
     "title": "The Pitt",
     "status": "En cours",
-    "avgRating": 16.69,
-    "episodesWatched": 15,
-    "episodes": 23,
+    "avgRating": 16.74,
+    "episodesWatched": 23,
+    "episodes": 29,
     "releaseYear": 2025,
     "airingStatus": "Diffusion actuelle",
     "genres": [
@@ -3652,7 +3663,7 @@
     "title": "The Studio",
     "status": "A jour",
     "rating": 18,
-    "avgRating": 15.24,
+    "avgRating": 15.26,
     "episodesWatched": 10,
     "episodes": 10,
     "releaseYear": 2025,
@@ -3692,7 +3703,7 @@
   {
     "title": "The Walking Dead",
     "status": "Abandonnée",
-    "avgRating": 16.19,
+    "avgRating": 16.18,
     "episodesWatched": 99,
     "episodes": 177,
     "releaseYear": 2010,
@@ -3706,7 +3717,7 @@
   {
     "title": "The Witcher",
     "status": "En cours",
-    "avgRating": 15.43,
+    "avgRating": 15.44,
     "episodesWatched": 18,
     "episodes": 32,
     "releaseYear": 2019,
@@ -3720,7 +3731,7 @@
   {
     "title": "Thirteen",
     "status": "A commencer",
-    "avgRating": 15.28,
+    "avgRating": 15.31,
     "episodesWatched": 0,
     "episodes": 5,
     "releaseYear": 2016,
@@ -3848,7 +3859,7 @@
     "titleVF": "Un, dos, tres",
     "status": "Terminée",
     "rating": 15,
-    "avgRating": 14.42,
+    "avgRating": 14.43,
     "episodesWatched": 84,
     "episodes": 84,
     "releaseYear": 2002,
@@ -3863,7 +3874,7 @@
     "title": "Unbelievable",
     "status": "Terminée",
     "rating": 18,
-    "avgRating": 16.42,
+    "avgRating": 16.41,
     "episodesWatched": 8,
     "episodes": 8,
     "releaseYear": 2019,
@@ -3965,7 +3976,7 @@
   {
     "title": "Victoria",
     "status": "Abandonnée",
-    "avgRating": 16.93,
+    "avgRating": 16.92,
     "episodesWatched": 2,
     "episodes": 25,
     "releaseYear": 2016,
@@ -3979,7 +3990,7 @@
   {
     "title": "Vinland Saga",
     "status": "En cours",
-    "avgRating": 16.68,
+    "avgRating": 16.67,
     "episodesWatched": 2,
     "episodes": 50,
     "releaseYear": 2019,
@@ -3993,7 +4004,7 @@
   {
     "title": "Violet Evergarden",
     "status": "Abandonnée",
-    "avgRating": 17.62,
+    "avgRating": 17.6,
     "episodesWatched": 1,
     "episodes": 14,
     "releaseYear": 2018,
@@ -4007,7 +4018,7 @@
   {
     "title": "Watchmen",
     "status": "A commencer",
-    "avgRating": 15.95,
+    "avgRating": 15.96,
     "episodesWatched": 0,
     "episodes": 9,
     "releaseYear": 2019,
@@ -4031,7 +4042,7 @@
       "Drama",
       "Science-Fiction"
     ],
-    "posterUrl": "https://image.tmdb.org/t/p/w500/600t3GZ4QgWxznRoEqzudRz8ndW.jpg"
+    "posterUrl": "https://image.tmdb.org/t/p/w500/iblRK215A0oz3ewTtIIXO9XcW1N.jpg"
   },
   {
     "title": "The X-Files",
@@ -4067,7 +4078,7 @@
   {
     "title": "YOU",
     "status": "En cours",
-    "avgRating": 15.28,
+    "avgRating": 15.27,
     "episodesWatched": 30,
     "episodes": 50,
     "releaseYear": 2018,
@@ -4082,7 +4093,7 @@
     "title": "Shigatsu wa Kimi no Uso",
     "titleVF": "Your Lie in April",
     "status": "Abandonnée",
-    "avgRating": 17.15,
+    "avgRating": 17.14,
     "episodesWatched": 12,
     "episodes": 23,
     "releaseYear": 2014,

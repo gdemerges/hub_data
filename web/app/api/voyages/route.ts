@@ -195,6 +195,9 @@ async function readJsonFiles(
   }
 }
 
+const VOYAGES_CACHE_TTL = 24 * 3600 * 1000 // 24h — location history is static between manual geocode runs
+const VOYAGES_CACHE_HEADERS = { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600' }
+
 export async function GET() {
   try {
     const dataDir = path.join(process.cwd(), 'data', 'location-history')
@@ -202,6 +205,19 @@ export async function GET() {
     // Check if directory exists
     if (!fs.existsSync(dataDir)) {
       return NextResponse.json({ error: 'No location history data found' }, { status: 404 })
+    }
+
+    // Serve from file cache if still fresh
+    const voyagesCacheFile = path.join(process.cwd(), 'data', 'voyages-cache.json')
+    if (fs.existsSync(voyagesCacheFile)) {
+      try {
+        const cached = JSON.parse(await fsp.readFile(voyagesCacheFile, 'utf-8'))
+        if (Date.now() - cached.cachedAt < VOYAGES_CACHE_TTL) {
+          return NextResponse.json(cached.result, { headers: VOYAGES_CACHE_HEADERS })
+        }
+      } catch {
+        // Stale or corrupt cache — fall through
+      }
     }
 
     // Find all JSON files recursively in the Semantic Location History folder
@@ -311,7 +327,7 @@ export async function GET() {
       .map(([year, visits]) => ({ year, visits }))
       .sort((a, b) => a.year - b.year)
 
-    return NextResponse.json({
+    const result = {
       totalPlaces: placeCount.size,
       totalCountries: countryCount.size,
       totalCities: cityCount.size,
@@ -320,7 +336,16 @@ export async function GET() {
       topCities,
       topCountries,
       visitsByYear,
-    })
+    }
+
+    // Persist cache
+    try {
+      await fsp.writeFile(voyagesCacheFile, JSON.stringify({ result, cachedAt: Date.now() }))
+    } catch (e) {
+      console.error('Failed to write voyages cache:', e)
+    }
+
+    return NextResponse.json(result, { headers: VOYAGES_CACHE_HEADERS })
   } catch (error) {
     console.error('Voyages API error:', error)
     return NextResponse.json(

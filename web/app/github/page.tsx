@@ -46,19 +46,19 @@ export default function GitHubPage() {
   const { data, error, isLoading: loading, mutate } = useSWR<GitHubData>(
     `/api/github?username=${GITHUB_USERNAME}`,
     fetcher,
-    { revalidateOnFocus: false, dedupingInterval: 300000 }
+    { revalidateOnFocus: false, dedupingInterval: 21600000 } // 6h — matches server cache TTL
   )
 
   const { data: contributions, isLoading: loadingContributions } = useSWR<ContributionsData>(
     `/api/github/contributions?username=${GITHUB_USERNAME}&year=${selectedYear}`,
     fetcher,
-    { revalidateOnFocus: false, dedupingInterval: 300000 }
+    { revalidateOnFocus: false, dedupingInterval: 21600000 } // 6h — matches server cache TTL
   )
 
   const { data: yearlyContributions, isLoading: loadingYearly } = useSWR<YearlyContributionsData>(
     `/api/github/yearly-contributions?username=${GITHUB_USERNAME}`,
     fetcher,
-    { revalidateOnFocus: false, dedupingInterval: 300000 }
+    { revalidateOnFocus: false, dedupingInterval: 21600000 } // 6h — matches server cache TTL
   )
 
   if (loading) {

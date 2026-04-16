@@ -23,7 +23,7 @@ function timeAgo(iso: string): string {
 export default function SpotifyPage() {
   const { data, error, isLoading, mutate } = useSWR<SpotifyData>('/api/spotify', fetcher, {
     revalidateOnFocus: false,
-    dedupingInterval: 300000,
+    dedupingInterval: 3600000, // 1h — matches server cache TTL
   })
 
   const formatDuration = (ms: number) => {

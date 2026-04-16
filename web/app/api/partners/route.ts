@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     if (!year) {
       // No year filter - count all lines excluding header
       const count = Math.max(0, lines.length - 1)
-      return NextResponse.json({ count, hasData: true })
+      return NextResponse.json({ count, hasData: true }, { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } })
     }
 
     // Filter by year - parse CSV and check "Année" column (index 4)
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({ count, hasData: true })
+    return NextResponse.json({ count, hasData: true }, { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } })
   } catch (error) {
     console.error('Partners API error:', error)
     return NextResponse.json({ count: 0, hasData: false })

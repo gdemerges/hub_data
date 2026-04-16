@@ -5,6 +5,13 @@ import path from 'path'
 import * as XLSX from 'xlsx'
 import { Book } from '@/lib/types'
 
+interface BooksCache {
+  books: Book[]
+  count: number
+  cachedAt: number
+  sourceMtime: number
+}
+
 // Load covers cache
 async function loadCoversCache(): Promise<Record<string, string | null>> {
   try {
@@ -45,9 +52,41 @@ function parseCSV(content: string): Record<string, string>[] {
   return rows
 }
 
+function mapRawToBooks(rawData: Record<string, string | number>[], coversCache: Record<string, string | null>): Book[] {
+  return rawData.map((row, index) => {
+    const title = String(row['Titre VF'] || '')
+    const cacheKey = title.toLowerCase()
+    const coverUrl = coversCache[cacheKey] || undefined
+
+    return {
+      id: String(index + 1),
+      title,
+      titleVO: row['Titre VO'] ? String(row['Titre VO']) : undefined,
+      author: row['Auteur(s)'] ? String(row['Auteur(s)']) : undefined,
+      format: row['Format'] ? String(row['Format']) : undefined,
+      lectorat: row['Lectorat'] ? String(row['Lectorat']) : undefined,
+      genre1: row['Genre 1'] ? String(row['Genre 1']) : undefined,
+      genre2: row['Genre 2'] ? String(row['Genre 2']) : undefined,
+      editeur: row['Editeur'] ? String(row['Editeur']) : undefined,
+      collection: row['Collection'] ? String(row['Collection']) : undefined,
+      year: row['Année'] ? Number(row['Année']) : undefined,
+      pages: row['Nombre de pages'] ? Number(row['Nombre de pages']) : undefined,
+      langue: row['Langue'] ? String(row['Langue']) : undefined,
+      rating: row['Note personnelle (/20)'] ? Number(row['Note personnelle (/20)']) : undefined,
+      avgRating: row['Moyenne (/20)'] ? Number(row['Moyenne (/20)']) : undefined,
+      dateRead: row['Date de lecture'] ? String(row['Date de lecture']) : undefined,
+      datePurchase: row["Date d'achat"] ? String(row["Date d'achat"]) : undefined,
+      type: row['Type de livre'] ? String(row['Type de livre']) : undefined,
+      isbn: row['ISBN'] ? String(row['ISBN']) : undefined,
+      coverUrl,
+    }
+  }).filter(book => book.title)
+}
+
+const CACHE_HEADERS = { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' }
+
 export async function GET() {
   try {
-    // Check for CSV, xlsx, or xls files in root data folder (in order of priority)
     const dataDir = path.join(process.cwd(), '..', 'data')
     const possibleFiles = [
       path.join(dataDir, 'books.csv'),
@@ -67,9 +106,28 @@ export async function GET() {
       return NextResponse.json({ books: [], error: 'No books file found' })
     }
 
-    // Load covers cache
-    const coversCache = await loadCoversCache()
+    // Get source file mtime
+    const stat = await fsp.stat(dataFile)
+    const sourceMtime = stat.mtimeMs
 
+    // Try to serve from cache
+    const cacheFile = path.join(dataDir, 'books-cache.json')
+    if (fs.existsSync(cacheFile)) {
+      try {
+        const cached: BooksCache = JSON.parse(await fsp.readFile(cacheFile, 'utf-8'))
+        if (cached.sourceMtime === sourceMtime) {
+          return NextResponse.json(
+            { books: cached.books, count: cached.count },
+            { headers: CACHE_HEADERS }
+          )
+        }
+      } catch {
+        // Stale or corrupt cache — fall through to re-parse
+      }
+    }
+
+    // Cache miss: parse source file
+    const coversCache = await loadCoversCache()
     let rawData: Record<string, string | number>[]
 
     if (dataFile.endsWith('.csv')) {
@@ -83,37 +141,17 @@ export async function GET() {
       rawData = XLSX.utils.sheet_to_json(worksheet) as Record<string, string | number>[]
     }
 
-    // Map to Book interface
-    const books: Book[] = rawData.map((row, index) => {
-      const title = String(row['Titre VF'] || '')
-      const cacheKey = title.toLowerCase()
-      const coverUrl = coversCache[cacheKey] || undefined
+    const books = mapRawToBooks(rawData, coversCache)
 
-      return {
-        id: String(index + 1),
-        title,
-        titleVO: row['Titre VO'] ? String(row['Titre VO']) : undefined,
-        author: row['Auteur(s)'] ? String(row['Auteur(s)']) : undefined,
-        format: row['Format'] ? String(row['Format']) : undefined,
-        lectorat: row['Lectorat'] ? String(row['Lectorat']) : undefined,
-        genre1: row['Genre 1'] ? String(row['Genre 1']) : undefined,
-        genre2: row['Genre 2'] ? String(row['Genre 2']) : undefined,
-        editeur: row['Editeur'] ? String(row['Editeur']) : undefined,
-        collection: row['Collection'] ? String(row['Collection']) : undefined,
-        year: row['Année'] ? Number(row['Année']) : undefined,
-        pages: row['Nombre de pages'] ? Number(row['Nombre de pages']) : undefined,
-        langue: row['Langue'] ? String(row['Langue']) : undefined,
-        rating: row['Note personnelle (/20)'] ? Number(row['Note personnelle (/20)']) : undefined,
-        avgRating: row['Moyenne (/20)'] ? Number(row['Moyenne (/20)']) : undefined,
-        dateRead: row['Date de lecture'] ? String(row['Date de lecture']) : undefined,
-        datePurchase: row["Date d'achat"] ? String(row["Date d'achat"]) : undefined,
-        type: row['Type de livre'] ? String(row['Type de livre']) : undefined,
-        isbn: row['ISBN'] ? String(row['ISBN']) : undefined,
-        coverUrl,
-      }
-    }).filter(book => book.title) // Filter out empty entries
+    // Persist cache
+    try {
+      const cache: BooksCache = { books, count: books.length, cachedAt: Date.now(), sourceMtime }
+      await fsp.writeFile(cacheFile, JSON.stringify(cache))
+    } catch (e) {
+      console.error('Failed to write books cache:', e)
+    }
 
-    return NextResponse.json({ books, count: books.length })
+    return NextResponse.json({ books, count: books.length }, { headers: CACHE_HEADERS })
   } catch (error) {
     console.error('Books API error:', error)
     return NextResponse.json(

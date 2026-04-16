@@ -111,7 +111,7 @@ export async function GET() {
         parAnneeNaissance: anneeNaissanceStats,
       },
       hasData: true,
-    })
+    }, { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } })
   } catch (error) {
     console.error('Rencontres API error:', error)
     return NextResponse.json(

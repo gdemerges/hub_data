@@ -138,7 +138,7 @@ export async function GET(request: NextRequest) {
         countriesVisited,
         citiesVisited,
       },
-    })
+    }, { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } })
   } catch (error) {
     console.error('Profile API error:', error)
     return NextResponse.json(

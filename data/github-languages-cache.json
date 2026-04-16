@@ -1,0 +1,155 @@
+{
+  "gdemerges/github-readme-stats": {
+    "languages": {
+      "JavaScript": 429394,
+      "Shell": 573
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/bot_ai": {
+    "languages": {
+      "Python": 117231,
+      "Makefile": 858
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/Benji": {
+    "languages": {
+      "Python": 41691
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/simplon_exercices": {
+    "languages": {
+      "Jupyter Notebook": 820071,
+      "Python": 22951,
+      "SQL": 19715,
+      "HTML": 3363,
+      "CSS": 633
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/TimeTravel-Agency": {
+    "languages": {
+      "CSS": 41474,
+      "JavaScript": 31057,
+      "HTML": 26287,
+      "Shell": 968
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/gdemerges": {
+    "languages": {},
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/ecodiet_ios": {
+    "languages": {
+      "Swift": 590904,
+      "Shell": 23950,
+      "Python": 7220,
+      "JavaScript": 4148
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/library_simplon": {
+    "languages": {
+      "Jupyter Notebook": 32363
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/artkathon_ynov": {
+    "languages": {
+      "Python": 9250,
+      "Jupyter Notebook": 5532
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/steam-arena": {
+    "languages": {
+      "Python": 191226,
+      "TypeScript": 176343,
+      "JavaScript": 132013,
+      "CSS": 33138,
+      "PLpgSQL": 8858,
+      "Dockerfile": 707
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/bookscraper": {
+    "languages": {
+      "Python": 10753,
+      "Jupyter Notebook": 4933,
+      "SQL": 991
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/ynov_exercices": {
+    "languages": {
+      "Jupyter Notebook": 5777250,
+      "Python": 11339
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/social_network_data": {
+    "languages": {
+      "Python": 208991,
+      "CSS": 8079,
+      "JavaScript": 1758
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/bot_discord": {
+    "languages": {
+      "Python": 16156,
+      "Shell": 42
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/analyse_data_centric_immo": {
+    "languages": {
+      "Jupyter Notebook": 14826,
+      "SQL": 7724
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/DL_CNN_Number": {
+    "languages": {
+      "Jupyter Notebook": 6539,
+      "Python": 6434
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/Project_ML_Ynov": {
+    "languages": {
+      "Python": 112876,
+      "Jupyter Notebook": 14895,
+      "Shell": 3679,
+      "Dockerfile": 1128
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/plane_delay": {
+    "languages": {
+      "Jupyter Notebook": 25859,
+      "Python": 1817
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/hub_data": {
+    "languages": {
+      "TypeScript": 449351,
+      "Python": 26238,
+      "CSS": 5787,
+      "JavaScript": 1146,
+      "Makefile": 998,
+      "Shell": 902
+    },
+    "fetchedAt": 1772737753180
+  },
+  "gdemerges/sport_activity": {
+    "languages": {
+      "Python": 8932
+    },
+    "fetchedAt": 1772737753180
+  }
+}

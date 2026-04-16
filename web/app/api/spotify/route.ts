@@ -1,9 +1,15 @@
 import { NextResponse } from 'next/server'
+import fs from 'fs'
+import { promises as fsp } from 'fs'
+import path from 'path'
 
 export const revalidate = 3600 // Revalidate every hour
 
 const SPOTIFY_TOKEN_URL = 'https://accounts.spotify.com/api/token'
 const SPOTIFY_API_URL = 'https://api.spotify.com/v1'
+const SPOTIFY_CACHE_FILE = path.join(process.cwd(), 'data', 'spotify-cache.json')
+const SPOTIFY_CACHE_TTL = 3600_000 // 1h
+const CACHE_HEADERS = { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' }
 
 // Module-level token cache — avoids re-fetching for every request
 let cachedToken: { token: string; expiresAt: number } | null = null
@@ -32,6 +38,31 @@ interface SpotifyTrack {
 interface SpotifyRecentlyPlayedItem {
   track: SpotifyTrack
   played_at: string
+}
+
+interface SpotifyResponseCache {
+  data: Record<string, unknown>
+  cachedAt: number
+}
+
+async function readSpotifyCache(): Promise<SpotifyResponseCache | null> {
+  try {
+    if (fs.existsSync(SPOTIFY_CACHE_FILE)) {
+      const raw = await fsp.readFile(SPOTIFY_CACHE_FILE, 'utf-8')
+      return JSON.parse(raw) as SpotifyResponseCache
+    }
+  } catch {
+    // Ignore corrupt cache
+  }
+  return null
+}
+
+async function writeSpotifyCache(data: Record<string, unknown>): Promise<void> {
+  try {
+    await fsp.writeFile(SPOTIFY_CACHE_FILE, JSON.stringify({ data, cachedAt: Date.now() }))
+  } catch (e) {
+    console.error('Failed to write Spotify cache:', e)
+  }
 }
 
 async function getAccessToken(): Promise<string | null> {
@@ -76,9 +107,19 @@ async function getAccessToken(): Promise<string | null> {
 
 export async function GET() {
   try {
+    // Serve from file cache if still fresh
+    const cached = await readSpotifyCache()
+    if (cached && Date.now() - cached.cachedAt < SPOTIFY_CACHE_TTL) {
+      return NextResponse.json(cached.data, { headers: CACHE_HEADERS })
+    }
+
     const accessToken = await getAccessToken()
 
     if (!accessToken) {
+      // Fall back to stale cache on auth failure
+      if (cached) {
+        return NextResponse.json(cached.data, { headers: CACHE_HEADERS })
+      }
       return NextResponse.json({ error: 'Failed to authenticate with Spotify' }, { status: 401 })
     }
 
@@ -114,7 +155,7 @@ export async function GET() {
       .slice(0, 8)
       .map(([genre, count]) => ({ genre, count }))
 
-    return NextResponse.json({
+    const responseData: Record<string, unknown> = {
       user: {
         name: profile.display_name,
         avatar: profile.images?.[0]?.url,
@@ -152,7 +193,11 @@ export async function GET() {
         totalGenres: topGenres.length,
       },
       fetchedAt: new Date().toISOString(),
-    })
+    }
+
+    await writeSpotifyCache(responseData)
+
+    return NextResponse.json(responseData, { headers: CACHE_HEADERS })
   } catch (error) {
     console.error('Spotify API error:', error)
     return NextResponse.json({ error: 'Failed to fetch Spotify data' }, { status: 500 })

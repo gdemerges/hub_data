@@ -114,5 +114,5 @@ function buildSteamResponse(cache: SteamCache): NextResponse {
     topGames,
     recentGames,
     fetchedAt: new Date(cache.cachedAt).toISOString(),
-  })
+  }, { headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=3600' } })
 }

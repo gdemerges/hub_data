@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
       summary: game.summary || null,
       genres: (game.genres as { name: string }[] | undefined)?.map((g) => g.name) ?? [],
       platforms: (game.platforms as { name: string }[] | undefined)?.map((p) => p.name) ?? [],
-    })
+    }, { headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600' } })
   } catch (error) {
     console.error('IGDB API error:', error)
     return NextResponse.json(

@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: result.error }, { status: result.status || 500 })
     }
 
-    return NextResponse.json(result.data)
+    return NextResponse.json(result.data, { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } })
   } catch (error) {
     console.error('Strava stats API error:', error)
     return NextResponse.json(

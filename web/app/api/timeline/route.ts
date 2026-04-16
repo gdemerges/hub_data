@@ -219,7 +219,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       events: limitedEvents,
       total: events.length,
-    })
+    }, { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } })
   } catch (error) {
     console.error('Timeline API error:', error)
     return NextResponse.json(
