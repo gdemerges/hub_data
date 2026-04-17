@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPlaytimeByYear } from '@/lib/steam-storage'
 
+export const revalidate = 3600 // Revalidate every hour
+
+const CACHE_HEADERS = { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=600' }
+
 export async function GET(request: NextRequest) {
   try {
     const yearParam = request.nextUrl.searchParams.get('year')
@@ -47,7 +51,7 @@ export async function GET(request: NextRequest) {
       totalMinutes,
       daysPlayed,
       playtime,
-    })
+    }, { headers: CACHE_HEADERS })
   } catch (error) {
     console.error('Steam playtime API error:', error)
     return NextResponse.json(

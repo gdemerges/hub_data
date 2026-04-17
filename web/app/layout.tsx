@@ -1,11 +1,23 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import { Inter } from 'next/font/google'
+import { Inter, JetBrains_Mono, Orbitron } from 'next/font/google'
 import { Navigation } from '@/components'
 import { SWRProvider } from '@/lib/swr-config'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+})
+const orbitron = Orbitron({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+  weight: ['400', '500', '600', '700', '800', '900'],
+})
 
 export const metadata: Metadata = {
   title: 'Hub Life',
@@ -35,7 +47,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className="dark">
-      <body className={inter.className}>
+      <body className={`${inter.className} ${jetbrainsMono.variable} ${orbitron.variable}`}>
         <SWRProvider>
           <Navigation />
           <main className="min-h-screen pb-16">

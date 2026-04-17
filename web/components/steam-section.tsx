@@ -142,6 +142,7 @@ export function SteamSection() {
               alt={data.user.username}
               width={120}
               height={120}
+              sizes="(max-width: 640px) 80px, 120px"
               className="rounded-lg ring-2 ring-neon-green/30"
             />
             <div className="absolute -top-2 -right-2 w-6 h-6 bg-neon-green rounded-full border-2 border-bg-primary flex items-center justify-center">
@@ -285,6 +286,7 @@ export function SteamSection() {
                   alt={game.name}
                   width={64}
                   height={64}
+                  sizes="64px"
                   className="rounded-lg ring-2 ring-border-subtle group-hover:ring-neon-magenta/30 transition-all"
                 />
                 <div className="absolute -top-1 -left-1 w-5 h-5 bg-neon-magenta rounded text-bg-primary text-xs font-mono font-bold flex items-center justify-center">
@@ -326,6 +328,7 @@ export function SteamSection() {
                   alt={game.name}
                   width={48}
                   height={48}
+                  sizes="48px"
                   className="rounded-lg ring-2 ring-border-subtle group-hover:ring-neon-yellow/30 transition-all"
                 />
                 <div className="flex-1 min-w-0">

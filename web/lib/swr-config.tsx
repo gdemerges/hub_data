@@ -16,7 +16,7 @@ export function SWRProvider({ children }: SWRProviderProps) {
         fetcher,
         revalidateOnFocus: false,
         revalidateIfStale: false,
-        dedupingInterval: 300000, // 5 min default; per-route hooks override to match server TTL
+        dedupingInterval: 1800000, // 30 min default; server TTLs are 1-6h so no need to re-fetch sooner
         errorRetryCount: 3,
       }}
     >
@@ -53,5 +53,29 @@ export function useSteamData() {
 export function useSteamPlaytime(year: number) {
   return {
     key: `/api/steam/playtime?year=${year}`,
+  }
+}
+
+export function useStravaStats(year: number | null) {
+  return {
+    key: year ? `/api/strava/stats?year=${year}` : '/api/strava/stats',
+  }
+}
+
+export function usePartnersCount(year: number | null) {
+  return {
+    key: year ? `/api/partners?year=${year}` : '/api/partners',
+  }
+}
+
+export function useVoyages() {
+  return {
+    key: '/api/voyages',
+  }
+}
+
+export function useBooksData() {
+  return {
+    key: '/api/books',
   }
 }

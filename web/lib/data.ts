@@ -40,7 +40,7 @@ export async function getSeriesData(): Promise<Series[]> {
 export async function getBooksData(): Promise<Book[]> {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'}/api/books`, {
-      cache: 'no-store'
+      next: { revalidate: 3600 }
     })
     if (!response.ok) return []
     const data = await response.json()

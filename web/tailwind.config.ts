@@ -43,14 +43,14 @@ const config: Config = {
         },
       },
       fontFamily: {
-        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
-        display: ['Orbitron', 'sans-serif'],
+        mono: ['var(--font-mono)', 'JetBrains Mono', 'Fira Code', 'monospace'],
+        display: ['var(--font-display)', 'Orbitron', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.3s ease-out',
         'slide-up': 'slideUp 0.3s ease-out',
         'glow-pulse': 'glowPulse 2s ease-in-out infinite',
-        'flicker': 'flicker 0.15s infinite',
+        'flicker': 'flicker 0.5s infinite',
         'scan': 'scan 8s linear infinite',
         'typing': 'typing 2s steps(20) infinite',
         'glitch': 'glitch 0.3s ease-in-out',

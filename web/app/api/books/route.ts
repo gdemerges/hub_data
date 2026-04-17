@@ -89,9 +89,9 @@ export async function GET() {
   try {
     const dataDir = path.join(process.cwd(), '..', 'data')
     const possibleFiles = [
-      path.join(dataDir, 'books.csv'),
       path.join(dataDir, 'books.xlsx'),
       path.join(dataDir, 'books.xls'),
+      path.join(dataDir, 'books.csv'),
     ]
 
     let dataFile: string | null = null

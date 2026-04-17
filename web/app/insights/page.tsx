@@ -1,6 +1,21 @@
 'use client'
 
-import { ProfileRadar, UnifiedTimeline, PageHeader } from '@/components'
+import dynamic from 'next/dynamic'
+import { UnifiedTimeline, PageHeader } from '@/components'
+
+const ProfileRadar = dynamic(
+  () => import('@/components/profile-radar').then((mod) => mod.ProfileRadar),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="tech-card p-6 h-96 flex items-center justify-center">
+        <div className="text-sm text-text-muted font-mono animate-pulse">
+          Chargement du profil...
+        </div>
+      </div>
+    ),
+  }
+)
 
 export default function InsightsPage() {
   return (

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import useSWR from 'swr'
 import { Gamepad2, Film, Tv, Github, Footprints, Heart, Globe, BookOpen } from 'lucide-react'
 import { StatCard } from './stat-card'
 
@@ -12,103 +12,26 @@ interface OverviewStatsProps {
 }
 
 export function OverviewStats({ gamesCount, filmsCount, seriesCount, selectedYear }: OverviewStatsProps) {
-  const [runDistance, setRunDistance] = useState<number | null>(null)
-  const [partnersCount, setPartnersCount] = useState<number | null>(null)
-  const [countriesCount, setCountriesCount] = useState<number | null>(null)
-  const [booksRead, setBooksRead] = useState<number | null>(null)
-  const [contributions, setContributions] = useState<number | null>(null)
+  const stravaKey = selectedYear ? `/api/strava/stats?year=${selectedYear}` : '/api/strava/stats'
+  const partnersKey = selectedYear ? `/api/partners?year=${selectedYear}` : '/api/partners'
+  const githubYear = selectedYear ?? new Date().getFullYear()
+  const githubUsername = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'gdemerges'
 
-  useEffect(() => {
-    async function fetchStravaStats() {
-      try {
-        const url = selectedYear
-          ? `/api/strava/stats?year=${selectedYear}`
-          : '/api/strava/stats'
-        const response = await fetch(url)
-        if (response.ok) {
-          const data = await response.json()
-          // Use year-specific data if year is selected, otherwise total
-          const distance = selectedYear ? data.yearRunDistance : data.totalRunDistance
-          setRunDistance(Math.round(distance))
-        }
-      } catch (err) {
-        // Silently fail if not connected to Strava
-      }
-    }
-    fetchStravaStats()
-  }, [selectedYear])
+  const { data: stravaData } = useSWR(stravaKey)
+  const { data: partnersData } = useSWR(partnersKey)
+  const { data: voyagesData } = useSWR('/api/voyages')
+  const { data: booksData } = useSWR('/api/books')
+  const { data: githubData } = useSWR(`/api/github/contributions?username=${githubUsername}&year=${githubYear}`)
 
-  useEffect(() => {
-    async function fetchPartnersCount() {
-      try {
-        const url = selectedYear
-          ? `/api/partners?year=${selectedYear}`
-          : '/api/partners'
-        const response = await fetch(url)
-        if (response.ok) {
-          const data = await response.json()
-          if (data.hasData) {
-            setPartnersCount(data.count)
-          }
-        }
-      } catch (err) {
-        // Silently fail if no data
-      }
-    }
-    fetchPartnersCount()
-  }, [selectedYear])
-
-  useEffect(() => {
-    async function fetchCountriesCount() {
-      try {
-        const response = await fetch('/api/voyages')
-        if (response.ok) {
-          const data = await response.json()
-          if (data.totalCountries) {
-            setCountriesCount(data.totalCountries)
-          }
-        }
-      } catch (err) {
-        // Silently fail if no data
-      }
-    }
-    fetchCountriesCount()
-  }, [])
-
-  useEffect(() => {
-    async function fetchBooksRead() {
-      try {
-        const response = await fetch('/api/books')
-        if (response.ok) {
-          const data = await response.json()
-          if (data.books) {
-            const readCount = data.books.filter((book: any) => book.dateRead).length
-            setBooksRead(readCount)
-          }
-        }
-      } catch (err) {
-        // Silently fail if no data
-      }
-    }
-    fetchBooksRead()
-  }, [])
-
-  useEffect(() => {
-    async function fetchContributions() {
-      try {
-        const year = selectedYear ?? new Date().getFullYear()
-        const githubUsername = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'gdemerges'
-        const response = await fetch(`/api/github/contributions?username=${githubUsername}&year=${year}`)
-        if (response.ok) {
-          const data = await response.json()
-          setContributions(data.totalContributions ?? 0)
-        }
-      } catch {
-        // Silently fail if GitHub not configured
-      }
-    }
-    fetchContributions()
-  }, [selectedYear])
+  const runDistance = stravaData
+    ? Math.round(selectedYear ? stravaData.yearRunDistance : stravaData.totalRunDistance)
+    : null
+  const partnersCount = partnersData?.hasData ? partnersData.count : null
+  const countriesCount = voyagesData?.totalCountries ?? null
+  const booksRead = booksData?.books
+    ? booksData.books.filter((book: any) => book.dateRead).length
+    : null
+  const contributions = githubData?.totalContributions ?? null
 
   const stats: Array<{
     label: string
@@ -123,13 +46,7 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, selectedYea
   ]
 
   if (booksRead !== null) {
-    stats.push({
-      label: 'Livres lus',
-      value: booksRead,
-      icon: BookOpen,
-      color: 'blue',
-      href: '/books',
-    })
+    stats.push({ label: 'Livres lus', value: booksRead, icon: BookOpen, color: 'blue', href: '/books' })
   }
 
   if (contributions !== null) {
@@ -137,33 +54,15 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, selectedYea
   }
 
   if (runDistance !== null) {
-    stats.push({
-      label: 'Km courus',
-      value: `${runDistance} km`,
-      icon: Footprints,
-      color: 'orange',
-      href: '/sport',
-    })
+    stats.push({ label: 'Km courus', value: `${runDistance} km`, icon: Footprints, color: 'orange', href: '/sport' })
   }
 
   if (countriesCount !== null) {
-    stats.push({
-      label: 'Pays visités',
-      value: countriesCount,
-      icon: Globe,
-      color: 'purple',
-      href: '/voyages',
-    })
+    stats.push({ label: 'Pays visités', value: countriesCount, icon: Globe, color: 'purple', href: '/voyages' })
   }
 
   if (partnersCount !== null) {
-    stats.push({
-      label: 'Partenaires',
-      value: partnersCount,
-      icon: Heart,
-      color: 'red',
-      href: '/rencontres',
-    })
+    stats.push({ label: 'Partenaires', value: partnersCount, icon: Heart, color: 'red', href: '/rencontres' })
   }
 
   return (
