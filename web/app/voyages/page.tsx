@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Terminal, MapPin, Globe, Calendar, Upload, Plane, Building2, TrendingUp } from 'lucide-react'
-import { StatCard, WorldMap } from '@/components'
+import { MapPin, Globe, Calendar, Upload, Building2, TrendingUp } from 'lucide-react'
+import { StatCard, WorldMap, PageHeader } from '@/components'
 
 interface PlaceVisit {
   name: string
@@ -54,26 +54,7 @@ export default function VoyagesPage() {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="mb-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 bg-bg-card border border-purple-400/30 rounded-lg">
-              <Terminal className="w-8 h-8 text-purple-400" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-                <span className="text-purple-400">TRAVEL</span>_SYSTEM
-              </h1>
-              <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
-                STATUS: LOADING // LOCATION_TRACKER v1.0
-              </p>
-            </div>
-          </div>
-          <div className="font-mono text-sm text-text-secondary border-l-2 border-purple-400/30 pl-4">
-            &gt; Initializing travel data...
-            <span className="text-purple-400 animate-pulse">_</span>
-          </div>
-        </div>
+        <PageHeader title="TRAVEL" systemName="SYSTEM" status="LOADING" statusDetail="LOCATION_TRACKER v1.0" loadingMessage="Initializing travel data..." color="purple-400" />
         <div className="animate-pulse space-y-6">
           <div className="h-32 bg-bg-card rounded-2xl border border-border-subtle" />
           <div className="grid grid-cols-4 gap-4">
@@ -88,27 +69,7 @@ export default function VoyagesPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
-      {/* Header */}
-      <div className="mb-10">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="p-3 bg-bg-card border border-purple-400/30 rounded-lg">
-            <Terminal className="w-8 h-8 text-purple-400" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-              <span className="text-purple-400">TRAVEL</span>_SYSTEM
-            </h1>
-            <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
-              STATUS: ONLINE // LOCATION_TRACKER v1.0
-            </p>
-          </div>
-        </div>
-        <div className="font-mono text-sm text-text-secondary border-l-2 border-purple-400/30 pl-4">
-          &gt; Loading travel history from Google Takeout...
-          <span className="text-purple-400 animate-pulse">_</span>
-        </div>
-      </div>
+      <PageHeader title="TRAVEL" systemName="SYSTEM" statusDetail="LOCATION_TRACKER v1.0" loadingMessage="Loading travel history from Google Takeout..." color="purple-400" />
 
       {!hasData ? (
         /* No data - Show upload instructions */

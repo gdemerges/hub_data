@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { Terminal, Activity, Timer, Route, Flame, TrendingUp, Calendar, Award, Mountain, Bike, Footprints, AlertTriangle, Target, Zap, CheckCircle, TrendingDown, Disc, Shield, Heart, BarChart3 } from 'lucide-react'
-import { StatCard, FitnessChart, RacePredictor, RecoveryAdvisor, HeartRateZones, PerformanceFactors, ExpandableSection } from '@/components'
+import { Activity, Timer, Route, Flame, TrendingUp, Calendar, Award, Mountain, Bike, Footprints, AlertTriangle, Target, Zap, CheckCircle, TrendingDown, Disc, Heart, BarChart3 } from 'lucide-react'
+import { StatCard, FitnessChart, RacePredictor, RecoveryAdvisor, HeartRateZones, PerformanceFactors, ExpandableSection, PageHeader } from '@/components'
 import { calculateFitnessMetrics, predictRaceTimes, analyzeRecovery, calculateTimeToTarget, calculateLTHR, analyzePerformanceFactors } from '@/lib/fitness-calculator'
 
 interface StravaAthlete {
@@ -118,26 +118,7 @@ export default function SportPage() {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="mb-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 bg-bg-card border border-neon-orange/30 rounded-lg">
-              <Terminal className="w-8 h-8 text-neon-orange" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-                <span className="text-neon-orange">STRAVA</span>_SYSTEM
-              </h1>
-              <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
-                STATUS: LOADING // FITNESS_TRACKER v1.0
-              </p>
-            </div>
-          </div>
-          <div className="font-mono text-sm text-text-secondary border-l-2 border-neon-orange/30 pl-4">
-            &gt; Connecting to Strava API...
-            <span className="text-neon-orange animate-pulse">_</span>
-          </div>
-        </div>
+        <PageHeader title="STRAVA" systemName="SYSTEM" status="LOADING" statusDetail="FITNESS_TRACKER v1.0" loadingMessage="Connecting to Strava API..." color="neon-orange" />
         <div className="animate-pulse space-y-6">
           <div className="h-32 bg-bg-card rounded-2xl border border-border-subtle" />
           <div className="grid grid-cols-4 gap-4">
@@ -152,27 +133,14 @@ export default function SportPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
-      {/* Header */}
-      <div className="mb-10">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="p-3 bg-bg-card border border-neon-orange/30 rounded-lg">
-            <Terminal className="w-8 h-8 text-neon-orange" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-              <span className="text-neon-orange">STRAVA</span>_SYSTEM
-            </h1>
-            <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
-              STATUS: {isConnected ? 'CONNECTED' : 'DISCONNECTED'} // FITNESS_TRACKER v1.0
-            </p>
-          </div>
-        </div>
-        <div className="font-mono text-sm text-text-secondary border-l-2 border-neon-orange/30 pl-4">
-          &gt; {isConnected ? 'Loading athlete performance data...' : 'Awaiting Strava authentication...'}
-          <span className="text-neon-orange animate-pulse">_</span>
-        </div>
-      </div>
+      <PageHeader
+        title="STRAVA"
+        systemName="SYSTEM"
+        status={isConnected ? 'CONNECTED' : 'DISCONNECTED'}
+        statusDetail="FITNESS_TRACKER v1.0"
+        loadingMessage={isConnected ? 'Loading athlete performance data...' : 'Awaiting Strava authentication...'}
+        color="neon-orange"
+      />
 
       {!isConnected ? (
         /* Not connected - Show connect button */

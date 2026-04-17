@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { StatCard, ContributionCalendar } from '@/components'
-import { Gamepad2, Clock, Trophy, RefreshCw, ChevronLeft, ChevronRight, Terminal, Zap } from 'lucide-react'
+import { StatCard, ContributionCalendar, PageHeader } from '@/components'
+import { Gamepad2, Clock, Trophy, RefreshCw, ChevronLeft, ChevronRight, Zap } from 'lucide-react'
 
 interface SteamData {
   user: {
@@ -113,26 +113,7 @@ export default function SteamPage() {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="mb-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 bg-bg-card border border-neon-green/30 rounded-lg">
-              <Terminal className="w-8 h-8 text-neon-green" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-                <span className="text-neon-green">STEAM</span>_SYSTEM
-              </h1>
-              <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
-                STATUS: LOADING // GAMING_TRACKER v2.0
-              </p>
-            </div>
-          </div>
-          <div className="font-mono text-sm text-text-secondary border-l-2 border-neon-green/30 pl-4">
-            &gt; Initializing Steam data connection...
-            <span className="text-neon-green animate-pulse">_</span>
-          </div>
-        </div>
+        <PageHeader title="STEAM" systemName="SYSTEM" status="LOADING" statusDetail="GAMING_TRACKER v2.0" loadingMessage="Initializing Steam data connection..." color="neon-green" />
         <div className="animate-pulse space-y-6">
           <div className="h-32 bg-bg-card rounded-2xl border border-border-subtle" />
           <div className="grid grid-cols-3 gap-4">
@@ -157,27 +138,7 @@ export default function SteamPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
-      {/* Header */}
-      <div className="mb-10">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="p-3 bg-bg-card border border-neon-green/30 rounded-lg">
-            <Terminal className="w-8 h-8 text-neon-green" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-              <span className="text-neon-green">STEAM</span>_SYSTEM
-            </h1>
-            <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
-              STATUS: ONLINE // GAMING_TRACKER v2.0
-            </p>
-          </div>
-        </div>
-        <div className="font-mono text-sm text-text-secondary border-l-2 border-neon-green/30 pl-4">
-          &gt; Loading Steam gaming profile...
-          <span className="text-neon-green animate-pulse">_</span>
-        </div>
-      </div>
+      <PageHeader title="STEAM" systemName="SYSTEM" statusDetail="GAMING_TRACKER v2.0" loadingMessage="Loading Steam gaming profile..." color="neon-green" />
 
       {/* User profile */}
       <div className="tech-card p-6 mb-8 border-neon-green/30 hover:border-neon-green/60 transition-all duration-300">

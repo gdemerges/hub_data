@@ -3,10 +3,10 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import useSWR from 'swr'
-import { StatCard, ContributionCalendar, BarChart } from '@/components'
+import { StatCard, ContributionCalendar, BarChart, PageHeader } from '@/components'
 import { SkeletonProfile, SkeletonStatCard, SkeletonChart } from '@/components/skeleton'
 import { FadeIn } from '@/components/page-transition'
-import { Github, Star, GitFork, Users, MapPin, Building, Code, ChevronLeft, ChevronRight, TrendingUp, Terminal, Activity, RefreshCw } from 'lucide-react'
+import { Star, GitFork, Users, MapPin, Building, Code, ChevronLeft, ChevronRight, TrendingUp, Activity, RefreshCw } from 'lucide-react'
 import type { GitHubData } from '@/lib/types'
 
 interface ContributionsData {
@@ -64,26 +64,7 @@ export default function GitHubPage() {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="mb-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 bg-bg-card border border-neon-magenta/30 rounded-lg">
-              <Terminal className="w-8 h-8 text-neon-magenta" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-                <span className="text-neon-magenta">GITHUB</span>_SYSTEM
-              </h1>
-              <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
-                STATUS: LOADING // CODE_TRACKER v2.0
-              </p>
-            </div>
-          </div>
-          <div className="font-mono text-sm text-text-secondary border-l-2 border-neon-magenta/30 pl-4">
-            &gt; Fetching GitHub profile data...
-            <span className="text-neon-magenta animate-pulse">_</span>
-          </div>
-        </div>
+        <PageHeader title="GITHUB" systemName="SYSTEM" status="LOADING" statusDetail="CODE_TRACKER v2.0" loadingMessage="Fetching GitHub profile data..." color="neon-magenta" />
         <SkeletonProfile />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-8">
           {[...Array(4)].map((_, i) => (
@@ -107,26 +88,13 @@ export default function GitHubPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
-      {/* Header */}
-      <div className="mb-10">
-        <div className="flex items-center justify-between gap-4 mb-4">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-bg-card border border-neon-magenta/30 rounded-lg">
-              <Terminal className="w-8 h-8 text-neon-magenta" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-                <span className="text-neon-magenta">GITHUB</span>_SYSTEM
-              </h1>
-              <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
-                STATUS: ONLINE // CODE_TRACKER v2.0
-                {data?.fetchedAt && (
-                  <span className="text-neon-cyan/40">· sync {timeAgo(data.fetchedAt)}</span>
-                )}
-              </p>
-            </div>
-          </div>
+      <PageHeader
+        title="GITHUB"
+        systemName="SYSTEM"
+        statusDetail={`CODE_TRACKER v2.0${data?.fetchedAt ? ` · sync ${timeAgo(data.fetchedAt)}` : ''}`}
+        loadingMessage="Loading GitHub developer profile..."
+        color="neon-magenta"
+        actions={
           <button
             onClick={() => mutate()}
             className="flex items-center gap-2 px-3 py-1.5 text-xs font-mono text-neon-magenta/70 border border-neon-magenta/30 rounded hover:bg-neon-magenta/10 hover:text-neon-magenta transition-all"
@@ -135,12 +103,8 @@ export default function GitHubPage() {
             <RefreshCw className="w-3 h-3" />
             SYNC
           </button>
-        </div>
-        <div className="font-mono text-sm text-text-secondary border-l-2 border-neon-magenta/30 pl-4">
-          &gt; Loading GitHub developer profile...
-          <span className="text-neon-magenta animate-pulse">_</span>
-        </div>
-      </div>
+        }
+      />
 
       {/* User profile */}
       <div className="tech-card p-6 mb-8 border-neon-magenta/30 hover:border-neon-magenta/60 transition-all duration-300">

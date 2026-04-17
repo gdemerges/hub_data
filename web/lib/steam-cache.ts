@@ -1,17 +1,12 @@
 /**
  * Persistent file cache for Steam API data.
  *
- * Steam's API doesn't support delta queries — GetOwnedGames always returns
- * the full game list. The delta aspect here is playtime tracking (handled by
- * steam-storage.ts). What this cache adds is persistence across server
- * restarts, avoiding a full API round-trip on every cold start.
- *
- * TTL: 6 hours (aligned with the existing ISR revalidate setting).
+ * Built on top of file-cache.ts for consistency.
+ * TTL: 6 hours (aligned with ISR revalidate setting).
  */
 
-import fs from 'fs'
-import { promises as fsp } from 'fs'
 import path from 'path'
+import { readFileCache, writeFileCache, isCacheFresh } from './file-cache'
 
 const CACHE_FILE = path.join(process.cwd(), 'data', 'steam-cache.json')
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000 // 6 hours
@@ -34,28 +29,21 @@ export interface SteamPlayer {
   timecreated?: number
 }
 
-export interface SteamCache {
-  cachedAt: number
+export interface SteamCacheData {
   player: SteamPlayer
   games: SteamGame[]
 }
 
-export async function readSteamCache(): Promise<SteamCache | null> {
-  if (!fs.existsSync(CACHE_FILE)) return null
-  try {
-    const content = await fsp.readFile(CACHE_FILE, 'utf-8')
-    return JSON.parse(content) as SteamCache
-  } catch {
-    return null
-  }
+export async function readSteamCache(): Promise<{ data: SteamCacheData; cachedAt: number } | null> {
+  const envelope = await readFileCache<SteamCacheData>(CACHE_FILE)
+  if (!envelope) return null
+  return { data: envelope.data, cachedAt: envelope.cachedAt }
 }
 
-export async function writeSteamCache(cache: SteamCache): Promise<void> {
-  const dataDir = path.join(process.cwd(), 'data')
-  if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true })
-  await fsp.writeFile(CACHE_FILE, JSON.stringify(cache, null, 2))
+export async function writeSteamCache(data: SteamCacheData): Promise<void> {
+  await writeFileCache(CACHE_FILE, data)
 }
 
-export function isSteamCacheFresh(cache: SteamCache): boolean {
-  return Date.now() - cache.cachedAt < CACHE_TTL_MS
+export function isSteamCacheFresh(cachedAt: number): boolean {
+  return isCacheFresh(cachedAt, CACHE_TTL_MS)
 }

@@ -24,7 +24,8 @@
     "react-simple-maps": "^3.0.0",
     "recharts": "^3.6.0",
     "swr": "^2.3.8",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

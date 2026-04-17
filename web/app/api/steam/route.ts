@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
-import { readSteamCache, writeSteamCache, isSteamCacheFresh, type SteamGame, type SteamCache } from '@/lib/steam-cache'
+import { z } from 'zod'
+import { readSteamCache, writeSteamCache, isSteamCacheFresh, type SteamGame, type SteamCacheData } from '@/lib/steam-cache'
+import { steamPlayerSchema, steamGameSchema } from '@/lib/api-schemas'
 
 export const revalidate = 21600 // Revalidate every 6 hours
 
@@ -19,8 +21,8 @@ export async function GET() {
 
     // --- Check file cache first ---
     const existingCache = await readSteamCache()
-    if (existingCache && isSteamCacheFresh(existingCache)) {
-      return buildSteamResponse(existingCache)
+    if (existingCache && isSteamCacheFresh(existingCache.cachedAt)) {
+      return buildSteamResponse(existingCache.data, existingCache.cachedAt)
     }
 
     // --- Cache stale or missing: fetch from Steam API ---
@@ -33,7 +35,7 @@ export async function GET() {
       // If API fails and we have a stale cache, use it as fallback
       if (existingCache) {
         console.warn('Steam API failed, serving stale cache')
-        return buildSteamResponse(existingCache)
+        return buildSteamResponse(existingCache.data, existingCache.cachedAt)
       }
       throw new Error('Failed to fetch Steam data')
     }
@@ -41,22 +43,19 @@ export async function GET() {
     const summaryData = await summaryResponse.json()
     const gamesData = await gamesResponse.json()
 
-    const player = summaryData.response?.players?.[0]
-    const games: SteamGame[] = gamesData.response?.games || []
-
-    if (!player) {
+    const rawPlayer = summaryData.response?.players?.[0]
+    if (!rawPlayer) {
       throw new Error('Player not found')
     }
 
-    // --- Persist to file cache ---
-    const newCache: SteamCache = {
-      cachedAt: Date.now(),
-      player,
-      games,
-    }
-    await writeSteamCache(newCache)
+    const player = steamPlayerSchema.parse(rawPlayer)
+    const games: SteamGame[] = z.array(steamGameSchema).parse(gamesData.response?.games || [])
 
-    return buildSteamResponse(newCache)
+    // --- Persist to file cache ---
+    const cacheData: SteamCacheData = { player, games }
+    await writeSteamCache(cacheData)
+
+    return buildSteamResponse(cacheData, Date.now())
   } catch (error) {
     console.error('Steam API error:', error)
     return NextResponse.json(
@@ -66,8 +65,8 @@ export async function GET() {
   }
 }
 
-function buildSteamResponse(cache: SteamCache): NextResponse {
-  const { player, games } = cache
+function buildSteamResponse(data: SteamCacheData, cachedAt: number): NextResponse {
+  const { player, games } = data
 
   const totalGames = games.length
   const totalPlaytimeMinutes = games.reduce((acc, game) => acc + (game.playtime_forever || 0), 0)
@@ -113,6 +112,6 @@ function buildSteamResponse(cache: SteamCache): NextResponse {
     },
     topGames,
     recentGames,
-    fetchedAt: new Date(cache.cachedAt).toISOString(),
+    fetchedAt: new Date(cachedAt).toISOString(),
   }, { headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=3600' } })
 }

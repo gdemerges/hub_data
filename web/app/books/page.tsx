@@ -1,9 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
-import { Terminal, BookOpen, Star, Calendar, User, Hash } from 'lucide-react'
-import { StatCard } from '@/components'
+import { BookOpen, Star, Hash } from 'lucide-react'
+import { StatCard, PageHeader } from '@/components'
 import { Book } from '@/lib/types'
 
 export default function BooksPage() {
@@ -27,13 +26,11 @@ export default function BooksPage() {
     fetchBooks()
   }, [])
 
-  // Calculate stats
   const totalBooks = books.length
-  const booksRead = books.filter(b => b.dateRead).length // Books with a read date are considered read
+  const booksRead = books.filter(b => b.dateRead).length
   const avgRating = books.filter(b => b.rating).reduce((sum, b) => sum + (b.rating || 0), 0) / books.filter(b => b.rating).length || 0
   const totalPages = books.reduce((sum, b) => sum + (b.pages || 0), 0)
 
-  // Top rated books
   const topBooks = books
     .filter(b => b.rating && b.rating > 0)
     .sort((a, b) => (b.rating || 0) - (a.rating || 0))
@@ -42,26 +39,14 @@ export default function BooksPage() {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="mb-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 bg-bg-card border border-neon-yellow/30 rounded-lg">
-              <Terminal className="w-8 h-8 text-neon-yellow" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-                <span className="text-neon-yellow">BOOKS</span>_SYSTEM
-              </h1>
-              <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
-                STATUS: LOADING // READING_TRACKER v1.0
-              </p>
-            </div>
-          </div>
-          <div className="font-mono text-sm text-text-secondary border-l-2 border-neon-yellow/30 pl-4">
-            &gt; Loading reading library...
-            <span className="text-neon-yellow animate-pulse">_</span>
-          </div>
-        </div>
+        <PageHeader
+          title="BOOKS"
+          systemName="SYSTEM"
+          status="LOADING"
+          statusDetail="READING_TRACKER v1.0"
+          loadingMessage="Loading reading library..."
+          color="neon-yellow"
+        />
         <div className="animate-pulse space-y-6">
           <div className="h-32 bg-bg-card rounded-2xl border border-border-subtle" />
           <div className="grid grid-cols-4 gap-4">
@@ -76,27 +61,13 @@ export default function BooksPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
-      {/* Header */}
-      <div className="mb-10">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="p-3 bg-bg-card border border-neon-yellow/30 rounded-lg">
-            <Terminal className="w-8 h-8 text-neon-yellow" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-              <span className="text-neon-yellow">BOOKS</span>_SYSTEM
-            </h1>
-            <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
-              STATUS: ONLINE // READING_TRACKER v1.0
-            </p>
-          </div>
-        </div>
-        <div className="font-mono text-sm text-text-secondary border-l-2 border-neon-yellow/30 pl-4">
-          &gt; Loading reading library...
-          <span className="text-neon-yellow animate-pulse">_</span>
-        </div>
-      </div>
+      <PageHeader
+        title="BOOKS"
+        systemName="SYSTEM"
+        statusDetail="READING_TRACKER v1.0"
+        loadingMessage="Loading reading library..."
+        color="neon-yellow"
+      />
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">

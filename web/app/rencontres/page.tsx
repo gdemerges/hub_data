@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Terminal, Heart, MapPin, Globe, Calendar, TrendingUp, Users } from 'lucide-react'
-import { StatCard, BarChart, PieChart, NationalityMap } from '@/components'
+import { Heart, MapPin, Globe, Calendar, TrendingUp } from 'lucide-react'
+import { StatCard, BarChart, PieChart, NationalityMap, PageHeader } from '@/components'
 
 interface RencontresStats {
   total: number
@@ -44,26 +44,7 @@ export default function RencontresPage() {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="mb-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 bg-bg-card border border-neon-red/30 rounded-lg">
-              <Terminal className="w-8 h-8 text-neon-red" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-                <span className="text-neon-red">RENCONTRES</span>_SYSTEM
-              </h1>
-              <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
-                STATUS: LOADING // SOCIAL_TRACKER v1.0
-              </p>
-            </div>
-          </div>
-          <div className="font-mono text-sm text-text-secondary border-l-2 border-neon-red/30 pl-4">
-            &gt; Initializing social data...
-            <span className="text-neon-red animate-pulse">_</span>
-          </div>
-        </div>
+        <PageHeader title="RENCONTRES" systemName="SYSTEM" status="LOADING" statusDetail="SOCIAL_TRACKER v1.0" loadingMessage="Initializing social data..." color="neon-red" />
         <div className="animate-pulse space-y-6">
           <div className="h-32 bg-bg-card rounded-2xl border border-border-subtle" />
           <div className="grid grid-cols-4 gap-4">
@@ -79,22 +60,7 @@ export default function RencontresPage() {
   if (!hasData || !stats) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="mb-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 bg-bg-card border border-neon-red/30 rounded-lg">
-              <Terminal className="w-8 h-8 text-neon-red" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-                <span className="text-neon-red">RENCONTRES</span>_SYSTEM
-              </h1>
-              <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
-                STATUS: NO_DATA // SOCIAL_TRACKER v1.0
-              </p>
-            </div>
-          </div>
-        </div>
+        <PageHeader title="RENCONTRES" systemName="SYSTEM" status="NO_DATA" statusDetail="SOCIAL_TRACKER v1.0" loadingMessage="No data available" color="neon-red" />
         <div className="tech-card p-8 border-neon-red/30">
           <div className="text-center max-w-2xl mx-auto">
             <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-neon-red/10 border border-neon-red/30 flex items-center justify-center">
@@ -129,27 +95,7 @@ export default function RencontresPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
-      {/* Header */}
-      <div className="mb-10">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="p-3 bg-bg-card border border-neon-red/30 rounded-lg">
-            <Terminal className="w-8 h-8 text-neon-red" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-              <span className="text-neon-red">RENCONTRES</span>_SYSTEM
-            </h1>
-            <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
-              STATUS: ONLINE // SOCIAL_TRACKER v1.0
-            </p>
-          </div>
-        </div>
-        <div className="font-mono text-sm text-text-secondary border-l-2 border-neon-red/30 pl-4">
-          &gt; Analyzing {stats.total} encounters...
-          <span className="text-neon-red animate-pulse">_</span>
-        </div>
-      </div>
+      <PageHeader title="RENCONTRES" systemName="SYSTEM" statusDetail="SOCIAL_TRACKER v1.0" loadingMessage={`Analyzing ${stats.total} encounters...`} color="neon-red" />
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">

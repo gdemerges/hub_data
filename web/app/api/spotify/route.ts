@@ -3,6 +3,7 @@ import path from 'path'
 
 import { readFileCache, writeFileCache, isCacheFresh } from '@/lib/file-cache'
 import { TokenCache } from '@/lib/token-cache'
+import { spotifyProfileSchema, spotifyPaginatedSchema, spotifyTrackSchema, spotifyArtistSchema, spotifyRecentlyPlayedItemSchema } from '@/lib/api-schemas'
 
 export const revalidate = 3600 // Revalidate every hour
 
@@ -14,31 +15,10 @@ const CACHE_HEADERS = { 'Cache-Control': 'public, s-maxage=3600, stale-while-rev
 
 const tokenCache = new TokenCache()
 
-interface SpotifyImage {
-  url: string
-}
-
-interface SpotifyArtist {
-  name: string
-  images: SpotifyImage[]
-  genres: string[]
-  followers: { total: number }
-  external_urls: { spotify: string }
-}
-
-interface SpotifyTrack {
-  name: string
-  artists: { name: string }[]
-  album: { name: string; images: SpotifyImage[] }
-  duration_ms: number
-  preview_url?: string
-  external_urls: { spotify: string }
-}
-
-interface SpotifyRecentlyPlayedItem {
-  track: SpotifyTrack
-  played_at: string
-}
+import type { z } from 'zod'
+type SpotifyArtist = z.infer<typeof import('@/lib/api-schemas').spotifyArtistSchema>
+type SpotifyTrack = z.infer<typeof import('@/lib/api-schemas').spotifyTrackSchema>
+type SpotifyRecentlyPlayedItem = z.infer<typeof import('@/lib/api-schemas').spotifyRecentlyPlayedItemSchema>
 
 async function getAccessToken(): Promise<string | null> {
   const cached = tokenCache.get()
@@ -99,16 +79,22 @@ export async function GET() {
       fetch(`${SPOTIFY_API_URL}/me/player/recently-played?limit=20`, { headers }),
     ])
 
-    const [profile, topTracks, topArtists, recentlyPlayed] = await Promise.all([
+    const [profileRaw, topTracksRaw, topArtistsRaw, recentlyPlayedRaw] = await Promise.all([
       profileRes.json(),
       topTracksRes.json(),
       topArtistsRes.json(),
       recentlyPlayedRes.json(),
     ])
 
+    // Validate responses with zod (defaults applied on partial data)
+    const profile = spotifyProfileSchema.parse(profileRaw)
+    const topTracks = spotifyPaginatedSchema(spotifyTrackSchema).parse(topTracksRaw)
+    const topArtists = spotifyPaginatedSchema(spotifyArtistSchema).parse(topArtistsRaw)
+    const recentlyPlayed = spotifyPaginatedSchema(spotifyRecentlyPlayedItemSchema).parse(recentlyPlayedRaw)
+
     // Calculate listening stats from recently played
     const genreCount: Record<string, number> = {}
-    ;(topArtists.items as SpotifyArtist[] | undefined)?.forEach((artist) => {
+    ;(topArtists.items as SpotifyArtist[]).forEach((artist) => {
       artist.genres?.forEach((genre) => {
         genreCount[genre] = (genreCount[genre] || 0) + 1
       })
@@ -122,34 +108,34 @@ export async function GET() {
     const responseData: Record<string, unknown> = {
       user: {
         name: profile.display_name,
-        avatar: profile.images?.[0]?.url,
-        followers: profile.followers?.total || 0,
-        profileUrl: profile.external_urls?.spotify,
+        avatar: profile.images[0]?.url,
+        followers: profile.followers.total,
+        profileUrl: profile.external_urls.spotify,
       },
-      topTracks: (topTracks.items as SpotifyTrack[] | undefined)?.map((track) => ({
+      topTracks: topTracks.items.map((track) => ({
         name: track.name,
-        artist: track.artists?.map((a) => a.name).join(', '),
-        album: track.album?.name,
-        albumCover: track.album?.images?.[0]?.url,
+        artist: track.artists.map((a) => a.name).join(', '),
+        album: track.album.name,
+        albumCover: track.album.images[0]?.url,
         duration: track.duration_ms,
         previewUrl: track.preview_url,
-        spotifyUrl: track.external_urls?.spotify,
-      })) ?? [],
-      topArtists: (topArtists.items as SpotifyArtist[] | undefined)?.map((artist) => ({
+        spotifyUrl: track.external_urls.spotify,
+      })),
+      topArtists: topArtists.items.map((artist) => ({
         name: artist.name,
-        image: artist.images?.[0]?.url,
-        genres: artist.genres?.slice(0, 3) ?? [],
-        followers: artist.followers?.total || 0,
-        spotifyUrl: artist.external_urls?.spotify,
-      })) ?? [],
-      recentlyPlayed: (recentlyPlayed.items as SpotifyRecentlyPlayedItem[] | undefined)?.map((item) => ({
-        name: item.track?.name,
-        artist: item.track?.artists?.map((a) => a.name).join(', '),
-        album: item.track?.album?.name,
-        albumCover: item.track?.album?.images?.[0]?.url,
+        image: artist.images[0]?.url,
+        genres: artist.genres.slice(0, 3),
+        followers: artist.followers.total,
+        spotifyUrl: artist.external_urls.spotify,
+      })),
+      recentlyPlayed: recentlyPlayed.items.map((item) => ({
+        name: item.track.name,
+        artist: item.track.artists.map((a) => a.name).join(', '),
+        album: item.track.album.name,
+        albumCover: item.track.album.images[0]?.url,
         playedAt: item.played_at,
-        spotifyUrl: item.track?.external_urls?.spotify,
-      })) ?? [],
+        spotifyUrl: item.track.external_urls.spotify,
+      })),
       topGenres,
       stats: {
         totalTracks: topTracks.items?.length || 0,
