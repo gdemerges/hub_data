@@ -30,13 +30,13 @@
     pointer-events: none;
     background: repeating-linear-gradient(
       0deg,
-      rgba(0, 0, 0, 0.05) 0px,
-      rgba(0, 0, 0, 0.05) 1px,
+      rgba(0, 0, 0, 0.04) 0px,
+      rgba(0, 0, 0, 0.04) 1px,
       transparent 1px,
       transparent 2px
     );
     z-index: 9999;
-    opacity: 0.3;
+    opacity: 0.25;
   }
 
   /* Custom scrollbar - Neon style */
@@ -99,6 +99,12 @@
   .tech-card {
     @apply relative bg-bg-card border border-border-subtle rounded-lg overflow-hidden;
     background: linear-gradient(135deg, rgba(0, 255, 255, 0.03) 0%, transparent 50%, rgba(255, 0, 255, 0.03) 100%);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .tech-card:hover {
+    border-color: rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.05), inset 0 0 20px rgba(0, 255, 255, 0.02);
   }
 
   .tech-card::before {
@@ -110,6 +116,12 @@
     height: 20px;
     border-top: 2px solid rgba(0, 255, 255, 0.5);
     border-left: 2px solid rgba(0, 255, 255, 0.5);
+    transition: width 0.3s ease, height 0.3s ease;
+  }
+
+  .tech-card:hover::before {
+    width: 30px;
+    height: 30px;
   }
 
   .tech-card::after {
@@ -121,6 +133,12 @@
     height: 20px;
     border-bottom: 2px solid rgba(255, 0, 255, 0.5);
     border-right: 2px solid rgba(255, 0, 255, 0.5);
+    transition: width 0.3s ease, height 0.3s ease;
+  }
+
+  .tech-card:hover::after {
+    width: 30px;
+    height: 30px;
   }
 
   /* Glitch effect */
@@ -258,5 +276,19 @@
   @keyframes flicker {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.9; }
+  }
+
+  /* Thin scrollbar for horizontal scroll areas */
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 255, 0.2);
+    border-radius: 2px;
   }
 }

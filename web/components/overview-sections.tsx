@@ -5,7 +5,32 @@ import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
 import Link from 'next/link'
 import { Game, Film, Series } from '@/lib/types'
-import { Calendar, Clock, Star, Gamepad2 } from 'lucide-react'
+import { Calendar, Clock, Star, Gamepad2, Film as FilmIcon, Tv, ChevronRight } from 'lucide-react'
+
+const sectionColors = {
+  green: {
+    icon: 'text-neon-green',
+    iconBg: 'bg-neon-green/10 border-neon-green/30',
+    link: 'text-neon-green border-neon-green/30 hover:border-neon-green/60 hover:bg-neon-green/10',
+  },
+  magenta: {
+    icon: 'text-neon-magenta',
+    iconBg: 'bg-neon-magenta/10 border-neon-magenta/30',
+    link: 'text-neon-magenta border-neon-magenta/30 hover:border-neon-magenta/60 hover:bg-neon-magenta/10',
+  },
+  yellow: {
+    icon: 'text-neon-yellow',
+    iconBg: 'bg-neon-yellow/10 border-neon-yellow/30',
+    link: 'text-neon-yellow border-neon-yellow/30 hover:border-neon-yellow/60 hover:bg-neon-yellow/10',
+  },
+} as const
+
+const badgeColors = {
+  cyan: 'border-neon-cyan/30 bg-neon-cyan/5 text-neon-cyan',
+  green: 'border-neon-green/30 bg-neon-green/5 text-neon-green',
+  magenta: 'border-neon-magenta/30 bg-neon-magenta/5 text-neon-magenta',
+  yellow: 'border-neon-yellow/30 bg-neon-yellow/5 text-neon-yellow',
+} as const
 
 interface OverviewSectionsProps {
   topGames: Game[]
@@ -32,7 +57,7 @@ export function OverviewSections({
     <>
       <div className="space-y-12">
         {/* Top Games */}
-        <Section title="Jeux les plus joués" href="/games" count={gamesCount}>
+        <Section title="Jeux les plus joués" href="/games" count={gamesCount} icon={Gamepad2} color="green">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
             {topGames.map((game) => (
               <MediaCard
@@ -47,7 +72,7 @@ export function OverviewSections({
         </Section>
 
         {/* Top Films */}
-        <Section title="Films les mieux notés" href="/films" count={filmsCount}>
+        <Section title="Films les mieux notés" href="/films" count={filmsCount} icon={FilmIcon} color="magenta">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
             {topFilms.map((film) => (
               <MediaCard
@@ -62,7 +87,7 @@ export function OverviewSections({
         </Section>
 
         {/* Top Series */}
-        <Section title="Séries les mieux notées" href="/series" count={seriesCount}>
+        <Section title="Séries les mieux notées" href="/series" count={seriesCount} icon={Tv} color="yellow">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
             {topSeries.map((s) => (
               <MediaCard
@@ -118,22 +143,36 @@ function Section({
   title,
   href,
   count,
+  icon: Icon,
+  color,
   children,
 }: {
   title: string
   href: string
   count: number
+  icon: React.ElementType
+  color: keyof typeof sectionColors
   children: React.ReactNode
 }) {
+  const c = sectionColors[color]
   return (
     <section>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold text-text-primary">{title}</h2>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className={`p-2 border rounded-lg ${c.iconBg}`}>
+            <Icon className={`w-5 h-5 ${c.icon}`} />
+          </div>
+          <h2 className="text-lg font-mono font-bold tracking-wider uppercase text-text-primary">
+            {title}
+          </h2>
+        </div>
         <Link
           href={href}
-          className="text-sm text-accent-primary hover:text-accent-secondary transition-colors"
+          className={`flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider border px-3 py-1.5 rounded-lg transition-all duration-300 ${c.link}`}
         >
-          Voir tout ({count}) →
+          Voir tout
+          <span className="text-text-muted">({count})</span>
+          <ChevronRight className="w-3.5 h-3.5" />
         </Link>
       </div>
       {children}
@@ -141,64 +180,61 @@ function Section({
   )
 }
 
+function DetailMeta({ icon: Icon, label, color = 'cyan' }: { icon: React.ElementType; label: string; color?: keyof typeof badgeColors }) {
+  const c = badgeColors[color]
+  return (
+    <div className={`flex items-center gap-2 px-3 py-1.5 border rounded-lg text-sm font-mono ${c}`}>
+      <Icon className="w-4 h-4" />
+      <span className="text-text-secondary">{label}</span>
+    </div>
+  )
+}
+
+function DetailBadge({ label, color = 'cyan' }: { label: string; color?: keyof typeof badgeColors }) {
+  const c = badgeColors[color]
+  return (
+    <span className={`px-3 py-1 border rounded text-xs font-mono ${c}`}>
+      {label}
+    </span>
+  )
+}
+
+function DetailSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-muted mb-2">{title}</h3>
+      {children}
+    </div>
+  )
+}
+
 function GameDetail({ game }: { game: Game }) {
   return (
-    <div className="space-y-6">
-      {/* Meta info */}
-      <div className="flex flex-wrap gap-4 text-sm text-text-secondary">
-        {game.hoursPlayed && (
-          <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4" />
-            <span>{game.hoursPlayed}h jouées</span>
-          </div>
-        )}
-        {game.releaseYear && (
-          <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4" />
-            <span>{game.releaseYear}</span>
-          </div>
-        )}
-        {game.rating && (
-          <div className="flex items-center gap-2">
-            <Star className="w-4 h-4 text-yellow-500" />
-            <span>{game.rating}/20</span>
-          </div>
-        )}
+    <div className="space-y-5">
+      <div className="flex flex-wrap gap-2">
+        {game.hoursPlayed && <DetailMeta icon={Clock} label={`${game.hoursPlayed}h jouées`} color="green" />}
+        {game.releaseYear && <DetailMeta icon={Calendar} label={`${game.releaseYear}`} color="cyan" />}
+        {game.rating && <DetailMeta icon={Star} label={`${game.rating}/20`} color="yellow" />}
       </div>
 
-      {/* Platforms */}
       {game.platforms && game.platforms.length > 0 && (
-        <div>
-          <h3 className="text-sm font-semibold text-text-primary mb-2">Plateformes</h3>
+        <DetailSection title="Plateformes">
           <div className="flex flex-wrap gap-2">
             {game.platforms.map((p) => (
-              <div
-                key={p.platform}
-                className="px-3 py-1 bg-bg-tertiary rounded-full text-xs text-text-secondary"
-              >
-                {p.platform}
-                {p.hoursPlayed && ` - ${p.hoursPlayed}h`}
-              </div>
+              <DetailBadge key={p.platform} label={`${p.platform}${p.hoursPlayed ? ` — ${p.hoursPlayed}h` : ''}`} color="green" />
             ))}
           </div>
-        </div>
+        </DetailSection>
       )}
 
-      {/* Genres */}
       {game.genres && game.genres.length > 0 && (
-        <div>
-          <h3 className="text-sm font-semibold text-text-primary mb-2">Genres</h3>
+        <DetailSection title="Genres">
           <div className="flex flex-wrap gap-2">
             {game.genres.map((genre) => (
-              <span
-                key={genre}
-                className="px-3 py-1 bg-bg-tertiary rounded-full text-xs text-text-secondary"
-              >
-                {genre}
-              </span>
+              <DetailBadge key={genre} label={genre} color="magenta" />
             ))}
           </div>
-        </div>
+        </DetailSection>
       )}
     </div>
   )
@@ -206,44 +242,21 @@ function GameDetail({ game }: { game: Game }) {
 
 function FilmDetail({ film }: { film: Film }) {
   return (
-    <div className="space-y-6">
-      {/* Meta info */}
-      <div className="flex flex-wrap gap-4 text-sm text-text-secondary">
-        {film.releaseYear && (
-          <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4" />
-            <span>{film.releaseYear}</span>
-          </div>
-        )}
-        {film.runtime && (
-          <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4" />
-            <span>{film.runtime} min</span>
-          </div>
-        )}
-        {film.rating && (
-          <div className="flex items-center gap-2">
-            <Star className="w-4 h-4 text-yellow-500" />
-            <span>{film.rating}/20</span>
-          </div>
-        )}
+    <div className="space-y-5">
+      <div className="flex flex-wrap gap-2">
+        {film.releaseYear && <DetailMeta icon={Calendar} label={`${film.releaseYear}`} color="cyan" />}
+        {film.runtime && <DetailMeta icon={Clock} label={`${film.runtime} min`} color="magenta" />}
+        {film.rating && <DetailMeta icon={Star} label={`${film.rating}/20`} color="yellow" />}
       </div>
 
-      {/* Genres */}
       {film.genres && film.genres.length > 0 && (
-        <div>
-          <h3 className="text-sm font-semibold text-text-primary mb-2">Genres</h3>
+        <DetailSection title="Genres">
           <div className="flex flex-wrap gap-2">
             {film.genres.map((genre) => (
-              <span
-                key={genre}
-                className="px-3 py-1 bg-bg-tertiary rounded-full text-xs text-text-secondary"
-              >
-                {genre}
-              </span>
+              <DetailBadge key={genre} label={genre} color="magenta" />
             ))}
           </div>
-        </div>
+        </DetailSection>
       )}
     </div>
   )
@@ -251,54 +264,29 @@ function FilmDetail({ film }: { film: Film }) {
 
 function SeriesDetail({ series }: { series: Series }) {
   return (
-    <div className="space-y-6">
-      {/* Meta info */}
-      <div className="flex flex-wrap gap-4 text-sm text-text-secondary">
-        {series.releaseYear && (
-          <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4" />
-            <span>{series.releaseYear}</span>
-          </div>
-        )}
+    <div className="space-y-5">
+      <div className="flex flex-wrap gap-2">
+        {series.releaseYear && <DetailMeta icon={Calendar} label={`${series.releaseYear}`} color="cyan" />}
         {series.episodesWatched !== undefined && series.episodes && (
-          <div className="flex items-center gap-2">
-            <Gamepad2 className="w-4 h-4" />
-            <span>{series.episodesWatched}/{series.episodes} épisodes</span>
-          </div>
+          <DetailMeta icon={Tv} label={`${series.episodesWatched}/${series.episodes} épisodes`} color="yellow" />
         )}
-        {series.rating && (
-          <div className="flex items-center gap-2">
-            <Star className="w-4 h-4 text-yellow-500" />
-            <span>{series.rating}/20</span>
-          </div>
-        )}
+        {series.rating && <DetailMeta icon={Star} label={`${series.rating}/20`} color="yellow" />}
       </div>
 
-      {/* Status */}
       {series.status && (
-        <div>
-          <h3 className="text-sm font-semibold text-text-primary mb-2">Statut</h3>
-          <span className="px-3 py-1 bg-bg-tertiary rounded-full text-xs text-text-secondary">
-            {series.status}
-          </span>
-        </div>
+        <DetailSection title="Statut">
+          <DetailBadge label={series.status} color="yellow" />
+        </DetailSection>
       )}
 
-      {/* Genres */}
       {series.genres && series.genres.length > 0 && (
-        <div>
-          <h3 className="text-sm font-semibold text-text-primary mb-2">Genres</h3>
+        <DetailSection title="Genres">
           <div className="flex flex-wrap gap-2">
             {series.genres.map((genre) => (
-              <span
-                key={genre}
-                className="px-3 py-1 bg-bg-tertiary rounded-full text-xs text-text-secondary"
-              >
-                {genre}
-              </span>
+              <DetailBadge key={genre} label={genre} color="magenta" />
             ))}
           </div>
-        </div>
+        </DetailSection>
       )}
     </div>
   )

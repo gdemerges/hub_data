@@ -1,9 +1,10 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Gamepad2, Film, Tv, Github, LayoutDashboard, Activity, Music, Terminal, MapPin, Dumbbell, TrendingUp, BookOpen, Heart } from 'lucide-react'
+import { Gamepad2, Film, Tv, Github, LayoutDashboard, Activity, Music, Terminal, MapPin, Dumbbell, TrendingUp, BookOpen, Heart, Menu, X } from 'lucide-react'
 
 const colorClasses = {
   cyan: {
@@ -11,48 +12,56 @@ const colorClasses = {
     hover: 'hover:text-neon-cyan hover:bg-neon-cyan/10',
     active: 'text-neon-cyan bg-neon-cyan/10',
     shadow: 'bg-neon-cyan shadow-[0_0_10px_#00ffff]',
+    indicator: 'bg-neon-cyan',
   },
   magenta: {
     text: 'text-neon-magenta',
     hover: 'hover:text-neon-magenta hover:bg-neon-magenta/10',
     active: 'text-neon-magenta bg-neon-magenta/10',
     shadow: 'bg-neon-magenta shadow-[0_0_10px_#ff00ff]',
+    indicator: 'bg-neon-magenta',
   },
   green: {
     text: 'text-neon-green',
     hover: 'hover:text-neon-green hover:bg-neon-green/10',
     active: 'text-neon-green bg-neon-green/10',
     shadow: 'bg-neon-green shadow-[0_0_10px_#00ff88]',
+    indicator: 'bg-neon-green',
   },
   yellow: {
     text: 'text-neon-yellow',
     hover: 'hover:text-neon-yellow hover:bg-neon-yellow/10',
     active: 'text-neon-yellow bg-neon-yellow/10',
     shadow: 'bg-neon-yellow shadow-[0_0_10px_#ffff00]',
+    indicator: 'bg-neon-yellow',
   },
   orange: {
     text: 'text-neon-orange',
     hover: 'hover:text-neon-orange hover:bg-neon-orange/10',
     active: 'text-neon-orange bg-neon-orange/10',
     shadow: 'bg-neon-orange shadow-[0_0_10px_#ff8800]',
+    indicator: 'bg-neon-orange',
   },
   blue: {
     text: 'text-blue-400',
     hover: 'hover:text-blue-400 hover:bg-blue-400/10',
     active: 'text-blue-400 bg-blue-400/10',
     shadow: 'bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.5)]',
+    indicator: 'bg-blue-400',
   },
   purple: {
     text: 'text-purple-400',
     hover: 'hover:text-purple-400 hover:bg-purple-400/10',
     active: 'text-purple-400 bg-purple-400/10',
     shadow: 'bg-purple-400 shadow-[0_0_10px_rgba(192,132,252,0.5)]',
+    indicator: 'bg-purple-400',
   },
   red: {
     text: 'text-neon-red',
     hover: 'hover:text-neon-red hover:bg-neon-red/10',
     active: 'text-neon-red bg-neon-red/10',
     shadow: 'bg-neon-red shadow-[0_0_10px_#ff0000]',
+    indicator: 'bg-neon-red',
   },
 }
 
@@ -72,14 +81,16 @@ const navItems = [
 
 export function Navigation() {
   const pathname = usePathname()
+  const [mobileOpen, setMobileOpen] = useState(false)
 
-  const NavLink = ({ item }: { item: typeof navItems[0] }) => {
+  const NavLink = ({ item, onClick }: { item: typeof navItems[0]; onClick?: () => void }) => {
     const isActive = pathname === item.href
     const Icon = item.icon
     const colors = colorClasses[item.color]
     return (
       <Link
         href={item.href}
+        onClick={onClick}
         className={cn(
           'relative flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-mono font-medium transition-all duration-300 border',
           isActive
@@ -94,6 +105,9 @@ export function Navigation() {
         <span className="uppercase tracking-wider text-xs whitespace-nowrap">
           {item.label}
         </span>
+        {isActive && (
+          <span className={cn('absolute -bottom-px left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full', colors.indicator)} />
+        )}
       </Link>
     )
   }
@@ -106,7 +120,6 @@ export function Navigation() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-3 relative">
-        {/* Top row: Logo + first line of nav */}
         <div className="flex items-center justify-between gap-8">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group shrink-0">
@@ -126,23 +139,41 @@ export function Navigation() {
             </div>
           </Link>
 
-          {/* Nav - 2 rows */}
-          <nav className="flex flex-col gap-1.5 flex-1">
-            {/* First row */}
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex flex-col gap-1.5 flex-1">
             <div className="flex items-center justify-end gap-1">
               {navItems.slice(0, 6).map((item) => (
                 <NavLink key={item.href} item={item} />
               ))}
             </div>
-            {/* Second row */}
             <div className="flex items-center justify-end gap-1">
               {navItems.slice(6).map((item) => (
                 <NavLink key={item.href} item={item} />
               ))}
             </div>
           </nav>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="lg:hidden p-2 text-neon-cyan border border-neon-cyan/30 rounded-lg hover:bg-neon-cyan/10 transition-all"
+            aria-label="Menu"
+          >
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile nav overlay */}
+      {mobileOpen && (
+        <div className="lg:hidden absolute top-full left-0 right-0 bg-bg-primary/98 backdrop-blur-xl border-b border-neon-cyan/20 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+          <nav className="max-w-7xl mx-auto px-6 py-4 grid grid-cols-2 gap-2">
+            {navItems.map((item) => (
+              <NavLink key={item.href} item={item} onClick={() => setMobileOpen(false)} />
+            ))}
+          </nav>
+        </div>
+      )}
     </header>
   )
 }
