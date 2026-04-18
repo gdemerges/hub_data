@@ -38,17 +38,8 @@ export async function getSeriesData(): Promise<Series[]> {
 }
 
 export async function getBooksData(): Promise<Book[]> {
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'}/api/books`, {
-      next: { revalidate: 3600 }
-    })
-    if (!response.ok) return []
-    const data = await response.json()
-    return data.books || []
-  } catch (error) {
-    console.error('Failed to fetch books:', error)
-    return []
-  }
+  const { loadBooks } = await import('./books-loader')
+  return loadBooks()
 }
 
 export async function getGitHubContributions(year?: number | null): Promise<number> {

@@ -1,63 +1,22 @@
-'use client'
-
-import { useState, useEffect } from 'react'
 import { BookOpen, Star, Hash } from 'lucide-react'
 import { StatCard, PageHeader } from '@/components'
-import { Book } from '@/lib/types'
+import { loadBooks } from '@/lib/books-loader'
 
-export default function BooksPage() {
-  const [books, setBooks] = useState<Book[]>([])
-  const [loading, setLoading] = useState(true)
+export const revalidate = 3600
 
-  useEffect(() => {
-    async function fetchBooks() {
-      try {
-        const response = await fetch('/api/books')
-        if (response.ok) {
-          const data = await response.json()
-          setBooks(data.books || [])
-        }
-      } catch (err) {
-        console.error('Failed to load books:', err)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchBooks()
-  }, [])
+export default async function BooksPage() {
+  const books = await loadBooks()
 
   const totalBooks = books.length
-  const booksRead = books.filter(b => b.dateRead).length
-  const avgRating = books.filter(b => b.rating).reduce((sum, b) => sum + (b.rating || 0), 0) / books.filter(b => b.rating).length || 0
+  const booksRead = books.filter((b) => b.dateRead).length
+  const rated = books.filter((b) => b.rating)
+  const avgRating = rated.length > 0 ? rated.reduce((s, b) => s + (b.rating || 0), 0) / rated.length : 0
   const totalPages = books.reduce((sum, b) => sum + (b.pages || 0), 0)
 
   const topBooks = books
-    .filter(b => b.rating && b.rating > 0)
+    .filter((b) => b.rating && b.rating > 0)
     .sort((a, b) => (b.rating || 0) - (a.rating || 0))
     .slice(0, 12)
-
-  if (loading) {
-    return (
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <PageHeader
-          title="BOOKS"
-          systemName="SYSTEM"
-          status="LOADING"
-          statusDetail="READING_TRACKER v1.0"
-          loadingMessage="Loading reading library..."
-          color="neon-yellow"
-        />
-        <div className="animate-pulse space-y-6">
-          <div className="h-32 bg-bg-card rounded-2xl border border-border-subtle" />
-          <div className="grid grid-cols-4 gap-4">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-24 bg-bg-card rounded-2xl border border-border-subtle" />
-            ))}
-          </div>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
@@ -69,7 +28,6 @@ export default function BooksPage() {
         color="neon-yellow"
       />
 
-      {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <StatCard label="Livres" value={totalBooks} icon={BookOpen} color="yellow" />
         <StatCard label="Lus" value={booksRead} icon={BookOpen} color="green" />
@@ -77,7 +35,6 @@ export default function BooksPage() {
         <StatCard label="Pages" value={totalPages.toLocaleString('fr-FR')} icon={Hash} color="cyan" />
       </div>
 
-      {/* Top Books */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
           <div className="p-2 bg-neon-yellow/10 border border-neon-yellow/30 rounded">
@@ -95,9 +52,9 @@ export default function BooksPage() {
               className="group tech-card p-3 hover:border-neon-yellow/60 transition-all duration-300"
             >
               <div className="flex flex-col h-full">
-                {/* Cover */}
                 <div className="relative aspect-[2/3] mb-3 rounded-lg overflow-hidden bg-bg-primary border border-border-subtle">
                   {book.coverUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={book.coverUrl}
                       alt={book.title}
@@ -117,16 +74,12 @@ export default function BooksPage() {
                     </div>
                   )}
                 </div>
-
-                {/* Info */}
                 <div className="flex-1 min-h-0">
                   <h3 className="font-medium text-sm text-text-primary group-hover:text-neon-yellow transition-colors mb-1 line-clamp-2">
                     {book.title}
                   </h3>
                   {book.author && (
-                    <p className="text-xs text-text-muted font-mono truncate">
-                      {book.author}
-                    </p>
+                    <p className="text-xs text-text-muted font-mono truncate">{book.author}</p>
                   )}
                 </div>
               </div>
@@ -135,7 +88,6 @@ export default function BooksPage() {
         </div>
       </div>
 
-      {/* All Books List */}
       <div className="tech-card p-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
@@ -147,19 +99,15 @@ export default function BooksPage() {
         </div>
 
         <div className="space-y-2 max-h-[600px] overflow-y-auto">
-          {books.map((book, index) => (
+          {books.map((book) => (
             <div
               key={book.id}
               className="group flex items-center gap-4 p-3 bg-bg-primary border border-border-subtle rounded-lg hover:border-neon-cyan/50 transition-all duration-300"
             >
-              {/* Mini cover */}
               <div className="w-10 h-14 rounded overflow-hidden bg-bg-card border border-border-subtle shrink-0">
                 {book.coverUrl ? (
-                  <img
-                    src={book.coverUrl}
-                    alt={book.title}
-                    className="w-full h-full object-cover"
-                  />
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={book.coverUrl} alt={book.title} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <BookOpen className="w-4 h-4 text-text-muted/30" />
@@ -178,9 +126,7 @@ export default function BooksPage() {
                     </span>
                   )}
                   {book.year && (
-                    <span className="text-xs text-text-muted font-mono">
-                      {book.year}
-                    </span>
+                    <span className="text-xs text-text-muted font-mono">{book.year}</span>
                   )}
                   {book.genre1 && (
                     <span className="text-xs text-text-muted font-mono hidden sm:inline">

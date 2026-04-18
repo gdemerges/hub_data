@@ -1,66 +1,23 @@
-'use client'
-
-import { useState, useEffect } from 'react'
 import { Heart, MapPin, Globe, Calendar, TrendingUp } from 'lucide-react'
-import { StatCard, BarChart, PieChart, NationalityMap, PageHeader } from '@/components'
+import { StatCard, PieChart, NationalityMap, PageHeader } from '@/components'
+import { loadRencontres } from '@/lib/rencontres-loader'
 
-interface RencontresStats {
-  total: number
-  villes: { ville: string; count: number }[]
-  nationalites: { nationalite: string; count: number }[]
-  parAnnee: { annee: number; count: number }[]
-  parAnneeNaissance: { annee: number; count: number }[]
-}
+export const revalidate = 3600
 
-export default function RencontresPage() {
-  const [stats, setStats] = useState<RencontresStats | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [hasData, setHasData] = useState(false)
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch('/api/rencontres')
-        if (response.ok) {
-          const data = await response.json()
-          if (data.hasData) {
-            setStats(data.stats)
-            setHasData(true)
-          } else {
-            setHasData(false)
-          }
-        } else {
-          setHasData(false)
-        }
-      } catch (err) {
-        setHasData(false)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchData()
-  }, [])
-
-  if (loading) {
-    return (
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <PageHeader title="RENCONTRES" systemName="SYSTEM" status="LOADING" statusDetail="SOCIAL_TRACKER v1.0" loadingMessage="Initializing social data..." color="neon-red" />
-        <div className="animate-pulse space-y-6">
-          <div className="h-32 bg-bg-card rounded-2xl border border-border-subtle" />
-          <div className="grid grid-cols-4 gap-4">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-24 bg-bg-card rounded-2xl border border-border-subtle" />
-            ))}
-          </div>
-        </div>
-      </div>
-    )
-  }
+export default async function RencontresPage() {
+  const { stats, hasData } = await loadRencontres()
 
   if (!hasData || !stats) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <PageHeader title="RENCONTRES" systemName="SYSTEM" status="NO_DATA" statusDetail="SOCIAL_TRACKER v1.0" loadingMessage="No data available" color="neon-red" />
+        <PageHeader
+          title="RENCONTRES"
+          systemName="SYSTEM"
+          status="NO_DATA"
+          statusDetail="SOCIAL_TRACKER v1.0"
+          loadingMessage="No data available"
+          color="neon-red"
+        />
         <div className="tech-card p-8 border-neon-red/30">
           <div className="text-center max-w-2xl mx-auto">
             <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-neon-red/10 border border-neon-red/30 flex items-center justify-center">
@@ -78,7 +35,6 @@ export default function RencontresPage() {
     )
   }
 
-  // Prepare chart data
   const villeColors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#06b6d4', '#f97316', '#84cc16']
   const villeChartData = stats.villes.slice(0, 8).map((item, index) => ({
     label: item.ville,
@@ -93,11 +49,19 @@ export default function RencontresPage() {
     color: nationaliteColors[index % nationaliteColors.length],
   }))
 
+  const maxParAnnee = Math.max(...stats.parAnnee.map((y) => y.count))
+  const maxParNaissance = Math.max(...stats.parAnneeNaissance.map((y) => y.count))
+
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
-      <PageHeader title="RENCONTRES" systemName="SYSTEM" statusDetail="SOCIAL_TRACKER v1.0" loadingMessage={`Analyzing ${stats.total} encounters...`} color="neon-red" />
+      <PageHeader
+        title="RENCONTRES"
+        systemName="SYSTEM"
+        statusDetail="SOCIAL_TRACKER v1.0"
+        loadingMessage={`Analyzing ${stats.total} encounters...`}
+        color="neon-red"
+      />
 
-      {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <StatCard label="Total" value={stats.total} icon={Heart} color="red" />
         <StatCard label="Villes" value={stats.villes.length} icon={MapPin} color="cyan" />
@@ -105,7 +69,6 @@ export default function RencontresPage() {
         <StatCard label="Années" value={stats.parAnnee.length} icon={Calendar} color="green" />
       </div>
 
-      {/* Nationality Map */}
       <div className="tech-card p-6 mb-8">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-2 bg-neon-red/10 border border-neon-red/30 rounded">
@@ -120,9 +83,7 @@ export default function RencontresPage() {
         </div>
       </div>
 
-      {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        {/* Villes */}
         <div className="tech-card p-6">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
@@ -137,7 +98,6 @@ export default function RencontresPage() {
           </div>
         </div>
 
-        {/* Nationalités */}
         <div className="tech-card p-6">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-neon-magenta/10 border border-neon-magenta/30 rounded">
@@ -153,9 +113,7 @@ export default function RencontresPage() {
         </div>
       </div>
 
-      {/* Timeline Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Par Année */}
         <div className="tech-card p-6">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-neon-green/10 border border-neon-green/30 rounded">
@@ -167,11 +125,13 @@ export default function RencontresPage() {
           </div>
           <div className="flex items-end justify-between gap-2 h-48">
             {stats.parAnnee.map((item) => {
-              const maxCount = Math.max(...stats.parAnnee.map(y => y.count))
-              const height = (item.count / maxCount) * 100
+              const height = (item.count / maxParAnnee) * 100
               return (
                 <div key={item.annee} className="flex-1 flex flex-col items-center justify-end h-full gap-2">
-                  <div className="relative w-full" style={{ height: `${height}%`, minHeight: item.count > 0 ? '20px' : '0' }}>
+                  <div
+                    className="relative w-full"
+                    style={{ height: `${height}%`, minHeight: item.count > 0 ? '20px' : '0' }}
+                  >
                     {item.count > 0 && (
                       <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full text-xs font-mono font-bold text-neon-green mb-1">
                         {item.count}
@@ -191,7 +151,6 @@ export default function RencontresPage() {
           </div>
         </div>
 
-        {/* Par Année de Naissance */}
         <div className="tech-card p-6">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-neon-yellow/10 border border-neon-yellow/30 rounded">
@@ -203,11 +162,13 @@ export default function RencontresPage() {
           </div>
           <div className="flex items-end justify-between gap-1 h-48 overflow-x-auto">
             {stats.parAnneeNaissance.map((item) => {
-              const maxCount = Math.max(...stats.parAnneeNaissance.map(y => y.count))
-              const height = (item.count / maxCount) * 100
+              const height = (item.count / maxParNaissance) * 100
               return (
                 <div key={item.annee} className="flex-1 flex flex-col items-center justify-end h-full gap-2 min-w-[20px]">
-                  <div className="relative w-full" style={{ height: `${height}%`, minHeight: item.count > 0 ? '20px' : '0' }}>
+                  <div
+                    className="relative w-full"
+                    style={{ height: `${height}%`, minHeight: item.count > 0 ? '20px' : '0' }}
+                  >
                     {item.count > 0 && (
                       <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full text-[10px] font-mono font-bold text-neon-yellow mb-1">
                         {item.count}
