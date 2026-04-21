@@ -1,6 +1,7 @@
 import fs from 'fs'
 import { promises as fsp } from 'fs'
 import path from 'path'
+import { logger } from './logger'
 
 export interface Partner {
   prenom: string
@@ -82,7 +83,7 @@ export async function loadRencontres(): Promise<{
 
     return { partners, stats, hasData: true }
   } catch (error) {
-    console.error('Rencontres loader error:', error)
+    logger.error('Rencontres loader error:', error)
     return { partners: [], stats: null, hasData: false }
   }
 }

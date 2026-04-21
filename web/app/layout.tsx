@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { Inter, JetBrains_Mono, Orbitron } from 'next/font/google'
-import { Navigation } from '@/components'
+import { Navigation, CommandPalette, ServiceWorkerRegister } from '@/components'
 import { SWRProvider } from '@/lib/swr-config'
 import './globals.css'
 
@@ -22,6 +22,9 @@ const orbitron = Orbitron({
 export const metadata: Metadata = {
   title: 'Hub Life',
   description: 'Tableau de bord pour suivre vos jeux, films, séries et activité GitHub',
+  manifest: '/manifest.json',
+  themeColor: '#00ffff',
+  appleWebApp: { capable: true, title: 'Hub Life', statusBarStyle: 'black-translucent' },
 }
 
 function PageFallback() {
@@ -47,10 +50,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className="dark">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('hub-theme')||'dark';document.documentElement.classList.toggle('light',t==='light');document.documentElement.classList.toggle('dark',t==='dark');}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className={`${inter.className} ${jetbrainsMono.variable} ${orbitron.variable}`}>
         <SWRProvider>
+          <ServiceWorkerRegister />
+          <a href="#main" className="skip-link">Aller au contenu</a>
           <Navigation />
-          <main className="min-h-screen pb-16">
+          <CommandPalette />
+          <main id="main" className="min-h-screen pb-16">
             <Suspense fallback={<PageFallback />}>
               {children}
             </Suspense>

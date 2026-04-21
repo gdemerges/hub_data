@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { updatePlaytimeFromSnapshot, type GameSnapshot } from '@/lib/steam-storage'
+import { logger } from '@/lib/logger'
 
 const STEAM_API_BASE = 'https://api.steampowered.com'
 
@@ -49,7 +50,7 @@ export async function POST() {
       entriesInHistory: result.history.entries.length,
     })
   } catch (error) {
-    console.error('Steam sync error:', error)
+    logger.error('Steam sync error:', error)
     return NextResponse.json(
       { error: 'Failed to sync Steam data' },
       { status: 500 }

@@ -2,6 +2,8 @@ import { getSeriesData } from '@/lib/data'
 import { SeriesClient } from '@/components/series-client'
 import { PageHeader } from '@/components'
 
+export const revalidate = 3600
+
 export default async function SeriesPage() {
   const series = await getSeriesData()
 

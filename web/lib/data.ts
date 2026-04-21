@@ -2,6 +2,7 @@ import { Game, Film, Series, Book } from './types'
 import gamesData from '@/data/games.json'
 import filmsData from '@/data/films.json'
 import seriesData from '@/data/series.json'
+import { logger } from './logger'
 
 const GITHUB_USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'gdemerges'
 const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql'
@@ -108,7 +109,7 @@ export async function getGitHubContributions(year?: number | null): Promise<numb
     const data = await response.json()
     return data.data?.user?.contributionsCollection?.contributionCalendar?.totalContributions || 0
   } catch (error) {
-    console.error('Failed to fetch GitHub contributions:', error)
+    logger.error('Failed to fetch GitHub contributions:', error)
     return 0
   }
 }

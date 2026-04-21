@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { getValidStravaToken } from '@/lib/strava-token'
+import { logger } from '@/lib/logger'
 
 const STRAVA_API = 'https://www.strava.com/api/v3'
 
@@ -99,7 +100,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(result.data, { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } })
   } catch (error) {
-    console.error('Strava stats API error:', error)
+    logger.error('Strava stats API error:', error)
     return NextResponse.json(
       { error: 'Failed to fetch Strava stats' },
       { status: 500 }

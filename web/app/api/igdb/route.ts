@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { TokenCache } from '@/lib/token-cache'
+import { logger } from '@/lib/logger'
 
 const tokenCache = new TokenCache()
 
@@ -80,7 +81,7 @@ export async function POST(request: NextRequest) {
       platforms: (game.platforms as { name: string }[] | undefined)?.map((p) => p.name) ?? [],
     }, { headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600' } })
   } catch (error) {
-    console.error('IGDB API error:', error)
+    logger.error('IGDB API error:', error)
     return NextResponse.json(
       { error: 'Failed to fetch game data' },
       { status: 500 }

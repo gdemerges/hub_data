@@ -1,6 +1,7 @@
 import fs from 'fs'
 import { promises as fsp } from 'fs'
 import path from 'path'
+import { logger } from './logger'
 
 interface CacheEnvelope<T> {
   data: T
@@ -22,7 +23,7 @@ export async function writeFileCache<T>(filePath: string, data: T): Promise<void
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
     await fsp.writeFile(filePath, JSON.stringify({ data, cachedAt: Date.now() }))
   } catch (e) {
-    console.error(`Failed to write cache ${filePath}:`, e)
+    logger.error(`Failed to write cache ${filePath}:`, e)
   }
 }
 

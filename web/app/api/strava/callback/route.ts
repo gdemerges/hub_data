@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs'
 import { promises as fsp } from 'fs'
 import path from 'path'
+import { logger } from '@/lib/logger'
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get('code')
@@ -19,7 +20,7 @@ export async function GET(request: NextRequest) {
   const clientSecret = process.env.STRAVA_CLIENT_SECRET
 
   if (!clientId || !clientSecret) {
-    console.error('Strava callback: missing client credentials')
+    logger.error('Strava callback: missing client credentials')
     return NextResponse.redirect(new URL('/sport?error=config_error', request.url))
   }
 
@@ -39,7 +40,7 @@ export async function GET(request: NextRequest) {
     })
 
     if (!tokenResponse.ok) {
-      console.error('Strava token exchange failed:', tokenResponse.status)
+      logger.error('Strava token exchange failed:', tokenResponse.status)
       return NextResponse.redirect(new URL(`/sport?error=token_error&status=${tokenResponse.status}`, request.url))
     }
 
@@ -61,7 +62,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.redirect(new URL('/sport', request.url))
   } catch (err: unknown) {
-    console.error('Strava callback error:', err instanceof Error ? err.message : err)
+    logger.error('Strava callback error:', err instanceof Error ? err.message : err)
     return NextResponse.redirect(new URL('/sport?error=unknown', request.url))
   }
 }

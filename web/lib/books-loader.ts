@@ -3,6 +3,7 @@ import { promises as fsp } from 'fs'
 import path from 'path'
 import * as XLSX from 'xlsx'
 import { Book } from './types'
+import { logger } from './logger'
 
 interface BooksCache {
   books: Book[]
@@ -18,7 +19,7 @@ async function loadCoversCache(): Promise<Record<string, string | null>> {
       return JSON.parse(await fsp.readFile(cacheFile, 'utf-8'))
     }
   } catch (e) {
-    console.error('Failed to load covers cache:', e)
+    logger.error('Failed to load covers cache:', e)
   }
   return {}
 }
@@ -120,11 +121,11 @@ export async function loadBooks(): Promise<Book[]> {
       const cache: BooksCache = { books, count: books.length, cachedAt: Date.now(), sourceMtime }
       await fsp.writeFile(cacheFile, JSON.stringify(cache))
     } catch (e) {
-      console.error('Failed to write books cache:', e)
+      logger.error('Failed to write books cache:', e)
     }
     return books
   } catch (error) {
-    console.error('Books loader error:', error)
+    logger.error('Books loader error:', error)
     return []
   }
 }

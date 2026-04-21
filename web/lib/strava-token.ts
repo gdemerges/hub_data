@@ -1,6 +1,7 @@
 import fs from 'fs'
 import { promises as fsp } from 'fs'
 import path from 'path'
+import { logger } from './logger'
 
 const TOKEN_FILE = path.join(process.cwd(), 'data', 'strava-tokens.json')
 const STRAVA_TOKEN_URL = 'https://www.strava.com/oauth/token'
@@ -47,7 +48,7 @@ async function doRefresh(tokenData: StravaTokenData): Promise<string | null> {
     })
 
     if (!response.ok) {
-      console.error('Strava token refresh failed:', response.status)
+      logger.error('Strava token refresh failed:', response.status)
       return null
     }
 
@@ -60,7 +61,7 @@ async function doRefresh(tokenData: StravaTokenData): Promise<string | null> {
     })
     return newData.access_token as string
   } catch (err: unknown) {
-    console.error('Strava token refresh error:', err instanceof Error ? err.message : err)
+    logger.error('Strava token refresh error:', err instanceof Error ? err.message : err)
     return null
   }
 }

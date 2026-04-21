@@ -6,6 +6,7 @@
  */
 
 import { z } from 'zod'
+import { logger } from './logger'
 
 // ============ Spotify ============
 
@@ -130,7 +131,7 @@ export const stravaActivitySchema = z.object({
 export function safeParse<T>(schema: z.ZodType<T>, data: unknown, label: string): T | null {
   const result = schema.safeParse(data)
   if (!result.success) {
-    console.warn(`[${label}] API response validation warning:`, result.error.issues.slice(0, 3))
+    logger.warn(`[${label}] API response validation warning:`, result.error.issues.slice(0, 3))
     return null
   }
   return result.data

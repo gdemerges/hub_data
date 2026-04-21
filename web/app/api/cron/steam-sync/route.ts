@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getBaseUrl, verifyCronSecret } from '@/lib/cron-utils'
+import { logger } from '@/lib/logger'
 
 const MAX_RETRIES = 3
 const RETRY_DELAY_MS = 5000
@@ -34,7 +35,7 @@ export async function GET(request: NextRequest) {
       syncResult: result,
     })
   } catch (error) {
-    console.error('Steam cron sync failed:', error)
+    logger.error('Steam cron sync failed:', error)
     return NextResponse.json(
       { success: false, error: error instanceof Error ? error.message : 'Unknown error', timestamp: new Date().toISOString() },
       { status: 500 }

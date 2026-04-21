@@ -3,6 +3,7 @@ import fs from 'fs'
 import { promises as fsp } from 'fs'
 import path from 'path'
 import { getFilmsData, getSeriesData, getGamesData } from '@/lib/data'
+import { logger } from '@/lib/logger'
 
 interface TimelineEvent {
   id: string
@@ -41,7 +42,7 @@ export async function GET(request: NextRequest) {
         }
       }
     } catch (err) {
-      console.error('Failed to load films:', err)
+      logger.error('Failed to load films:', err)
     }
 
     // Get series
@@ -62,7 +63,7 @@ export async function GET(request: NextRequest) {
         }
       }
     } catch (err) {
-      console.error('Failed to load series:', err)
+      logger.error('Failed to load series:', err)
     }
 
     // Get games
@@ -83,7 +84,7 @@ export async function GET(request: NextRequest) {
         }
       }
     } catch (err) {
-      console.error('Failed to load games:', err)
+      logger.error('Failed to load games:', err)
     }
 
     // Get Strava activities
@@ -117,7 +118,7 @@ export async function GET(request: NextRequest) {
         }
       }
     } catch (err) {
-      console.error('Failed to load Strava activities:', err)
+      logger.error('Failed to load Strava activities:', err)
     }
 
     // Get voyages (from location history)
@@ -176,7 +177,7 @@ export async function GET(request: NextRequest) {
         }
       }
     } catch (err) {
-      console.error('Failed to load voyages:', err)
+      logger.error('Failed to load voyages:', err)
     }
 
     // Get partners
@@ -207,7 +208,7 @@ export async function GET(request: NextRequest) {
         }
       }
     } catch (err) {
-      console.error('Failed to load partners:', err)
+      logger.error('Failed to load partners:', err)
     }
 
     // Sort by date descending
@@ -221,7 +222,7 @@ export async function GET(request: NextRequest) {
       total: events.length,
     }, { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } })
   } catch (error) {
-    console.error('Timeline API error:', error)
+    logger.error('Timeline API error:', error)
     return NextResponse.json(
       { error: 'Failed to fetch timeline data' },
       { status: 500 }

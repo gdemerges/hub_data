@@ -4,6 +4,7 @@ import { promises as fsp } from 'fs'
 import path from 'path'
 import { nominatimFetch } from '@/lib/rate-limiter'
 import { readFileCache, writeFileCache, isCacheFresh } from '@/lib/file-cache'
+import { logger } from '@/lib/logger'
 
 interface PlaceVisit {
   location: {
@@ -93,7 +94,7 @@ async function reverseGeocode(lat: number, lng: number): Promise<{ city?: string
       country: address.country
     }
   } catch (err) {
-    console.error('Reverse geocoding error:', err)
+    logger.error('Reverse geocoding error:', err)
     return {}
   }
 }
@@ -190,7 +191,7 @@ async function readJsonFiles(
           }
         }
       } catch (err) {
-        console.error(`Error parsing ${fullPath}:`, err)
+        logger.error(`Error parsing ${fullPath}:`, err)
       }
     }
   }
@@ -244,7 +245,7 @@ export async function GET() {
       try {
         persistentCache = JSON.parse(await fsp.readFile(cacheFile, 'utf-8'))
       } catch (err) {
-        console.error('Error reading geocode cache:', err)
+        logger.error('Error reading geocode cache:', err)
       }
     }
 
@@ -336,7 +337,7 @@ export async function GET() {
 
     return NextResponse.json(result, { headers: VOYAGES_CACHE_HEADERS })
   } catch (error) {
-    console.error('Voyages API error:', error)
+    logger.error('Voyages API error:', error)
     return NextResponse.json(
       { error: 'Failed to process location history' },
       { status: 500 }

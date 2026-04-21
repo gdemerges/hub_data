@@ -3,6 +3,8 @@ import { YearFilter, OverviewSections, TemporalStats, YearComparison } from '@/c
 import { OverviewStats } from '@/components/overview-stats'
 import { getGamesData, getFilmsData, getSeriesData } from '@/lib/data'
 
+export const revalidate = 3600
+
 export default async function HomePage({
   searchParams,
 }: {

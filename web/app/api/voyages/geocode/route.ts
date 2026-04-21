@@ -3,6 +3,7 @@ import fs from 'fs'
 import { promises as fsp } from 'fs'
 import path from 'path'
 import { nominatimFetch } from '@/lib/rate-limiter'
+import { logger } from '@/lib/logger'
 
 interface GeocodeCache {
   [key: string]: {
@@ -37,7 +38,7 @@ async function reverseGeocode(lat: number, lng: number): Promise<{ city?: string
       country: address.country
     }
   } catch (err) {
-    console.error('Reverse geocoding error:', err)
+    logger.error('Reverse geocoding error:', err)
     return {}
   }
 }
@@ -65,7 +66,7 @@ export async function POST() {
       try {
         cache = JSON.parse(await fsp.readFile(cacheFile, 'utf-8'))
       } catch (err) {
-        console.error('Error reading cache:', err)
+        logger.error('Error reading cache:', err)
       }
     }
 
@@ -136,7 +137,7 @@ export async function POST() {
       message: `Geocoded ${geocoded} new locations. Total cached: ${Object.keys(cache).length}`
     })
   } catch (error) {
-    console.error('Geocoding error:', error)
+    logger.error('Geocoding error:', error)
     return NextResponse.json(
       { error: 'Failed to geocode locations' },
       { status: 500 }

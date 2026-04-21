@@ -9,21 +9,21 @@ const config: Config = {
     extend: {
       colors: {
         bg: {
-          primary: '#0a0a0f',
-          secondary: '#0f0f15',
-          tertiary: '#15151d',
-          hover: '#1a1a25',
-          card: '#12121a',
+          primary: 'rgb(var(--bg-primary) / <alpha-value>)',
+          secondary: 'rgb(var(--bg-secondary) / <alpha-value>)',
+          tertiary: 'rgb(var(--bg-tertiary) / <alpha-value>)',
+          hover: 'rgb(var(--bg-hover) / <alpha-value>)',
+          card: 'rgb(var(--bg-card) / <alpha-value>)',
         },
         border: {
-          subtle: '#1e1e2e',
-          default: '#2d2d3d',
+          subtle: 'rgb(var(--border-subtle) / <alpha-value>)',
+          default: 'rgb(var(--border-default) / <alpha-value>)',
           neon: '#00ffff33',
         },
         text: {
-          primary: '#e0e0e8',
-          secondary: '#9898a8',
-          muted: '#6868788',
+          primary: 'rgb(var(--text-primary) / <alpha-value>)',
+          secondary: 'rgb(var(--text-secondary) / <alpha-value>)',
+          muted: 'rgb(var(--text-muted) / <alpha-value>)',
         },
         accent: {
           primary: '#00ffff', // Cyan neon

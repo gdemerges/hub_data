@@ -2,6 +2,7 @@ import { parse } from 'csv-parse/sync'
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
 import { resolve } from 'path'
 import { config } from 'dotenv'
+import { downloadFromSeriebox } from './download-seriebox'
 
 // Load environment variables
 config({ path: resolve(__dirname, '../.env') })
@@ -9,6 +10,8 @@ config({ path: resolve(__dirname, '../.env') })
 const DATA_DIR = resolve(__dirname, '../../data/seriebox')
 const OUTPUT_DIR = resolve(__dirname, '../data')
 const COVERS_CACHE_FILE = resolve(__dirname, '../../data/media-covers-cache.json')
+
+const SKIP_DOWNLOAD = process.argv.includes('--skip-download') || process.env.BUILD_DATA_SKIP_DOWNLOAD === '1'
 
 // Ensure output directory exists
 if (!existsSync(OUTPUT_DIR)) {
@@ -452,10 +455,18 @@ async function processSeries() {
 
 async function main() {
   console.log('🚀 Building data with images...\n')
-  
+
   const startTime = Date.now()
-  
+
   try {
+    if (!SKIP_DOWNLOAD) {
+      const ok = await downloadFromSeriebox()
+      if (!ok) console.log('\n⚠ Utilisation des données existantes')
+      console.log('')
+    } else {
+      console.log('⏭ Skip téléchargement SerieBox\n')
+    }
+
     await processGames()
     await processFilms()
     await processSeries()

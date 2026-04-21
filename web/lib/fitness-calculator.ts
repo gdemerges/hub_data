@@ -1,4 +1,5 @@
 import { FitnessMetrics, RacePrediction, RecoveryAdvice, PerformanceAnalysis, PerformanceInsight } from './types'
+import { logger } from './logger'
 
 // Fitness algorithm constants — edit here to adjust all calculations
 export const FITNESS_CONSTANTS = {
@@ -191,7 +192,7 @@ export function calculateFitnessMetrics(activities: Activity[]): FitnessMetrics[
 
     return metrics
   } catch (error) {
-    console.error('Error calculating fitness metrics:', error)
+    logger.error('Error calculating fitness metrics:', error)
     return []
   }
 }

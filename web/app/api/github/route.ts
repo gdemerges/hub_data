@@ -7,6 +7,7 @@ import {
   type GitHubRawRepo,
   type GitHubCache,
 } from '@/lib/github-cache'
+import { logger } from '@/lib/logger'
 
 const GITHUB_API = 'https://api.github.com'
 const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql'
@@ -74,7 +75,7 @@ export async function GET(request: NextRequest) {
           languagesByRepo[key] = { languages, pushedAt: repo.pushed_at }
         }
       } catch (err) {
-        console.error(`Error fetching languages for ${repo.name}:`, err)
+        logger.error(`Error fetching languages for ${repo.name}:`, err)
       }
     })
 
@@ -138,7 +139,7 @@ export async function GET(request: NextRequest) {
             ?.totalContributions ?? totalContributions
       }
     } catch (err) {
-      console.error('Error fetching contributions:', err)
+      logger.error('Error fetching contributions:', err)
     }
 
     // --- Build and persist updated cache ---
@@ -153,7 +154,7 @@ export async function GET(request: NextRequest) {
 
     return buildResponse(updatedCache)
   } catch (error) {
-    console.error('GitHub API error:', error)
+    logger.error('GitHub API error:', error)
     return NextResponse.json({ error: 'Failed to fetch GitHub data' }, { status: 500 })
   }
 }

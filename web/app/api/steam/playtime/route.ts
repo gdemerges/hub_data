@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPlaytimeByYear } from '@/lib/steam-storage'
+import { logger } from '@/lib/logger'
 
 export const revalidate = 3600 // Revalidate every hour
 
@@ -53,7 +54,7 @@ export async function GET(request: NextRequest) {
       playtime,
     }, { headers: CACHE_HEADERS })
   } catch (error) {
-    console.error('Steam playtime API error:', error)
+    logger.error('Steam playtime API error:', error)
     return NextResponse.json(
       { error: 'Failed to fetch playtime data' },
       { status: 500 }

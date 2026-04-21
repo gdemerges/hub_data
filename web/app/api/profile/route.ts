@@ -3,6 +3,7 @@ import fs from 'fs'
 import { promises as fsp } from 'fs'
 import path from 'path'
 import { getGamesData, getFilmsData, getSeriesData, getGitHubContributions } from '@/lib/data'
+import { logger } from '@/lib/logger'
 
 export async function GET(request: NextRequest) {
   try {
@@ -36,7 +37,7 @@ export async function GET(request: NextRequest) {
         }
       }
     } catch (err) {
-      console.error('Failed to fetch Strava data:', err)
+      logger.error('Failed to fetch Strava data:', err)
     }
 
     // Get partners count
@@ -55,7 +56,7 @@ export async function GET(request: NextRequest) {
         }
       }
     } catch (err) {
-      console.error('Failed to read partners:', err)
+      logger.error('Failed to read partners:', err)
     }
 
     // Get voyages stats
@@ -69,7 +70,7 @@ export async function GET(request: NextRequest) {
         citiesVisited = voyagesData.totalCities || 0
       }
     } catch (err) {
-      console.error('Failed to fetch voyages:', err)
+      logger.error('Failed to fetch voyages:', err)
     }
 
     // Calculate gaming hours for the year
@@ -140,7 +141,7 @@ export async function GET(request: NextRequest) {
       },
     }, { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } })
   } catch (error) {
-    console.error('Profile API error:', error)
+    logger.error('Profile API error:', error)
     return NextResponse.json(
       { error: 'Failed to fetch profile data' },
       { status: 500 }

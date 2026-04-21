@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { loadRencontres } from '@/lib/rencontres-loader'
+import { logger } from '@/lib/logger'
 
 export async function GET() {
   try {
@@ -10,7 +11,7 @@ export async function GET() {
         : {},
     })
   } catch (error) {
-    console.error('Rencontres API error:', error)
+    logger.error('Rencontres API error:', error)
     return NextResponse.json(
       { partners: [], stats: null, hasData: false },
       { status: 500 }

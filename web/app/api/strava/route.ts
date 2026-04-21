@@ -3,6 +3,7 @@ import path from 'path'
 
 import { getValidStravaToken } from '@/lib/strava-token'
 import { readFileCache, writeFileCache, isCacheFresh } from '@/lib/file-cache'
+import { logger } from '@/lib/logger'
 
 export const revalidate = 3600 // Revalidate every hour
 
@@ -189,7 +190,7 @@ export async function GET() {
       fetchedAt: new Date().toISOString(),
     }, { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } })
   } catch (error) {
-    console.error('Strava API error:', error)
+    logger.error('Strava API error:', error)
     return NextResponse.json({ error: 'Failed to fetch Strava data' }, { status: 500 })
   }
 }

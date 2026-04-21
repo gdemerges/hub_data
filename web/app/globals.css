@@ -3,6 +3,32 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --bg-primary: 10 10 15;
+    --bg-secondary: 15 15 21;
+    --bg-tertiary: 21 21 29;
+    --bg-hover: 26 26 37;
+    --bg-card: 18 18 26;
+    --border-subtle: 30 30 46;
+    --border-default: 45 45 61;
+    --text-primary: 224 224 232;
+    --text-secondary: 152 152 168;
+    --text-muted: 104 104 120;
+  }
+
+  html.light {
+    --bg-primary: 238 240 248;
+    --bg-secondary: 226 228 238;
+    --bg-tertiary: 214 216 228;
+    --bg-hover: 202 205 220;
+    --bg-card: 245 246 252;
+    --border-subtle: 194 198 214;
+    --border-default: 168 174 194;
+    --text-primary: 20 20 32;
+    --text-secondary: 68 70 92;
+    --text-muted: 110 114 138;
+  }
+
   * {
     @apply border-border-subtle;
   }
@@ -75,6 +101,44 @@
   ::selection {
     background: rgba(0, 255, 255, 0.3);
     color: #fff;
+  }
+
+  /* Accessibility: visible focus ring on keyboard navigation */
+  :focus-visible {
+    outline: 2px solid rgb(0 255 255 / 0.8);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  html.light :focus-visible {
+    outline-color: rgb(0 180 180 / 0.9);
+  }
+
+  /* Skip to content link */
+  .skip-link {
+    position: fixed;
+    top: -40px;
+    left: 8px;
+    z-index: 200;
+    padding: 8px 16px;
+    background: rgb(var(--bg-primary));
+    color: rgb(var(--text-primary));
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    border-radius: 4px;
+    font-family: var(--font-mono, monospace);
+    transition: top 0.2s;
+  }
+
+  .skip-link:focus {
+    top: 8px;
+  }
+
+  /* Mobile-friendly horizontal container padding */
+  @media (max-width: 640px) {
+    .max-w-7xl.mx-auto.px-6 {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
   }
 }
 

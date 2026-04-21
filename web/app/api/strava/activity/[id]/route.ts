@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 
 import { getValidStravaToken } from '@/lib/strava-token'
+import { logger } from '@/lib/logger'
 
 const STRAVA_API = 'https://www.strava.com/api/v3'
 
@@ -98,7 +99,7 @@ export async function GET(
       })),
     })
   } catch (error) {
-    console.error('Strava activity API error:', error)
+    logger.error('Strava activity API error:', error)
     return NextResponse.json({ error: 'Failed to fetch activity' }, { status: 500 })
   }
 }

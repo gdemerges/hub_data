@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { tmdbFetch } from '@/lib/rate-limiter'
+import { logger } from '@/lib/logger'
 
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500'
@@ -84,7 +85,7 @@ export async function POST(request: NextRequest) {
       episodes: details.number_of_episodes ?? null,
     }, { headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600' } })
   } catch (error) {
-    console.error('TMDB API error:', error)
+    logger.error('TMDB API error:', error)
     return NextResponse.json(
       { error: 'Failed to fetch media data' },
       { status: 500 }

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { logger } from '@/lib/logger'
 
 const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql'
 
@@ -66,7 +67,7 @@ export async function GET(request: NextRequest) {
       totalContributions: filteredData.reduce((sum, d) => sum + d.contributions, 0),
     }, { headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=3600' } })
   } catch (error) {
-    console.error('GitHub yearly contributions API error:', error)
+    logger.error('GitHub yearly contributions API error:', error)
     return NextResponse.json(
       { error: 'Failed to fetch yearly contributions data' },
       { status: 500 }

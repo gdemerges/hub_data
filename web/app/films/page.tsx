@@ -2,6 +2,8 @@ import { getFilmsData } from '@/lib/data'
 import { FilmsClient } from '@/components/films-client'
 import { PageHeader } from '@/components'
 
+export const revalidate = 3600
+
 export default async function FilmsPage() {
   const films = await getFilmsData()
 

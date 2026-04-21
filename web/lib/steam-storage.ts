@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { logger } from './logger'
 
 const DATA_DIR = path.join(process.cwd(), 'data')
 const PLAYTIME_FILE = path.join(DATA_DIR, 'steam-playtime.json')
@@ -59,7 +60,7 @@ export function loadPlaytimeHistory(): PlaytimeHistory {
 
     return history
   } catch (error) {
-    console.error('Error loading playtime history:', error)
+    logger.error('Error loading playtime history:', error)
     return {
       userId: '',
       lastSnapshot: [],
@@ -76,7 +77,7 @@ export function savePlaytimeHistory(history: PlaytimeHistory) {
   try {
     fs.writeFileSync(PLAYTIME_FILE, JSON.stringify(history, null, 2), 'utf-8')
   } catch (error) {
-    console.error('Error saving playtime history:', error)
+    logger.error('Error saving playtime history:', error)
     throw error
   }
 }

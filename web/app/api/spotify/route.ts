@@ -16,6 +16,7 @@ const CACHE_HEADERS = { 'Cache-Control': 'public, s-maxage=3600, stale-while-rev
 const tokenCache = new TokenCache()
 
 import type { z } from 'zod'
+import { logger } from '@/lib/logger'
 type SpotifyArtist = z.infer<typeof import('@/lib/api-schemas').spotifyArtistSchema>
 type SpotifyTrack = z.infer<typeof import('@/lib/api-schemas').spotifyTrackSchema>
 type SpotifyRecentlyPlayedItem = z.infer<typeof import('@/lib/api-schemas').spotifyRecentlyPlayedItemSchema>
@@ -29,7 +30,7 @@ async function getAccessToken(): Promise<string | null> {
   const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN
 
   if (!clientId || !clientSecret || !refreshToken) {
-    console.error('Missing Spotify credentials')
+    logger.error('Missing Spotify credentials')
     return null
   }
 
@@ -46,7 +47,7 @@ async function getAccessToken(): Promise<string | null> {
     tokenCache.set(data.access_token, data.expires_in ?? 3600)
     return data.access_token
   } catch (error) {
-    console.error('Error getting Spotify access token:', error)
+    logger.error('Error getting Spotify access token:', error)
     return null
   }
 }
@@ -149,7 +150,7 @@ export async function GET() {
 
     return NextResponse.json(responseData, { headers: CACHE_HEADERS })
   } catch (error) {
-    console.error('Spotify API error:', error)
+    logger.error('Spotify API error:', error)
     return NextResponse.json({ error: 'Failed to fetch Spotify data' }, { status: 500 })
   }
 }

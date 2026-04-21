@@ -1,6 +1,8 @@
 import { getGamesData } from '@/lib/data'
 import { GamesPageClient, PageHeader } from '@/components'
 
+export const revalidate = 3600
+
 export default async function GamesPage() {
   const games = await getGamesData()
 

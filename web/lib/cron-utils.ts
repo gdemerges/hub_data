@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { logger } from './logger'
 
 export function getBaseUrl(): string {
   if (process.env.NEXT_PUBLIC_BASE_URL) return process.env.NEXT_PUBLIC_BASE_URL
@@ -29,7 +30,7 @@ export async function warmRoute(path: string): Promise<NextResponse> {
       timestamp: new Date().toISOString(),
     })
   } catch (error) {
-    console.error(`Cron failed for ${path}:`, error)
+    logger.error(`Cron failed for ${path}:`, error)
     return NextResponse.json(
       { success: false, path, error: error instanceof Error ? error.message : 'Unknown', timestamp: new Date().toISOString() },
       { status: 500 }

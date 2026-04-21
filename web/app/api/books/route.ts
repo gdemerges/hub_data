@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { loadBooks } from '@/lib/books-loader'
+import { logger } from '@/lib/logger'
 
 const CACHE_HEADERS = { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' }
 
@@ -11,7 +12,7 @@ export async function GET() {
     }
     return NextResponse.json({ books, count: books.length }, { headers: CACHE_HEADERS })
   } catch (error) {
-    console.error('Books API error:', error)
+    logger.error('Books API error:', error)
     return NextResponse.json({ books: [], error: 'Failed to load books data' }, { status: 500 })
   }
 }

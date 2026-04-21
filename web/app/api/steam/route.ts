@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { readSteamCache, writeSteamCache, isSteamCacheFresh, type SteamGame, type SteamCacheData } from '@/lib/steam-cache'
 import { steamPlayerSchema, steamGameSchema } from '@/lib/api-schemas'
+import { logger } from '@/lib/logger'
 
 export const revalidate = 21600 // Revalidate every 6 hours
 
@@ -34,7 +35,7 @@ export async function GET() {
     if (!summaryResponse.ok || !gamesResponse.ok) {
       // If API fails and we have a stale cache, use it as fallback
       if (existingCache) {
-        console.warn('Steam API failed, serving stale cache')
+        logger.warn('Steam API failed, serving stale cache')
         return buildSteamResponse(existingCache.data, existingCache.cachedAt)
       }
       throw new Error('Failed to fetch Steam data')
@@ -57,7 +58,7 @@ export async function GET() {
 
     return buildSteamResponse(cacheData, Date.now())
   } catch (error) {
-    console.error('Steam API error:', error)
+    logger.error('Steam API error:', error)
     return NextResponse.json(
       { error: 'Failed to fetch Steam data' },
       { status: 500 }
