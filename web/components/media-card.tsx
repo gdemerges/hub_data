@@ -58,14 +58,14 @@ export function MediaCard({ title, imageUrl, subtitle, badge, progressBadge, onC
 
         {/* Badge */}
         {badge && (
-          <div className="absolute top-2 right-2 px-2 py-1 bg-bg-primary/90 backdrop-blur-sm border border-neon-cyan/50 text-neon-cyan text-xs font-mono font-bold rounded">
+          <div className="absolute top-2 right-2 px-2 py-1 bg-bg-primary border border-neon-cyan/50 text-neon-cyan text-xs font-mono font-bold rounded">
             <span className="drop-shadow-[0_0_4px_currentColor]">{badge}</span>
           </div>
         )}
 
         {/* Progress Badge for series */}
         {progressBadge && (
-          <div className="absolute bottom-0 left-0 right-0 px-2 py-1.5 bg-bg-primary/90 backdrop-blur-sm border-t border-neon-green/30 text-neon-green text-xs font-mono">
+          <div className="absolute bottom-0 left-0 right-0 px-2 py-1.5 bg-bg-primary border-t border-neon-green/30 text-neon-green text-xs font-mono">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-neon-green rounded-full animate-pulse" />
               {progressBadge}

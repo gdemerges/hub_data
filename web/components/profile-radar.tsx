@@ -1,15 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import {
-  Radar,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  ResponsiveContainer,
-  Tooltip,
-} from 'recharts'
 import { ChevronLeft, ChevronRight, User } from 'lucide-react'
 
 interface RadarDataPoint {
@@ -30,6 +21,119 @@ interface ProfileData {
     contributions: number
     partnersCount: number
   }
+}
+
+function SvgRadarChart({ data }: { data: RadarDataPoint[] }) {
+  const [hovered, setHovered] = useState<RadarDataPoint | null>(null)
+  const size = 280
+  const cx = size / 2
+  const cy = size / 2
+  const maxR = size * 0.36
+  const n = data.length
+  const levels = [0.2, 0.4, 0.6, 0.8, 1.0]
+
+  const angleOf = (i: number) => (i * 2 * Math.PI) / n - Math.PI / 2
+  const pointAt = (i: number, r: number) => ({
+    x: cx + r * Math.cos(angleOf(i)),
+    y: cy + r * Math.sin(angleOf(i)),
+  })
+
+  const toPoints = (pts: { x: number; y: number }[]) =>
+    pts.map(p => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(' ')
+
+  const gridPolygons = levels.map(level =>
+    toPoints(data.map((_, i) => pointAt(i, maxR * level)))
+  )
+  const dataPoints = data.map((d, i) => pointAt(i, maxR * (d.value / 100)))
+  const dataPolygon = toPoints(dataPoints)
+
+  return (
+    <div className="relative flex justify-center">
+      <svg
+        width={size}
+        height={size}
+        viewBox={`0 0 ${size} ${size}`}
+        className="overflow-visible"
+        aria-label="Radar chart du profil"
+      >
+        {/* Concentric grid polygons */}
+        {gridPolygons.map((pts, li) => (
+          <polygon
+            key={li}
+            points={pts}
+            fill="none"
+            stroke="#2d2d3d"
+            strokeWidth="1"
+            strokeDasharray={li === 4 ? undefined : '3 3'}
+          />
+        ))}
+
+        {/* Axis lines */}
+        {data.map((_, i) => {
+          const outer = pointAt(i, maxR)
+          return (
+            <line
+              key={i}
+              x1={cx} y1={cy}
+              x2={outer.x} y2={outer.y}
+              stroke="#2d2d3d"
+              strokeWidth="1"
+            />
+          )
+        })}
+
+        {/* Filled data polygon */}
+        <polygon
+          points={dataPolygon}
+          fill="#00ffff"
+          fillOpacity="0.25"
+          stroke="#00ffff"
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+
+        {/* Interactive data points */}
+        {dataPoints.map((p, i) => (
+          <circle
+            key={i}
+            cx={p.x} cy={p.y} r={5}
+            fill="#00ffff"
+            stroke="#00000080"
+            strokeWidth="1"
+            className="cursor-pointer"
+            onMouseEnter={() => setHovered(data[i])}
+            onMouseLeave={() => setHovered(null)}
+          />
+        ))}
+
+        {/* Axis labels */}
+        {data.map((d, i) => {
+          const pt = pointAt(i, maxR + 22)
+          return (
+            <text
+              key={i}
+              x={pt.x} y={pt.y}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fontSize="10"
+              fontFamily="JetBrains Mono, monospace"
+              fill="#9898a8"
+            >
+              {d.category}
+            </text>
+          )
+        })}
+      </svg>
+
+      {/* Tooltip */}
+      {hovered && (
+        <div className="absolute top-0 right-0 bg-bg-card border border-neon-cyan/30 rounded-lg px-3 py-2 shadow-lg pointer-events-none">
+          <p className="text-sm font-mono text-neon-cyan">{hovered.category}</p>
+          <p className="text-xs text-text-secondary">{hovered.rawValue}{hovered.unit}</p>
+        </div>
+      )}
+    </div>
+  )
 }
 
 export function ProfileRadar() {
@@ -55,21 +159,6 @@ export function ProfileRadar() {
     fetchData()
   }, [selectedYear])
 
-  const CustomTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload.length) {
-      const data = payload[0].payload
-      return (
-        <div className="bg-bg-card border border-neon-cyan/30 rounded-lg px-3 py-2 shadow-lg">
-          <p className="text-sm font-mono text-neon-cyan">{data.category}</p>
-          <p className="text-xs text-text-secondary">
-            {data.rawValue}{data.unit}
-          </p>
-        </div>
-      )
-    }
-    return null
-  }
-
   if (loading) {
     return (
       <div className="tech-card p-6 h-96 flex items-center justify-center">
@@ -92,7 +181,6 @@ export function ProfileRadar() {
           </h3>
         </div>
 
-        {/* Year selector */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => setSelectedYear(selectedYear - 1)}
@@ -117,41 +205,10 @@ export function ProfileRadar() {
 
       {data && (
         <>
-          <div className="h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <RadarChart cx="50%" cy="50%" outerRadius="75%" data={data.radarData}>
-                <PolarGrid
-                  stroke="#2d2d3d"
-                  strokeDasharray="3 3"
-                />
-                <PolarAngleAxis
-                  dataKey="category"
-                  tick={{
-                    fill: '#9898a8',
-                    fontSize: 11,
-                    fontFamily: 'JetBrains Mono, monospace',
-                  }}
-                />
-                <PolarRadiusAxis
-                  angle={30}
-                  domain={[0, 100]}
-                  tick={false}
-                  axisLine={false}
-                />
-                <Radar
-                  name="Profil"
-                  dataKey="value"
-                  stroke="#00ffff"
-                  fill="#00ffff"
-                  fillOpacity={0.3}
-                  strokeWidth={2}
-                />
-                <Tooltip content={<CustomTooltip />} />
-              </RadarChart>
-            </ResponsiveContainer>
+          <div className="h-72 flex items-center justify-center">
+            <SvgRadarChart data={data.radarData} />
           </div>
 
-          {/* Summary stats */}
           <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-border-subtle">
             <div className="text-center">
               <p className="text-lg font-mono font-bold text-neon-green">

@@ -114,7 +114,7 @@ export function Navigation() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-bg-primary/95 backdrop-blur-xl border-b border-neon-cyan/20">
+    <header className="sticky top-0 z-50 bg-bg-primary border-b border-neon-cyan/20">
       {/* Scan line effect */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-neon-cyan/5 to-transparent opacity-50" />
@@ -181,7 +181,7 @@ export function Navigation() {
 
       {/* Mobile nav overlay */}
       {mobileOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-bg-primary/98 backdrop-blur-xl border-b border-neon-cyan/20 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+        <div className="lg:hidden absolute top-full left-0 right-0 bg-bg-primary border-b border-neon-cyan/20 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
           <nav className="max-w-7xl mx-auto px-6 py-4 grid grid-cols-2 gap-2">
             {navItems.map((item) => (
               <NavLink key={item.href} item={item} onClick={() => setMobileOpen(false)} />

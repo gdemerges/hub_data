@@ -337,7 +337,7 @@
   }
 
   .glass {
-    @apply bg-bg-secondary/80 backdrop-blur-xl;
+    @apply bg-bg-secondary;
   }
 
   /* Gradient text */
