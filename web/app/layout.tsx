@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Suspense } from 'react'
 import { Inter, JetBrains_Mono, Orbitron } from 'next/font/google'
 import { Navigation, CommandPalette, ServiceWorkerRegister } from '@/components'
@@ -23,8 +23,11 @@ export const metadata: Metadata = {
   title: 'Hub Life',
   description: 'Tableau de bord pour suivre vos jeux, films, séries et activité GitHub',
   manifest: '/manifest.json',
-  themeColor: '#00ffff',
   appleWebApp: { capable: true, title: 'Hub Life', statusBarStyle: 'black-translucent' },
+}
+
+export const viewport: Viewport = {
+  themeColor: '#00ffff',
 }
 
 function PageFallback() {
