@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { GamesClient } from '@/components/games-client'
 import { PieChart } from '@/components'
 import { SteamSection } from '@/components/steam-section'
@@ -88,11 +88,13 @@ export function GamesPageClient({
 
       {/* Tab Content */}
       {activeTab === 'games' && (
-        <GamesClient
-          games={filteredGames}
-          platforms={platforms}
-          initialFilter={selectedPlatform || undefined}
-        />
+        <Suspense>
+          <GamesClient
+            games={filteredGames}
+            platforms={platforms}
+            initialFilter={selectedPlatform || undefined}
+          />
+        </Suspense>
       )}
 
       {activeTab === 'steam' && <SteamSection />}
@@ -182,11 +184,13 @@ export function GamesPageClient({
                   {selectedGenre && `Jeux de type ${selectedGenre}`}
                 </h3>
               </div>
-              <GamesClient
-                games={filteredGames}
-                platforms={platforms}
-                initialFilter={selectedPlatform || undefined}
-              />
+              <Suspense>
+                <GamesClient
+                  games={filteredGames}
+                  platforms={platforms}
+                  initialFilter={selectedPlatform || undefined}
+                />
+              </Suspense>
             </div>
           )}
         </>

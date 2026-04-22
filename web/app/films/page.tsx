@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { getFilmsData } from '@/lib/data'
 import { FilmsClient } from '@/components/films-client'
 import { PageHeader } from '@/components'
@@ -16,7 +17,9 @@ export default async function FilmsPage() {
         loadingMessage={`Loading ${films.length} films from collection...`}
         color="neon-magenta"
       />
-      <FilmsClient films={films} />
+      <Suspense>
+        <FilmsClient films={films} />
+      </Suspense>
     </div>
   )
 }

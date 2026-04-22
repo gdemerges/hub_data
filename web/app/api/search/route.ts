@@ -30,7 +30,7 @@ async function buildIndex(): Promise<SearchItem[]> {
     id: `games-${i}`,
     title: g.title,
     section: 'games',
-    href: '/games',
+    href: `/games?open=${encodeURIComponent(g.title)}`,
     subtitle: g.platform ?? g.platforms?.[0]?.platform,
     year: g.releaseYear,
   }))
@@ -38,7 +38,7 @@ async function buildIndex(): Promise<SearchItem[]> {
     id: `films-${i}`,
     title: f.title,
     section: 'films',
-    href: '/films',
+    href: `/films?open=${encodeURIComponent(f.title)}`,
     subtitle: f.genres?.[0],
     year: f.releaseYear,
   }))
@@ -46,7 +46,7 @@ async function buildIndex(): Promise<SearchItem[]> {
     id: `series-${i}`,
     title: s.title,
     section: 'series',
-    href: '/series',
+    href: `/series?open=${encodeURIComponent(s.title)}`,
     subtitle: s.genres?.[0],
     year: s.releaseYear,
   }))

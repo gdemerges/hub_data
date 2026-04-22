@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { getSeriesData } from '@/lib/data'
 import { SeriesClient } from '@/components/series-client'
 import { PageHeader } from '@/components'
@@ -16,7 +17,9 @@ export default async function SeriesPage() {
         loadingMessage={`Loading ${series.length} series from collection...`}
         color="neon-yellow"
       />
-      <SeriesClient series={series} />
+      <Suspense>
+        <SeriesClient series={series} />
+      </Suspense>
     </div>
   )
 }

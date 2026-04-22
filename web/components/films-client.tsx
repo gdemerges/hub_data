@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
 import { Recommendations } from '@/components/recommendations'
@@ -15,6 +16,17 @@ interface FilmsClientProps {
 export function FilmsClient({ films }: FilmsClientProps) {
   const [search, setSearch] = useState('')
   const [selectedItem, setSelectedItem] = useState<Film | null>(null)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
+
+  useEffect(() => {
+    const open = searchParams.get('open')
+    if (!open) return
+    const match = films.find(f => f.title === open)
+    if (match) setSelectedItem(match)
+    router.replace(pathname, { scroll: false })
+  }, [searchParams, films, pathname, router])
 
   const items = useMemo(() => {
     return films.map((film) => ({

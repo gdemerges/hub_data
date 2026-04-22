@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo, useEffect } from 'react'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
 import { Search, SlidersHorizontal, Gamepad2, Clock, Calendar, Star } from 'lucide-react'
@@ -19,6 +20,9 @@ export function GamesClient({ games, platforms, initialFilter }: GamesClientProp
   const [minHours, setMinHours] = useState<number>(0)
   const [sortBy, setSortBy] = useState<'hours' | 'rating' | 'title'>('hours')
   const [showFilters, setShowFilters] = useState(false)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
 
   // Update filter when initialFilter changes
   useEffect(() => {
@@ -28,6 +32,14 @@ export function GamesClient({ games, platforms, initialFilter }: GamesClientProp
       setFilter('all')
     }
   }, [initialFilter])
+
+  useEffect(() => {
+    const open = searchParams.get('open')
+    if (!open) return
+    const match = games.find(g => g.title === open)
+    if (match) setSelectedItem(match)
+    router.replace(pathname, { scroll: false })
+  }, [searchParams, games, pathname, router])
 
   const items = useMemo(() => {
     return games.map((game) => {
