@@ -1,0 +1,31 @@
+# Données brutes (CSV, Excel, JSON source) - sensibles et volumineuses
+data/
+
+# JSON générés par le build - reconstruits via `make build`
+web/data/
+
+# Dépendances Node
+web/node_modules/
+
+# Build Next.js
+web/.next/
+
+# Caches Python
+__pycache__/
+*.py[codz]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environnements virtuels
+.venv/
+venv/
+env/
+
+# Variables d'environnement (tokens, secrets)
+.env
+.env.*
+.envrc
+
+# Fichiers système
+.DS_Store
