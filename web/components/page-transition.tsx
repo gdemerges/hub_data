@@ -1,131 +1,63 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
-import { usePathname } from 'next/navigation'
-import { ReactNode } from 'react'
+import { ReactNode, CSSProperties } from 'react'
 
 interface PageTransitionProps {
   children: ReactNode
 }
 
-const pageVariants = {
-  initial: {
-    opacity: 0,
-    y: 20,
-  },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.3,
-      ease: 'easeOut' as const,
-    },
-  },
-  exit: {
-    opacity: 0,
-    y: -10,
-    transition: {
-      duration: 0.2,
-      ease: 'easeOut' as const,
-    },
-  },
-}
-
 export function PageTransition({ children }: PageTransitionProps) {
-  const pathname = usePathname()
-
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={pathname}
-        variants={pageVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <div className="animate-fade-in">
+      {children}
+    </div>
   )
 }
 
-// Fade in animation for individual elements
 export function FadeIn({
   children,
   delay = 0,
-  className = ''
+  className = '',
 }: {
   children: ReactNode
   delay?: number
   className?: string
 }) {
+  const style: CSSProperties = delay
+    ? { animationDelay: `${delay}s`, animationFillMode: 'backwards' }
+    : {}
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.4,
-        delay,
-        ease: 'easeOut'
-      }}
-      className={className}
-    >
+    <div className={`animate-slide-up ${className}`} style={style}>
       {children}
-    </motion.div>
+    </div>
   )
 }
 
-// Stagger animation for lists
 export function StaggerContainer({
   children,
-  className = ''
+  className = '',
 }: {
   children: ReactNode
   className?: string
 }) {
-  return (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      variants={{
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: {
-            staggerChildren: 0.05,
-          },
-        },
-      }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  )
+  return <div className={className}>{children}</div>
 }
 
 export function StaggerItem({
   children,
-  className = ''
+  className = '',
+  index = 0,
 }: {
   children: ReactNode
   className?: string
+  index?: number
 }) {
   return (
-    <motion.div
-      variants={{
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 0.3,
-            ease: 'easeOut'
-          }
-        },
-      }}
-      className={className}
+    <div
+      className={`animate-slide-up ${className}`}
+      style={{ animationDelay: `${index * 0.05}s`, animationFillMode: 'backwards' } as CSSProperties}
     >
       {children}
-    </motion.div>
+    </div>
   )
 }
