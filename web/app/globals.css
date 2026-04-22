@@ -60,7 +60,6 @@
     );
     z-index: 9999;
     opacity: 0.25;
-    will-change: opacity;
   }
 
   /* Disable heavy visual effects for users who prefer reduced motion */
@@ -73,6 +72,10 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+    }
+
+    .animate-pulse {
+      animation: none !important;
     }
   }
 

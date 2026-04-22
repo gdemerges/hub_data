@@ -71,7 +71,7 @@ function Section({
 export default function YearInReviewPage() {
   const [year, setYear] = useState(currentYear)
   const { data, isLoading } = useSWR<Review>(`/api/year-in-review?year=${year}`, fetcher, {
-    dedupingInterval: 60_000,
+    dedupingInterval: 300_000, // 5min — données statiques, pas besoin de re-fetch fréquent
   })
 
   return (

@@ -16,7 +16,7 @@ const SECTIONS = [
 
 export default function CorrelationsPage() {
   const { data, isLoading } = useSWR<{ stats: YearStat[]; hasData: boolean }>('/api/correlations', fetcher, {
-    dedupingInterval: 60_000,
+    dedupingInterval: 300_000, // 5min — données statiques, pas besoin de re-fetch fréquent
   })
 
   const stats = data?.stats ?? []

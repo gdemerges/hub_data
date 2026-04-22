@@ -10,13 +10,13 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '600', '700'],
 })
 const orbitron = Orbitron({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  weight: ['400', '500', '600', '700', '800', '900'],
+  weight: ['600', '700', '900'],
 })
 
 export const metadata: Metadata = {

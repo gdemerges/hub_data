@@ -39,7 +39,7 @@ export function MediaCard({ title, imageUrl, subtitle, badge, progressBadge, onC
               alt={title}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-              className="!absolute !inset-0 !w-full !h-full object-cover object-center transition-transform duration-500 scale-110 group-hover:scale-125"
+              className="!absolute !inset-0 !w-full !h-full object-cover object-center transition-transform duration-500 will-change-transform group-hover:scale-110"
               priority={priority}
               loading={priority ? 'eager' : 'lazy'}
             />
