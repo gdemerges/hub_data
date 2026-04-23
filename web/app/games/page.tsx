@@ -1,5 +1,6 @@
+import { Suspense } from 'react'
 import { getGamesData } from '@/lib/data'
-import { GamesPageClient, PageHeader } from '@/components'
+import { GamesPageClient, PageHeader, SkeletonChart } from '@/components'
 
 export const revalidate = 3600
 
@@ -114,14 +115,16 @@ export default async function GamesPage() {
         loadingMessage={`Loading ${games.length} games from collection...`}
         color="neon-green"
       />
-      <GamesPageClient
-        games={games}
-        platforms={platforms}
-        platformData={platformData}
-        pieChartData={pieChartData}
-        genreChartData={genreChartData}
-        totalHours={totalHours}
-      />
+      <Suspense fallback={<SkeletonChart />}>
+        <GamesPageClient
+          games={games}
+          platforms={platforms}
+          platformData={platformData}
+          pieChartData={pieChartData}
+          genreChartData={genreChartData}
+          totalHours={totalHours}
+        />
+      </Suspense>
     </div>
   )
 }

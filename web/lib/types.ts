@@ -1,5 +1,10 @@
 // Types pour les données du dashboard
 
+export type ApiResponse<T> =
+  | { success: true; data: T; hasData: true }
+  | { success: false; data: never[]; hasData: false; error?: string }
+
+
 // User Profile
 export interface Profile {
   id: string

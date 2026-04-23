@@ -65,12 +65,12 @@ export function PieChart({ data, size = 200, onSliceClick, selectedLabel, unit =
   return (
     <div className="flex flex-col gap-4">
       {/* Pie chart */}
-      <svg width={size} height={size} className="mx-auto">
+      <svg width={size} height={size} className="mx-auto" role="img" aria-label="Graphique circulaire">
         {slices.map((slice, index) => {
           const isSelected = selectedLabel === slice.label
           const isOtherSelected = selectedLabel && selectedLabel !== slice.label
           return (
-            <g key={index}>
+            <g key={index} role="listitem" aria-label={`${slice.label}: ${slice.value}${unit} (${slice.percentage.toFixed(1)}%)`}>
               <path
                 d={slice.path}
                 fill={slice.color}

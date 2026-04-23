@@ -116,7 +116,7 @@ export async function POST() {
       const coords = parseGeoLocation(coordKey)
       if (!coords) continue
 
-      console.log(`Geocoding ${coordKey} (${count} visits)...`)
+      logger.info(`Geocoding ${coordKey} (${count} visits)...`)
 
       const result = await reverseGeocode(coords.lat, coords.lng)
 

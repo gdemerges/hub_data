@@ -80,8 +80,8 @@ export function SteamSection() {
         if (!response.ok) throw new Error('Failed to fetch playtime')
         const result = await response.json()
         setPlaytime(result)
-      } catch (err) {
-        console.error('Failed to load playtime:', err)
+      } catch {
+        // playtime fetch failure is non-critical; UI shows empty calendar
       } finally {
         setLoadingPlaytime(false)
       }
@@ -102,8 +102,7 @@ export function SteamSection() {
         const result = await playtimeResponse.json()
         setPlaytime(result)
       }
-    } catch (err) {
-      console.error('Sync failed:', err)
+    } catch {
       alert('Échec de la synchronisation')
     } finally {
       setSyncing(false)

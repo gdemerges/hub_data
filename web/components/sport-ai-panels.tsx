@@ -86,8 +86,8 @@ function RacePredictorPanel({ runs }: { runs: SportActivity[] }) {
           timeToTarget: calculateTimeToTarget(pred.predictedTime, goal.targetTime, runs),
         }
       }
-    } catch (e) {
-      console.error('Goal parsing error:', e)
+    } catch {
+      // goal parsing failure falls back to prediction without goal enrichment
     }
     return pred
   })

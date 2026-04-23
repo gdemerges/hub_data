@@ -150,8 +150,8 @@ export function ProfileRadar() {
           const result = await response.json()
           setData(result)
         }
-      } catch (err) {
-        console.error('Failed to load profile data:', err)
+      } catch {
+        // profile fetch failure is non-critical; UI shows empty radar
       } finally {
         setLoading(false)
       }

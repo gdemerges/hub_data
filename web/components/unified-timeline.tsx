@@ -65,8 +65,8 @@ export function UnifiedTimeline() {
           const result = await response.json()
           setEvents(result.events)
         }
-      } catch (err) {
-        console.error('Failed to load timeline:', err)
+      } catch {
+        // timeline fetch failure is non-critical; UI shows empty list
       } finally {
         setLoading(false)
       }

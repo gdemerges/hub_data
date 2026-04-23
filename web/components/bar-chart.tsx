@@ -29,6 +29,8 @@ export function BarChart({ data, height = 300 }: BarChartProps) {
         width={chartWidth}
         height={height + padding * 2}
         className="mx-auto"
+        role="img"
+        aria-label="Graphique en barres des contributions par année"
       >
         {/* Y-axis grid lines and labels */}
         {[0, 0.25, 0.5, 0.75, 1].map((fraction) => {
