@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { StatCard, ContributionCalendar, PageHeader } from '@/components'
 import { Gamepad2, Clock, Trophy, RefreshCw, ChevronLeft, ChevronRight, Zap } from 'lucide-react'
+import { SteamLogo } from '@phosphor-icons/react'
 
 interface SteamData {
   user: {
@@ -112,7 +113,7 @@ export default function SteamPage() {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <PageHeader title="STEAM" systemName="SYSTEM" status="LOADING" statusDetail="GAMING_TRACKER v2.0" loadingMessage="Initializing Steam data connection..." color="neon-green" />
+        <PageHeader title="Steam" subtitle="Connexion en cours…" color="moss" icon={SteamLogo} />
         <div className="animate-pulse space-y-6">
           <div className="h-32 bg-bg-card rounded-2xl border border-border-subtle" />
           <div className="grid grid-cols-3 gap-4">
@@ -137,7 +138,7 @@ export default function SteamPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
-      <PageHeader title="STEAM" systemName="SYSTEM" statusDetail="GAMING_TRACKER v2.0" loadingMessage="Loading Steam gaming profile..." color="neon-green" />
+      <PageHeader title="Steam" subtitle="Profil et bibliothèque" color="moss" icon={SteamLogo} />
 
       {/* User profile */}
       <div className="tech-card p-6 mb-8 border-neon-green/30 hover:border-neon-green/60 transition-all duration-300">
@@ -250,8 +251,8 @@ export default function SteamPage() {
           />
         ) : (
           <div className="flex flex-col items-center justify-center h-40 gap-3">
-            <div className="text-sm font-mono text-text-muted">
-              &gt; NO_DATA_FOUND [{selectedYear}]
+            <div className="text-sm text-text-muted">
+              Aucune donnée pour {selectedYear}
             </div>
             <button
               onClick={handleSync}

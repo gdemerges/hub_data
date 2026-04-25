@@ -1,22 +1,26 @@
 import type { Metadata, Viewport } from 'next'
 import { Suspense } from 'react'
-import { Inter, JetBrains_Mono, Orbitron } from 'next/font/google'
+import { Inter, JetBrains_Mono, Fraunces } from 'next/font/google'
 import { Navigation, CommandPalette, ServiceWorkerRegister } from '@/components'
 import { SWRProvider } from '@/lib/swr-config'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+})
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
-  weight: ['400', '600', '700'],
+  weight: ['400', '500', '600'],
 })
-const orbitron = Orbitron({
+const fraunces = Fraunces({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  weight: ['600', '700', '900'],
+  weight: ['400', '500', '600', '700'],
 })
 
 export const metadata: Metadata = {
@@ -27,7 +31,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#00ffff',
+  themeColor: '#5a7d4a',
 }
 
 function PageFallback() {
@@ -52,15 +56,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" className="dark">
+    <html lang="fr">
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('hub-theme')||'dark';document.documentElement.classList.toggle('light',t==='light');document.documentElement.classList.toggle('dark',t==='dark');}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('hub-theme')||'light';document.documentElement.classList.toggle('light',t==='light');document.documentElement.classList.toggle('dark',t==='dark');}catch(e){}})();`,
           }}
         />
       </head>
-      <body className={`${inter.className} ${jetbrainsMono.variable} ${orbitron.variable}`}>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} ${fraunces.variable} font-sans`}>
         <SWRProvider>
           <ServiceWorkerRegister />
           <a href="#main" className="skip-link">Aller au contenu</a>

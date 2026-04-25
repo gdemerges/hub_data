@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { MapPin, Globe, Calendar, Upload, Building2, TrendingUp } from 'lucide-react'
+import { Compass } from '@phosphor-icons/react'
 import { StatCard, PageHeader } from '@/components'
 import { useApiData } from '@/lib/use-api-data'
 
@@ -41,7 +42,7 @@ export default function VoyagesPage() {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <PageHeader title="TRAVEL" systemName="SYSTEM" status="LOADING" statusDetail="LOCATION_TRACKER v1.0" loadingMessage="Initializing travel data..." color="purple-400" />
+        <PageHeader title="Voyages" subtitle="Chargement de l'historique…" color="sage" icon={Compass} />
         <div className="animate-pulse space-y-6">
           <div className="h-32 bg-bg-card rounded-2xl border border-border-subtle" />
           <div className="grid grid-cols-4 gap-4">
@@ -56,7 +57,7 @@ export default function VoyagesPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
-      <PageHeader title="TRAVEL" systemName="SYSTEM" statusDetail="LOCATION_TRACKER v1.0" loadingMessage="Loading travel history from Google Takeout..." color="purple-400" />
+      <PageHeader title="Voyages" subtitle="Historique des lieux visités" color="sage" icon={Compass} />
 
       {!hasData ? (
         /* No data - Show upload instructions */

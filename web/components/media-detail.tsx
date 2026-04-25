@@ -51,8 +51,8 @@ export function MediaDetail({ isOpen, onClose, title, imageUrl, children }: Medi
                 <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/40 to-transparent pointer-events-none" />
               </div>
             ) : (
-              <div className="aspect-[2/3] rounded-lg border border-neon-cyan/20 bg-gradient-to-br from-neon-cyan/5 to-neon-magenta/5 flex items-center justify-center">
-                <span className="text-3xl font-display font-bold text-neon-cyan/50 neon-text-subtle">
+              <div className="aspect-[2/3] rounded-2xl border border-border-subtle bg-bg-secondary flex items-center justify-center">
+                <span className="text-3xl font-display font-medium text-earth-moss/70">
                   {title.slice(0, 2).toUpperCase()}
                 </span>
               </div>

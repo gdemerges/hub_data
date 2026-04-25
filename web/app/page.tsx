@@ -1,4 +1,4 @@
-import { Terminal } from 'lucide-react'
+import { Sun, ChartLineUp } from '@phosphor-icons/react/dist/ssr'
 import { YearFilter, OverviewSections, TemporalStats, YearComparison, PageHeader } from '@/components'
 import { OverviewStats } from '@/components/overview-stats'
 import { getGamesData, getFilmsData, getSeriesData } from '@/lib/data'
@@ -44,11 +44,10 @@ export default async function HomePage({
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
-        title="SYSTEM"
-        systemName="DASHBOARD"
-        statusDetail="MEDIA_TRACKER v2.0"
-        loadingMessage="Initializing personal media dashboard..."
-        color="neon-cyan"
+        title="Aperçu"
+        subtitle="Tableau de bord personnel · jeux, films, séries, lecture"
+        color="moss"
+        icon={Sun}
         actions={<YearFilter />}
       />
 
@@ -73,9 +72,9 @@ export default async function HomePage({
       {/* Statistics Section */}
       <div className="mt-12 space-y-8">
         <div className="flex items-center gap-3">
-          <Terminal className="w-6 h-6 text-neon-magenta" />
-          <h2 className="text-xl font-display font-bold tracking-wider text-text-primary">
-            <span className="text-neon-magenta">DATA</span>_ANALYTICS
+          <ChartLineUp size={24} weight="duotone" className="text-earth-terracotta" />
+          <h2 className="font-display text-2xl font-medium tracking-tight text-text-primary">
+            Statistiques
           </h2>
         </div>
 

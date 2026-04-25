@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+import { Television } from '@phosphor-icons/react/dist/ssr'
 import { getSeriesData } from '@/lib/data'
 import { SeriesClient } from '@/components/series-client'
 import { PageHeader } from '@/components'
@@ -11,11 +12,10 @@ export default async function SeriesPage() {
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
-        title="SERIES"
-        systemName="SYSTEM"
-        statusDetail="TV_TRACKER v1.0"
-        loadingMessage={`Loading ${series.length} series from collection...`}
-        color="neon-yellow"
+        title="Séries"
+        subtitle={`${series.length} séries suivies`}
+        color="saffron"
+        icon={Television}
       />
       <Suspense>
         <SeriesClient series={series} />

@@ -4,80 +4,65 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Gamepad2, Film, Tv, Github, LayoutDashboard, Activity, Music, Terminal, MapPin, Dumbbell, TrendingUp, BookOpen, Heart, Menu, X, Search } from 'lucide-react'
+import {
+  House,
+  Sparkle,
+  GameController,
+  FilmStrip,
+  Television,
+  Books,
+  HeartHalf,
+  GithubLogo,
+  MusicNote,
+  PersonSimpleRun,
+  Compass,
+  SteamLogo,
+  List,
+  X,
+  MagnifyingGlass,
+  Leaf,
+  type Icon,
+} from '@phosphor-icons/react'
 import { ThemeToggle } from './theme-toggle'
 
-const colorClasses = {
-  cyan: {
-    text: 'text-neon-cyan',
-    hover: 'hover:text-neon-cyan hover:bg-neon-cyan/10',
-    active: 'text-neon-cyan bg-neon-cyan/10',
-    shadow: 'bg-neon-cyan shadow-[0_0_10px_#00ffff]',
-    indicator: 'bg-neon-cyan',
-  },
-  magenta: {
-    text: 'text-neon-magenta',
-    hover: 'hover:text-neon-magenta hover:bg-neon-magenta/10',
-    active: 'text-neon-magenta bg-neon-magenta/10',
-    shadow: 'bg-neon-magenta shadow-[0_0_10px_#ff00ff]',
-    indicator: 'bg-neon-magenta',
-  },
-  green: {
-    text: 'text-neon-green',
-    hover: 'hover:text-neon-green hover:bg-neon-green/10',
-    active: 'text-neon-green bg-neon-green/10',
-    shadow: 'bg-neon-green shadow-[0_0_10px_#00ff88]',
-    indicator: 'bg-neon-green',
-  },
-  yellow: {
-    text: 'text-neon-yellow',
-    hover: 'hover:text-neon-yellow hover:bg-neon-yellow/10',
-    active: 'text-neon-yellow bg-neon-yellow/10',
-    shadow: 'bg-neon-yellow shadow-[0_0_10px_#ffff00]',
-    indicator: 'bg-neon-yellow',
-  },
-  orange: {
-    text: 'text-neon-orange',
-    hover: 'hover:text-neon-orange hover:bg-neon-orange/10',
-    active: 'text-neon-orange bg-neon-orange/10',
-    shadow: 'bg-neon-orange shadow-[0_0_10px_#ff8800]',
-    indicator: 'bg-neon-orange',
-  },
-  blue: {
-    text: 'text-blue-400',
-    hover: 'hover:text-blue-400 hover:bg-blue-400/10',
-    active: 'text-blue-400 bg-blue-400/10',
-    shadow: 'bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.5)]',
-    indicator: 'bg-blue-400',
-  },
-  purple: {
-    text: 'text-purple-400',
-    hover: 'hover:text-purple-400 hover:bg-purple-400/10',
-    active: 'text-purple-400 bg-purple-400/10',
-    shadow: 'bg-purple-400 shadow-[0_0_10px_rgba(192,132,252,0.5)]',
-    indicator: 'bg-purple-400',
-  },
-  red: {
-    text: 'text-neon-red',
-    hover: 'hover:text-neon-red hover:bg-neon-red/10',
-    active: 'text-neon-red bg-neon-red/10',
-    shadow: 'bg-neon-red shadow-[0_0_10px_#ff0000]',
-    indicator: 'bg-neon-red',
-  },
+type Accent = 'moss' | 'fern' | 'terracotta' | 'rust' | 'saffron' | 'clay' | 'indigo' | 'sage' | 'leaf'
+
+const accentText: Record<Accent, string> = {
+  moss: 'text-earth-moss',
+  fern: 'text-earth-fern',
+  terracotta: 'text-earth-terracotta',
+  rust: 'text-earth-rust',
+  saffron: 'text-earth-saffron',
+  clay: 'text-earth-clay',
+  indigo: 'text-earth-indigo',
+  sage: 'text-earth-sage',
+  leaf: 'text-earth-leaf',
+}
+const accentBg: Record<Accent, string> = {
+  moss: 'bg-earth-moss/10',
+  fern: 'bg-earth-fern/10',
+  terracotta: 'bg-earth-terracotta/10',
+  rust: 'bg-earth-rust/10',
+  saffron: 'bg-earth-saffron/12',
+  clay: 'bg-earth-clay/10',
+  indigo: 'bg-earth-indigo/10',
+  sage: 'bg-earth-sage/15',
+  leaf: 'bg-earth-leaf/10',
 }
 
-const navItems = [
-  { href: '/', label: 'Aperçu', icon: LayoutDashboard, color: 'cyan' as const },
-  { href: '/insights', label: 'Insights', icon: TrendingUp, color: 'magenta' as const },
-  { href: '/games', label: 'Jeux', icon: Gamepad2, color: 'green' as const },
-  { href: '/films', label: 'Films', icon: Film, color: 'magenta' as const },
-  { href: '/series', label: 'Séries', icon: Tv, color: 'yellow' as const },
-  { href: '/books', label: 'Livres', icon: BookOpen, color: 'blue' as const },
-  { href: '/rencontres', label: 'Rencontres', icon: Heart, color: 'red' as const },
-  { href: '/github', label: 'GitHub', icon: Github, color: 'cyan' as const },
-  { href: '/spotify', label: 'Spotify', icon: Music, color: 'green' as const },
-  { href: '/sport', label: 'Sport', icon: Dumbbell, color: 'orange' as const },
-  { href: '/voyages', label: 'Voyages', icon: MapPin, color: 'purple' as const },
+const navItems: { href: string; label: string; icon: Icon; color: Accent }[] = [
+  { href: '/', label: 'Aperçu', icon: House, color: 'moss' },
+  { href: '/insights', label: 'Insights', icon: Sparkle, color: 'fern' },
+  { href: '/games', label: 'Jeux', icon: GameController, color: 'moss' },
+  { href: '/films', label: 'Films', icon: FilmStrip, color: 'terracotta' },
+  { href: '/series', label: 'Séries', icon: Television, color: 'saffron' },
+  { href: '/books', label: 'Lecture', icon: Books, color: 'indigo' },
+  { href: '/rencontres', label: 'Rencontres', icon: HeartHalf, color: 'clay' },
+  { href: '/github', label: 'GitHub', icon: GithubLogo, color: 'indigo' },
+  { href: '/spotify', label: 'Spotify', icon: MusicNote, color: 'leaf' },
+  { href: '/sport', label: 'Sport', icon: PersonSimpleRun, color: 'rust' },
+  { href: '/voyages', label: 'Voyages', icon: Compass, color: 'sage' },
+  { href: '/steam', label: 'Steam', icon: SteamLogo, color: 'moss' },
 ]
 
 export function Navigation() {
@@ -87,101 +72,68 @@ export function Navigation() {
   const NavLink = ({ item, onClick }: { item: typeof navItems[0]; onClick?: () => void }) => {
     const isActive = pathname === item.href
     const Icon = item.icon
-    const colors = colorClasses[item.color]
     return (
       <Link
         href={item.href}
         onClick={onClick}
         className={cn(
-          'relative flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-mono font-medium transition-all duration-300 border',
+          'relative flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition-colors',
           isActive
-            ? `${colors.active} border-current shadow-[0_0_15px_rgba(0,255,255,0.15)]`
-            : `text-text-secondary ${colors.hover} border-transparent hover:border-current/30`
+            ? `${accentBg[item.color]} ${accentText[item.color]}`
+            : 'text-text-secondary hover:text-text-primary hover:bg-bg-hover'
         )}
       >
-        <Icon className={cn(
-          'w-4 h-4 transition-all',
-          isActive && 'drop-shadow-[0_0_8px_currentColor]'
-        )} />
-        <span className="uppercase tracking-wider text-xs whitespace-nowrap">
-          {item.label}
-        </span>
-        {isActive && (
-          <span className={cn('absolute -bottom-px left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full', colors.indicator)} />
-        )}
+        <Icon size={18} weight={isActive ? 'duotone' : 'regular'} />
+        <span className="whitespace-nowrap">{item.label}</span>
       </Link>
     )
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-bg-primary border-b border-neon-cyan/20">
-      {/* Scan line effect */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-neon-cyan/5 to-transparent opacity-50" />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 py-3 relative">
-        <div className="flex items-center justify-between gap-8">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group shrink-0">
-            <div className="relative">
-              <Terminal className="w-7 h-7 text-neon-cyan group-hover:animate-glitch" />
-              <div className="absolute inset-0 text-neon-magenta opacity-0 group-hover:opacity-50 blur-sm">
-                <Terminal className="w-7 h-7" />
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-lg font-display font-bold tracking-wider text-neon-cyan neon-text-subtle">
-                HUB_LIFE
-              </span>
-              <span className="text-[9px] font-mono text-neon-green/70 tracking-widest">
-                v2.0.0 // ONLINE
-              </span>
-            </div>
+    <header className="sticky top-0 z-50 bg-bg-primary/85 backdrop-blur-md border-b border-border-subtle">
+      <div className="max-w-7xl mx-auto px-6 py-3">
+        <div className="flex items-center justify-between gap-6">
+          <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
+            <span className="p-1.5 rounded-xl bg-earth-moss/10 border border-earth-moss/30">
+              <Leaf size={20} weight="duotone" className="text-earth-moss" />
+            </span>
+            <span className="font-display text-lg font-medium tracking-tight text-text-primary">
+              Hub Life
+            </span>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex flex-col gap-1.5 flex-1">
-            <div className="flex items-center justify-end gap-1">
-              {navItems.slice(0, 6).map((item) => (
-                <NavLink key={item.href} item={item} />
-              ))}
-            </div>
-            <div className="flex items-center justify-end gap-1">
-              {navItems.slice(6).map((item) => (
-                <NavLink key={item.href} item={item} />
-              ))}
-            </div>
+          <nav className="hidden lg:flex flex-wrap items-center justify-end gap-1 flex-1">
+            {navItems.map((item) => (
+              <NavLink key={item.href} item={item} />
+            ))}
           </nav>
 
           <div className="flex items-center gap-2">
             <button
               onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
-              className="hidden sm:flex items-center gap-2 px-3 py-2 text-xs font-mono text-text-secondary border border-border-subtle hover:border-neon-cyan/40 hover:text-neon-cyan rounded-lg transition-all"
+              className="hidden sm:flex items-center gap-2 px-3 py-1.5 text-sm text-text-secondary border border-border-subtle hover:border-earth-moss/40 hover:text-text-primary rounded-full transition-colors"
               aria-label="Recherche globale"
             >
-              <Search className="w-3.5 h-3.5" />
+              <MagnifyingGlass size={16} />
               <span>Rechercher</span>
-              <kbd className="ml-1 px-1.5 py-0.5 bg-bg-card rounded text-[10px] border border-border-subtle">⌘K</kbd>
+              <kbd className="ml-1 px-1.5 py-0.5 bg-bg-card rounded text-[10px] border border-border-subtle font-mono">⌘K</kbd>
             </button>
 
             <ThemeToggle />
 
-            {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden p-2 text-neon-cyan border border-neon-cyan/30 rounded-lg hover:bg-neon-cyan/10 transition-all"
+              className="lg:hidden p-2 text-text-secondary border border-border-subtle rounded-full hover:bg-bg-hover transition-colors"
               aria-label="Menu"
             >
-              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileOpen ? <X size={20} /> : <List size={20} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile nav overlay */}
       {mobileOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-bg-primary border-b border-neon-cyan/20 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+        <div className="lg:hidden absolute top-full left-0 right-0 bg-bg-primary border-b border-border-subtle shadow-soft-md">
           <nav className="max-w-7xl mx-auto px-6 py-4 grid grid-cols-2 gap-2">
             {navItems.map((item) => (
               <NavLink key={item.href} item={item} onClick={() => setMobileOpen(false)} />

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Search, X } from 'lucide-react'
+import { MagnifyingGlass, X } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
 
 type SearchItem = {
@@ -15,17 +15,17 @@ type SearchItem = {
 }
 
 const SECTION_COLORS: Record<SearchItem['section'], string> = {
-  games: 'text-neon-green',
-  films: 'text-neon-magenta',
-  series: 'text-neon-yellow',
-  books: 'text-blue-400',
+  games: 'text-earth-moss',
+  films: 'text-earth-terracotta',
+  series: 'text-earth-saffron',
+  books: 'text-earth-indigo',
 }
 
 const SECTION_LABELS: Record<SearchItem['section'], string> = {
-  games: 'GAMES',
-  films: 'FILMS',
-  series: 'SERIES',
-  books: 'BOOKS',
+  games: 'Jeux',
+  films: 'Films',
+  series: 'Séries',
+  books: 'Livres',
 }
 
 function fuzzyScore(query: string, title: string): number {
@@ -117,39 +117,39 @@ export function CommandPalette() {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-start justify-center pt-24 bg-black/70 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-start justify-center pt-24 bg-earth-ink/40 backdrop-blur-sm"
       onClick={() => setOpen(false)}
       role="dialog"
       aria-modal="true"
       aria-label="Recherche globale"
     >
       <div
-        className="w-full max-w-2xl mx-4 bg-bg-primary border border-neon-cyan/40 rounded-xl shadow-[0_0_40px_rgba(0,255,255,0.15)] overflow-hidden"
+        className="w-full max-w-2xl mx-4 bg-bg-card border border-border-default rounded-2xl shadow-soft-lg overflow-hidden"
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-neon-cyan/20">
-          <Search className="w-4 h-4 text-neon-cyan shrink-0" />
+        <div className="flex items-center gap-3 px-4 py-3 border-b border-border-subtle">
+          <MagnifyingGlass size={16} className="text-earth-moss shrink-0" />
           <input
             ref={inputRef}
             value={query}
             onChange={e => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
-            placeholder="Rechercher jeux, films, séries, livres..."
-            className="flex-1 bg-transparent text-text-primary placeholder:text-text-secondary/60 outline-none font-mono text-sm"
+            placeholder="Rechercher jeux, films, séries, livres…"
+            className="flex-1 bg-transparent text-text-primary placeholder:text-text-muted outline-none text-sm"
             aria-label="Requête de recherche"
           />
           <button
             onClick={() => setOpen(false)}
-            className="p-1 rounded hover:bg-neon-cyan/10 text-text-secondary"
+            className="p-1 rounded-full hover:bg-bg-hover text-text-secondary"
             aria-label="Fermer"
           >
-            <X className="w-4 h-4" />
+            <X size={16} />
           </button>
         </div>
         <div ref={listRef} className="max-h-[50vh] overflow-y-auto">
           {results.length === 0 ? (
-            <div className="px-4 py-8 text-center text-text-secondary font-mono text-sm">
-              {query ? 'Aucun résultat' : 'Chargement...'}
+            <div className="px-4 py-8 text-center text-text-muted text-sm">
+              {query ? 'Aucun résultat' : 'Chargement…'}
             </div>
           ) : (
             results.map((item, i) => (
@@ -162,29 +162,29 @@ export function CommandPalette() {
                 onMouseEnter={() => setSelected(i)}
                 className={cn(
                   'w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors',
-                  'focus-visible:outline-none focus-visible:bg-neon-cyan/10',
-                  i === selected ? 'bg-neon-cyan/10' : 'hover:bg-white/5'
+                  'focus-visible:outline-none focus-visible:bg-bg-hover',
+                  i === selected ? 'bg-bg-hover' : 'hover:bg-bg-hover/60'
                 )}
               >
-                <span className={cn('font-mono text-xs font-semibold w-16 shrink-0', SECTION_COLORS[item.section])}>
+                <span className={cn('text-xs font-medium w-16 shrink-0', SECTION_COLORS[item.section])}>
                   {SECTION_LABELS[item.section]}
                 </span>
                 <span className="flex-1 text-sm text-text-primary truncate">{item.title}</span>
                 {item.subtitle && (
-                  <span className="text-xs text-text-secondary font-mono truncate max-w-[120px]">{item.subtitle}</span>
+                  <span className="text-xs text-text-secondary truncate max-w-[120px]">{item.subtitle}</span>
                 )}
                 {item.year && (
-                  <span className="text-xs text-text-secondary/60 font-mono">{item.year}</span>
+                  <span className="text-xs text-text-muted num">{item.year}</span>
                 )}
               </button>
             ))
           )}
         </div>
-        <div className="flex items-center justify-between px-4 py-2 border-t border-neon-cyan/20 text-[10px] font-mono text-text-secondary/60">
+        <div className="flex items-center justify-between px-4 py-2 border-t border-border-subtle text-[11px] text-text-muted">
           <div className="flex gap-3">
-            <span><kbd className="px-1 bg-bg-card rounded">↑↓</kbd> naviguer</span>
-            <span><kbd className="px-1 bg-bg-card rounded">↵</kbd> ouvrir</span>
-            <span><kbd className="px-1 bg-bg-card rounded">esc</kbd> fermer</span>
+            <span><kbd className="px-1 bg-bg-secondary rounded font-mono">↑↓</kbd> naviguer</span>
+            <span><kbd className="px-1 bg-bg-secondary rounded font-mono">↵</kbd> ouvrir</span>
+            <span><kbd className="px-1 bg-bg-secondary rounded font-mono">esc</kbd> fermer</span>
           </div>
           <span>{results.length} résultat{results.length > 1 ? 's' : ''}</span>
         </div>

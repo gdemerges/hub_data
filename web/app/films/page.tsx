@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+import { FilmStrip } from '@phosphor-icons/react/dist/ssr'
 import { getFilmsData } from '@/lib/data'
 import { FilmsClient } from '@/components/films-client'
 import { PageHeader } from '@/components'
@@ -11,11 +12,10 @@ export default async function FilmsPage() {
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
-        title="FILMS"
-        systemName="SYSTEM"
-        statusDetail="CINEMA_TRACKER v1.0"
-        loadingMessage={`Loading ${films.length} films from collection...`}
-        color="neon-magenta"
+        title="Films"
+        subtitle={`${films.length} films vus`}
+        color="terracotta"
+        icon={FilmStrip}
       />
       <Suspense>
         <FilmsClient films={films} />

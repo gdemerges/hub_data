@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { getGamesData } from '@/lib/data'
+import { GameController } from '@phosphor-icons/react/dist/ssr'
 import { GamesPageClient, PageHeader, SkeletonChart } from '@/components'
 
 export const revalidate = 3600
@@ -109,11 +110,10 @@ export default async function GamesPage() {
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
-        title="GAMES"
-        systemName="SYSTEM"
-        statusDetail="GAMING_LIBRARY v2.0"
-        loadingMessage={`Loading ${games.length} games from collection...`}
-        color="neon-green"
+        title="Jeux"
+        subtitle={`${games.length} entrées dans la bibliothèque`}
+        color="moss"
+        icon={GameController}
       />
       <Suspense fallback={<SkeletonChart />}>
         <GamesPageClient

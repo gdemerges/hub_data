@@ -18,6 +18,7 @@
     "refresh:covers": "tsx scripts/refresh-covers.ts"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
     "@tanstack/react-virtual": "^3.13.13",
     "clsx": "^2.1.1",
     "dotenv": "^17.2.3",

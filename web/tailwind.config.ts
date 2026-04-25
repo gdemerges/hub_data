@@ -1,10 +1,39 @@
 import type { Config } from 'tailwindcss'
 
+/**
+ * Solarpunk palette.
+ * Per-section accents are exposed under both their natural names
+ * AND the legacy `neon-*` keys, so existing components keep compiling
+ * during the migration. The legacy aliases will be removed in PR C.
+ */
+const earth = {
+  parchment: '#f5efe2',
+  cream: '#fffdf7',
+  taupe: '#ebe2d0',
+  taupeDark: '#c8bba1',
+  ink: '#1d2a1c',
+  moss: '#5a7d4a',
+  mossDeep: '#3f5a35',
+  mossSoft: '#8ab274',
+  fern: '#7ba896',
+  sage: '#a3b598',
+  terracotta: '#b86b3c',
+  rust: '#a8552c',
+  saffron: '#d9a441',
+  amber: '#c8893f',
+  clay: '#b06868',
+  indigo: '#3d5170',
+  slate: '#4a4a3d',
+  leaf: '#4f8c4a',
+  wine: '#8e3a3a',
+}
+
 const config: Config = {
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -18,7 +47,7 @@ const config: Config = {
         border: {
           subtle: 'rgb(var(--border-subtle) / <alpha-value>)',
           default: 'rgb(var(--border-default) / <alpha-value>)',
-          neon: '#00ffff33',
+          neon: earth.moss + '4d',
         },
         text: {
           primary: 'rgb(var(--text-primary) / <alpha-value>)',
@@ -26,36 +55,33 @@ const config: Config = {
           muted: 'rgb(var(--text-muted) / <alpha-value>)',
         },
         accent: {
-          primary: '#00ffff', // Cyan neon
-          secondary: '#ff00ff', // Magenta neon
-          tertiary: '#00ff88', // Green terminal
-          warning: '#ffff00', // Yellow warning
-          glow: 'rgba(0, 255, 255, 0.15)',
+          primary: earth.moss,
+          secondary: earth.terracotta,
+          tertiary: earth.fern,
+          warning: earth.saffron,
+          glow: 'rgb(90 125 74 / 0.15)',
         },
+        earth,
+        // Legacy section aliases — same keys as before, new earthy hues
         neon: {
-          cyan: '#00ffff',
-          magenta: '#ff00ff',
-          green: '#00ff88',
-          yellow: '#ffff00',
-          orange: '#ff8800',
-          pink: '#ff0088',
-          red: '#ff0000',
+          cyan: earth.fern,
+          magenta: earth.terracotta,
+          green: earth.moss,
+          yellow: earth.saffron,
+          orange: earth.rust,
+          pink: earth.clay,
+          red: earth.clay,
         },
       },
       fontFamily: {
-        mono: ['var(--font-mono)', 'JetBrains Mono', 'Fira Code', 'monospace'],
-        display: ['var(--font-display)', 'Orbitron', 'sans-serif'],
+        sans: ['var(--font-sans)', 'Inter', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'JetBrains Mono', 'monospace'],
+        display: ['var(--font-display)', 'Fraunces', 'Georgia', 'serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.3s ease-out',
         'slide-up': 'slideUp 0.3s ease-out',
-        'glow-pulse': 'glowPulse 2s ease-in-out infinite',
-        'flicker': 'flicker 0.5s infinite',
-        'scan': 'scan 8s linear infinite',
-        'typing': 'typing 2s steps(20) infinite',
-        'glitch': 'glitch 0.3s ease-in-out',
-        'float': 'float 3s ease-in-out infinite',
-        'border-flow': 'borderFlow 3s linear infinite',
+        'float': 'float 4s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -63,60 +89,26 @@ const config: Config = {
           '100%': { opacity: '1' },
         },
         slideUp: {
-          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '0%': { opacity: '0', transform: 'translateY(8px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        glowPulse: {
-          '0%, 100%': { boxShadow: '0 0 5px currentColor, 0 0 10px currentColor' },
-          '50%': { boxShadow: '0 0 20px currentColor, 0 0 30px currentColor' },
-        },
-        flicker: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.8' },
-        },
-        scan: {
-          '0%': { transform: 'translateY(-100%)' },
-          '100%': { transform: 'translateY(100%)' },
-        },
-        typing: {
-          '0%': { width: '0' },
-          '50%': { width: '100%' },
-          '100%': { width: '0' },
-        },
-        glitch: {
-          '0%': { transform: 'translate(0)' },
-          '20%': { transform: 'translate(-2px, 2px)' },
-          '40%': { transform: 'translate(-2px, -2px)' },
-          '60%': { transform: 'translate(2px, 2px)' },
-          '80%': { transform: 'translate(2px, -2px)' },
-          '100%': { transform: 'translate(0)' },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-5px)' },
+          '50%': { transform: 'translateY(-4px)' },
         },
-        borderFlow: {
-          '0%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
-          '100%': { backgroundPosition: '0% 50%' },
-        },
-      },
-      backgroundImage: {
-        'grid-pattern': 'linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px)',
-        'circuit': 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg stroke=\'%2300ffff\' stroke-opacity=\'0.05\' stroke-width=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-      },
-      backgroundSize: {
-        'grid': '30px 30px',
       },
       boxShadow: {
-        'neon-cyan': '0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff',
-        'neon-magenta': '0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff',
-        'neon-green': '0 0 5px #00ff88, 0 0 10px #00ff88, 0 0 20px #00ff88',
-        'neon-sm': '0 0 5px currentColor',
-        'neon-md': '0 0 10px currentColor, 0 0 20px currentColor',
-        'neon-lg': '0 0 20px currentColor, 0 0 40px currentColor',
-        'inner-glow': 'inset 0 0 20px rgba(0, 255, 255, 0.1)',
+        'soft': '0 1px 2px rgb(35 30 20 / 0.04), 0 1px 3px rgb(35 30 20 / 0.06)',
+        'soft-md': '0 4px 12px rgb(35 30 20 / 0.08), 0 2px 4px rgb(35 30 20 / 0.05)',
+        'soft-lg': '0 10px 24px rgb(35 30 20 / 0.10), 0 4px 8px rgb(35 30 20 / 0.06)',
+        // Legacy aliases — glow effects flattened to soft shadows
+        'neon-cyan': '0 4px 12px rgb(123 168 150 / 0.25)',
+        'neon-magenta': '0 4px 12px rgb(184 107 60 / 0.25)',
+        'neon-green': '0 4px 12px rgb(90 125 74 / 0.25)',
+        'neon-sm': '0 1px 3px rgb(35 30 20 / 0.06)',
+        'neon-md': '0 4px 12px rgb(35 30 20 / 0.10)',
+        'neon-lg': '0 10px 24px rgb(35 30 20 / 0.12)',
+        'inner-glow': 'inset 0 1px 2px rgb(35 30 20 / 0.04)',
       },
     },
   },

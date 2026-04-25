@@ -12,54 +12,14 @@ interface StatCardProps {
 }
 
 const colorClasses = {
-  cyan: {
-    icon: 'text-neon-cyan',
-    glow: 'shadow-[0_0_15px_rgba(0,255,255,0.3)]',
-    border: 'border-neon-cyan/30 hover:border-neon-cyan/60',
-    value: 'text-neon-cyan',
-  },
-  magenta: {
-    icon: 'text-neon-magenta',
-    glow: 'shadow-[0_0_15px_rgba(255,0,255,0.3)]',
-    border: 'border-neon-magenta/30 hover:border-neon-magenta/60',
-    value: 'text-neon-magenta',
-  },
-  green: {
-    icon: 'text-neon-green',
-    glow: 'shadow-[0_0_15px_rgba(0,255,136,0.3)]',
-    border: 'border-neon-green/30 hover:border-neon-green/60',
-    value: 'text-neon-green',
-  },
-  yellow: {
-    icon: 'text-neon-yellow',
-    glow: 'shadow-[0_0_15px_rgba(255,255,0,0.3)]',
-    border: 'border-neon-yellow/30 hover:border-neon-yellow/60',
-    value: 'text-neon-yellow',
-  },
-  orange: {
-    icon: 'text-neon-orange',
-    glow: 'shadow-[0_0_15px_rgba(255,136,0,0.3)]',
-    border: 'border-neon-orange/30 hover:border-neon-orange/60',
-    value: 'text-neon-orange',
-  },
-  red: {
-    icon: 'text-neon-red',
-    glow: 'shadow-[0_0_15px_rgba(255,0,0,0.3)]',
-    border: 'border-neon-red/30 hover:border-neon-red/60',
-    value: 'text-neon-red',
-  },
-  blue: {
-    icon: 'text-blue-400',
-    glow: 'shadow-[0_0_15px_rgba(96,165,250,0.3)]',
-    border: 'border-blue-400/30 hover:border-blue-400/60',
-    value: 'text-blue-400',
-  },
-  purple: {
-    icon: 'text-purple-400',
-    glow: 'shadow-[0_0_15px_rgba(192,132,252,0.3)]',
-    border: 'border-purple-400/30 hover:border-purple-400/60',
-    value: 'text-purple-400',
-  },
+  cyan:    { icon: 'text-earth-fern',       border: 'border-earth-fern/30',       value: 'text-earth-fern' },
+  magenta: { icon: 'text-earth-terracotta', border: 'border-earth-terracotta/30', value: 'text-earth-terracotta' },
+  green:   { icon: 'text-earth-moss',       border: 'border-earth-moss/30',       value: 'text-earth-moss' },
+  yellow:  { icon: 'text-earth-saffron',    border: 'border-earth-saffron/30',    value: 'text-earth-saffron' },
+  orange:  { icon: 'text-earth-rust',       border: 'border-earth-rust/30',       value: 'text-earth-rust' },
+  red:     { icon: 'text-earth-clay',       border: 'border-earth-clay/30',       value: 'text-earth-clay' },
+  blue:    { icon: 'text-earth-indigo',     border: 'border-earth-indigo/30',     value: 'text-earth-indigo' },
+  purple:  { icon: 'text-earth-sage',       border: 'border-earth-sage/40',       value: 'text-earth-sage' },
 }
 
 export function StatCard({ label, value, icon: Icon, className, color = 'cyan', href }: StatCardProps) {
@@ -67,47 +27,29 @@ export function StatCard({ label, value, icon: Icon, className, color = 'cyan', 
 
   const content = (
     <>
-      {/* Corner decorations are handled by tech-card class */}
-
       {Icon && (
         <div className="mb-3">
           <div className={cn(
-            'w-12 h-12 mx-auto rounded-lg flex items-center justify-center',
-            'bg-bg-tertiary border border-current/20',
+            'w-12 h-12 mx-auto rounded-2xl flex items-center justify-center bg-bg-secondary',
             colors.icon
           )}>
-            <Icon className={cn(
-              'w-6 h-6 transition-all duration-300',
-              'group-hover:drop-shadow-[0_0_8px_currentColor]'
-            )} />
+            <Icon className="w-6 h-6" />
           </div>
         </div>
       )}
 
-      <div className={cn(
-        'font-mono text-3xl font-bold tracking-tight',
-        'transition-all duration-300',
-        colors.value,
-        'group-hover:neon-text-subtle'
-      )}>
+      <div className={cn('font-display text-3xl font-medium tracking-tight num', colors.value)}>
         {typeof value === 'number' ? value.toLocaleString('fr-FR') : value}
       </div>
 
-      <div className="mt-2 flex items-center justify-center gap-2">
-        <span className="w-2 h-px bg-current opacity-50" />
-        <span className="text-xs font-mono text-text-muted uppercase tracking-widest">
-          {label}
-        </span>
-        <span className="w-2 h-px bg-current opacity-50" />
+      <div className="mt-1.5 text-xs text-text-muted">
+        {label}
       </div>
     </>
   )
 
   const cardClasses = cn(
     'tech-card p-5 text-center group',
-    'transition-all duration-300 hover:-translate-y-1',
-    colors.border,
-    'hover:' + colors.glow,
     href && 'cursor-pointer',
     className
   )

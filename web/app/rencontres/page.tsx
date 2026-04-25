@@ -1,4 +1,5 @@
 import { Heart, MapPin, Globe, Calendar, TrendingUp } from 'lucide-react'
+import { HeartHalf } from '@phosphor-icons/react/dist/ssr'
 import { StatCard, PieChart, PageHeader } from '@/components'
 import { NationalityMapLazy as NationalityMap } from '@/components/nationality-map-lazy'
 import { loadRencontres } from '@/lib/rencontres-loader'
@@ -12,23 +13,21 @@ export default async function RencontresPage() {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
         <PageHeader
-          title="RENCONTRES"
-          systemName="SYSTEM"
-          status="NO_DATA"
-          statusDetail="SOCIAL_TRACKER v1.0"
-          loadingMessage="No data available"
-          color="neon-red"
+          title="Rencontres"
+          subtitle="Aucune donnée disponible"
+          color="clay"
+          icon={HeartHalf}
         />
-        <div className="tech-card p-8 border-neon-red/30">
+        <div className="tech-card p-8">
           <div className="text-center max-w-2xl mx-auto">
-            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-neon-red/10 border border-neon-red/30 flex items-center justify-center">
-              <Heart className="w-10 h-10 text-neon-red" />
+            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-earth-clay/10 border border-earth-clay/30 flex items-center justify-center">
+              <Heart className="w-10 h-10 text-earth-clay" />
             </div>
-            <h2 className="text-xl font-display font-bold text-text-primary mb-4 tracking-wider">
-              NO_DATA_FOUND
+            <h2 className="font-display text-xl font-medium text-text-primary mb-4">
+              Pas de données
             </h2>
-            <p className="text-text-secondary font-mono text-sm">
-              Le fichier partners.csv est introuvable ou vide.
+            <p className="text-text-secondary text-sm">
+              Le fichier <code className="font-mono text-xs">partners.csv</code> est introuvable ou vide.
             </p>
           </div>
         </div>
@@ -56,11 +55,10 @@ export default async function RencontresPage() {
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
-        title="RENCONTRES"
-        systemName="SYSTEM"
-        statusDetail="SOCIAL_TRACKER v1.0"
-        loadingMessage={`Analyzing ${stats.total} encounters...`}
-        color="neon-red"
+        title="Rencontres"
+        subtitle={`${stats.total} liens · ${stats.villes.length} villes · ${stats.nationalites.length} nationalités`}
+        color="clay"
+        icon={HeartHalf}
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">

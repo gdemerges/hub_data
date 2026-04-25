@@ -1,65 +1,101 @@
-'use client'
+import type { Icon } from '@phosphor-icons/react'
 
-import { Terminal } from 'lucide-react'
-import { type LucideIcon } from 'lucide-react'
+type Accent =
+  | 'moss'
+  | 'fern'
+  | 'terracotta'
+  | 'rust'
+  | 'saffron'
+  | 'clay'
+  | 'indigo'
+  | 'sage'
+  | 'leaf'
 
-type NeonColor = 'neon-cyan' | 'neon-magenta' | 'neon-green' | 'neon-yellow' | 'neon-orange' | 'neon-red' | 'purple-400' | 'blue-400'
+const accentClass: Record<Accent, { text: string; bg: string; border: string; ring: string }> = {
+  moss:       { text: 'text-earth-moss',       bg: 'bg-earth-moss/10',       border: 'border-earth-moss/30',       ring: 'bg-earth-moss' },
+  fern:       { text: 'text-earth-fern',       bg: 'bg-earth-fern/10',       border: 'border-earth-fern/30',       ring: 'bg-earth-fern' },
+  terracotta: { text: 'text-earth-terracotta', bg: 'bg-earth-terracotta/10', border: 'border-earth-terracotta/30', ring: 'bg-earth-terracotta' },
+  rust:       { text: 'text-earth-rust',       bg: 'bg-earth-rust/10',       border: 'border-earth-rust/30',       ring: 'bg-earth-rust' },
+  saffron:    { text: 'text-earth-saffron',    bg: 'bg-earth-saffron/10',    border: 'border-earth-saffron/30',    ring: 'bg-earth-saffron' },
+  clay:       { text: 'text-earth-clay',       bg: 'bg-earth-clay/10',       border: 'border-earth-clay/30',       ring: 'bg-earth-clay' },
+  indigo:     { text: 'text-earth-indigo',     bg: 'bg-earth-indigo/10',     border: 'border-earth-indigo/30',     ring: 'bg-earth-indigo' },
+  sage:       { text: 'text-earth-sage',       bg: 'bg-earth-sage/15',       border: 'border-earth-sage/40',       ring: 'bg-earth-sage' },
+  leaf:       { text: 'text-earth-leaf',       bg: 'bg-earth-leaf/10',       border: 'border-earth-leaf/30',       ring: 'bg-earth-leaf' },
+}
 
-const colorMap: Record<NeonColor, { text: string; border: string }> = {
-  'neon-cyan':    { text: 'text-neon-cyan',    border: 'border-neon-cyan/30' },
-  'neon-magenta': { text: 'text-neon-magenta', border: 'border-neon-magenta/30' },
-  'neon-green':   { text: 'text-neon-green',   border: 'border-neon-green/30' },
-  'neon-yellow':  { text: 'text-neon-yellow',  border: 'border-neon-yellow/30' },
-  'neon-orange':  { text: 'text-neon-orange',  border: 'border-neon-orange/30' },
-  'neon-red':     { text: 'text-neon-red',     border: 'border-neon-red/30' },
-  'purple-400':   { text: 'text-purple-400',   border: 'border-purple-400/30' },
-  'blue-400':     { text: 'text-blue-400',     border: 'border-blue-400/30' },
+// Map des anciens noms (compat : pages encore en `color="neon-cyan"` etc.)
+const legacyMap: Record<string, Accent> = {
+  'neon-cyan': 'fern',
+  'neon-magenta': 'terracotta',
+  'neon-green': 'moss',
+  'neon-yellow': 'saffron',
+  'neon-orange': 'rust',
+  'neon-red': 'clay',
+  'purple-400': 'indigo',
+  'blue-400': 'indigo',
 }
 
 interface PageHeaderProps {
   title: string
-  systemName: string
+  /** Anciennement `systemName`, ignoré dans le nouveau design. */
+  systemName?: string
+  /** Anciennement `statusDetail`, ignoré. */
+  statusDetail?: string
+  /** Statut court (ex. "12 jours d'activité") — affiché à côté du titre. */
   status?: string
-  statusDetail: string
-  loadingMessage: string
-  color: NeonColor
+  /** Sous-titre humain (remplace `loadingMessage`). */
+  loadingMessage?: string
+  subtitle?: string
+  color: Accent | keyof typeof legacyMap
+  icon?: Icon
   actions?: React.ReactNode
 }
 
 export function PageHeader({
   title,
-  systemName,
-  status = 'ONLINE',
-  statusDetail,
+  status,
+  subtitle,
   loadingMessage,
   color,
+  icon: IconComponent,
   actions,
 }: PageHeaderProps) {
-  const colors = colorMap[color]
+  const accent = (legacyMap[color as keyof typeof legacyMap] ?? color) as Accent
+  const c = accentClass[accent] ?? accentClass.moss
+  const sub = subtitle ?? loadingMessage
+
+  // Titre humain : "GAMES" → "Games", "STRAVA" → "Strava"
+  const displayTitle = title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()
 
   return (
-    <div className="mb-10">
-      <div className="flex items-center justify-between gap-4 mb-4">
+    <header className="mb-10">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className={`p-3 bg-bg-card border ${colors.border} rounded-lg`}>
-            <Terminal className={`w-8 h-8 ${colors.text}`} />
-          </div>
+          {IconComponent && (
+            <div className={`p-3 rounded-2xl ${c.bg} ${c.border} border`}>
+              <IconComponent size={28} weight="duotone" className={c.text} />
+            </div>
+          )}
           <div>
-            <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
-              <span className={colors.text}>{title}</span>_{systemName}
+            <h1 className="font-display text-3xl sm:text-4xl font-medium tracking-tight text-text-primary">
+              {displayTitle}
             </h1>
-            <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full animate-pulse" />
-              STATUS: {status} // {statusDetail}
-            </p>
+            {(sub || status) && (
+              <p className="text-sm text-text-secondary mt-1 flex items-center gap-2 flex-wrap">
+                {status && (
+                  <span className="inline-flex items-center gap-1.5">
+                    <span className={`w-1.5 h-1.5 rounded-full ${c.ring}`} aria-hidden />
+                    {status}
+                  </span>
+                )}
+                {status && sub && <span className="text-text-muted">·</span>}
+                {sub && <span>{sub}</span>}
+              </p>
+            )}
           </div>
         </div>
-        {actions}
+        {actions && <div className="flex items-center gap-2">{actions}</div>}
       </div>
-      <div className={`font-mono text-sm text-text-secondary border-l-2 ${colors.border} pl-4`}>
-        &gt; {loadingMessage}
-        <span className={`${colors.text} animate-pulse`}>_</span>
-      </div>
-    </div>
+    </header>
   )
 }

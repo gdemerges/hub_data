@@ -244,8 +244,8 @@ export function SteamSection() {
           />
         ) : (
           <div className="flex flex-col items-center justify-center h-40 gap-3">
-            <div className="text-sm font-mono text-text-muted">
-              &gt; NO_DATA_FOUND [{selectedYear}]
+            <div className="text-sm text-text-muted">
+              Aucune donnée pour {selectedYear}
             </div>
             <button
               onClick={handleSync}

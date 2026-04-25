@@ -7,6 +7,7 @@ import { StatCard, ContributionCalendar, BarChart, PageHeader } from '@/componen
 import { SkeletonProfile, SkeletonStatCard, SkeletonChart } from '@/components/skeleton'
 import { FadeIn } from '@/components/page-transition'
 import { Star, GitFork, Users, MapPin, Building, Code, ChevronLeft, ChevronRight, TrendingUp, Activity, RefreshCw } from 'lucide-react'
+import { GithubLogo } from '@phosphor-icons/react'
 import type { GitHubData } from '@/lib/types'
 
 interface ContributionsData {
@@ -64,7 +65,7 @@ export default function GitHubPage() {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <PageHeader title="GITHUB" systemName="SYSTEM" status="LOADING" statusDetail="CODE_TRACKER v2.0" loadingMessage="Fetching GitHub profile data..." color="neon-magenta" />
+        <PageHeader title="GitHub" subtitle="Chargement du profil…" color="indigo" icon={GithubLogo} />
         <SkeletonProfile />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-8">
           {[...Array(4)].map((_, i) => (
@@ -89,11 +90,10 @@ export default function GitHubPage() {
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
-        title="GITHUB"
-        systemName="SYSTEM"
-        statusDetail={`CODE_TRACKER v2.0${data?.fetchedAt ? ` · sync ${timeAgo(data.fetchedAt)}` : ''}`}
-        loadingMessage="Loading GitHub developer profile..."
-        color="neon-magenta"
+        title="GitHub"
+        subtitle={data?.fetchedAt ? `Synchronisé ${timeAgo(data.fetchedAt)}` : 'Profil développeur'}
+        color="indigo"
+        icon={GithubLogo}
         actions={
           <button
             onClick={() => mutate()}
@@ -267,7 +267,7 @@ export default function GitHubPage() {
         </div>
         {loadingYearly ? (
           <div className="flex items-center justify-center h-64">
-            <div className="text-sm font-mono text-text-muted">&gt; LOADING_STATS...</div>
+            <div className="text-sm text-text-muted">Chargement des statistiques…</div>
           </div>
         ) : yearlyContributions && yearlyContributions.yearlyContributions.length > 0 ? (
           <>
@@ -286,7 +286,7 @@ export default function GitHubPage() {
           </>
         ) : (
           <div className="flex items-center justify-center h-64">
-            <div className="text-sm font-mono text-text-muted">&gt; NO_DATA_AVAILABLE</div>
+            <div className="text-sm text-text-muted">Aucune donnée disponible</div>
           </div>
         )}
       </div>

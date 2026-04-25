@@ -4,6 +4,7 @@ import { useState } from 'react'
 import useSWR from 'swr'
 import { PageHeader } from '@/components'
 import { Film as FilmIcon, Tv, Gamepad2, BookOpen, Sparkles } from 'lucide-react'
+import { CalendarBlank } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
 
 type TopItem = { title: string; rating?: number; subtitle?: string }
@@ -77,11 +78,10 @@ export default function YearInReviewPage() {
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
-        title={`YEAR IN REVIEW ${year}`}
-        systemName="INSIGHTS"
-        statusDetail="ANNUAL_RECAP v1.0"
-        loadingMessage={`Aggregating ${year} across all sections...`}
-        color="neon-magenta"
+        title={`Rétrospective ${year}`}
+        subtitle="Bilan annuel toutes sections confondues"
+        color="terracotta"
+        icon={CalendarBlank}
       />
 
       <div className="flex flex-wrap gap-2 mb-6" role="group" aria-label="Sélection de l'année">

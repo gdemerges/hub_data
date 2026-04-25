@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { UnifiedTimeline, PageHeader } from '@/components'
 import { TrendingUp, Calendar } from 'lucide-react'
+import { Sparkle } from '@phosphor-icons/react'
 
 const ProfileRadar = dynamic(
   () => import('@/components/profile-radar').then((mod) => mod.ProfileRadar),
@@ -23,11 +24,10 @@ export default function InsightsPage() {
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
-        title="INSIGHTS"
-        systemName="SYSTEM"
-        statusDetail="DATA_VISUALIZER v1.0"
-        loadingMessage="Analyzing your personal data patterns..."
-        color="neon-cyan"
+        title="Insights"
+        subtitle="Analyses transverses sur l'ensemble des données"
+        color="fern"
+        icon={Sparkle}
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <Link

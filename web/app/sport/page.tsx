@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { PersonSimpleRun } from '@phosphor-icons/react/dist/ssr'
 import { useApiData } from '@/lib/use-api-data'
 import {
   Activity,
@@ -83,12 +84,10 @@ export default function SportPage() {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
         <PageHeader
-          title="STRAVA"
-          systemName="SYSTEM"
-          status="LOADING"
-          statusDetail="FITNESS_TRACKER v1.0"
-          loadingMessage="Connecting to Strava API..."
-          color="neon-orange"
+          title="Sport"
+          subtitle="Connexion à Strava…"
+          color="rust"
+          icon={PersonSimpleRun}
         />
         <div className="animate-pulse space-y-6">
           <div className="h-32 bg-bg-card rounded-2xl border border-border-subtle" />
@@ -114,14 +113,11 @@ export default function SportPage() {
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
-        title="STRAVA"
-        systemName="SYSTEM"
-        status={isConnected ? 'CONNECTED' : 'DISCONNECTED'}
-        statusDetail="FITNESS_TRACKER v1.0"
-        loadingMessage={
-          isConnected ? 'Loading athlete performance data...' : 'Awaiting Strava authentication...'
-        }
-        color="neon-orange"
+        title="Sport"
+        status={isConnected ? 'Connecté' : 'Déconnecté'}
+        subtitle={isConnected ? 'Statistiques Strava' : 'Connexion Strava requise'}
+        color="rust"
+        icon={PersonSimpleRun}
       />
 
       {!isConnected ? (
@@ -209,7 +205,7 @@ export default function SportPage() {
 
       {error && (
         <div className="tech-card p-6 border-red-500/30">
-          <p className="text-red-400 font-mono text-sm">&gt; ERROR: {error}</p>
+          <p className="text-earth-clay text-sm">{error}</p>
         </div>
       )}
     </div>

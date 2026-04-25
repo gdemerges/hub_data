@@ -1,4 +1,5 @@
 import { BookOpen, Star, Hash } from 'lucide-react'
+import { Books } from '@phosphor-icons/react/dist/ssr'
 import { StatCard, PageHeader } from '@/components'
 import { loadBooks } from '@/lib/books-loader'
 
@@ -21,11 +22,10 @@ export default async function BooksPage() {
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
-        title="BOOKS"
-        systemName="SYSTEM"
-        statusDetail="READING_TRACKER v1.0"
-        loadingMessage="Loading reading library..."
-        color="neon-yellow"
+        title="Lecture"
+        subtitle={`${totalBooks} livres dans la bibliothèque`}
+        color="indigo"
+        icon={Books}
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">

@@ -1,6 +1,7 @@
 'use client'
 
 import useSWR from 'swr'
+import { ChartBar } from '@phosphor-icons/react'
 import { PageHeader } from '@/components'
 
 type YearStat = { year: number; games: number; films: number; series: number; books: number }
@@ -8,10 +9,10 @@ type YearStat = { year: number; games: number; films: number; series: number; bo
 const fetcher = (url: string) => fetch(url).then(r => r.json())
 
 const SECTIONS = [
-  { key: 'games', label: 'Jeux', color: '#00ff88' },
-  { key: 'films', label: 'Films', color: '#ff00ff' },
-  { key: 'series', label: 'Séries', color: '#ffff00' },
-  { key: 'books', label: 'Livres', color: '#60a5fa' },
+  { key: 'games', label: 'Jeux', color: '#5a7d4a' },
+  { key: 'films', label: 'Films', color: '#b86b3c' },
+  { key: 'series', label: 'Séries', color: '#d9a441' },
+  { key: 'books', label: 'Livres', color: '#3d5170' },
 ] as const
 
 export default function CorrelationsPage() {
@@ -25,19 +26,18 @@ export default function CorrelationsPage() {
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
-        title="CORRELATIONS"
-        systemName="INSIGHTS"
-        statusDetail="CROSS_SECTION_VIEW v1.0"
-        loadingMessage="Cross-referencing sections by year..."
-        color="neon-cyan"
+        title="Corrélations"
+        subtitle="Volume par section et par année"
+        color="fern"
+        icon={ChartBar}
       />
 
       {isLoading && (
-        <div className="tech-card p-8 text-center text-text-muted font-mono">Chargement...</div>
+        <div className="tech-card p-8 text-center text-text-muted">Chargement…</div>
       )}
 
       {!isLoading && stats.length === 0 && (
-        <div className="tech-card p-8 text-center text-text-muted font-mono">Aucune donnée.</div>
+        <div className="tech-card p-8 text-center text-text-muted">Aucune donnée.</div>
       )}
 
       {stats.length > 0 && (
