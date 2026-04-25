@@ -14,6 +14,8 @@ const IMG_HOSTS = [
   'mosaic.scdn.co',
   'platform-lookaside.fbsbx.com',
   'dgalywyr863hv.cloudfront.net',
+  'books.google.com',
+  'covers.openlibrary.org',
 ]
 
 const CONNECT_HOSTS = [

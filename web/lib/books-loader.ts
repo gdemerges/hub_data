@@ -42,15 +42,35 @@ function parseCSV(content: string): Record<string, string>[] {
   return rows
 }
 
+/**
+ * Le cache existant contient des clés mojibake (accents remplacés par des
+ * caractères de contrôle U+0080–U+009F). On normalise des deux côtés en
+ * strippant accents + contrôles pour retrouver les entrées corrompues.
+ */
+function normalizeKey(title: string): string {
+  return title
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[-]/g, '')
+}
+
 function mapRawToBooks(
   rawData: Record<string, string | number>[],
   coversCache: Record<string, string | null>
 ): Book[] {
+  // Pré-indexer le cache avec les clés normalisées pour gérer les entrées corrompues
+  const normalizedCache: Record<string, string | null> = {}
+  for (const [k, v] of Object.entries(coversCache)) {
+    normalizedCache[normalizeKey(k)] = v
+  }
   return rawData
     .map((row, index) => {
       const title = String(row['Titre VF'] || '')
-      const cacheKey = title.toLowerCase()
-      const coverUrl = coversCache[cacheKey] || undefined
+      const exactKey = title.toLowerCase()
+      const normKey = normalizeKey(title)
+      const coverUrl =
+        coversCache[exactKey] || normalizedCache[normKey] || undefined
       return {
         id: String(index + 1),
         title,
