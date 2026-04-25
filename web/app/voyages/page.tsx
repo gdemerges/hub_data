@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { MapPin, Globe, Calendar, Upload, Building2, TrendingUp } from 'lucide-react'
 import { StatCard, WorldMap, PageHeader } from '@/components'
+import { useApiData } from '@/lib/use-api-data'
 
 interface PlaceVisit {
   name: string
@@ -27,29 +27,8 @@ interface TravelStats {
 }
 
 export default function VoyagesPage() {
-  const [stats, setStats] = useState<TravelStats | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [hasData, setHasData] = useState(false)
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch('/api/voyages')
-        if (response.ok) {
-          const data = await response.json()
-          setStats(data)
-          setHasData(true)
-        } else {
-          setHasData(false)
-        }
-      } catch (err) {
-        setHasData(false)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchData()
-  }, [])
+  const { data: stats, loading } = useApiData<TravelStats>('/api/voyages')
+  const hasData = stats !== null
 
   if (loading) {
     return (

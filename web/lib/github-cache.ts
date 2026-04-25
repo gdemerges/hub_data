@@ -14,6 +14,7 @@
 import fs from 'fs'
 import { promises as fsp } from 'fs'
 import path from 'path'
+import { logger } from './logger'
 
 const CACHE_FILE = path.join(process.cwd(), 'data', 'github-cache.json')
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000 // 6 hours
@@ -43,11 +44,17 @@ export interface GitHubCache {
 }
 
 export async function readGitHubCache(): Promise<GitHubCache | null> {
-  if (!fs.existsSync(CACHE_FILE)) return null
+  if (!fs.existsSync(CACHE_FILE)) {
+    logger.metric('cache.miss', { cache: 'github', reason: 'absent' })
+    return null
+  }
   try {
     const content = await fsp.readFile(CACHE_FILE, 'utf-8')
-    return JSON.parse(content) as GitHubCache
+    const cache = JSON.parse(content) as GitHubCache
+    logger.metric('cache.hit', { cache: 'github' })
+    return cache
   } catch {
+    logger.metric('cache.miss', { cache: 'github', reason: 'corrupt' })
     return null
   }
 }

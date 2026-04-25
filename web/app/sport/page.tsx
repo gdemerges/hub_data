@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
+import { useApiData } from '@/lib/use-api-data'
 import {
   Activity,
   Timer,
@@ -68,33 +69,15 @@ function getActivityIcon(type: string) {
 }
 
 export default function SportPage() {
-  const [data, setData] = useState<StravaData | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [isConnected, setIsConnected] = useState(false)
-  const [error, setError] = useState<string | null>(null)
   const [activityFilter, setActivityFilter] = useState<ActivityFilterKey>('Run')
   const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear())
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch('/api/strava')
-        if (response.ok) {
-          setData(await response.json())
-          setIsConnected(true)
-        } else if (response.status === 401) {
-          setIsConnected(false)
-        } else {
-          setError('Erreur lors du chargement des données')
-        }
-      } catch {
-        setError('Impossible de se connecter à Strava')
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchData()
-  }, [])
+  const { data, loading, error: fetchError, status } = useApiData<StravaData>(
+    '/api/strava',
+    { errorMessage: 'Impossible de se connecter à Strava' }
+  )
+  const isConnected = data !== null
+  const error = fetchError ?? (status !== null && status !== 401 && status !== 200 ? 'Erreur lors du chargement des données' : null)
 
   if (loading) {
     return (

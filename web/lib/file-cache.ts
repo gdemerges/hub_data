@@ -9,10 +9,17 @@ interface CacheEnvelope<T> {
 }
 
 export async function readFileCache<T>(filePath: string): Promise<CacheEnvelope<T> | null> {
-  if (!fs.existsSync(filePath)) return null
+  const name = path.basename(filePath)
+  if (!fs.existsSync(filePath)) {
+    logger.metric('cache.miss', { cache: name, reason: 'absent' })
+    return null
+  }
   try {
-    return JSON.parse(await fsp.readFile(filePath, 'utf-8')) as CacheEnvelope<T>
+    const env = JSON.parse(await fsp.readFile(filePath, 'utf-8')) as CacheEnvelope<T>
+    logger.metric('cache.hit', { cache: name })
+    return env
   } catch {
+    logger.metric('cache.miss', { cache: name, reason: 'corrupt' })
     return null
   }
 }

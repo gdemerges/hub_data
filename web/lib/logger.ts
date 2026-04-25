@@ -53,6 +53,28 @@ export interface Logger {
   warn: (...args: unknown[]) => void
   error: (...args: unknown[]) => void
   child: (scope: string) => Logger
+  /** Increment a named counter and emit a metric event. */
+  metric: (name: string, tags?: Record<string, string | number | boolean>) => void
+}
+
+const counters = new Map<string, number>()
+
+function metricKey(name: string, tags?: Record<string, string | number | boolean>): string {
+  if (!tags) return name
+  const parts = Object.keys(tags).sort().map((k) => `${k}=${tags[k]}`)
+  return `${name}{${parts.join(',')}}`
+}
+
+function emitMetric(name: string, tags: Record<string, string | number | boolean> | undefined): void {
+  const key = metricKey(name, tags)
+  const value = (counters.get(key) ?? 0) + 1
+  counters.set(key, value)
+  emit('debug', 'metric', [{ metric: name, ...(tags ?? {}), count: value }])
+}
+
+/** Returns a snapshot of all counters seen so far (debug endpoint friendly). */
+export function getMetricsSnapshot(): Record<string, number> {
+  return Object.fromEntries(counters)
 }
 
 function make(scope?: string): Logger {
@@ -62,6 +84,7 @@ function make(scope?: string): Logger {
     warn: (...a) => emit('warn', scope, a),
     error: (...a) => emit('error', scope, a),
     child: (sub: string) => make(scope ? `${scope}:${sub}` : sub),
+    metric: (name, tags) => emitMetric(name, tags),
   }
 }
 
