@@ -1,5 +1,6 @@
 import { Heart, MapPin, Globe, Calendar, TrendingUp } from 'lucide-react'
-import { StatCard, PieChart, NationalityMap, PageHeader } from '@/components'
+import { StatCard, PieChart, PageHeader } from '@/components'
+import { NationalityMapLazy as NationalityMap } from '@/components/nationality-map-lazy'
 import { loadRencontres } from '@/lib/rencontres-loader'
 
 export const revalidate = 3600

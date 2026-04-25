@@ -40,7 +40,10 @@ export async function GET() {
     books.forEach(b => bump(b.year ?? null, 'books'))
 
     const stats = Array.from(map.values()).sort((a, b) => b.year - a.year)
-    return NextResponse.json({ stats, hasData: stats.length > 0 })
+    return NextResponse.json(
+      { stats, hasData: stats.length > 0 },
+      { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } }
+    )
   } catch (e) {
     logger.error('correlations build failed', e)
     return NextResponse.json({ stats: [], hasData: false }, { status: 500 })

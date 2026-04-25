@@ -1,3 +1,7 @@
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
 /** @type {import('next').NextConfig} */
 
 const IMG_HOSTS = [
@@ -22,6 +26,7 @@ const CONNECT_HOSTS = [
   'api.strava.com',
   'www.strava.com',
   'api.steampowered.com',
+  'cdn.jsdelivr.net', // world-atlas geojson for maps
 ]
 
 // 'unsafe-inline' on style-src est requis par next/font + Tailwind.
@@ -68,4 +73,4 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+module.exports = withBundleAnalyzer(nextConfig)

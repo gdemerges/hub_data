@@ -108,7 +108,10 @@ export async function GET(req: NextRequest) {
       getBooksData().catch(() => []),
     ])
 
-    return NextResponse.json(buildReview(year, games, films, series, books))
+    return NextResponse.json(
+      buildReview(year, games, films, series, books),
+      { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } }
+    )
   } catch (e) {
     logger.error('year-in-review build failed', e)
     return NextResponse.json({ error: 'build failed' }, { status: 500 })

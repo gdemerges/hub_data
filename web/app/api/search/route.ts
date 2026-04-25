@@ -68,7 +68,10 @@ export async function GET() {
     if (!cache || now - cache.at > TTL) {
       cache = { at: now, items: await buildIndex() }
     }
-    return NextResponse.json({ items: cache.items })
+    return NextResponse.json(
+      { items: cache.items },
+      { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } }
+    )
   } catch (e) {
     logger.error('search index build failed', e)
     return NextResponse.json({ items: [], hasData: false }, { status: 500 })
