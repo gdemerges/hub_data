@@ -98,6 +98,51 @@ export const steamGameSchema = z.object({
   img_icon_url: z.string(),
 })
 
+// ============ TMDB ============
+
+export const tmdbSearchResultSchema = z.object({
+  id: z.number(),
+  title: z.string().optional(),
+  name: z.string().optional(),
+  poster_path: z.string().nullable(),
+  backdrop_path: z.string().nullable(),
+  overview: z.string().default(''),
+  vote_average: z.number().default(0),
+  release_date: z.string().optional(),
+  first_air_date: z.string().optional(),
+})
+
+export const tmdbSearchResponseSchema = z.object({
+  results: z.array(tmdbSearchResultSchema).default([]),
+})
+
+export const tmdbDetailsSchema = z.object({
+  genres: z.array(z.object({ id: z.number(), name: z.string() })).default([]),
+  runtime: z.number().nullable().optional(),
+  number_of_seasons: z.number().nullable().optional(),
+  number_of_episodes: z.number().nullable().optional(),
+})
+
+// ============ IGDB ============
+
+export const igdbGameSchema = z.object({
+  id: z.number().optional(),
+  name: z.string(),
+  cover: z.object({ image_id: z.string() }).optional(),
+  first_release_date: z.number().optional(),
+  rating: z.number().optional(),
+  summary: z.string().optional(),
+  genres: z.array(z.object({ name: z.string() })).default([]),
+  platforms: z.array(z.object({ name: z.string() })).default([]),
+})
+
+export const igdbSearchResponseSchema = z.array(igdbGameSchema)
+
+export const igdbTokenSchema = z.object({
+  access_token: z.string(),
+  expires_in: z.number(),
+})
+
 // ============ Strava ============
 
 export const stravaAthleteSchema = z.object({

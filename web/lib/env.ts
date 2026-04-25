@@ -68,3 +68,60 @@ export function requireEnv<K extends keyof ServerEnv>(
   }
   return env as Pick<ServerEnv, K>
 }
+
+/**
+ * Groupes de variables qui doivent être tous présents pour qu'une fonctionnalité marche.
+ * Utilisé par validateProductionEnv() pour signaler les manquants au boot.
+ */
+const FEATURE_GROUPS: Record<string, (keyof ServerEnv)[]> = {
+  github: ['GITHUB_TOKEN'],
+  spotify: ['SPOTIFY_CLIENT_ID', 'SPOTIFY_CLIENT_SECRET', 'SPOTIFY_REFRESH_TOKEN'],
+  steam: ['STEAM_API_KEY', 'STEAM_ID'],
+  strava: ['STRAVA_CLIENT_ID', 'STRAVA_CLIENT_SECRET'],
+  tmdb: ['TMDB_API_KEY'],
+  igdb: ['IGDB_CLIENT_ID', 'IGDB_CLIENT_SECRET'],
+}
+
+let _validated = false
+
+/**
+ * Vérifie au boot quelles features sont configurées.
+ * - En dev: log les features désactivées pour transparence.
+ * - En prod: warn par défaut. Si HUB_STRICT_ENV=1, throw si une feature est partielle
+ *   (ex: SPOTIFY_CLIENT_ID présent mais SPOTIFY_REFRESH_TOKEN manquant) — état le plus
+ *   dangereux car la feature paraît activée mais crashera à runtime.
+ */
+export function validateProductionEnv(): void {
+  if (_validated) return
+  _validated = true
+
+  const env = getServerEnv()
+  const disabled: string[] = []
+  const partial: { feature: string; missing: string[] }[] = []
+
+  for (const [feature, keys] of Object.entries(FEATURE_GROUPS)) {
+    const present = keys.filter((k) => env[k])
+    if (present.length === 0) {
+      disabled.push(feature)
+    } else if (present.length < keys.length) {
+      partial.push({ feature, missing: keys.filter((k) => !env[k]) })
+    }
+  }
+
+  if (disabled.length > 0) {
+    console.warn(`[env] Features désactivées (variables absentes): ${disabled.join(', ')}`)
+  }
+
+  if (partial.length > 0) {
+    const detail = partial.map((p) => `${p.feature} (manque: ${p.missing.join(', ')})`).join('; ')
+    const msg = `[env] Configuration partielle: ${detail}`
+    if (process.env.NODE_ENV === 'production' && process.env.HUB_STRICT_ENV === '1') {
+      throw new Error(msg)
+    }
+    console.warn(msg)
+  }
+}
+
+if (typeof window === 'undefined' && process.env.NODE_ENV !== 'test') {
+  validateProductionEnv()
+}

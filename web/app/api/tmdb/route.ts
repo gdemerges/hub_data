@@ -1,37 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { tmdbFetch } from '@/lib/rate-limiter'
 import { logger } from '@/lib/logger'
+import { safeParse, tmdbSearchResponseSchema, tmdbDetailsSchema } from '@/lib/api-schemas'
 
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500'
-
-interface TMDBGenre {
-  id: number
-  name: string
-}
-
-interface TMDBSearchResult {
-  id: number
-  title?: string
-  name?: string
-  poster_path: string | null
-  backdrop_path: string | null
-  overview: string
-  vote_average: number
-  release_date?: string
-  first_air_date?: string
-}
-
-interface TMDBSearchResponse {
-  results: TMDBSearchResult[]
-}
-
-interface TMDBDetails {
-  genres?: TMDBGenre[]
-  runtime?: number
-  number_of_seasons?: number
-  number_of_episodes?: number
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -54,9 +27,10 @@ export async function POST(request: NextRequest) {
       throw new Error('TMDB API error')
     }
 
-    const searchData: TMDBSearchResponse = await searchResponse.json()
+    const searchRaw = await searchResponse.json()
+    const searchData = safeParse(tmdbSearchResponseSchema, searchRaw, 'tmdb:search')
 
-    if (!Array.isArray(searchData.results) || searchData.results.length === 0) {
+    if (!searchData || searchData.results.length === 0) {
       return NextResponse.json({ poster: null })
     }
 
@@ -65,7 +39,13 @@ export async function POST(request: NextRequest) {
     // Get additional details
     const detailsUrl = `${TMDB_BASE_URL}/${mediaType}/${result.id}?api_key=${apiKey}&language=fr-FR`
     const detailsResponse = await tmdbFetch(detailsUrl)
-    const details: TMDBDetails = await detailsResponse.json()
+    const detailsRaw = await detailsResponse.json()
+    const details = safeParse(tmdbDetailsSchema, detailsRaw, 'tmdb:details') ?? {
+      genres: [],
+      runtime: null,
+      number_of_seasons: null,
+      number_of_episodes: null,
+    }
 
     return NextResponse.json({
       id: result.id,
@@ -79,7 +59,7 @@ export async function POST(request: NextRequest) {
       overview: result.overview || null,
       rating: result.vote_average ? Math.round(result.vote_average * 10) / 10 : null,
       releaseDate: mediaType === 'tv' ? result.first_air_date : result.release_date,
-      genres: details.genres?.map((g: TMDBGenre) => g.name) ?? [],
+      genres: details.genres.map((g) => g.name),
       runtime: details.runtime ?? null,
       seasons: details.number_of_seasons ?? null,
       episodes: details.number_of_episodes ?? null,

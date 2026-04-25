@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { TokenCache } from '@/lib/token-cache'
 import { logger } from '@/lib/logger'
+import { safeParse, igdbSearchResponseSchema, igdbTokenSchema } from '@/lib/api-schemas'
 
 const tokenCache = new TokenCache()
 
@@ -19,7 +20,9 @@ async function getAccessToken(): Promise<string> {
   })
   if (!response.ok) throw new Error('Failed to get IGDB access token')
 
-  const data = await response.json()
+  const raw = await response.json()
+  const data = safeParse(igdbTokenSchema, raw, 'igdb:token')
+  if (!data) throw new Error('Invalid IGDB token response')
   tokenCache.set(data.access_token, data.expires_in)
   return data.access_token
 }
@@ -58,9 +61,10 @@ export async function POST(request: NextRequest) {
       throw new Error('IGDB API error')
     }
 
-    const games = await searchResponse.json()
+    const raw = await searchResponse.json()
+    const games = safeParse(igdbSearchResponseSchema, raw, 'igdb:search')
 
-    if (games.length === 0) {
+    if (!games || games.length === 0) {
       return NextResponse.json({ cover: null })
     }
 
@@ -77,8 +81,8 @@ export async function POST(request: NextRequest) {
         : null,
       rating: game.rating ? Math.round(game.rating) : null,
       summary: game.summary || null,
-      genres: (game.genres as { name: string }[] | undefined)?.map((g) => g.name) ?? [],
-      platforms: (game.platforms as { name: string }[] | undefined)?.map((p) => p.name) ?? [],
+      genres: game.genres.map((g) => g.name),
+      platforms: game.platforms.map((p) => p.name),
     }, { headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600' } })
   } catch (error) {
     logger.error('IGDB API error:', error)
