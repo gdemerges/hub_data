@@ -47,7 +47,14 @@ def clean_isbn(isbn: str) -> str | None:
     if not isbn or str(isbn).lower() == "nan":
         return None
     isbn = str(isbn).strip()
-    # Retirer tout sauf les chiffres et X
+    # Notation scientifique Excel avec séparateur décimal français : "9,78207E+12"
+    # ou anglais "9.78207E+12" → convertir en entier
+    if "E+" in isbn.upper() or "E-" in isbn.upper():
+        try:
+            isbn = str(int(float(isbn.replace(",", "."))))
+        except (ValueError, OverflowError):
+            return None
+    # Retirer tout sauf les chiffres et X (gère les "?" en préfixe, tirets, etc.)
     isbn = "".join(c for c in isbn if c.isdigit() or c.upper() == "X")
     if len(isbn) in [10, 13]:
         return isbn
