@@ -155,7 +155,40 @@ python update-data.py
 Options :
 - `--skip-seriebox` ou `-s` : Utiliser les données existantes sans re-télécharger depuis SerieBox
 
-### Étapes détaillées
+### Pipeline Livres
+
+Les livres viennent d'un fichier Excel `data/books.xlsx` géré manuellement. Le flux est indépendant de SerieBox.
+
+#### 1. Source de données
+
+Placez ou mettez à jour `data/books.xlsx` avec les colonnes définies ci-dessus. Le loader (`web/lib/books-loader.ts`) lit le fichier et utilise un cache sur disque (`data/books-cache.json`) invalidé automatiquement à chaque modification du xlsx.
+
+#### 2. Couvertures (Open Library + Google Books)
+
+```bash
+# Récupère les couvertures manquantes via ISBN → Open Library, fallback Google Books
+python pipelines/image_books.py
+
+# Alternative TypeScript (repart de zéro avec --force)
+cd web && npx tsx scripts/refresh-book-covers.ts
+cd web && npx tsx scripts/refresh-book-covers.ts --force
+```
+
+`image_books.py` :
+- Cherche via ISBN sur Open Library, fallback Google Books, puis titre/auteur
+- Cache les URLs dans `data/books-covers-cache.json`
+
+`refresh-book-covers.ts` :
+- Relit le xlsx, reconstruit le cache en UTF-8 propre (corrige les entrées mojibake)
+- `--force` repart de zéro ; sans flag, complète seulement les entrées absentes
+
+#### 3. Workflow recommandé (livres)
+
+1. Modifier `data/books.xlsx`
+2. Lancer `python pipelines/image_books.py` pour les nouvelles couvertures
+3. Relancer le serveur — le cache mtime se régénère automatiquement
+
+### Étapes détaillées (Jeux, Films, Séries)
 
 #### 1. Téléchargement depuis SerieBox
 
@@ -194,16 +227,7 @@ python pipelines/image_game.py
 
 # Images des films et séries (TMDB)
 python pipelines/image_movies_series.py
-
-# Couvertures des livres (Open Library + Google Books)
-python pipelines/image_books.py
 ```
-
-Le script `image_books.py` :
-- Recherche les couvertures via ISBN sur Open Library
-- Fallback sur Google Books si non trouvé
-- Recherche par titre/auteur si pas d'ISBN
-- Cache les résultats dans `data/books-covers-cache.json`
 
 ### Variables d'environnement requises
 
@@ -233,10 +257,11 @@ TMDB_API_KEY=votre_api_key
 ```
 hub_data/
 ├── pipelines/                 # Scripts de mise à jour des données
-│   ├── update-data.py        # Script principal de mise à jour
+│   ├── update-data.py        # Script principal de mise à jour (jeux/films/séries)
 │   ├── seriesbox.py          # Téléchargement depuis SerieBox
 │   ├── image_game.py         # Enrichissement images IGDB
-│   └── image_movies_series.py # Enrichissement images TMDB
+│   ├── image_movies_series.py # Enrichissement images TMDB
+│   └── image_books.py        # Couvertures livres (Open Library + Google Books)
 ├── data/                      # Données brutes (gitignored)
 │   ├── seriebox/             # CSV téléchargés depuis SerieBox
 │   └── seriebox_cleaned/     # CSV nettoyés
@@ -262,7 +287,8 @@ hub_data/
     │       └── ...
     ├── components/           # Composants React réutilisables
     ├── scripts/              # Scripts de build
-    │   └── build-data.ts     # Génération JSON avec images
+    │   ├── build-data.ts             # Génération JSON avec images (jeux/films/séries)
+    │   └── refresh-book-covers.ts    # Reconstruction cache couvertures livres
     ├── lib/                  # Utilitaires et types
     ├── data/                 # JSON générés (gitignored)
     │   ├── games.json
