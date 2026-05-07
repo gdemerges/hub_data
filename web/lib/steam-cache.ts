@@ -1,15 +1,7 @@
-/**
- * Persistent file cache for Steam API data.
- *
- * Built on top of file-cache.ts for consistency.
- * TTL: 6 hours (aligned with ISR revalidate setting).
- */
-
 import path from 'path'
-import { readFileCache, writeFileCache, isCacheFresh } from './file-cache'
+import { FileCacheStore } from './cache-store'
 
-const CACHE_FILE = path.join(process.cwd(), 'data', 'steam-cache.json')
-const CACHE_TTL_MS = 6 * 60 * 60 * 1000 // 6 hours
+const CACHE_TTL_MS = 6 * 60 * 60 * 1000
 
 export interface SteamGame {
   appid: number
@@ -34,16 +26,20 @@ export interface SteamCacheData {
   games: SteamGame[]
 }
 
-export async function readSteamCache(): Promise<{ data: SteamCacheData; cachedAt: number } | null> {
-  const envelope = await readFileCache<SteamCacheData>(CACHE_FILE)
-  if (!envelope) return null
-  return { data: envelope.data, cachedAt: envelope.cachedAt }
+const store = new FileCacheStore<SteamCacheData>({
+  filePath: path.join(process.cwd(), 'data', 'steam-cache.json'),
+  ttlMs: CACHE_TTL_MS,
+  name: 'steam',
+})
+
+export async function readSteamCache() {
+  return store.read()
 }
 
 export async function writeSteamCache(data: SteamCacheData): Promise<void> {
-  await writeFileCache(CACHE_FILE, data)
+  await store.write(data)
 }
 
 export function isSteamCacheFresh(cachedAt: number): boolean {
-  return isCacheFresh(cachedAt, CACHE_TTL_MS)
+  return store.isFresh(cachedAt)
 }

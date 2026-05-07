@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { reposNeedingLanguageRefetch, isCacheFresh, type GitHubCache, type GitHubRawRepo } from './github-cache'
+import { reposNeedingLanguageRefetch, isCacheFresh, type GitHubCacheData, type GitHubRawRepo } from './github-cache'
 
 const repo = (over: Partial<GitHubRawRepo> = {}): GitHubRawRepo => ({
   name: 'r1',
@@ -13,8 +13,7 @@ const repo = (over: Partial<GitHubRawRepo> = {}): GitHubRawRepo => ({
   ...over,
 })
 
-const cache = (over: Partial<GitHubCache> = {}): GitHubCache => ({
-  cachedAt: Date.now(),
+const data = (over: Partial<GitHubCacheData> = {}): GitHubCacheData => ({
   user: {},
   repos: [],
   languagesByRepo: {},
@@ -30,28 +29,28 @@ describe('reposNeedingLanguageRefetch', () => {
 
   it('skips repos whose pushed_at matches the cached value', () => {
     const fresh = [repo({ name: 'a', pushed_at: '2026-01-01T00:00:00Z' })]
-    const c = cache({
+    const d = data({
       languagesByRepo: {
         'me/a': { languages: { TypeScript: 100 }, pushedAt: '2026-01-01T00:00:00Z' },
       },
     })
-    expect(reposNeedingLanguageRefetch(fresh, c, 'me')).toHaveLength(0)
+    expect(reposNeedingLanguageRefetch(fresh, d, 'me')).toHaveLength(0)
   })
 
   it('refetches a repo whose pushed_at changed', () => {
     const fresh = [repo({ name: 'a', pushed_at: '2026-02-01T00:00:00Z' })]
-    const c = cache({
+    const d = data({
       languagesByRepo: {
         'me/a': { languages: {}, pushedAt: '2026-01-01T00:00:00Z' },
       },
     })
-    expect(reposNeedingLanguageRefetch(fresh, c, 'me')).toHaveLength(1)
+    expect(reposNeedingLanguageRefetch(fresh, d, 'me')).toHaveLength(1)
   })
 
   it('refetches new repos absent from the cache', () => {
     const fresh = [repo({ name: 'new' })]
-    const c = cache() // empty languagesByRepo
-    const need = reposNeedingLanguageRefetch(fresh, c, 'me')
+    const d = data()
+    const need = reposNeedingLanguageRefetch(fresh, d, 'me')
     expect(need).toHaveLength(1)
     expect(need[0].name).toBe('new')
   })
@@ -59,9 +58,9 @@ describe('reposNeedingLanguageRefetch', () => {
 
 describe('isCacheFresh (github)', () => {
   it('true when within 6h', () => {
-    expect(isCacheFresh(cache({ cachedAt: Date.now() - 60_000 }))).toBe(true)
+    expect(isCacheFresh(Date.now() - 60_000)).toBe(true)
   })
   it('false past 6h', () => {
-    expect(isCacheFresh(cache({ cachedAt: Date.now() - 7 * 60 * 60 * 1000 }))).toBe(false)
+    expect(isCacheFresh(Date.now() - 7 * 60 * 60 * 1000)).toBe(false)
   })
 })
