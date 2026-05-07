@@ -11,7 +11,7 @@ update-quick: ## Genere les JSON sans re-telecharger SerieBox
 	cd web && npm run update:data:quick
 
 books-covers: ## Enrichit les couvertures de livres
-	cd pipelines && python image_books.py
+	cd web && npm run refresh:book-covers
 
 dev: ## Lance le serveur de developpement
 	cd web && npm run dev

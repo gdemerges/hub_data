@@ -29,4 +29,4 @@ make update-quick # Génère JSON sans re-télécharger
 - Sections + couleurs + data sources : `web/app/` (une page par section)
 - Caches : `web/lib/file-cache.ts`, `github-cache.ts`, `steam-cache.ts`, `token-cache.ts`
 - Rate limiting : `web/lib/rate-limiter.ts`
-- Build pipeline : `web/scripts/build-data.ts`, `pipelines/update-data.py`
+- Build pipeline : `web/scripts/build-data.ts` (jeux/films/séries), `web/scripts/refresh-book-covers.ts` (livres)

@@ -137,97 +137,26 @@ npm start
 
 ## 🔄 Mise à jour des données (Pipelines)
 
-### Prérequis Python
-
-```bash
-pip install requests pandas python-dotenv browser-cookie3
-```
+Toute la pipeline est en TypeScript. Les commandes principales passent par le `Makefile` à la racine.
 
 ### Mise à jour complète (Jeux, Films, Séries)
 
-Le script principal télécharge les données depuis SerieBox et génère les fichiers JSON avec images :
-
 ```bash
-cd pipelines
-python update-data.py
+make update         # Télécharge SerieBox + génère les JSON enrichis
+make update-quick   # Régénère les JSON depuis les CSV existants
 ```
 
-Options :
-- `--skip-seriebox` ou `-s` : Utiliser les données existantes sans re-télécharger depuis SerieBox
+En interne : `web/scripts/build-data.ts` lit les CSV de `data/seriebox/`, requête IGDB (jeux) et TMDB (films/séries) pour les couvertures, et écrit `web/data/{games,films,series}.json`. Le téléchargement SerieBox utilise les cookies de votre navigateur (Firefox/Chrome) — assurez-vous d'être connecté.
 
 ### Pipeline Livres
 
-Les livres viennent d'un fichier Excel `data/books.xlsx` géré manuellement. Le flux est indépendant de SerieBox.
-
-#### 1. Source de données
-
-Placez ou mettez à jour `data/books.xlsx` avec les colonnes définies ci-dessus. Le loader (`web/lib/books-loader.ts`) lit le fichier et utilise un cache sur disque (`data/books-cache.json`) invalidé automatiquement à chaque modification du xlsx.
-
-#### 2. Couvertures (Open Library + Google Books)
+Les livres viennent d'un fichier `data/books.csv` (ou `.xls` / `.xlsx`) géré manuellement. Le loader (`web/lib/books-loader.ts`) lit le fichier et utilise un cache sur disque (`data/books-cache.json`) invalidé automatiquement à chaque modification.
 
 ```bash
-# Récupère les couvertures manquantes via ISBN → Open Library, fallback Google Books
-python pipelines/image_books.py
-
-# Alternative TypeScript (repart de zéro avec --force)
-cd web && npx tsx scripts/refresh-book-covers.ts
-cd web && npx tsx scripts/refresh-book-covers.ts --force
+make books-covers   # Cherche les couvertures manquantes (Open Library + Google Books)
 ```
 
-`image_books.py` :
-- Cherche via ISBN sur Open Library, fallback Google Books, puis titre/auteur
-- Cache les URLs dans `data/books-covers-cache.json`
-
-`refresh-book-covers.ts` :
-- Relit le xlsx, reconstruit le cache en UTF-8 propre (corrige les entrées mojibake)
-- `--force` repart de zéro ; sans flag, complète seulement les entrées absentes
-
-#### 3. Workflow recommandé (livres)
-
-1. Modifier `data/books.xlsx`
-2. Lancer `python pipelines/image_books.py` pour les nouvelles couvertures
-3. Relancer le serveur — le cache mtime se régénère automatiquement
-
-### Étapes détaillées (Jeux, Films, Séries)
-
-#### 1. Téléchargement depuis SerieBox
-
-Le script télécharge automatiquement vos listes depuis SerieBox en utilisant les cookies de votre navigateur (Firefox ou Chrome). Assurez-vous d'être connecté à SerieBox dans votre navigateur.
-
-```bash
-python pipelines/seriesbox.py
-```
-
-Fichiers générés dans `data/seriebox/` :
-- `shows.csv` - Séries
-- `films_vus.csv` - Films
-- `jeux.csv` - Jeux
-
-#### 2. Génération des JSON avec images
-
-Ce script récupère les images depuis IGDB (jeux) et TMDB (films/séries) :
-
-```bash
-cd web
-npx tsx scripts/build-data.ts
-```
-
-Fichiers générés dans `web/data/` :
-- `games.json` - Jeux avec covers IGDB
-- `films.json` - Films avec posters TMDB
-- `series.json` - Séries avec posters TMDB
-
-#### 3. Enrichissement manuel des images (optionnel)
-
-Si certaines images manquent, vous pouvez lancer les scripts d'enrichissement séparément :
-
-```bash
-# Images des jeux (IGDB)
-python pipelines/image_game.py
-
-# Images des films et séries (TMDB)
-python pipelines/image_movies_series.py
-```
+En interne : `web/scripts/refresh-book-covers.ts` essaie ISBN → Open Library, ISBN → Google Books, puis recherche titre/auteur sur les deux. Cache : `data/books-covers-cache.json`. Flag `--force` pour repartir de zéro.
 
 ### Variables d'environnement requises
 
@@ -244,24 +173,15 @@ IGDB_CLIENT_SECRET=votre_client_secret
 
 # TMDB (pour les posters films/séries)
 TMDB_API_KEY=votre_api_key
+
+# Google Books (optionnel, augmente le quota)
+GOOGLE_BOOKS_API_KEY=votre_api_key
 ```
-
-### Workflow recommandé
-
-1. Connectez-vous à SerieBox dans votre navigateur
-2. Lancez `python pipelines/update-data.py`
-3. Vérifiez les images manquantes et relancez les scripts d'enrichissement si nécessaire
 
 ## 📁 Structure du projet
 
 ```
 hub_data/
-├── pipelines/                 # Scripts de mise à jour des données
-│   ├── update-data.py        # Script principal de mise à jour (jeux/films/séries)
-│   ├── seriesbox.py          # Téléchargement depuis SerieBox
-│   ├── image_game.py         # Enrichissement images IGDB
-│   ├── image_movies_series.py # Enrichissement images TMDB
-│   └── image_books.py        # Couvertures livres (Open Library + Google Books)
 ├── data/                      # Données brutes (gitignored)
 │   ├── seriebox/             # CSV téléchargés depuis SerieBox
 │   └── seriebox_cleaned/     # CSV nettoyés

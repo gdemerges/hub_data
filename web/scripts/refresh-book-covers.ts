@@ -1,9 +1,9 @@
 /**
  * refresh-book-covers.ts
  *
- * Reconstruit ../data/books-covers-cache.json depuis le xlsx + Google Books
- * (et fallback Open Library). Sauve les clés en UTF-8 propre, ce qui n'est pas
- * le cas du cache historique.
+ * Reconstruit ../data/books-covers-cache.json en cherchant les couvertures via
+ * Open Library (ISBN puis recherche) et Google Books (ISBN puis recherche).
+ * Lit books.csv / books.xls / books.xlsx (par ordre de priorité).
  *
  *   npx tsx scripts/refresh-book-covers.ts            # complète les manquants
  *   npx tsx scripts/refresh-book-covers.ts --force    # repart de zéro
@@ -14,22 +14,58 @@ import { resolve } from 'path'
 import * as XLSX from 'xlsx'
 
 const DATA_DIR = resolve(__dirname, '../../data')
-const XLSX_FILE = resolve(DATA_DIR, 'books.xlsx')
+const BOOKS_FILES = ['books.csv', 'books.xlsx', 'books.xls'].map((f) => resolve(DATA_DIR, f))
 const CACHE_FILE = resolve(DATA_DIR, 'books-covers-cache.json')
+const GOOGLE_BOOKS_API_KEY = process.env.GOOGLE_BOOKS_API_KEY
 
 const force = process.argv.includes('--force')
 
-function readBookTitles(): string[] {
-  if (!existsSync(XLSX_FILE)) {
-    console.error(`xlsx introuvable: ${XLSX_FILE}`)
+interface BookRow {
+  title: string
+  author?: string
+  isbn?: string
+}
+
+function readBooks(): BookRow[] {
+  const file = BOOKS_FILES.find((f) => existsSync(f))
+  if (!file) {
+    console.error(`Aucun fichier livres trouvé dans ${DATA_DIR} (books.csv/.xls/.xlsx)`)
     process.exit(1)
   }
-  const wb = XLSX.readFile(XLSX_FILE)
+  console.log(`Source: ${file}`)
+  const wb = XLSX.readFile(file)
   const sheet = wb.Sheets[wb.SheetNames[0]]
-  const rows = XLSX.utils.sheet_to_json<Record<string, string>>(sheet)
-  return rows
-    .map((r) => String(r['Titre VF'] || '').trim())
-    .filter(Boolean)
+  const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(sheet, { raw: false })
+
+  const titleCols = ['Titre VF', 'Titre VO', 'Titre']
+  const authorCol = 'Auteur(s)'
+  const isbnCol = 'ISBN'
+
+  const out: BookRow[] = []
+  for (const r of rows) {
+    const titleCol = titleCols.find((c) => r[c])
+    if (!titleCol) continue
+    const title = String(r[titleCol]).trim()
+    if (!title || title.toLowerCase() === 'nan') continue
+    const authorRaw = r[authorCol] ? String(r[authorCol]).trim() : ''
+    const author = authorRaw && authorRaw.toLowerCase() !== 'nan' ? authorRaw : undefined
+    out.push({ title, author, isbn: cleanIsbn(r[isbnCol]) })
+  }
+  return out
+}
+
+function cleanIsbn(raw: unknown): string | undefined {
+  if (raw == null) return undefined
+  let s = String(raw).trim()
+  if (!s || s.toLowerCase() === 'nan') return undefined
+  // Excel scientific notation, FR or EN decimal sep
+  if (/e[+-]/i.test(s)) {
+    const n = Number(s.replace(',', '.'))
+    if (!Number.isFinite(n)) return undefined
+    s = String(Math.round(n))
+  }
+  s = s.replace(/[^0-9Xx]/g, '')
+  return s.length === 10 || s.length === 13 ? s : undefined
 }
 
 function loadCache(): Record<string, string | null> {
@@ -47,12 +83,46 @@ function saveCache(cache: Record<string, string | null>): void {
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
+async function openLibraryByIsbn(isbn: string): Promise<string | null> {
+  const url = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`
+  try {
+    const res = await fetch(url, { method: 'HEAD', redirect: 'follow' })
+    if (!res.ok) return null
+    const len = Number(res.headers.get('content-length') ?? '0')
+    return len > 1000 ? url : null
+  } catch {
+    return null
+  }
+}
+
+async function openLibrarySearch(title: string, author?: string): Promise<string | null> {
+  const q = author ? `${title} ${author}` : title
+  const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(q)}&limit=1`
+  try {
+    const res = await fetch(url)
+    if (!res.ok) return null
+    const data = (await res.json()) as { docs?: { cover_i?: number; isbn?: string[] }[] }
+    const doc = data.docs?.[0]
+    if (!doc) return null
+    if (doc.cover_i) return `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`
+    for (const isbn of (doc.isbn ?? []).slice(0, 3)) {
+      const cover = await openLibraryByIsbn(isbn)
+      if (cover) return cover
+    }
+    return null
+  } catch {
+    return null
+  }
+}
+
 interface GoogleBookItem {
   volumeInfo?: { imageLinks?: { thumbnail?: string; smallThumbnail?: string } }
 }
 
-async function googleBooksCover(title: string): Promise<string | null> {
-  const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(title)}&maxResults=1&printType=books`
+async function googleBooks(title: string, author?: string, isbn?: string): Promise<string | null> {
+  const q = isbn ? `isbn:${isbn}` : `intitle:${title}${author ? `+inauthor:${author}` : ''}`
+  let url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(q)}&maxResults=1`
+  if (GOOGLE_BOOKS_API_KEY) url += `&key=${GOOGLE_BOOKS_API_KEY}`
   try {
     const res = await fetch(url)
     if (!res.ok) return null
@@ -60,64 +130,62 @@ async function googleBooksCover(title: string): Promise<string | null> {
     const links = data.items?.[0]?.volumeInfo?.imageLinks
     const raw = links?.thumbnail || links?.smallThumbnail
     if (!raw) return null
-    // Force HTTPS et zoom plus net
     return raw.replace(/^http:/, 'https:').replace(/zoom=\d/, 'zoom=2')
   } catch {
     return null
   }
 }
 
-async function openLibraryCover(title: string): Promise<string | null> {
-  const url = `https://openlibrary.org/search.json?title=${encodeURIComponent(title)}&limit=1`
-  try {
-    const res = await fetch(url)
-    if (!res.ok) return null
-    const data = (await res.json()) as { docs?: { cover_i?: number }[] }
-    const id = data.docs?.[0]?.cover_i
-    if (!id) return null
-    return `https://covers.openlibrary.org/b/id/${id}-L.jpg`
-  } catch {
-    return null
+async function findCover(book: BookRow): Promise<string | null> {
+  if (book.isbn) {
+    const c = await openLibraryByIsbn(book.isbn)
+    if (c) return c
+    await sleep(150)
+    const c2 = await googleBooks(book.title, book.author, book.isbn)
+    if (c2) return c2
+    await sleep(150)
   }
+  const c3 = await openLibrarySearch(book.title, book.author)
+  if (c3) return c3
+  await sleep(150)
+  return googleBooks(book.title, book.author)
 }
 
 async function main() {
-  const titles = readBookTitles()
+  const books = readBooks()
   const cache = loadCache()
 
   let fetched = 0
   let cached = 0
   let missing = 0
 
-  console.log(`${titles.length} livres dans le xlsx, ${Object.keys(cache).length} entrées dans le cache existant`)
+  console.log(`${books.length} livres, ${Object.keys(cache).length} entrées en cache`)
 
-  for (const title of titles) {
-    const key = title.toLowerCase()
-    if (!force && key in cache && cache[key]) {
+  for (const book of books) {
+    const key = book.title.toLowerCase()
+    if (!force && key in cache) {
       cached++
       continue
     }
 
-    let cover = await googleBooksCover(title)
-    if (!cover) cover = await openLibraryCover(title)
-
+    const cover = await findCover(book)
     cache[key] = cover
+
     if (cover) {
       fetched++
-      console.log(`  ✓ ${title}`)
+      console.log(`  ✓ ${book.title}`)
     } else {
       missing++
-      console.log(`  ✗ ${title}`)
+      console.log(`  ✗ ${book.title}`)
     }
 
-    // Sauvegarder régulièrement et respecter les APIs
     if ((fetched + missing) % 10 === 0) saveCache(cache)
-    await sleep(120)
+    await sleep(300)
   }
 
   saveCache(cache)
   console.log(`\nFini. cached=${cached} fetched=${fetched} missing=${missing}`)
-  console.log(`Cache écrit: ${CACHE_FILE}`)
+  console.log(`Cache: ${CACHE_FILE}`)
 }
 
 main().catch((e) => {
