@@ -36,10 +36,6 @@ const ACTIVITY_FILTERS: { key: ActivityFilterKey; label: string; icon: typeof Ac
   { key: 'RPM', label: 'RPM', icon: Disc },
 ]
 
-function isActivityFilter(value: string | undefined): value is ActivityFilterKey {
-  return value === 'all' || value === 'Run' || value === 'Ride' || value === 'RPM'
-}
-
 function getActivityIcon(type: string) {
   switch (type.toLowerCase()) {
     case 'ride':
@@ -161,8 +157,6 @@ export function SportSkeleton() {
     </div>
   )
 }
-
-export { isActivityFilter }
 
 function ConnectPanel() {
   return (

@@ -1,10 +1,13 @@
 import { Suspense } from 'react'
 import { PersonSimpleRun } from '@phosphor-icons/react/dist/ssr'
 import { PageHeader } from '@/components'
-import { SportClient, SportSkeleton, isActivityFilter } from '@/components/sport-client'
+import { SportClient, SportSkeleton } from '@/components/sport-client'
 import { loadStrava } from '@/lib/strava'
+import type { ActivityFilterKey } from '@/lib/sport'
 
 export const revalidate = 3600
+
+const VALID_FILTERS: ActivityFilterKey[] = ['all', 'Run', 'Ride', 'RPM']
 
 export default async function SportPage({
   searchParams,
@@ -12,7 +15,9 @@ export default async function SportPage({
   searchParams: Promise<{ filter?: string; year?: string }>
 }) {
   const { filter: filterParam, year: yearParam } = await searchParams
-  const filter = isActivityFilter(filterParam) ? filterParam : 'Run'
+  const filter = VALID_FILTERS.includes(filterParam as ActivityFilterKey)
+    ? (filterParam as ActivityFilterKey)
+    : 'Run'
   const year = yearParam ? parseInt(yearParam) : new Date().getFullYear()
 
   const promise = loadStrava()
