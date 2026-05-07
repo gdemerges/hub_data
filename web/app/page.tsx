@@ -8,9 +8,10 @@ export const revalidate = 3600
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: { year?: string }
+  searchParams: Promise<{ year?: string }>
 }) {
-  const selectedYear = searchParams.year ? parseInt(searchParams.year) : null
+  const { year } = await searchParams
+  const selectedYear = year ? parseInt(year) : null
 
   // GitHub contributions fetched client-side in OverviewStats (non-blocking)
   const [allGames, allFilms, allSeries] = await Promise.all([

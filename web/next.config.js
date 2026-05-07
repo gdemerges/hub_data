@@ -66,9 +66,9 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react'],
-    turbo: {
-      root: '.',
-    },
+  },
+  turbopack: {
+    root: __dirname,
   },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }]
