@@ -1,13 +1,22 @@
+import { Suspense } from 'react'
 import Image from 'next/image'
 import { StatCard, PageHeader } from '@/components'
-import { SteamPlaytimeSection } from '@/components/steam-playtime-section'
+import { SteamPlaytimeSection, SteamPlaytimeSkeleton } from '@/components/steam-playtime-section'
 import { Gamepad2, Clock, Trophy, Zap } from 'lucide-react'
 import { SteamLogo } from '@phosphor-icons/react/dist/ssr'
 import { loadSteam } from '@/lib/steam'
+import { loadPlaytime } from '@/lib/steam-playtime'
 
 export const revalidate = 21600
 
-export default async function SteamPage() {
+export default async function SteamPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ year?: string }>
+}) {
+  const { year: yearParam } = await searchParams
+  const year = yearParam ? parseInt(yearParam) : new Date().getFullYear()
+  const playtimePromise = loadPlaytime(year)
   const data = await loadSteam()
 
   if (!data) {
@@ -67,7 +76,9 @@ export default async function SteamPage() {
         <StatCard label="Jeux récents" value={data.stats.gamesPlayedRecently} icon={Trophy} color="yellow" />
       </div>
 
-      <SteamPlaytimeSection />
+      <Suspense fallback={<SteamPlaytimeSkeleton />}>
+        <SteamPlaytimeSection promise={playtimePromise} year={year} />
+      </Suspense>
 
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">

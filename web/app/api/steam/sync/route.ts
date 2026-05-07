@@ -1,59 +1,13 @@
 import { NextResponse } from 'next/server'
-import { updatePlaytimeFromSnapshot, type GameSnapshot } from '@/lib/steam-storage'
+import { syncSteamPlaytime } from '@/lib/steam-sync'
 import { logger } from '@/lib/logger'
-
-const STEAM_API_BASE = 'https://api.steampowered.com'
 
 export async function POST() {
   try {
-    const apiKey = process.env.STEAM_API_KEY
-    const userId = process.env.STEAM_USER_ID
-
-    if (!apiKey || !userId) {
-      return NextResponse.json(
-        { error: 'Steam API key or User ID not configured' },
-        { status: 500 }
-      )
-    }
-
-    // Fetch all owned games with playtime
-    const gamesResponse = await fetch(
-      `${STEAM_API_BASE}/IPlayerService/GetOwnedGames/v1/?key=${apiKey}&steamid=${userId}&include_appinfo=1&include_played_free_games=1`
-    )
-
-    if (!gamesResponse.ok) {
-      throw new Error('Failed to fetch games')
-    }
-
-    const gamesData = await gamesResponse.json()
-    interface SteamGameRaw { appid: number; name: string; playtime_forever: number }
-    const games: SteamGameRaw[] = gamesData.response?.games || []
-
-    // Create snapshot with total playtime for each game
-    const currentSnapshot: GameSnapshot[] = games
-      .filter((game) => game.playtime_forever > 0) // Only games with playtime
-      .map((game) => ({
-        appid: game.appid,
-        name: game.name,
-        playtimeForever: game.playtime_forever,
-      }))
-
-    // Update history with new snapshot
-    const result = updatePlaytimeFromSnapshot(userId, currentSnapshot)
-
-    return NextResponse.json({
-      success: true,
-      message: 'Playtime data synced successfully',
-      date: new Date().toISOString().split('T')[0],
-      gamesInSnapshot: currentSnapshot.length,
-      minutesPlayedSinceLastSync: result.minutesPlayedSinceLastSync,
-      entriesInHistory: result.history.entries.length,
-    })
+    const result = await syncSteamPlaytime()
+    return NextResponse.json({ success: true, message: 'Playtime data synced successfully', ...result })
   } catch (error) {
     logger.error('Steam sync error:', error)
-    return NextResponse.json(
-      { error: 'Failed to sync Steam data' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to sync Steam data' }, { status: 500 })
   }
 }
