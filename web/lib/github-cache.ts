@@ -1,5 +1,5 @@
 import path from 'path'
-import { FileCacheStore } from './cache-store'
+import { createFileCache } from './cache-store'
 
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000
 
@@ -26,24 +26,16 @@ export interface GitHubCacheData {
   totalContributions: number
 }
 
-const store = new FileCacheStore<GitHubCacheData>({
+const cache = createFileCache<GitHubCacheData>({
   filePath: path.join(process.cwd(), 'data', 'github-cache.json'),
   ttlMs: CACHE_TTL_MS,
   name: 'github',
   pretty: true,
 })
 
-export async function readGitHubCache() {
-  return store.read()
-}
-
-export async function writeGitHubCache(data: GitHubCacheData): Promise<void> {
-  await store.write(data)
-}
-
-export function isCacheFresh(cachedAt: number): boolean {
-  return store.isFresh(cachedAt)
-}
+export const readGitHubCache = cache.read
+export const writeGitHubCache = cache.write
+export const isCacheFresh = cache.isFresh
 
 export function reposNeedingLanguageRefetch(
   freshRepos: GitHubRawRepo[],

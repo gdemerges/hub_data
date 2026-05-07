@@ -1,35 +1,19 @@
-'use client'
-
-import { useState } from 'react'
+import { Suspense } from 'react'
 import Image from 'next/image'
-import useSWR from 'swr'
-import { StatCard, ContributionCalendar, BarChart, PageHeader } from '@/components'
-import { SkeletonProfile, SkeletonStatCard, SkeletonChart } from '@/components/skeleton'
-import { FadeIn } from '@/components/page-transition'
-import { Star, GitFork, Users, MapPin, Building, Code, ChevronLeft, ChevronRight, TrendingUp, Activity, RefreshCw } from 'lucide-react'
-import { GithubLogo } from '@phosphor-icons/react'
-import type { GitHubData } from '@/lib/types'
+import { StatCard, PageHeader } from '@/components'
+import { Star, GitFork, Users, MapPin, Building, Code } from 'lucide-react'
+import { GithubLogo } from '@phosphor-icons/react/dist/ssr'
+import { loadGitHub, loadGitHubContributions, loadGitHubYearly } from '@/lib/github'
+import {
+  GitHubContributionsSection,
+  GitHubContributionsSkeleton,
+} from '@/components/github-contributions-section'
+import { GitHubYearlySection, GitHubYearlySkeleton } from '@/components/github-yearly-section'
+import { GitHubSyncButton } from '@/components/github-sync-button'
 
-interface ContributionsData {
-  totalContributions: number
-  contributions: {
-    date: string
-    count: number
-    level: 0 | 1 | 2 | 3 | 4
-  }[]
-}
-
-interface YearlyContributionsData {
-  yearlyContributions: {
-    year: number
-    contributions: number
-  }[]
-  totalYears: number
-  totalContributions: number
-}
+export const revalidate = 21600
 
 const GITHUB_USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'gdemerges'
-const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 function timeAgo(iso: string): string {
   const diff = Date.now() - new Date(iso).getTime()
@@ -41,47 +25,24 @@ function timeAgo(iso: string): string {
   return `il y a ${Math.floor(hours / 24)}j`
 }
 
-export default function GitHubPage() {
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
+export default async function GitHubPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ year?: string }>
+}) {
+  const { year: yearParam } = await searchParams
+  const year = yearParam ? parseInt(yearParam) : new Date().getFullYear()
 
-  const { data, error, isLoading: loading, mutate } = useSWR<GitHubData>(
-    `/api/github?username=${GITHUB_USERNAME}`,
-    fetcher,
-    { revalidateOnFocus: false, dedupingInterval: 21600000 } // 6h — matches server cache TTL
-  )
+  const contributionsPromise = loadGitHubContributions(GITHUB_USERNAME, year)
+  const yearlyPromise = loadGitHubYearly(GITHUB_USERNAME)
+  const data = await loadGitHub(GITHUB_USERNAME)
 
-  const { data: contributions, isLoading: loadingContributions } = useSWR<ContributionsData>(
-    `/api/github/contributions?username=${GITHUB_USERNAME}&year=${selectedYear}`,
-    fetcher,
-    { revalidateOnFocus: false, dedupingInterval: 21600000 } // 6h — matches server cache TTL
-  )
-
-  const { data: yearlyContributions, isLoading: loadingYearly } = useSWR<YearlyContributionsData>(
-    `/api/github/yearly-contributions?username=${GITHUB_USERNAME}`,
-    fetcher,
-    { revalidateOnFocus: false, dedupingInterval: 21600000 } // 6h — matches server cache TTL
-  )
-
-  if (loading) {
+  if (!data) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <PageHeader title="GitHub" subtitle="Chargement du profil…" color="indigo" icon={GithubLogo} />
-        <SkeletonProfile />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-8">
-          {[...Array(4)].map((_, i) => (
-            <SkeletonStatCard key={i} />
-          ))}
-        </div>
-        <SkeletonChart />
-      </div>
-    )
-  }
-
-  if (error || !data) {
-    return (
-      <div className="max-w-7xl mx-auto px-6 py-8">
+        <PageHeader title="GitHub" subtitle="Erreur de chargement" color="indigo" icon={GithubLogo} />
         <div className="text-center py-12">
-          <p className="text-text-muted">{error || 'Erreur de chargement'}</p>
+          <p className="text-text-muted">Impossible de charger les données GitHub</p>
         </div>
       </div>
     )
@@ -91,22 +52,12 @@ export default function GitHubPage() {
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
         title="GitHub"
-        subtitle={data?.fetchedAt ? `Synchronisé ${timeAgo(data.fetchedAt)}` : 'Profil développeur'}
+        subtitle={data.fetchedAt ? `Synchronisé ${timeAgo(data.fetchedAt)}` : 'Profil développeur'}
         color="indigo"
         icon={GithubLogo}
-        actions={
-          <button
-            onClick={() => mutate()}
-            className="flex items-center gap-2 px-3 py-1.5 text-xs font-mono text-neon-magenta/70 border border-neon-magenta/30 rounded hover:bg-neon-magenta/10 hover:text-neon-magenta transition-all"
-            title="Rafraîchir les données"
-          >
-            <RefreshCw className="w-3 h-3" />
-            SYNC
-          </button>
-        }
+        actions={<GitHubSyncButton username={GITHUB_USERNAME} />}
       />
 
-      {/* User profile */}
       <div className="tech-card p-6 mb-8 border-neon-magenta/30 hover:border-neon-magenta/60 transition-all duration-300">
         <div className="flex flex-col sm:flex-row items-start gap-6">
           <div className="relative">
@@ -147,12 +98,11 @@ export default function GitHubPage() {
         </div>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <StatCard label="Repositories" value={data.stats.totalRepos} icon={Code} color="magenta" />
         <StatCard
           label="Contributions totales"
-          value={yearlyContributions?.totalContributions ?? data.stats.totalContributions}
+          value={data.stats.totalContributions}
           icon={Star}
           color="cyan"
         />
@@ -160,60 +110,10 @@ export default function GitHubPage() {
         <StatCard label="Followers" value={data.user.followers} icon={Users} color="green" />
       </div>
 
-      {/* Contribution calendar */}
-      <div className="tech-card p-6 mb-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-neon-green/10 border border-neon-green/30 rounded">
-              <Activity className="w-5 h-5 text-neon-green" />
-            </div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-              Contribution_Calendar
-            </h3>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            {contributions && (
-              <span className="text-xs font-mono text-text-muted">
-                {contributions.totalContributions} commits // [{selectedYear}]
-              </span>
-            )}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setSelectedYear(selectedYear - 1)}
-                disabled={loadingContributions}
-                className="p-1 hover:bg-neon-green/10 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label="Année précédente"
-              >
-                <ChevronLeft className="w-4 h-4 text-neon-green" />
-              </button>
-              <span className="text-sm font-mono font-medium text-neon-green min-w-[4rem] text-center">
-                {selectedYear}
-              </span>
-              <button
-                onClick={() => setSelectedYear(selectedYear + 1)}
-                disabled={selectedYear >= new Date().getFullYear() || loadingContributions}
-                className="p-1 hover:bg-neon-green/10 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label="Année suivante"
-              >
-                <ChevronRight className="w-4 h-4 text-neon-green" />
-              </button>
-            </div>
-          </div>
-        </div>
-        {loadingContributions ? (
-          <div className="flex items-center justify-center h-40">
-            <div className="text-sm text-text-muted">Chargement des contributions...</div>
-          </div>
-        ) : contributions ? (
-          <ContributionCalendar contributions={contributions.contributions} year={selectedYear} />
-        ) : (
-          <div className="flex items-center justify-center h-40">
-            <div className="text-sm text-text-muted">Aucune contribution disponible</div>
-          </div>
-        )}
-      </div>
+      <Suspense fallback={<GitHubContributionsSkeleton />}>
+        <GitHubContributionsSection promise={contributionsPromise} year={year} />
+      </Suspense>
 
-      {/* Top languages */}
       <div className="tech-card p-6 mb-8">
         <div className="flex items-center gap-3 mb-4">
           <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
@@ -223,9 +123,7 @@ export default function GitHubPage() {
             <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
               Top_Languages
             </h3>
-            <p className="text-xs font-mono text-text-muted mt-0.5">
-              Based on code lines
-            </p>
+            <p className="text-xs font-mono text-text-muted mt-0.5">Based on code lines</p>
           </div>
         </div>
         <div className="space-y-3">
@@ -239,9 +137,7 @@ export default function GitHubPage() {
                   <span className="text-sm font-medium text-text-primary group-hover:text-neon-cyan transition-colors">
                     {lang.language}
                   </span>
-                  <span className="text-xs font-mono font-bold text-neon-cyan">
-                    {lang.percentage}%
-                  </span>
+                  <span className="text-xs font-mono font-bold text-neon-cyan">{lang.percentage}%</span>
                 </div>
                 <div className="h-2 bg-bg-primary rounded-full overflow-hidden border border-border-subtle">
                   <div
@@ -255,41 +151,9 @@ export default function GitHubPage() {
         </div>
       </div>
 
-      {/* Yearly contributions evolution */}
-      <div className="tech-card p-6">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 bg-neon-yellow/10 border border-neon-yellow/30 rounded">
-            <TrendingUp className="w-5 h-5 text-neon-yellow" />
-          </div>
-          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Yearly_Evolution
-          </h3>
-        </div>
-        {loadingYearly ? (
-          <div className="flex items-center justify-center h-64">
-            <div className="text-sm text-text-muted">Chargement des statistiques…</div>
-          </div>
-        ) : yearlyContributions && yearlyContributions.yearlyContributions.length > 0 ? (
-          <>
-            {(() => {
-              const filteredData = yearlyContributions.yearlyContributions.filter(y => y.year >= 2022)
-              const filteredTotal = filteredData.reduce((acc, y) => acc + y.contributions, 0)
-              return (
-                <>
-                  <p className="text-xs font-mono text-text-muted mb-6">
-                    {filteredTotal.toLocaleString('fr-FR')} commits // {filteredData.length} years
-                  </p>
-                  <BarChart data={filteredData} />
-                </>
-              )
-            })()}
-          </>
-        ) : (
-          <div className="flex items-center justify-center h-64">
-            <div className="text-sm text-text-muted">Aucune donnée disponible</div>
-          </div>
-        )}
-      </div>
+      <Suspense fallback={<GitHubYearlySkeleton />}>
+        <GitHubYearlySection promise={yearlyPromise} />
+      </Suspense>
     </div>
   )
 }

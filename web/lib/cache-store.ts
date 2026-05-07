@@ -65,3 +65,12 @@ export class FileCacheStore<T> implements CacheStore<T> {
     return Date.now() - cachedAt < this.opts.ttlMs
   }
 }
+
+export function createFileCache<T>(opts: FileCacheStoreOptions) {
+  const store = new FileCacheStore<T>(opts)
+  return {
+    read: () => store.read(),
+    write: (data: T) => store.write(data),
+    isFresh: (cachedAt: number) => store.isFresh(cachedAt),
+  }
+}

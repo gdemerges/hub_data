@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useDeferredValue } from 'react'
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
@@ -14,11 +14,12 @@ interface FilmsClientProps {
 }
 
 export function FilmsClient({ films }: FilmsClientProps) {
-  const [search, setSearch] = useState('')
-  const [selectedItem, setSelectedItem] = useState<Film | null>(null)
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
+  const [search, setSearch] = useState(() => searchParams.get('q') ?? '')
+  const [selectedItem, setSelectedItem] = useState<Film | null>(null)
+  const deferredSearch = useDeferredValue(search)
 
   useEffect(() => {
     const open = searchParams.get('open')
@@ -27,6 +28,13 @@ export function FilmsClient({ films }: FilmsClientProps) {
     if (match) setSelectedItem(match)
     router.replace(pathname, { scroll: false })
   }, [searchParams, films, pathname, router])
+
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    if (search) url.searchParams.set('q', search)
+    else url.searchParams.delete('q')
+    window.history.replaceState(null, '', url.toString())
+  }, [search])
 
   const items = useMemo(() => {
     return films.map((film) => ({
@@ -38,13 +46,10 @@ export function FilmsClient({ films }: FilmsClientProps) {
   }, [films])
 
   const filteredItems = useMemo(() => {
-    if (!search) return items
-
-    const searchLower = search.toLowerCase()
-    return items.filter((item) =>
-      item.title.toLowerCase().includes(searchLower)
-    )
-  }, [items, search])
+    if (!deferredSearch) return items
+    const searchLower = deferredSearch.toLowerCase()
+    return items.filter((item) => item.title.toLowerCase().includes(searchLower))
+  }, [items, deferredSearch])
 
   return (
     <>

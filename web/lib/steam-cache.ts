@@ -1,5 +1,5 @@
 import path from 'path'
-import { FileCacheStore } from './cache-store'
+import { createFileCache } from './cache-store'
 
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000
 
@@ -26,20 +26,12 @@ export interface SteamCacheData {
   games: SteamGame[]
 }
 
-const store = new FileCacheStore<SteamCacheData>({
+const cache = createFileCache<SteamCacheData>({
   filePath: path.join(process.cwd(), 'data', 'steam-cache.json'),
   ttlMs: CACHE_TTL_MS,
   name: 'steam',
 })
 
-export async function readSteamCache() {
-  return store.read()
-}
-
-export async function writeSteamCache(data: SteamCacheData): Promise<void> {
-  await store.write(data)
-}
-
-export function isSteamCacheFresh(cachedAt: number): boolean {
-  return store.isFresh(cachedAt)
-}
+export const readSteamCache = cache.read
+export const writeSteamCache = cache.write
+export const isSteamCacheFresh = cache.isFresh
