@@ -66,6 +66,8 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react'],
+    reactCompiler: true,
+    staleTimes: { dynamic: 30, static: 180 },
   },
   turbopack: {
     root: __dirname,
