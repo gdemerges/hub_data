@@ -25,7 +25,7 @@ export function TemporalStats({ films, series, games }: TemporalStatsProps) {
   const monthlyData = useMemo(() => {
     const months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc']
 
-    const data: MonthlyData[] = months.map((month, index) => ({
+    const data: MonthlyData[] = months.map((month) => ({
       month,
       films: 0,
       series: 0,
@@ -33,29 +33,24 @@ export function TemporalStats({ films, series, games }: TemporalStatsProps) {
       hoursPlayed: 0,
     }))
 
-    // Count films by release year (since we don't have watch date)
-    films.forEach(film => {
-      if (film.releaseYear === selectedYear) {
-        // Distribute across months randomly for visualization
-        const monthIndex = Math.floor(Math.random() * 12)
-        data[monthIndex].films++
-      }
-    })
+    // Deterministic month bucket from the title — keeps SSR/client output identical
+    const monthFor = (key: string) => {
+      let h = 0
+      for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) | 0
+      return Math.abs(h) % 12
+    }
 
-    // Count series by release year
-    series.forEach(s => {
-      if (s.releaseYear === selectedYear) {
-        const monthIndex = Math.floor(Math.random() * 12)
-        data[monthIndex].series++
-      }
+    films.forEach((film) => {
+      if (film.releaseYear === selectedYear) data[monthFor(film.title)].films++
     })
-
-    // Count games by release year
-    games.forEach(game => {
+    series.forEach((s) => {
+      if (s.releaseYear === selectedYear) data[monthFor(s.title)].series++
+    })
+    games.forEach((game) => {
       if (game.releaseYear === selectedYear) {
-        const monthIndex = Math.floor(Math.random() * 12)
-        data[monthIndex].games++
-        data[monthIndex].hoursPlayed += game.hoursPlayed || 0
+        const idx = monthFor(game.title)
+        data[idx].games++
+        data[idx].hoursPlayed += game.hoursPlayed || 0
       }
     })
 
