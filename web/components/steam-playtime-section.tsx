@@ -50,6 +50,7 @@ export function SteamPlaytimeSection({ promise, year }: Props) {
           <button
             onClick={handleSync}
             disabled={pendingSync}
+            aria-label="Synchroniser le tracker Steam"
             className="flex items-center gap-2 px-3 py-1.5 bg-neon-green/10 border border-neon-green/30 hover:bg-neon-green/20 hover:border-neon-green/50 text-neon-green rounded text-xs font-mono transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <RefreshCw className={`w-3 h-3 ${pendingSync ? 'animate-spin' : ''}`} />

@@ -66,6 +66,7 @@ export function OverviewSections({
                 imageUrl={game.coverUrl}
                 badge={game.hoursPlayed ? `${game.hoursPlayed}h` : undefined}
                 onClick={() => setSelectedGame(game)}
+                color="moss"
               />
             ))}
           </div>
@@ -81,6 +82,7 @@ export function OverviewSections({
                 imageUrl={film.posterUrl}
                 badge={film.rating ? `${film.rating}/20` : undefined}
                 onClick={() => setSelectedFilm(film)}
+                color="terracotta"
               />
             ))}
           </div>
@@ -96,6 +98,7 @@ export function OverviewSections({
                 imageUrl={s.posterUrl}
                 badge={s.rating ? `${s.rating}/20` : undefined}
                 onClick={() => setSelectedSeries(s)}
+                color="saffron"
               />
             ))}
           </div>

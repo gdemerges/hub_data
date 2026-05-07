@@ -35,14 +35,15 @@ export default async function RencontresPage() {
     )
   }
 
-  const villeColors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#06b6d4', '#f97316', '#84cc16']
+  // Solarpunk palette : moss, terracotta, saffron, fern, clay, indigo, rust, sage
+  const villeColors = ['#5a7d4a', '#b86b3c', '#d9a441', '#7ba896', '#b06868', '#3d5170', '#a8552c', '#a3b598']
   const villeChartData = stats.villes.slice(0, 8).map((item, index) => ({
     label: item.ville,
     value: item.count,
     color: villeColors[index % villeColors.length],
   }))
 
-  const nationaliteColors = ['#3b82f6', '#ef4444', '#22c55e', '#eab308', '#a855f7', '#ec4899', '#06b6d4', '#f97316']
+  const nationaliteColors = ['#3d5170', '#8e3a3a', '#4f8c4a', '#c8893f', '#a3b598', '#b86b3c', '#7ba896', '#a8552c']
   const nationaliteChartData = stats.nationalites.slice(0, 8).map((item, index) => ({
     label: item.nationalite,
     value: item.count,

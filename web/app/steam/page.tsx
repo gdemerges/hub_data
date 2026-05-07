@@ -70,7 +70,7 @@ export default async function SteamPage({
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         <StatCard label="Jeux possédés" value={data.stats.totalGames} icon={Gamepad2} color="green" />
         <StatCard label="Heures de jeu" value={data.stats.totalPlaytimeHours} icon={Clock} color="cyan" />
         <StatCard label="Jeux récents" value={data.stats.gamesPlayedRecently} icon={Trophy} color="yellow" />

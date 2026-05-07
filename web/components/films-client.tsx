@@ -83,6 +83,7 @@ export function FilmsClient({ films }: FilmsClientProps) {
               badge={item.badge}
               onClick={() => setSelectedItem(item)}
               priority={index < 12}
+              color="terracotta"
             />
           </StaggerItem>
         ))}

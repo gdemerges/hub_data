@@ -3,7 +3,9 @@
 import { use, useTransition } from 'react'
 import Image from 'next/image'
 import { Music, Users, Clock, Disc, Mic2, ListMusic, ExternalLink, RefreshCw } from 'lucide-react'
-import { StatCard } from '@/components'
+import { MusicNotes } from '@phosphor-icons/react/dist/ssr'
+import { StatCard, PageHeader } from '@/components'
+import { SkeletonStatCard, SkeletonProfile, SkeletonChart } from '@/components/skeleton'
 import { FadeIn } from '@/components/page-transition'
 import { syncSpotifyAction } from '@/lib/spotify-actions'
 import type { SpotifyData } from '@/lib/types'
@@ -38,6 +40,20 @@ function formatPlayedAt(date: string) {
   return 'Il y a quelques minutes'
 }
 
+function SyncButton({ pending, onSync }: { pending: boolean; onSync: () => void }) {
+  return (
+    <button
+      onClick={onSync}
+      disabled={pending}
+      aria-label="Rafraîchir les données Spotify"
+      className="flex items-center gap-2 px-3 py-1.5 text-xs font-mono text-earth-leaf/80 border border-earth-leaf/30 rounded-full hover:bg-earth-leaf/10 hover:text-earth-leaf hover:border-earth-leaf/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      <RefreshCw className={`w-3 h-3 ${pending ? 'animate-spin' : ''}`} />
+      SYNC
+    </button>
+  )
+}
+
 export function SpotifyClient({ promise }: Props) {
   const data = use(promise)
   const [pending, startTransition] = useTransition()
@@ -51,51 +67,44 @@ export function SpotifyClient({ promise }: Props) {
 
   if (!data || !data.user) {
     return (
-      <div className="bg-bg-card border border-border-subtle rounded-2xl p-8 text-center">
-        <Music className="w-16 h-16 text-text-muted mx-auto mb-4" />
-        <h2 className="text-lg font-semibold text-text-primary mb-2">Non connecté</h2>
-        <p className="text-sm text-text-muted mb-4">
-          Configurez vos credentials Spotify pour voir vos statistiques d&apos;écoute.
-        </p>
-        <p className="text-xs text-text-muted">
-          Ajoutez SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET et SPOTIFY_REFRESH_TOKEN dans votre fichier .env
-        </p>
-      </div>
+      <>
+        <PageHeader title="Spotify" subtitle="Statistiques d'écoute" color="leaf" icon={MusicNotes} />
+        <div className="tech-card p-8">
+          <div className="text-center max-w-xl mx-auto">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-earth-leaf/10 border border-earth-leaf/30 flex items-center justify-center">
+              <Music className="w-10 h-10 text-earth-leaf" />
+            </div>
+            <h2 className="font-display text-xl font-medium text-text-primary mb-3">
+              Non connecté
+            </h2>
+            <p className="text-sm text-text-secondary mb-2">
+              Configurez vos credentials Spotify pour voir vos statistiques d&apos;écoute.
+            </p>
+            <p className="text-xs text-text-muted font-mono mt-4">
+              SPOTIFY_CLIENT_ID · SPOTIFY_CLIENT_SECRET · SPOTIFY_REFRESH_TOKEN
+            </p>
+          </div>
+        </div>
+      </>
     )
   }
 
+  const subtitle = data.fetchedAt
+    ? `Synchronisé ${timeAgo(data.fetchedAt)}`
+    : 'Statistiques d\'écoute'
+
   return (
     <>
-      <FadeIn>
-        <div className="flex items-center justify-between gap-3 mb-8">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-green-500/10 rounded-xl">
-              <Music className="w-6 h-6 text-green-500" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-text-primary">Spotify</h1>
-              <p className="text-sm text-text-muted">
-                Statistiques d&apos;écoute
-                {data.fetchedAt && (
-                  <span className="ml-2 text-xs text-text-muted/60">· sync {timeAgo(data.fetchedAt)}</span>
-                )}
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={handleSync}
-            disabled={pending}
-            className="flex items-center gap-2 px-3 py-1.5 text-xs font-mono text-green-500/70 border border-green-500/30 rounded hover:bg-green-500/10 hover:text-green-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            title="Rafraîchir les données"
-          >
-            <RefreshCw className={`w-3 h-3 ${pending ? 'animate-spin' : ''}`} />
-            SYNC
-          </button>
-        </div>
-      </FadeIn>
+      <PageHeader
+        title="Spotify"
+        subtitle={subtitle}
+        color="leaf"
+        icon={MusicNotes}
+        actions={<SyncButton pending={pending} onSync={handleSync} />}
+      />
 
-      <FadeIn delay={0.1}>
-        <div className="bg-bg-card border border-border-subtle rounded-2xl p-6 mb-8">
+      <FadeIn delay={0.05}>
+        <div className="tech-card p-6 mb-8">
           <div className="flex flex-col sm:flex-row items-start gap-6">
             {data.user.avatar && (
               <Image
@@ -103,13 +112,13 @@ export function SpotifyClient({ promise }: Props) {
                 alt={data.user.name}
                 width={120}
                 height={120}
-                className="rounded-full ring-4 ring-green-500/20"
+                className="rounded-full ring-2 ring-earth-leaf/30"
               />
             )}
             <div className="flex-1">
-              <h2 className="text-xl font-bold text-text-primary">{data.user.name}</h2>
+              <h2 className="font-display text-xl font-medium text-text-primary">{data.user.name}</h2>
               <div className="flex items-center gap-4 mt-2 text-sm text-text-secondary">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1.5">
                   <Users className="w-4 h-4" />
                   <span>{data.user.followers} followers</span>
                 </div>
@@ -119,7 +128,7 @@ export function SpotifyClient({ promise }: Props) {
                   href={data.user.profileUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 mt-4 text-sm text-green-500 hover:underline"
+                  className="inline-flex items-center gap-1.5 mt-4 text-sm text-earth-leaf hover:underline"
                 >
                   Voir sur Spotify
                   <ExternalLink className="w-3 h-3" />
@@ -130,23 +139,27 @@ export function SpotifyClient({ promise }: Props) {
         </div>
       </FadeIn>
 
-      <FadeIn delay={0.2}>
+      <FadeIn delay={0.1}>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <StatCard label="Titres favoris" value={data.stats.totalTracks} icon={Disc} />
-          <StatCard label="Artistes favoris" value={data.stats.totalArtists} icon={Mic2} />
-          <StatCard label="Genres" value={data.stats.totalGenres} icon={ListMusic} />
-          <StatCard label="Écoutes récentes" value={data.recentlyPlayed.length} icon={Clock} />
+          <StatCard label="Titres favoris" value={data.stats.totalTracks} icon={Disc} color="green" />
+          <StatCard label="Artistes favoris" value={data.stats.totalArtists} icon={Mic2} color="green" />
+          <StatCard label="Genres" value={data.stats.totalGenres} icon={ListMusic} color="green" />
+          <StatCard label="Écoutes récentes" value={data.recentlyPlayed.length} icon={Clock} color="green" />
         </div>
       </FadeIn>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        <FadeIn delay={0.3}>
-          <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
-              <Disc className="w-5 h-5 text-green-500" />
-              Top titres
-            </h3>
-            <div className="space-y-3">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <FadeIn delay={0.15}>
+          <div className="tech-card p-6 h-full">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-earth-leaf/10 border border-earth-leaf/30 rounded-lg">
+                <Disc className="w-5 h-5 text-earth-leaf" />
+              </div>
+              <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+                Top_Titres
+              </h3>
+            </div>
+            <div className="space-y-2">
               {data.topTracks.slice(0, 5).map((track, index) => (
                 <a
                   key={`${track.name}-${index}`}
@@ -155,7 +168,7 @@ export function SpotifyClient({ promise }: Props) {
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 p-2 rounded-lg hover:bg-bg-secondary transition-colors"
                 >
-                  <span className="text-sm text-text-muted w-5">{index + 1}</span>
+                  <span className="text-sm font-mono text-text-muted w-5">{index + 1}</span>
                   {track.albumCover && (
                     <Image src={track.albumCover} alt={track.album} width={48} height={48} className="rounded" />
                   )}
@@ -163,20 +176,24 @@ export function SpotifyClient({ promise }: Props) {
                     <p className="text-sm font-medium text-text-primary truncate">{track.name}</p>
                     <p className="text-xs text-text-muted truncate">{track.artist}</p>
                   </div>
-                  <span className="text-xs text-text-muted">{formatDuration(track.duration)}</span>
+                  <span className="text-xs font-mono text-text-muted num">{formatDuration(track.duration)}</span>
                 </a>
               ))}
             </div>
           </div>
         </FadeIn>
 
-        <FadeIn delay={0.4}>
-          <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
-              <Mic2 className="w-5 h-5 text-green-500" />
-              Top artistes
-            </h3>
-            <div className="space-y-3">
+        <FadeIn delay={0.2}>
+          <div className="tech-card p-6 h-full">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-earth-leaf/10 border border-earth-leaf/30 rounded-lg">
+                <Mic2 className="w-5 h-5 text-earth-leaf" />
+              </div>
+              <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+                Top_Artistes
+              </h3>
+            </div>
+            <div className="space-y-2">
               {data.topArtists.slice(0, 5).map((artist, index) => (
                 <a
                   key={`${artist.name}-${index}`}
@@ -185,7 +202,7 @@ export function SpotifyClient({ promise }: Props) {
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 p-2 rounded-lg hover:bg-bg-secondary transition-colors"
                 >
-                  <span className="text-sm text-text-muted w-5">{index + 1}</span>
+                  <span className="text-sm font-mono text-text-muted w-5">{index + 1}</span>
                   {artist.image && (
                     <Image src={artist.image} alt={artist.name} width={48} height={48} className="rounded-full" />
                   )}
@@ -193,8 +210,8 @@ export function SpotifyClient({ promise }: Props) {
                     <p className="text-sm font-medium text-text-primary truncate">{artist.name}</p>
                     <p className="text-xs text-text-muted truncate">{artist.genres.join(', ')}</p>
                   </div>
-                  <span className="text-xs text-text-muted">
-                    {artist.followers.toLocaleString('fr-FR')} fans
+                  <span className="text-xs font-mono text-text-muted num">
+                    {artist.followers.toLocaleString('fr-FR')}
                   </span>
                 </a>
               ))}
@@ -203,17 +220,21 @@ export function SpotifyClient({ promise }: Props) {
         </FadeIn>
       </div>
 
-      <FadeIn delay={0.5}>
-        <div className="bg-bg-card border border-border-subtle rounded-2xl p-6 mb-8">
-          <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
-            <ListMusic className="w-5 h-5 text-green-500" />
-            Top genres
-          </h3>
+      <FadeIn delay={0.25}>
+        <div className="tech-card p-6 mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-earth-leaf/10 border border-earth-leaf/30 rounded-lg">
+              <ListMusic className="w-5 h-5 text-earth-leaf" />
+            </div>
+            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+              Top_Genres
+            </h3>
+          </div>
           <div className="flex flex-wrap gap-2">
             {data.topGenres.map((genre, index) => (
               <span
                 key={genre.genre}
-                className="px-3 py-1.5 bg-green-500/10 text-green-400 rounded-full text-sm font-medium"
+                className="px-3 py-1.5 bg-earth-leaf/10 text-earth-leaf border border-earth-leaf/20 rounded-full text-sm font-medium"
                 style={{ opacity: 1 - index * 0.08 }}
               >
                 {genre.genre}
@@ -223,13 +244,17 @@ export function SpotifyClient({ promise }: Props) {
         </div>
       </FadeIn>
 
-      <FadeIn delay={0.6}>
-        <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
-          <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
-            <Clock className="w-5 h-5 text-green-500" />
-            Écoutes récentes
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <FadeIn delay={0.3}>
+        <div className="tech-card p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-earth-leaf/10 border border-earth-leaf/30 rounded-lg">
+              <Clock className="w-5 h-5 text-earth-leaf" />
+            </div>
+            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+              Écoutes_Récentes
+            </h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             {data.recentlyPlayed.slice(0, 10).map((item) => (
               <a
                 key={`${item.name}-${item.playedAt}`}
@@ -245,7 +270,7 @@ export function SpotifyClient({ promise }: Props) {
                   <p className="text-sm font-medium text-text-primary truncate">{item.name}</p>
                   <p className="text-xs text-text-muted truncate">{item.artist}</p>
                 </div>
-                <span className="text-xs text-text-muted whitespace-nowrap">
+                <span className="text-xs font-mono text-text-muted whitespace-nowrap">
                   {formatPlayedAt(item.playedAt)}
                 </span>
               </a>
@@ -260,20 +285,16 @@ export function SpotifyClient({ promise }: Props) {
 export function SpotifySkeleton() {
   return (
     <>
-      <div className="flex items-center gap-3 mb-8">
-        <div className="p-2 bg-green-500/10 rounded-xl">
-          <Music className="w-6 h-6 text-green-500" />
-        </div>
-        <div>
-          <h1 className="text-2xl font-bold text-text-primary">Spotify</h1>
-          <p className="text-sm text-text-muted">Chargement...</p>
-        </div>
-      </div>
-      <div className="bg-bg-card border border-border-subtle rounded-2xl p-6 mb-8 animate-pulse h-40" />
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <PageHeader title="Spotify" subtitle="Chargement…" color="leaf" icon={MusicNotes} />
+      <SkeletonProfile />
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-8">
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="bg-bg-card border border-border-subtle rounded-2xl p-6 animate-pulse h-24" />
+          <SkeletonStatCard key={i} />
         ))}
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <SkeletonChart />
+        <SkeletonChart />
       </div>
     </>
   )

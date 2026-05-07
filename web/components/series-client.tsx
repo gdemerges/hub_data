@@ -87,6 +87,7 @@ export function SeriesClient({ series }: SeriesClientProps) {
               progressBadge={item.progressBadge}
               onClick={() => setSelectedItem(item)}
               priority={index < 12}
+              color="saffron"
             />
           </StaggerItem>
         ))}
