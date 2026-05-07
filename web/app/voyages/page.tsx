@@ -1,66 +1,19 @@
-'use client'
-
-import dynamic from 'next/dynamic'
 import { MapPin, Globe, Calendar, Upload, Building2, TrendingUp } from 'lucide-react'
-import { Compass } from '@phosphor-icons/react'
+import { Compass } from '@phosphor-icons/react/dist/ssr'
 import { StatCard, PageHeader } from '@/components'
-import { useApiData } from '@/lib/use-api-data'
+import { WorldMapClient } from '@/components/world-map-client'
+import { loadVoyages } from '@/lib/voyages'
 
-const WorldMap = dynamic(() => import('@/components/world-map').then((m) => m.WorldMap), {
-  ssr: false,
-  loading: () => (
-    <div className="h-[400px] bg-bg-card rounded-2xl border border-border-subtle animate-pulse" />
-  ),
-})
+export const revalidate = 86400
 
-interface PlaceVisit {
-  name: string
-  address: string
-  latitude: number
-  longitude: number
-  startTime: string
-  endTime: string
-  duration: number // in minutes
-  category?: string
-}
-
-interface TravelStats {
-  totalPlaces: number
-  totalCountries: number
-  totalCities: number
-  totalDays: number
-  topPlaces: { name: string; visits: number; city?: string }[]
-  topCities: { name: string; visits: number; country?: string }[]
-  topCountries: { name: string; visits: number }[]
-  visitsByYear: { year: number; visits: number }[]
-}
-
-export default function VoyagesPage() {
-  const { data: stats, loading } = useApiData<TravelStats>('/api/voyages')
-  const hasData = stats !== null
-
-  if (loading) {
-    return (
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <PageHeader title="Voyages" subtitle="Chargement de l'historique…" color="sage" icon={Compass} />
-        <div className="animate-pulse space-y-6">
-          <div className="h-32 bg-bg-card rounded-2xl border border-border-subtle" />
-          <div className="grid grid-cols-4 gap-4">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-24 bg-bg-card rounded-2xl border border-border-subtle" />
-            ))}
-          </div>
-        </div>
-      </div>
-    )
-  }
+export default async function VoyagesPage() {
+  const stats = await loadVoyages()
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader title="Voyages" subtitle="Historique des lieux visités" color="sage" icon={Compass} />
 
-      {!hasData ? (
-        /* No data - Show upload instructions */
+      {!stats ? (
         <div className="tech-card p-8 border-purple-400/30">
           <div className="text-center max-w-2xl mx-auto">
             <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-purple-400/10 border border-purple-400/30 flex items-center justify-center">
@@ -85,7 +38,7 @@ export default function VoyagesPage() {
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="w-6 h-6 flex-shrink-0 rounded bg-purple-400/20 text-purple-400 flex items-center justify-center text-xs font-bold">2</span>
-                  <span>Sélectionne uniquement "Historique des positions"</span>
+                  <span>Sélectionne uniquement &quot;Historique des positions&quot;</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="w-6 h-6 flex-shrink-0 rounded bg-purple-400/20 text-purple-400 flex items-center justify-center text-xs font-bold">3</span>
@@ -93,11 +46,11 @@ export default function VoyagesPage() {
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="w-6 h-6 flex-shrink-0 rounded bg-purple-400/20 text-purple-400 flex items-center justify-center text-xs font-bold">4</span>
-                  <span>Télécharge et extrait l'archive</span>
+                  <span>Télécharge et extrait l&apos;archive</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="w-6 h-6 flex-shrink-0 rounded bg-purple-400/20 text-purple-400 flex items-center justify-center text-xs font-bold">5</span>
-                  <span>Place le dossier "Semantic Location History" dans <code className="text-purple-400">data/location-history/</code></span>
+                  <span>Place le dossier &quot;Semantic Location History&quot; dans <code className="text-purple-400">data/location-history/</code></span>
                 </li>
               </ol>
             </div>
@@ -114,10 +67,8 @@ export default function VoyagesPage() {
             </a>
           </div>
         </div>
-      ) : stats && (
-        /* Data loaded - Show stats */
+      ) : (
         <>
-          {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <StatCard label="Lieux visités" value={stats.totalPlaces} icon={MapPin} color="purple" />
             <StatCard label="Pays" value={stats.totalCountries} icon={Globe} color="cyan" />
@@ -125,7 +76,6 @@ export default function VoyagesPage() {
             <StatCard label="Jours de voyage" value={stats.totalDays} icon={Calendar} color="green" />
           </div>
 
-          {/* World Map */}
           <div className="tech-card p-6 mb-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-purple-400/10 border border-purple-400/30 rounded">
@@ -136,13 +86,11 @@ export default function VoyagesPage() {
               </h3>
             </div>
             <div className="h-96">
-              <WorldMap visitedCountries={stats.topCountries.map(c => c.name)} />
+              <WorldMapClient visitedCountries={stats.topCountries.map((c) => c.name)} />
             </div>
           </div>
 
-          {/* Top Places */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            {/* Top Cities */}
             <div className="tech-card p-6">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-neon-magenta/10 border border-neon-magenta/30 rounded">
@@ -178,7 +126,6 @@ export default function VoyagesPage() {
               </div>
             </div>
 
-            {/* Top Countries */}
             <div className="tech-card p-6">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
@@ -208,7 +155,6 @@ export default function VoyagesPage() {
             </div>
           </div>
 
-          {/* Top Places */}
           <div className="tech-card p-6 mb-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-purple-400/10 border border-purple-400/30 rounded">
@@ -243,7 +189,6 @@ export default function VoyagesPage() {
             </div>
           </div>
 
-          {/* Yearly Evolution */}
           {stats.visitsByYear.length > 0 && (
             <div className="tech-card p-6">
               <div className="flex items-center gap-3 mb-6">
@@ -256,7 +201,7 @@ export default function VoyagesPage() {
               </div>
               <div className="flex items-end justify-between gap-2">
                 {stats.visitsByYear.map((year) => {
-                  const maxVisits = Math.max(...stats.visitsByYear.map(y => y.visits))
+                  const maxVisits = Math.max(...stats.visitsByYear.map((y) => y.visits))
                   const height = (year.visits / maxVisits) * 100
                   return (
                     <div key={year.year} className="flex-1 flex flex-col items-center justify-end h-48 gap-2">

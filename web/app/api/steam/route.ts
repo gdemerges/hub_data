@@ -1,118 +1,14 @@
 import { NextResponse } from 'next/server'
-import { z } from 'zod'
-import { readSteamCache, writeSteamCache, isSteamCacheFresh, type SteamGame, type SteamCacheData } from '@/lib/steam-cache'
-import { steamPlayerSchema, steamGameSchema } from '@/lib/api-schemas'
-import { logger } from '@/lib/logger'
+import { loadSteam } from '@/lib/steam'
 
-export const revalidate = 21600 // Revalidate every 6 hours
+export const revalidate = 21600
 
-const STEAM_API_BASE = 'https://api.steampowered.com'
+const HEADERS = { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=3600' }
 
 export async function GET() {
-  try {
-    const apiKey = process.env.STEAM_API_KEY
-    const userId = process.env.STEAM_USER_ID
-
-    if (!apiKey || !userId) {
-      return NextResponse.json(
-        { error: 'Steam API key or User ID not configured' },
-        { status: 500 }
-      )
-    }
-
-    // --- Check file cache first ---
-    const existingCache = await readSteamCache()
-    if (existingCache && isSteamCacheFresh(existingCache.cachedAt)) {
-      return buildSteamResponse(existingCache.data, existingCache.cachedAt)
-    }
-
-    // --- Cache stale or missing: fetch from Steam API ---
-    const [summaryResponse, gamesResponse] = await Promise.all([
-      fetch(`${STEAM_API_BASE}/ISteamUser/GetPlayerSummaries/v2/?key=${apiKey}&steamids=${userId}`),
-      fetch(`${STEAM_API_BASE}/IPlayerService/GetOwnedGames/v1/?key=${apiKey}&steamid=${userId}&include_appinfo=1&include_played_free_games=1`),
-    ])
-
-    if (!summaryResponse.ok || !gamesResponse.ok) {
-      // If API fails and we have a stale cache, use it as fallback
-      if (existingCache) {
-        logger.warn('Steam API failed, serving stale cache')
-        return buildSteamResponse(existingCache.data, existingCache.cachedAt)
-      }
-      throw new Error('Failed to fetch Steam data')
-    }
-
-    const summaryData = await summaryResponse.json()
-    const gamesData = await gamesResponse.json()
-
-    const rawPlayer = summaryData.response?.players?.[0]
-    if (!rawPlayer) {
-      throw new Error('Player not found')
-    }
-
-    const player = steamPlayerSchema.parse(rawPlayer)
-    const games: SteamGame[] = z.array(steamGameSchema).parse(gamesData.response?.games || [])
-
-    // --- Persist to file cache ---
-    const cacheData: SteamCacheData = { player, games }
-    await writeSteamCache(cacheData)
-
-    return buildSteamResponse(cacheData, Date.now())
-  } catch (error) {
-    logger.error('Steam API error:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch Steam data' },
-      { status: 500 }
-    )
+  const data = await loadSteam()
+  if (!data) {
+    return NextResponse.json({ error: 'Failed to fetch Steam data' }, { status: 500 })
   }
-}
-
-function buildSteamResponse(data: SteamCacheData, cachedAt: number): NextResponse {
-  const { player, games } = data
-
-  const totalGames = games.length
-  const totalPlaytimeMinutes = games.reduce((acc, game) => acc + (game.playtime_forever || 0), 0)
-  const totalPlaytimeHours = Math.floor(totalPlaytimeMinutes / 60)
-
-  const topGames = games
-    .filter((game) => game.playtime_forever > 0)
-    .sort((a, b) => b.playtime_forever - a.playtime_forever)
-    .slice(0, 10)
-    .map((game) => ({
-      appid: game.appid,
-      name: game.name,
-      playtimeHours: Math.floor(game.playtime_forever / 60),
-      playtimeMinutes: game.playtime_forever,
-      iconUrl: `https://media.steampowered.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`,
-    }))
-
-  const recentGames = games
-    .filter((game) => (game.playtime_2weeks ?? 0) > 0)
-    .sort((a, b) => (b.playtime_2weeks ?? 0) - (a.playtime_2weeks ?? 0))
-    .map((game) => ({
-      appid: game.appid,
-      name: game.name,
-      playtimeHours: Math.floor((game.playtime_2weeks ?? 0) / 60),
-      playtimeMinutes: game.playtime_2weeks ?? 0,
-      iconUrl: `https://media.steampowered.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`,
-    }))
-
-  return NextResponse.json({
-    user: {
-      steamId: player.steamid,
-      username: player.personaname,
-      avatar: player.avatarfull,
-      profileUrl: player.profileurl,
-      realName: player.realname,
-      country: player.loccountrycode,
-      createdAt: player.timecreated,
-    },
-    stats: {
-      totalGames,
-      totalPlaytimeHours,
-      gamesPlayedRecently: recentGames.length,
-    },
-    topGames,
-    recentGames,
-    fetchedAt: new Date(cachedAt).toISOString(),
-  }, { headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=3600' } })
+  return NextResponse.json(data, { headers: HEADERS })
 }

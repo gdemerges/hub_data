@@ -1,136 +1,21 @@
-'use client'
-
-import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { StatCard, ContributionCalendar, PageHeader } from '@/components'
-import { Gamepad2, Clock, Trophy, RefreshCw, ChevronLeft, ChevronRight, Zap } from 'lucide-react'
-import { SteamLogo } from '@phosphor-icons/react'
+import { StatCard, PageHeader } from '@/components'
+import { SteamPlaytimeSection } from '@/components/steam-playtime-section'
+import { Gamepad2, Clock, Trophy, Zap } from 'lucide-react'
+import { SteamLogo } from '@phosphor-icons/react/dist/ssr'
+import { loadSteam } from '@/lib/steam'
 
-interface SteamData {
-  user: {
-    steamId: string
-    username: string
-    avatar: string
-    profileUrl: string
-    realName: string
-    country: string
-  }
-  stats: {
-    totalGames: number
-    totalPlaytimeHours: number
-    gamesPlayedRecently: number
-  }
-  topGames: {
-    appid: number
-    name: string
-    playtimeHours: number
-    iconUrl: string
-  }[]
-  recentGames: {
-    appid: number
-    name: string
-    playtimeHours: number
-    iconUrl: string
-  }[]
-}
+export const revalidate = 21600
 
-interface PlaytimeData {
-  totalHours: number
-  totalMinutes: number
-  daysPlayed: number
-  playtime: {
-    date: string
-    count: number
-    level: 0 | 1 | 2 | 3 | 4
-  }[]
-}
+export default async function SteamPage() {
+  const data = await loadSteam()
 
-export default function SteamPage() {
-  const [data, setData] = useState<SteamData | null>(null)
-  const [playtime, setPlaytime] = useState<PlaytimeData | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [loadingPlaytime, setLoadingPlaytime] = useState(false)
-  const [syncing, setSyncing] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
-
-  // Fetch main Steam data (user, games, stats) - only once
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoading(true)
-        const response = await fetch('/api/steam')
-        if (!response.ok) throw new Error('Failed to fetch')
-        const result = await response.json()
-        setData(result)
-      } catch (err) {
-        setError('Impossible de charger les données Steam')
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchData()
-  }, [])
-
-  // Fetch playtime data separately - when year changes
-  useEffect(() => {
-    async function fetchPlaytime() {
-      try {
-        setLoadingPlaytime(true)
-        const response = await fetch(`/api/steam/playtime?year=${selectedYear}`)
-        if (!response.ok) throw new Error('Failed to fetch playtime')
-        const result = await response.json()
-        setPlaytime(result)
-      } catch {
-        // playtime fetch failure is non-critical; UI shows empty calendar
-      } finally {
-        setLoadingPlaytime(false)
-      }
-    }
-    fetchPlaytime()
-  }, [selectedYear])
-
-  // Sync current playtime data
-  async function handleSync() {
-    try {
-      setSyncing(true)
-      const response = await fetch('/api/steam/sync', { method: 'POST' })
-      if (!response.ok) throw new Error('Failed to sync')
-
-      // Refresh playtime data after sync
-      const playtimeResponse = await fetch(`/api/steam/playtime?year=${selectedYear}`)
-      if (playtimeResponse.ok) {
-        const result = await playtimeResponse.json()
-        setPlaytime(result)
-      }
-    } catch {
-      alert('Échec de la synchronisation')
-    } finally {
-      setSyncing(false)
-    }
-  }
-
-  if (loading) {
+  if (!data) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <PageHeader title="Steam" subtitle="Connexion en cours…" color="moss" icon={SteamLogo} />
-        <div className="animate-pulse space-y-6">
-          <div className="h-32 bg-bg-card rounded-2xl border border-border-subtle" />
-          <div className="grid grid-cols-3 gap-4">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-24 bg-bg-card rounded-2xl border border-border-subtle" />
-            ))}
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  if (error || !data) {
-    return (
-      <div className="max-w-7xl mx-auto px-6 py-8">
+        <PageHeader title="Steam" subtitle="Profil et bibliothèque" color="moss" icon={SteamLogo} />
         <div className="text-center py-12">
-          <p className="text-text-muted">{error || 'Erreur de chargement'}</p>
+          <p className="text-text-muted">Impossible de charger les données Steam</p>
         </div>
       </div>
     )
@@ -140,7 +25,6 @@ export default function SteamPage() {
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader title="Steam" subtitle="Profil et bibliothèque" color="moss" icon={SteamLogo} />
 
-      {/* User profile */}
       <div className="tech-card p-6 mb-8 border-neon-green/30 hover:border-neon-green/60 transition-all duration-300">
         <div className="flex flex-col sm:flex-row items-start gap-6">
           <div className="relative">
@@ -177,96 +61,14 @@ export default function SteamPage() {
         </div>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-8">
         <StatCard label="Jeux possédés" value={data.stats.totalGames} icon={Gamepad2} color="green" />
         <StatCard label="Heures de jeu" value={data.stats.totalPlaytimeHours} icon={Clock} color="cyan" />
         <StatCard label="Jeux récents" value={data.stats.gamesPlayedRecently} icon={Trophy} color="yellow" />
       </div>
 
-      {/* Playtime calendar */}
-      <div className="tech-card p-6 mb-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
-              <Clock className="w-5 h-5 text-neon-cyan" />
-            </div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-              Playtime_Tracker
-            </h3>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            {playtime && (
-              <span className="text-xs font-mono text-text-muted">
-                {playtime.totalHours}h // {playtime.daysPlayed} jours [{selectedYear}]
-              </span>
-            )}
-            <button
-              onClick={handleSync}
-              disabled={syncing}
-              className="flex items-center gap-2 px-3 py-1.5 bg-neon-green/10 border border-neon-green/30 hover:bg-neon-green/20 hover:border-neon-green/50 text-neon-green rounded text-xs font-mono transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <RefreshCw className={`w-3 h-3 ${syncing ? 'animate-spin' : ''}`} />
-              <span>SYNC</span>
-            </button>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setSelectedYear(selectedYear - 1)}
-                disabled={loadingPlaytime}
-                className="p-1 hover:bg-neon-cyan/10 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label="Année précédente"
-              >
-                <ChevronLeft className="w-4 h-4 text-neon-cyan" />
-              </button>
-              <span className="text-sm font-mono font-medium text-neon-cyan min-w-[4rem] text-center">
-                {selectedYear}
-              </span>
-              <button
-                onClick={() => setSelectedYear(selectedYear + 1)}
-                disabled={selectedYear >= new Date().getFullYear() || loadingPlaytime}
-                className="p-1 hover:bg-neon-cyan/10 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label="Année suivante"
-              >
-                <ChevronRight className="w-4 h-4 text-neon-cyan" />
-              </button>
-            </div>
-          </div>
-        </div>
-        {loadingPlaytime ? (
-          <div className="flex items-center justify-center h-40">
-            <div className="text-sm text-text-muted">Chargement du temps de jeu...</div>
-          </div>
-        ) : playtime && playtime.playtime.length > 0 ? (
-          <ContributionCalendar
-            contributions={playtime.playtime}
-            year={selectedYear}
-            formatTooltip={(minutes, date) => {
-              const hours = Math.floor(minutes / 60)
-              const mins = minutes % 60
-              const timeStr = hours > 0
-                ? `${hours}h${mins > 0 ? ` ${mins}min` : ''}`
-                : `${mins}min`
-              return `${timeStr} de jeu le ${new Date(date).toLocaleDateString('fr-FR')}`
-            }}
-          />
-        ) : (
-          <div className="flex flex-col items-center justify-center h-40 gap-3">
-            <div className="text-sm text-text-muted">
-              Aucune donnée pour {selectedYear}
-            </div>
-            <button
-              onClick={handleSync}
-              disabled={syncing}
-              className="flex items-center gap-2 px-4 py-2 bg-neon-green/10 border border-neon-green/30 text-neon-green rounded-lg hover:bg-neon-green/20 hover:border-neon-green/50 transition-all font-mono text-sm"
-            >
-              <RefreshCw className={`w-4 h-4 ${syncing ? 'animate-spin' : ''}`} />
-              START_TRACKING
-            </button>
-          </div>
-        )}
-      </div>
+      <SteamPlaytimeSection />
 
-      {/* Top games */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
           <div className="p-2 bg-neon-magenta/10 border border-neon-magenta/30 rounded">
@@ -282,7 +84,6 @@ export default function SteamPage() {
               key={game.appid}
               className="group relative bg-bg-card border border-border-subtle rounded-lg p-4 flex items-center gap-4 hover:border-neon-magenta/50 hover:-translate-y-0.5 transition-all duration-300"
             >
-              {/* Corner accents */}
               <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-neon-magenta/40 rounded-tl-lg transition-all group-hover:border-neon-magenta group-hover:w-4 group-hover:h-4" />
               <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-neon-cyan/40 rounded-br-lg transition-all group-hover:border-neon-cyan group-hover:w-4 group-hover:h-4" />
 
@@ -311,7 +112,6 @@ export default function SteamPage() {
         </div>
       </div>
 
-      {/* Recent games */}
       {data.recentGames.length > 0 && (
         <div>
           <div className="flex items-center gap-3 mb-4">
