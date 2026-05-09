@@ -44,11 +44,10 @@ export function MediaDetail({ isOpen, onClose, title, imageUrl, children }: Medi
                   src={imageUrl}
                   alt={title}
                   fill
+                  sizes="(min-width: 768px) 224px, 100vw"
                   className="object-cover"
                   priority
                 />
-                {/* Image overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/40 to-transparent pointer-events-none" />
               </div>
             ) : (
               <div className="aspect-[2/3] rounded-2xl border border-border-subtle bg-bg-secondary flex items-center justify-center">
