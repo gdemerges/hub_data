@@ -27,14 +27,16 @@ export async function GET(request: NextRequest) {
     // Get films
     try {
       const films = await getFilmsData()
-      for (const film of films) {
-        if (film.releaseYear) {
+      for (let i = 0; i < films.length; i++) {
+        const film = films[i]
+        const date = film.dateWatched || (film.releaseYear ? `${film.releaseYear}-06-15` : undefined)
+        if (date) {
           events.push({
-            id: `film-${film.id}`,
+            id: `film-${i}-${film.title}`,
             type: 'film',
             title: film.title,
             subtitle: film.rating ? `Note: ${film.rating}/10` : undefined,
-            date: `${film.releaseYear}-06-15`, // Approximate mid-year
+            date,
             icon: 'Film',
             color: 'magenta',
             value: film.rating ? `${film.rating}/10` : undefined,
@@ -48,10 +50,11 @@ export async function GET(request: NextRequest) {
     // Get series
     try {
       const series = await getSeriesData()
-      for (const s of series) {
+      for (let i = 0; i < series.length; i++) {
+        const s = series[i]
         if (s.releaseYear) {
           events.push({
-            id: `series-${s.id}`,
+            id: `series-${i}-${s.title}`,
             type: 'series',
             title: s.title,
             subtitle: s.rating ? `Note: ${s.rating}/10` : undefined,
@@ -69,14 +72,16 @@ export async function GET(request: NextRequest) {
     // Get games
     try {
       const games = await getGamesData()
-      for (const game of games) {
-        if (game.releaseYear) {
+      for (let i = 0; i < games.length; i++) {
+        const game = games[i]
+        const date = game.dateFinished || game.dateStarted || (game.releaseYear ? `${game.releaseYear}-06-15` : undefined)
+        if (date) {
           events.push({
-            id: `game-${game.id}`,
+            id: `game-${i}-${game.title}`,
             type: 'game',
             title: game.title,
             subtitle: game.hoursPlayed ? `${game.hoursPlayed}h jouées` : undefined,
-            date: `${game.releaseYear}-06-15`,
+            date,
             icon: 'Gamepad2',
             color: 'green',
             value: game.hoursPlayed ? `${game.hoursPlayed}h` : undefined,

@@ -253,11 +253,33 @@ interface RawGame {
   Support: string
   Etat: string
   'Heures de jeu': string
+  'Date de début': string
+  'Date de fin': string
   'Genre 1': string
   'Genre 2': string
   'Note perso': string
   'Moyenne des votes': string
   'Date sortie EU': string
+}
+
+// Parses dates like "2003-04-15", "2003-00-00" (year-only), or "" / "0000-00-00" (none)
+function parseGameDate(raw?: string): string | undefined {
+  if (!raw) return undefined
+  const m = raw.match(/^(\d{4})-(\d{2})-(\d{2})/)
+  if (!m) return undefined
+  const [, y, mo, d] = m
+  if (y === '0000') return undefined
+  if (mo === '00' || d === '00') return undefined
+  return `${y}-${mo}-${d}`
+}
+
+// Parses dates like "21/11/2015 23:22" -> "2015-11-21"
+function parseFrenchDate(raw?: string): string | undefined {
+  if (!raw) return undefined
+  const m = raw.match(/^(\d{2})\/(\d{2})\/(\d{4})/)
+  if (!m) return undefined
+  const [, d, mo, y] = m
+  return `${y}-${mo}-${d}`
 }
 
 async function processGames() {
@@ -316,6 +338,10 @@ async function processGames() {
 
     const displayTitle = baseEntry['Titre VF'] || baseEntry.Titre || baseEntry['Titre VO']
 
+    // Pick the most precise date across all platform entries
+    const dateStarted = entries.map(e => parseGameDate(e['Date de début'])).filter(Boolean).sort().pop()
+    const dateFinished = entries.map(e => parseGameDate(e['Date de fin'])).filter(Boolean).sort().pop()
+
     games.push({
       title: displayTitle,
       platform: platforms ? undefined : (baseEntry.Support || undefined),
@@ -326,6 +352,8 @@ async function processGames() {
       rating: parseNumber(baseEntry['Note perso']),
       avgRating: parseNumber(baseEntry['Moyenne des votes']),
       releaseYear: parseYear(baseEntry['Date sortie EU']),
+      dateStarted,
+      dateFinished,
       coverUrl,
     })
   }
@@ -350,6 +378,7 @@ interface RawFilm {
   'Genre 1': string
   'Genre 2': string
   Statut: string
+  'Date de visionnage': string
 }
 
 async function processFilms() {
@@ -383,6 +412,7 @@ async function processFilms() {
       avgRating: parseNumber(row['Moyenne / 20']),
       runtime: parseNumber(row['Durée (min)']),
       genres: [row['Genre 1'], row['Genre 2']].filter(Boolean),
+      dateWatched: parseFrenchDate(row['Date de visionnage']),
       posterUrl,
     })
   }

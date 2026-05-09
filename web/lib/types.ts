@@ -34,6 +34,8 @@ export interface Game {
   avgRating?: number
   releaseYear?: number
   coverUrl?: string
+  dateStarted?: string
+  dateFinished?: string
   created_at?: string
   updated_at?: string
 }

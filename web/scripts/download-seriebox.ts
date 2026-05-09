@@ -1,4 +1,4 @@
-import { mkdirSync, existsSync, writeFileSync } from 'fs'
+import { mkdirSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 import { config } from 'dotenv'
 
@@ -12,60 +12,42 @@ const LISTS = ['shows', 'films_vus', 'jeux'] as const
 
 const BASE_HEADERS: Record<string, string> = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-  Referer: 'https://www.seriebox.com/',
-}
-
-function parseSetCookie(headers: Headers): Record<string, string> {
-  const jar: Record<string, string> = {}
-  const getSetCookie = (headers as unknown as { getSetCookie?: () => string[] }).getSetCookie
-  const setCookies: string[] = getSetCookie?.() ?? []
-  for (const raw of setCookies) {
-    const [pair] = raw.split(';')
-    const eq = pair.indexOf('=')
-    if (eq > 0) jar[pair.slice(0, eq).trim()] = pair.slice(eq + 1).trim()
-  }
-  return jar
+  Referer: 'https://www.seriebox.com/profil/',
 }
 
 function cookieHeader(jar: Record<string, string>): string {
   return Object.entries(jar).map(([k, v]) => `${k}=${v}`).join('; ')
 }
 
-async function login(): Promise<Record<string, string>> {
-  const username = process.env.SERIEBOX_USERNAME
-  const password = process.env.SERIEBOX_PASSWORD
-  if (!username || !password) {
-    throw new Error('SERIEBOX_USERNAME and SERIEBOX_PASSWORD required in .env')
+// SerieBox login is gated by Google reCAPTCHA, so we cannot script it. The user
+// logs in via their browser, copies PHPSESSID into .env, and we reuse it here.
+function jarFromEnv(): Record<string, string> {
+  const jar: Record<string, string> = {}
+
+  // Full cookie header pasted from DevTools (e.g. "PHPSESSID=abc; foo=bar")
+  // — also accepts the bare PHPSESSID value alone.
+  const raw = process.env.SERIEBOX_COOKIES?.trim()
+  if (raw) {
+    if (!raw.includes('=')) {
+      jar.PHPSESSID = raw
+    } else {
+      for (const pair of raw.split(/;\s*/)) {
+        const eq = pair.indexOf('=')
+        if (eq > 0) jar[pair.slice(0, eq).trim()] = pair.slice(eq + 1).trim()
+      }
+    }
   }
 
-  const body = new URLSearchParams({
-    req_username: username,
-    req_password: password,
-    redirect_url: '/',
-  })
+  // Or just the PHPSESSID value alone
+  const sid = process.env.SERIEBOX_PHPSESSID
+  if (sid) jar.PHPSESSID = sid
 
-  const res = await fetch('https://www.seriebox.com/forum/login.php?action=in', {
-    method: 'POST',
-    headers: {
-      ...BASE_HEADERS,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body,
-    redirect: 'manual',
-  })
-
-  const jar = parseSetCookie(res.headers)
-
-  const verify = await fetch('https://www.seriebox.com/profil/', {
-    headers: { ...BASE_HEADERS, Cookie: cookieHeader(jar) },
-  })
-  const text = await verify.text()
-  if (verify.status !== 200 || text.includes('Vous devez')) {
-    throw new Error('SerieBox authentication failed')
+  if (!jar.PHPSESSID) {
+    throw new Error(
+      'SERIEBOX_COOKIES (or SERIEBOX_PHPSESSID) required in .env, must include PHPSESSID. ' +
+      'Log in to seriebox.com in your browser, open DevTools → Application → Cookies, copy PHPSESSID.'
+    )
   }
-
-  // Merge any additional cookies set during verification
-  Object.assign(jar, parseSetCookie(verify.headers))
   return jar
 }
 
@@ -73,7 +55,11 @@ async function fetchWithBackoff(url: string, jar: Record<string, string>, label:
   for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
     try {
       const res = await fetch(url, {
-        headers: { ...BASE_HEADERS, Accept: 'text/csv,*/*', Cookie: cookieHeader(jar) },
+        headers: {
+          ...BASE_HEADERS,
+          Accept: 'text/csv,*/*',
+          Cookie: cookieHeader(jar),
+        },
       })
       if (res.status === 429) {
         const delay = INITIAL_DELAY * 2 ** attempt
@@ -85,9 +71,14 @@ async function fetchWithBackoff(url: string, jar: Record<string, string>, label:
         console.log(`   ❌ ${label} status ${res.status}`)
         return null
       }
-      const text = await res.text()
+      // SerieBox serves CSV as ISO-8859-1; res.text() defaults to UTF-8 and replaces accents with U+FFFD.
+      const buf = Buffer.from(await res.arrayBuffer())
+      const ct = res.headers.get('content-type') || ''
+      const charsetMatch = ct.match(/charset=([^;]+)/i)
+      const charset = (charsetMatch?.[1] || 'latin1').toLowerCase().replace(/^iso-8859-1$/, 'latin1')
+      const text = new TextDecoder(charset === 'utf-8' ? 'utf-8' : 'latin1').decode(buf)
       if (text.includes('Vous devez')) {
-        console.log(`   ❌ ${label}: authentication lost`)
+        console.log(`   ❌ ${label}: PHPSESSID expired — refresh SERIEBOX_COOKIES in .env`)
         return null
       }
       return text
@@ -105,8 +96,8 @@ export async function downloadFromSeriebox(): Promise<boolean> {
 
   let jar: Record<string, string>
   try {
-    jar = await login()
-    console.log('   ✓ Connecté à SerieBox')
+    jar = jarFromEnv()
+    console.log('   ✓ Cookie PHPSESSID chargé depuis .env')
   } catch (e) {
     console.log(`   ❌ ${(e as Error).message}`)
     return false
