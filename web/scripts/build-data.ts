@@ -192,7 +192,7 @@ async function fetchGameCover(gameName: string): Promise<string | undefined> {
       return undefined
     }
 
-    const url = `https://images.igdb.com/igdb/image/upload/t_cover_big/${games[0].cover.image_id}.jpg`
+    const url = `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${games[0].cover.image_id}.jpg`
     coversCache.games[gameName] = url
     return url
   } catch {

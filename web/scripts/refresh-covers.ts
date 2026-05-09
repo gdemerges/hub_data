@@ -86,7 +86,7 @@ async function fetchGameCover(title: string): Promise<string | undefined> {
     if (!response.ok) { coversCache.games[title] = null; return undefined }
     const games = await response.json()
     if (!games[0]?.cover?.image_id) { coversCache.games[title] = null; return undefined }
-    const url = `https://images.igdb.com/igdb/image/upload/t_cover_big/${games[0].cover.image_id}.jpg`
+    const url = `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${games[0].cover.image_id}.jpg`
     coversCache.games[title] = url
     return url
   } catch {
