@@ -4,7 +4,8 @@ import { useState, Suspense } from 'react'
 import { GamesClient } from '@/components/games-client'
 import { PieChart } from '@/components'
 import { SteamSection } from '@/components/steam-section'
-import { Clock, Trophy, Gamepad2, BarChart3, Activity } from 'lucide-react'
+import { GameStats } from '@/components/games-stats'
+import { Trophy, Gamepad2, BarChart3, Activity } from 'lucide-react'
 import { Game } from '@/lib/types'
 
 interface GamesPageClientProps {
@@ -101,20 +102,9 @@ export function GamesPageClient({
 
       {activeTab === 'stats' && (
         <>
-          {/* Total hours - Compact at the top */}
-          <div className="bg-bg-card border border-border-subtle rounded-xl p-4 mb-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-accent-primary/10 rounded-lg">
-                  <Clock className="w-5 h-5 text-accent-primary" />
-                </div>
-                <div>
-                  <p className="text-xs text-text-secondary">Temps de jeu total</p>
-                  <p className="text-2xl font-bold text-text-primary">{Math.round(totalHours)}h</p>
-                </div>
-              </div>
-              <p className="text-xs text-text-muted">Toutes plateformes confondues</p>
-            </div>
+          {/* Rich stats: KPI row + tops + status + decades + per-genre/platform */}
+          <div className="mb-8">
+            <GameStats games={games} />
           </div>
 
           {/* Charts - Platform and Genre side by side */}
