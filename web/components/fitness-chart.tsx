@@ -10,8 +10,8 @@ interface FitnessChartProps {
 export function FitnessChart({ data }: FitnessChartProps) {
   if (data.length === 0) {
     return (
-      <div className="text-center py-8 text-text-muted font-mono text-sm">
-        Pas assez de données pour calculer les métriques de forme
+      <div className="text-center py-8 text-text-muted text-sm">
+        Pas assez de données pour calculer les métriques de forme.
       </div>
     )
   }
@@ -47,46 +47,46 @@ export function FitnessChart({ data }: FitnessChartProps) {
   const sampledData = recentData.filter((_, i) => i % 3 === 0 || i === recentData.length - 1)
 
   return (
-    <div className="tech-card p-6 border-earth-fern/30">
+    <div className="tech-card p-6">
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
-          <TrendingUp className="w-5 h-5 text-earth-fern" />
+        <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded-xl">
+          <TrendingUp className="w-4 h-4 text-earth-fern" strokeWidth={1.75} />
         </div>
         <div className="flex-1">
-          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Fitness_Metrics // CTL/ATL/TSB
+          <h3 className="font-display text-lg font-medium tracking-tight text-text-primary">
+            Fitness · CTL / ATL / TSB
           </h3>
-          <p className="text-xs font-mono text-text-muted mt-1">
-            Analyse de ta forme physique et fatigue sur 90 jours
+          <p className="text-xs text-text-muted mt-0.5">
+            Forme et fatigue sur 90 jours
           </p>
         </div>
       </div>
 
-      {/* Current metrics */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <div className="bg-bg-primary p-4 rounded-lg border border-blue-500/20">
-          <p className="text-xs font-mono text-text-muted mb-1">CTL (Fitness)</p>
-          <p className="text-2xl font-mono font-bold text-blue-400">
+      <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="tech-card-flat p-4">
+          <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-2">CTL · Fitness</p>
+          <p className="font-display text-3xl font-medium tracking-tight num text-earth-indigo leading-none">
             {latestMetrics.ctl.toFixed(1)}
           </p>
-          <p className="text-xs font-mono text-text-muted mt-1">Forme long terme</p>
+          <p className="text-[11px] text-text-muted mt-2">Forme long terme</p>
         </div>
-        <div className="bg-bg-primary p-4 rounded-lg border border-earth-terracotta/20">
-          <p className="text-xs font-mono text-text-muted mb-1">ATL (Fatigue)</p>
-          <p className="text-2xl font-mono font-bold text-earth-terracotta">
+        <div className="tech-card-flat p-4">
+          <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-2">ATL · Fatigue</p>
+          <p className="font-display text-3xl font-medium tracking-tight num text-earth-terracotta leading-none">
             {latestMetrics.atl.toFixed(1)}
           </p>
-          <p className="text-xs font-mono text-text-muted mt-1">Charge récente</p>
+          <p className="text-[11px] text-text-muted mt-2">Charge récente</p>
         </div>
-        <div className="bg-bg-primary p-4 rounded-lg border border-earth-moss/20">
-          <div className="flex items-center gap-2 mb-1">
-            <StatusIcon className={`w-4 h-4 ${formStatus.color}`} />
-            <p className="text-xs font-mono text-text-muted">TSB (Forme)</p>
+        <div className="tech-card-flat p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <StatusIcon className={`w-3.5 h-3.5 ${formStatus.color}`} strokeWidth={1.75} />
+            <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted">TSB · Forme</p>
           </div>
-          <p className={`text-2xl font-mono font-bold ${formStatus.color}`}>
-            {latestMetrics.tsb > 0 ? '+' : ''}{latestMetrics.tsb.toFixed(1)}
+          <p className={`font-display text-3xl font-medium tracking-tight num leading-none ${formStatus.color}`}>
+            {latestMetrics.tsb > 0 ? '+' : ''}
+            {latestMetrics.tsb.toFixed(1)}
           </p>
-          <p className={`text-xs font-mono mt-1 ${formStatus.color}`}>{formStatus.status}</p>
+          <p className={`text-[11px] mt-2 ${formStatus.color}`}>{formStatus.status}</p>
         </div>
       </div>
 
@@ -105,7 +105,7 @@ export function FitnessChart({ data }: FitnessChartProps) {
           style={{ top: `${(maxValue / (maxValue * 2)) * 100}%` }}
         />
 
-        {/* CTL Line (Blue) */}
+        {/* CTL Line (indigo) */}
         <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
           <polyline
             points={sampledData
@@ -116,13 +116,13 @@ export function FitnessChart({ data }: FitnessChartProps) {
               })
               .join(' ')}
             fill="none"
-            stroke="rgb(96, 165, 250)"
+            stroke="rgb(61 81 112)"
             strokeWidth="2"
             vectorEffect="non-scaling-stroke"
           />
         </svg>
 
-        {/* ATL Line (Magenta) */}
+        {/* ATL Line (terracotta) */}
         <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
           <polyline
             points={sampledData
@@ -133,13 +133,13 @@ export function FitnessChart({ data }: FitnessChartProps) {
               })
               .join(' ')}
             fill="none"
-            stroke="rgb(255, 0, 255)"
+            stroke="rgb(184 107 60)"
             strokeWidth="2"
             vectorEffect="non-scaling-stroke"
           />
         </svg>
 
-        {/* TSB Area (Green/Yellow) */}
+        {/* TSB Area (moss, dashed) */}
         <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
           <polyline
             points={sampledData
@@ -150,7 +150,7 @@ export function FitnessChart({ data }: FitnessChartProps) {
               })
               .join(' ')}
             fill="none"
-            stroke="rgb(0, 255, 136)"
+            stroke="rgb(90 125 74)"
             strokeWidth="2"
             strokeDasharray="4,4"
             vectorEffect="non-scaling-stroke"
@@ -158,31 +158,37 @@ export function FitnessChart({ data }: FitnessChartProps) {
         </svg>
       </div>
 
-      {/* Legend */}
-      <div className="flex items-center justify-center gap-6 mt-6 text-xs font-mono">
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-0.5 bg-blue-400" />
-          <span className="text-text-muted">CTL (Fitness)</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-0.5 bg-earth-terracotta" />
-          <span className="text-text-muted">ATL (Fatigue)</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-0.5 bg-earth-moss border-dashed" style={{ borderTop: '2px dashed' }} />
-          <span className="text-text-muted">TSB (Forme)</span>
-        </div>
+      <div className="flex items-center justify-center gap-6 mt-6 text-xs">
+        <LegendItem color="rgb(61 81 112)" label="CTL · Fitness" />
+        <LegendItem color="rgb(184 107 60)" label="ATL · Fatigue" />
+        <LegendItem color="rgb(90 125 74)" label="TSB · Forme" dashed />
       </div>
 
-      {/* Explanation */}
-      <div className="mt-6 p-4 bg-bg-primary rounded-lg border border-border-subtle">
-        <p className="text-xs font-mono text-text-secondary leading-relaxed">
-          <span className="text-earth-fern">CTL</span> (Chronic Training Load) mesure ta fitness long terme (42 jours).
-          <span className="text-earth-terracotta ml-2">ATL</span> (Acute Training Load) mesure ta fatigue récente (7 jours).
-          <span className="text-earth-moss ml-2">TSB</span> = CTL - ATL. Un TSB positif indique que tu es en forme,
-          un TSB négatif indique de la fatigue accumulée.
+      <div className="mt-6 tech-card-flat p-4">
+        <p className="text-xs text-text-secondary leading-relaxed">
+          <span className="text-earth-indigo font-medium">CTL</span> (Chronic Training Load) mesure ta fitness long
+          terme (42 j). <span className="text-earth-terracotta font-medium">ATL</span> (Acute Training Load) mesure
+          ta fatigue récente (7 j). <span className="text-earth-moss font-medium">TSB</span> = CTL − ATL : positif
+          tu es frais, négatif tu accumules de la fatigue.
         </p>
       </div>
+    </div>
+  )
+}
+
+function LegendItem({ color, label, dashed }: { color: string; label: string; dashed?: boolean }) {
+  return (
+    <div className="flex items-center gap-2 text-text-muted">
+      <span
+        className="block w-5 h-0.5"
+        style={
+          dashed
+            ? { backgroundImage: `linear-gradient(to right, ${color} 50%, transparent 50%)`, backgroundSize: '6px 100%' }
+            : { backgroundColor: color }
+        }
+        aria-hidden
+      />
+      <span>{label}</span>
     </div>
   )
 }

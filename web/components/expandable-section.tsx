@@ -33,7 +33,7 @@ export function ExpandableSection({
             </div>
           )}
           <div className="text-left">
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+            <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
               {title}
             </h3>
             {subtitle && (

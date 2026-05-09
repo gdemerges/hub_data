@@ -53,6 +53,8 @@ export default async function GitHubPage({
       <PageHeader
         title="GitHub"
         subtitle={data.fetchedAt ? `Synchronisé ${timeAgo(data.fetchedAt)}` : 'Profil développeur'}
+        eyebrow="Code"
+        dateline={`${data.stats.totalRepos.toLocaleString('fr-FR')} repos · ${data.stats.totalContributions.toLocaleString('fr-FR')} contributions`}
         color="indigo"
         icon={GithubLogo}
         actions={<GitHubSyncButton username={GITHUB_USERNAME} />}
@@ -73,7 +75,7 @@ export default async function GitHubPage({
             </div>
           </div>
           <div className="flex-1">
-            <h2 className="text-xl font-display font-bold text-text-primary tracking-wider">
+            <h2 className="font-display text-3xl font-medium tracking-tight text-text-primary">
               {data.user.name}
             </h2>
             <p className="text-sm font-mono text-earth-terracotta/70 mt-1">@{data.user.login}</p>
@@ -82,14 +84,14 @@ export default async function GitHubPage({
             )}
             <div className="flex flex-wrap gap-4 mt-4 text-sm">
               {data.user.location && (
-                <div className="flex items-center gap-2 text-text-muted font-mono">
-                  <MapPin className="w-4 h-4 text-earth-fern" />
+                <div className="flex items-center gap-2 text-text-secondary">
+                  <MapPin className="w-4 h-4 text-earth-fern" strokeWidth={1.75} />
                   <span>{data.user.location}</span>
                 </div>
               )}
               {data.user.company && (
-                <div className="flex items-center gap-2 text-text-muted font-mono">
-                  <Building className="w-4 h-4 text-earth-fern" />
+                <div className="flex items-center gap-2 text-text-secondary">
+                  <Building className="w-4 h-4 text-earth-fern" strokeWidth={1.75} />
                   <span>{data.user.company}</span>
                 </div>
               )}
@@ -120,8 +122,8 @@ export default async function GitHubPage({
             <Code className="w-5 h-5 text-earth-fern" />
           </div>
           <div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-              Top_Languages
+            <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+              Top langages
             </h3>
             <p className="text-xs font-mono text-text-muted mt-0.5">Based on code lines</p>
           </div>

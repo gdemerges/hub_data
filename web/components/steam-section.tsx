@@ -184,8 +184,8 @@ export function SteamSection() {
             <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
               <Clock className="w-5 h-5 text-earth-fern" />
             </div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-              Playtime_Tracker
+            <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+              Suivi du temps de jeu
             </h3>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -265,8 +265,8 @@ export function SteamSection() {
           <div className="p-2 bg-earth-terracotta/10 border border-earth-terracotta/30 rounded">
             <Trophy className="w-5 h-5 text-earth-terracotta" />
           </div>
-          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Top_Games
+          <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+            Top jeux
           </h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -312,8 +312,8 @@ export function SteamSection() {
             <div className="p-2 bg-earth-saffron/10 border border-earth-saffron/30 rounded">
               <Gamepad2 className="w-5 h-5 text-earth-saffron" />
             </div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-              Recent_Activity
+            <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+              Activité récente
             </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

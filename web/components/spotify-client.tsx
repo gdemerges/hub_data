@@ -98,6 +98,8 @@ export function SpotifyClient({ promise }: Props) {
       <PageHeader
         title="Spotify"
         subtitle={subtitle}
+        eyebrow="Écoute"
+        dateline={`${data.stats.totalTracks.toLocaleString('fr-FR')} titres · ${data.stats.totalArtists.toLocaleString('fr-FR')} artistes`}
         color="leaf"
         icon={MusicNotes}
         actions={<SyncButton pending={pending} onSync={handleSync} />}
@@ -155,8 +157,8 @@ export function SpotifyClient({ promise }: Props) {
               <div className="p-2 bg-earth-leaf/10 border border-earth-leaf/30 rounded-lg">
                 <Disc className="w-5 h-5 text-earth-leaf" />
               </div>
-              <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-                Top_Titres
+              <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+                Top titres
               </h3>
             </div>
             <div className="space-y-2">
@@ -189,8 +191,8 @@ export function SpotifyClient({ promise }: Props) {
               <div className="p-2 bg-earth-leaf/10 border border-earth-leaf/30 rounded-lg">
                 <Mic2 className="w-5 h-5 text-earth-leaf" />
               </div>
-              <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-                Top_Artistes
+              <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+                Top artistes
               </h3>
             </div>
             <div className="space-y-2">
@@ -226,8 +228,8 @@ export function SpotifyClient({ promise }: Props) {
             <div className="p-2 bg-earth-leaf/10 border border-earth-leaf/30 rounded-lg">
               <ListMusic className="w-5 h-5 text-earth-leaf" />
             </div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-              Top_Genres
+            <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+              Top genres
             </h3>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -250,7 +252,7 @@ export function SpotifyClient({ promise }: Props) {
             <div className="p-2 bg-earth-leaf/10 border border-earth-leaf/30 rounded-lg">
               <Clock className="w-5 h-5 text-earth-leaf" />
             </div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+            <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
               Écoutes_Récentes
             </h3>
           </div>

@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useDeferredValue } from 'react'
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
+import { MediaTopPicks, type TopPick } from '@/components/media-top-picks'
 import { Recommendations } from '@/components/recommendations'
 import { StaggerContainer, StaggerItem } from '@/components/page-transition'
 import { Search, Calendar, Star, Clock } from 'lucide-react'
@@ -51,25 +52,46 @@ export function FilmsClient({ films }: FilmsClientProps) {
     return items.filter((item) => item.title.toLowerCase().includes(searchLower))
   }, [items, deferredSearch])
 
+  // Top 3 par note (cachés si recherche active)
+  const topPicks: TopPick[] = useMemo(() => {
+    return [...films]
+      .filter((f) => f.rating && f.rating > 0)
+      .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
+      .slice(0, 3)
+      .map((f) => ({
+        title: f.title,
+        imageUrl: f.posterUrl,
+        metric: f.rating ? `${f.rating}/20` : undefined,
+        metricLabel: 'Note',
+        meta: f.releaseYear?.toString(),
+        onClick: () => setSelectedItem(f),
+      }))
+  }, [films])
+
   return (
     <>
+      {/* Top 3 — visible uniquement sans recherche */}
+      {!deferredSearch && topPicks.length > 0 && (
+        <MediaTopPicks picks={topPicks} accent="terracotta" title="Tes plus belles notes" eyebrow="Top 3" />
+      )}
+
       {/* Search */}
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" strokeWidth={1.75} />
           <input
             type="text"
-            placeholder="Rechercher un film..."
+            placeholder="Rechercher un film…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-bg-secondary border border-border-subtle rounded-xl text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-glow transition-all"
+            className="w-full pl-10 pr-4 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-primary placeholder:text-text-muted focus:outline-none focus:border-earth-terracotta/50 focus:ring-2 focus:ring-earth-terracotta/15 transition-all"
           />
         </div>
       </div>
 
       {/* Count */}
-      <p className="text-sm text-text-muted mb-4">
-        {filteredItems.length} film{filteredItems.length > 1 ? 's' : ''}
+      <p className="text-[11px] uppercase tracking-[0.18em] text-text-muted mb-4 num">
+        {filteredItems.length.toLocaleString('fr-FR')} film{filteredItems.length > 1 ? 's' : ''}
       </p>
 
       {/* Grid */}
@@ -136,7 +158,7 @@ function FilmDetail({ film }: { film: Film }) {
         )}
         {film.rating && (
           <div className="flex items-center gap-2">
-            <Star className="w-4 h-4 text-yellow-500" />
+            <Star className="w-4 h-4 text-earth-saffron" />
             <span>{film.rating}/20</span>
           </div>
         )}

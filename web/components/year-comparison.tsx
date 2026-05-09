@@ -64,7 +64,7 @@ export function YearComparison({ films, series, games }: YearComparisonProps) {
       <div className="p-4 bg-bg-primary border border-border-subtle rounded">
         <div className="flex items-center gap-2 mb-3">
           {icon}
-          <span className="text-xs font-mono font-medium text-text-muted uppercase tracking-wider">{label}</span>
+          <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted">{label}</span>
         </div>
         <div className="flex items-center justify-between">
           <div className="text-center">
@@ -101,8 +101,8 @@ export function YearComparison({ films, series, games }: YearComparisonProps) {
           <div className="p-2 bg-earth-terracotta/10 border border-earth-terracotta/30 rounded">
             <GitCompare className="w-5 h-5 text-earth-terracotta" />
           </div>
-          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Year_Compare
+          <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+            Comparaison annuelle
           </h3>
         </div>
         <div className="flex items-center gap-2">

@@ -78,8 +78,8 @@ export function TemporalStats({ films, series, games }: TemporalStatsProps) {
           <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
             <TrendingUp className="w-5 h-5 text-earth-fern" />
           </div>
-          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Temporal_Stats
+          <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+            Statistiques temporelles
           </h3>
         </div>
         <select

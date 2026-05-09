@@ -66,8 +66,8 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
           <BarChart3 className="w-5 h-5 text-earth-terracotta" />
         </div>
         <div className="flex-1">
-          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Performance_Factors // Facteurs de performance
+          <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+            Facteurs de performance
           </h3>
           <p className="text-xs font-mono text-text-muted mt-1">
             Analyse des corrélations entre tes performances et les conditions
@@ -151,7 +151,7 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
       <div className="space-y-6">
         {/* Day of Week */}
         <div>
-          <h4 className="text-xs font-mono font-semibold text-text-primary uppercase tracking-wider mb-3 flex items-center gap-2">
+          <h4 className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-secondary mb-3 flex items-center gap-2">
             <Calendar className="w-4 h-4 text-earth-fern" />
             Par jour de la semaine
           </h4>
@@ -185,7 +185,7 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
 
         {/* Time of Day */}
         <div>
-          <h4 className="text-xs font-mono font-semibold text-text-primary uppercase tracking-wider mb-3 flex items-center gap-2">
+          <h4 className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-secondary mb-3 flex items-center gap-2">
             <Clock className="w-4 h-4 text-earth-moss" />
             Par heure de la journée
           </h4>
@@ -219,7 +219,7 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
 
         {/* Rest Days */}
         <div>
-          <h4 className="text-xs font-mono font-semibold text-text-primary uppercase tracking-wider mb-3 flex items-center gap-2">
+          <h4 className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-secondary mb-3 flex items-center gap-2">
             <Coffee className="w-4 h-4 text-earth-saffron" />
             Par jours de repos
           </h4>

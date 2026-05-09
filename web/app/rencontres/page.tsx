@@ -57,7 +57,9 @@ export default async function RencontresPage() {
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
         title="Rencontres"
-        subtitle={`${stats.total} liens · ${stats.villes.length} villes · ${stats.nationalites.length} nationalités`}
+        subtitle="Carnet personnel · villes, nationalités et époques"
+        eyebrow="Carnet"
+        dateline={`${stats.total.toLocaleString('fr-FR')} rencontres · ${stats.villes.length} villes`}
         color="clay"
         icon={HeartHalf}
       />
@@ -74,8 +76,8 @@ export default async function RencontresPage() {
           <div className="p-2 bg-earth-clay/10 border border-earth-clay/30 rounded">
             <Globe className="w-5 h-5 text-earth-clay" />
           </div>
-          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Carte_des_Nationalités
+          <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+            Carte des nationalités
           </h3>
         </div>
         <div className="h-[400px]">
@@ -89,7 +91,7 @@ export default async function RencontresPage() {
             <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
               <MapPin className="w-5 h-5 text-earth-fern" />
             </div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+            <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
               Villes
             </h3>
           </div>
@@ -103,7 +105,7 @@ export default async function RencontresPage() {
             <div className="p-2 bg-earth-terracotta/10 border border-earth-terracotta/30 rounded">
               <Globe className="w-5 h-5 text-earth-terracotta" />
             </div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+            <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
               Nationalités
             </h3>
           </div>
@@ -119,8 +121,8 @@ export default async function RencontresPage() {
             <div className="p-2 bg-earth-moss/10 border border-earth-moss/30 rounded">
               <TrendingUp className="w-5 h-5 text-earth-moss" />
             </div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-              Par_Année
+            <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+              Par année
             </h3>
           </div>
           <div className="flex items-end justify-between gap-2 h-48">
@@ -156,8 +158,8 @@ export default async function RencontresPage() {
             <div className="p-2 bg-earth-saffron/10 border border-earth-saffron/30 rounded">
               <Calendar className="w-5 h-5 text-earth-saffron" />
             </div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-              Par_Année_Naissance
+            <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+              Par année de naissance
             </h3>
           </div>
           <div className="flex items-end justify-between gap-1 h-48 overflow-x-auto">

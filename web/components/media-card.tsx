@@ -85,17 +85,20 @@ export function MediaCard({
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-bg-tertiary to-bg-secondary">
-            <span className={cn('text-2xl font-display font-bold tracking-wider opacity-50', c.badgeText)}>
+            <span className={cn('font-display text-3xl font-medium tracking-tight italic opacity-40', c.badgeText)}>
               {getInitials(title)}
             </span>
           </div>
         )}
 
+        {/* Voile bas pour la lisibilité d'un overlay éventuel */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg-card/85 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
         {badge && (
           <div className={cn(
-            'absolute top-2 right-2 px-2 py-0.5 bg-bg-card/90 backdrop-blur-sm border rounded-full text-[11px] font-mono font-medium',
+            'absolute top-2 right-2 px-2 py-0.5 bg-bg-card/90 backdrop-blur-sm border rounded-full text-[11px] font-medium num',
             c.borderSoft,
-            c.badgeText
+            c.badgeText,
           )}>
             {badge}
           </div>
@@ -103,9 +106,9 @@ export function MediaCard({
 
         {progressBadge && (
           <div className={cn(
-            'absolute bottom-0 left-0 right-0 px-2 py-1.5 bg-bg-card/90 backdrop-blur-sm border-t text-xs font-mono',
+            'absolute bottom-0 left-0 right-0 px-2 py-1.5 bg-bg-card/90 backdrop-blur-sm border-t text-xs',
             c.progressBorder,
-            c.progressText
+            c.progressText,
           )}>
             <div className="flex items-center gap-2">
               <span className={cn('w-1.5 h-1.5 rounded-full animate-pulse', c.progressDot)} />
@@ -116,11 +119,14 @@ export function MediaCard({
       </div>
 
       <div className="p-3 bg-bg-card">
-        <h3 className={cn('text-sm font-medium text-text-primary line-clamp-2 leading-tight transition-colors', c.text)}>
+        <h3 className={cn(
+          'font-display text-sm font-medium tracking-tight text-text-primary line-clamp-2 leading-tight transition-colors',
+          c.text,
+        )}>
           {title}
         </h3>
         {subtitle && (
-          <p className="mt-1 text-xs font-mono text-text-muted truncate">
+          <p className="mt-1 text-[11px] text-text-muted truncate">
             {subtitle}
           </p>
         )}

@@ -154,7 +154,7 @@ export default function ActivityPage() {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="tech-card p-8 text-center">
-          <p className="text-red-400 font-mono mb-4">{error || 'Erreur'}</p>
+          <p className="text-earth-clay font-mono mb-4">{error || 'Erreur'}</p>
           <Link href="/sport" className="text-earth-rust hover:underline font-mono">
             &lt; Retour
           </Link>
@@ -297,8 +297,8 @@ export default function ActivityPage() {
             <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
               <Clock className="w-5 h-5 text-earth-fern" />
             </div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-              Splits_Par_Kilomètre
+            <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+              Splits par kilomètre
             </h3>
           </div>
           <div className="space-y-2">
@@ -359,8 +359,8 @@ export default function ActivityPage() {
             <div className="p-2 bg-earth-moss/10 border border-earth-moss/30 rounded">
               <Mountain className="w-5 h-5 text-earth-moss" />
             </div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-              Profil_Altitude
+            <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+              Profil d'altitude
             </h3>
           </div>
           <div className="flex gap-3">
@@ -412,7 +412,7 @@ export default function ActivityPage() {
             <div className="p-2 bg-earth-clay/10 border border-earth-clay/30 rounded">
               <Heart className="w-5 h-5 text-earth-clay" />
             </div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+            <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
               Fréquence_Cardiaque
             </h3>
           </div>

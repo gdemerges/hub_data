@@ -41,7 +41,7 @@ function Section({
     <div className="tech-card p-5 space-y-4">
       <div className="flex items-center gap-3">
         <Icon className={cn('w-5 h-5', color)} />
-        <h3 className={cn('font-mono text-sm font-semibold uppercase tracking-wider', color)}>{title}</h3>
+        <h3 className={cn('font-display text-base font-medium tracking-tight', color)}>{title}</h3>
       </div>
       <div className="flex flex-wrap gap-3">
         {stats.map((s, i) => (
@@ -52,7 +52,7 @@ function Section({
       </div>
       {topRated.length > 0 && (
         <div className="space-y-1">
-          <div className="text-[10px] font-mono text-text-muted uppercase tracking-wider">Top notes</div>
+          <div className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted">Top notes</div>
           {topRated.map((item, i) => (
             <div key={i} className="flex items-center justify-between text-sm font-mono">
               <span className="text-text-primary truncate flex-1">
@@ -170,7 +170,7 @@ export default function YearInReviewPage() {
             <Section
               icon={BookOpen}
               title="Livres"
-              color="text-blue-400"
+              color="text-earth-indigo"
               stats={[`${data.books.total} livres`, `${data.books.pages.toLocaleString('fr-FR')} pages`]}
               topRated={data.books.topRated}
               extra={

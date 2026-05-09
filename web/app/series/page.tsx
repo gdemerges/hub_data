@@ -13,7 +13,9 @@ export default async function SeriesPage() {
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
         title="Séries"
-        subtitle={`${series.length} séries suivies`}
+        subtitle="Suivi des séries · notes et progression"
+        eyebrow="Catalogue"
+        dateline={`${series.length.toLocaleString('fr-FR')} séries`}
         color="saffron"
         icon={Television}
       />

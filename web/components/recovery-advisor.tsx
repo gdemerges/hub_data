@@ -16,8 +16,8 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
           textColor: 'text-earth-moss',
           bgColor: 'bg-earth-moss/10',
           borderColor: 'border-earth-moss/30',
-          title: 'READY_TO_TRAIN',
-          message: 'Tu es prêt pour une nouvelle séance !',
+          title: 'Prêt à reprendre',
+          message: 'Tu es prêt pour une nouvelle séance.',
         }
       case 'caution':
         return {
@@ -25,16 +25,16 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
           textColor: 'text-earth-saffron',
           bgColor: 'bg-earth-saffron/10',
           borderColor: 'border-earth-saffron/30',
-          title: 'CAUTION_MODE',
+          title: 'Prudence',
           message: 'Sortie légère recommandée ou repos.',
         }
       case 'rest':
         return {
           icon: Shield,
-          textColor: 'text-red-500',
-          bgColor: 'bg-red-500/10',
-          borderColor: 'border-red-500/30',
-          title: 'REST_REQUIRED',
+          textColor: 'text-earth-clay',
+          bgColor: 'bg-earth-clay/10',
+          borderColor: 'border-earth-clay/30',
+          title: 'Repos requis',
           message: 'Repos fortement recommandé pour éviter les blessures.',
         }
     }
@@ -44,7 +44,7 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
   const StatusIcon = config.icon
 
   const getRiskBarColor = () => {
-    if (advice.riskScore >= 70) return 'bg-red-500'
+    if (advice.riskScore >= 70) return 'bg-earth-clay'
     if (advice.riskScore >= 40) return 'bg-earth-saffron'
     return 'bg-earth-moss'
   }
@@ -61,15 +61,15 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
   return (
     <div className={`tech-card p-6 ${config.borderColor}`}>
       <div className="flex items-center gap-3 mb-6">
-        <div className={`p-2 ${config.bgColor} border ${config.borderColor} rounded`}>
-          <Shield className={`w-5 h-5 ${config.textColor}`} />
+        <div className={`p-2 rounded-xl border ${config.bgColor} ${config.borderColor}`}>
+          <Shield className={`w-4 h-4 ${config.textColor}`} strokeWidth={1.75} />
         </div>
         <div className="flex-1">
-          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Recovery_Advisor // Conseils de récupération
+          <h3 className="font-display text-lg font-medium tracking-tight text-text-primary">
+            Conseils de récupération
           </h3>
-          <p className="text-xs font-mono text-text-muted mt-1">
-            Analyse intelligente de ta charge d'entraînement
+          <p className="text-xs text-text-muted mt-0.5">
+            Charge d'entraînement et signaux corporels
           </p>
         </div>
       </div>
@@ -79,10 +79,10 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
         <div className="flex items-center gap-4 mb-4">
           <StatusIcon className={`w-12 h-12 ${config.textColor}`} />
           <div className="flex-1">
-            <h4 className={`text-lg font-mono font-bold ${config.textColor} tracking-wider`}>
+            <h4 className={`font-display text-xl font-medium tracking-tight ${config.textColor}`}>
               {config.title}
             </h4>
-            <p className={`text-sm font-mono ${config.textColor}/80 mt-1`}>
+            <p className="text-sm text-text-secondary mt-1">
               {config.message}
             </p>
           </div>
@@ -91,9 +91,9 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
         {/* Risk Score Bar */}
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-mono text-text-muted">Score de risque</span>
-            <span className={`text-sm font-mono font-bold ${config.textColor}`}>
-              {advice.riskScore}/100
+            <span className="text-[10px] uppercase tracking-[0.18em] text-text-muted">Score de risque</span>
+            <span className={`font-display text-base font-medium num ${config.textColor}`}>
+              {advice.riskScore}<span className="text-text-muted">/100</span>
             </span>
           </div>
           <div className="h-2 bg-bg-card rounded-full overflow-hidden">
@@ -105,28 +105,28 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
         </div>
 
         {/* Reason */}
-        <div className={`p-3 bg-bg-primary rounded border ${config.borderColor}`}>
-          <p className={`text-xs font-mono text-text-secondary leading-relaxed`}>
-            <span className={`${config.textColor} font-semibold`}>&gt;</span> {advice.reason}
+        <div className={`p-3 bg-bg-card/60 rounded-xl border ${config.borderColor}`}>
+          <p className="text-xs text-text-secondary leading-relaxed">
+            <span className={`${config.textColor} font-medium mr-1`}>·</span>{advice.reason}
           </p>
         </div>
       </div>
 
       {/* Recovery Time */}
       {advice.hoursRecommended > 0 && (
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="bg-bg-primary p-4 rounded-lg border border-border-subtle">
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="tech-card-flat p-4">
             <div className="flex items-center gap-2 mb-2">
-              <Clock className="w-4 h-4 text-earth-fern" />
-              <p className="text-xs font-mono text-text-muted">Repos recommandé</p>
+              <Clock className="w-3.5 h-3.5 text-earth-fern" strokeWidth={1.75} />
+              <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted">Repos recommandé</p>
             </div>
-            <p className="text-2xl font-mono font-bold text-earth-fern">
+            <p className="font-display text-2xl font-medium tracking-tight num text-earth-fern leading-none">
               {formatHours(advice.hoursRecommended)}
             </p>
           </div>
-          <div className="bg-bg-primary p-4 rounded-lg border border-border-subtle">
-            <p className="text-xs font-mono text-text-muted mb-2">Prochaine sortie</p>
-            <p className="text-lg font-mono font-bold text-text-primary">
+          <div className="tech-card-flat p-4">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-2">Prochaine sortie</p>
+            <p className="font-display text-2xl font-medium tracking-tight text-text-primary leading-none">
               {new Date(Date.now() + advice.hoursRecommended * 60 * 60 * 1000).toLocaleDateString('fr-FR', {
                 weekday: 'short',
                 day: 'numeric',
@@ -139,21 +139,21 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
 
       {/* Recommendations */}
       <div className="border-t border-border-subtle pt-6">
-        <h4 className="text-xs font-mono font-semibold text-text-primary uppercase tracking-wider mb-3">
+        <h4 className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-secondary mb-3">
           Recommandations
         </h4>
         <div className="space-y-2">
           {advice.status === 'ready' && (
             <>
-              <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
+              <div className="flex items-start gap-2 text-sm text-text-secondary">
                 <span className="text-earth-moss mt-0.5">✓</span>
                 <span>Tu peux faire une sortie intensive ou longue</span>
               </div>
-              <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
+              <div className="flex items-start gap-2 text-sm text-text-secondary">
                 <span className="text-earth-moss mt-0.5">✓</span>
                 <span>Maintiens une bonne hydratation et nutrition</span>
               </div>
-              <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
+              <div className="flex items-start gap-2 text-sm text-text-secondary">
                 <span className="text-earth-moss mt-0.5">✓</span>
                 <span>Écoute ton corps pendant l'effort</span>
               </div>
@@ -161,15 +161,15 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
           )}
           {advice.status === 'caution' && (
             <>
-              <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
+              <div className="flex items-start gap-2 text-sm text-text-secondary">
                 <span className="text-earth-saffron mt-0.5">⚠</span>
                 <span>Privilégie une sortie en endurance douce</span>
               </div>
-              <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
+              <div className="flex items-start gap-2 text-sm text-text-secondary">
                 <span className="text-earth-saffron mt-0.5">⚠</span>
                 <span>Évite les efforts intenses ou le fractionné</span>
               </div>
-              <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
+              <div className="flex items-start gap-2 text-sm text-text-secondary">
                 <span className="text-earth-saffron mt-0.5">⚠</span>
                 <span>Fais attention aux signaux de fatigue</span>
               </div>
@@ -177,15 +177,15 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
           )}
           {advice.status === 'rest' && (
             <>
-              <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
+              <div className="flex items-start gap-2 text-sm text-text-secondary">
                 <span className="text-earth-clay mt-0.5">✗</span>
                 <span>Prends un jour de repos complet</span>
               </div>
-              <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
+              <div className="flex items-start gap-2 text-sm text-text-secondary">
                 <span className="text-earth-clay mt-0.5">✗</span>
                 <span>Favorise le sommeil et la récupération active (marche, étirements)</span>
               </div>
-              <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
+              <div className="flex items-start gap-2 text-sm text-text-secondary">
                 <span className="text-earth-clay mt-0.5">✗</span>
                 <span>Évite toute activité intense pour réduire le risque de blessure</span>
               </div>
@@ -194,12 +194,11 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
         </div>
       </div>
 
-      {/* Info */}
-      <div className="mt-6 p-4 bg-bg-primary rounded-lg border border-border-subtle">
-        <p className="text-xs font-mono text-text-secondary leading-relaxed">
-          Le <span className="text-earth-fern">score de risque</span> est calculé en fonction de l'augmentation de
-          charge hebdomadaire, de l'intensité récente, du temps de récupération et de la fréquence des sorties.
-          Un score &gt;50 indique un risque élevé de blessure.
+      <div className="mt-6 tech-card-flat p-4">
+        <p className="text-xs text-text-secondary leading-relaxed">
+          Le <span className="text-earth-fern font-medium">score de risque</span> est calculé en fonction de
+          l'augmentation de charge hebdomadaire, de l'intensité récente, du temps de récupération et de la fréquence
+          des sorties. Un score &gt; 50 indique un risque élevé de blessure.
         </p>
       </div>
     </div>

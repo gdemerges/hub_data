@@ -171,7 +171,7 @@ function Section({
         </div>
         <Link
           href={href}
-          className={`flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider border px-3 py-1.5 rounded-lg transition-all duration-300 ${c.link}`}
+          className={`flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.18em] border px-3 py-1.5 rounded-lg transition-all duration-300 ${c.link}`}
         >
           Voir tout
           <span className="text-text-muted">({count})</span>
@@ -205,7 +205,7 @@ function DetailBadge({ label, color = 'cyan' }: { label: string; color?: keyof t
 function DetailSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-muted mb-2">{title}</h3>
+      <h3 className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted mb-2">{title}</h3>
       {children}
     </div>
   )

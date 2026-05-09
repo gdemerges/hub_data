@@ -22,7 +22,14 @@ export default async function SteamPage({
   if (!data) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <PageHeader title="Steam" subtitle="Profil et bibliothèque" color="moss" icon={SteamLogo} />
+        <PageHeader
+          title="Steam"
+          subtitle="Profil et bibliothèque"
+          eyebrow="Bibliothèque Steam"
+          dateline="Sync requise"
+          color="moss"
+          icon={SteamLogo}
+        />
         <div className="text-center py-12">
           <p className="text-text-muted">Impossible de charger les données Steam</p>
         </div>
@@ -32,7 +39,14 @@ export default async function SteamPage({
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
-      <PageHeader title="Steam" subtitle="Profil et bibliothèque" color="moss" icon={SteamLogo} />
+      <PageHeader
+        title="Steam"
+        subtitle="Profil et bibliothèque"
+        eyebrow="Bibliothèque Steam"
+        dateline={`${data.stats.totalGames.toLocaleString('fr-FR')} jeux · ${Math.round(data.stats.totalPlaytimeHours).toLocaleString('fr-FR')} h`}
+        color="moss"
+        icon={SteamLogo}
+      />
 
       <div className="tech-card p-6 mb-8 border-earth-moss/30 hover:border-earth-moss/60 transition-all duration-300">
         <div className="flex flex-col sm:flex-row items-start gap-6">
@@ -49,20 +63,20 @@ export default async function SteamPage({
             </div>
           </div>
           <div className="flex-1">
-            <h2 className="text-xl font-display font-bold text-text-primary tracking-wider">
+            <h2 className="font-display text-3xl font-medium tracking-tight text-text-primary">
               {data.user.username}
             </h2>
             {data.user.realName && (
-              <p className="text-sm font-mono text-text-muted mt-1">{data.user.realName}</p>
+              <p className="text-sm text-text-muted mt-1">{data.user.realName}</p>
             )}
-            <div className="flex flex-wrap gap-4 mt-4">
+            <div className="flex flex-wrap gap-3 mt-5">
               <a
                 href={data.user.profileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-earth-moss/10 border border-earth-moss/30 rounded-lg text-earth-moss text-sm font-mono hover:bg-earth-moss/20 hover:border-earth-moss/50 transition-all duration-300 group"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-earth-moss/10 border border-earth-moss/30 rounded-full text-earth-moss text-sm font-medium hover:bg-earth-moss/20 hover:border-earth-moss/50 transition-all group"
               >
-                <span>VIEW_PROFILE</span>
+                <span>Voir le profil</span>
                 <span className="group-hover:translate-x-1 transition-transform">&gt;</span>
               </a>
             </div>
@@ -85,8 +99,8 @@ export default async function SteamPage({
           <div className="p-2 bg-earth-terracotta/10 border border-earth-terracotta/30 rounded">
             <Trophy className="w-5 h-5 text-earth-terracotta" />
           </div>
-          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Top_Games
+          <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+            Top jeux
           </h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -115,7 +129,7 @@ export default async function SteamPage({
                   {game.name}
                 </h4>
                 <p className="text-xs font-mono text-text-muted">
-                  {game.playtimeHours}h // PLAYTIME
+                  {game.playtimeHours}h joués
                 </p>
               </div>
             </div>
@@ -129,8 +143,8 @@ export default async function SteamPage({
             <div className="p-2 bg-earth-saffron/10 border border-earth-saffron/30 rounded">
               <Gamepad2 className="w-5 h-5 text-earth-saffron" />
             </div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-              Recent_Activity
+            <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+              Activité récente
             </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -151,7 +165,7 @@ export default async function SteamPage({
                     {game.name}
                   </h4>
                   <p className="text-xs font-mono text-text-muted">
-                    {game.playtimeHours}h // 2W
+                    {game.playtimeHours}h sur 2 semaines
                   </p>
                 </div>
               </div>

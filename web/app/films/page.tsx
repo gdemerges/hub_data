@@ -13,7 +13,9 @@ export default async function FilmsPage() {
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
         title="Films"
-        subtitle={`${films.length} films vus`}
+        subtitle="Catalogue personnel · notes et favoris"
+        eyebrow="Catalogue"
+        dateline={`${films.length.toLocaleString('fr-FR')} films`}
         color="terracotta"
         icon={FilmStrip}
       />

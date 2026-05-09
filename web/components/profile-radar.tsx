@@ -176,8 +176,8 @@ export function ProfileRadar() {
           <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
             <User className="w-5 h-5 text-earth-fern" />
           </div>
-          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Profile_Radar
+          <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+            Profil multidimensionnel
           </h3>
         </div>
 

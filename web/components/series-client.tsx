@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useDeferredValue } from 'react'
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
+import { MediaTopPicks, type TopPick } from '@/components/media-top-picks'
 import { Recommendations } from '@/components/recommendations'
 import { StaggerContainer, StaggerItem } from '@/components/page-transition'
 import { Search, Calendar, Star, ListOrdered } from 'lucide-react'
@@ -54,25 +55,42 @@ export function SeriesClient({ series }: SeriesClientProps) {
     return items.filter((item) => item.title.toLowerCase().includes(searchLower))
   }, [items, deferredSearch])
 
+  const topPicks: TopPick[] = useMemo(() => {
+    return [...series]
+      .filter((s) => s.rating && s.rating > 0)
+      .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
+      .slice(0, 3)
+      .map((s) => ({
+        title: s.title,
+        imageUrl: s.posterUrl,
+        metric: s.rating ? `${s.rating}/20` : undefined,
+        metricLabel: 'Note',
+        meta: s.status || undefined,
+        onClick: () => setSelectedItem(s),
+      }))
+  }, [series])
+
   return (
     <>
-      {/* Search */}
+      {!deferredSearch && topPicks.length > 0 && (
+        <MediaTopPicks picks={topPicks} accent="saffron" title="Tes séries préférées" eyebrow="Top 3" />
+      )}
+
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" strokeWidth={1.75} />
           <input
             type="text"
-            placeholder="Rechercher une série..."
+            placeholder="Rechercher une série…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-bg-secondary border border-border-subtle rounded-xl text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-glow transition-all"
+            className="w-full pl-10 pr-4 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-primary placeholder:text-text-muted focus:outline-none focus:border-earth-saffron/50 focus:ring-2 focus:ring-earth-saffron/15 transition-all"
           />
         </div>
       </div>
 
-      {/* Count */}
-      <p className="text-sm text-text-muted mb-4">
-        {filteredItems.length} série{filteredItems.length > 1 ? 's' : ''}
+      <p className="text-[11px] uppercase tracking-[0.18em] text-text-muted mb-4 num">
+        {filteredItems.length.toLocaleString('fr-FR')} série{filteredItems.length > 1 ? 's' : ''}
       </p>
 
       {/* Grid */}
@@ -140,7 +158,7 @@ function SeriesDetail({ series }: { series: Series }) {
         )}
         {series.rating && (
           <div className="flex items-center gap-2">
-            <Star className="w-4 h-4 text-yellow-500" />
+            <Star className="w-4 h-4 text-earth-saffron" />
             <span>{series.rating}/20</span>
           </div>
         )}
@@ -150,10 +168,10 @@ function SeriesDetail({ series }: { series: Series }) {
       {series.status && (
         <div className="flex items-center gap-2">
           <span className={`px-2 py-0.5 rounded text-xs ${
-            series.status === 'Terminée' ? 'bg-green-500/20 text-green-400' :
-            series.status === 'A jour' ? 'bg-blue-500/20 text-blue-400' :
-            series.status === 'En cours' ? 'bg-yellow-500/20 text-yellow-400' :
-            series.status === 'Abandonnée' ? 'bg-red-500/20 text-red-400' :
+            series.status === 'Terminée' ? 'bg-earth-moss/20 text-earth-mossSoft' :
+            series.status === 'A jour' ? 'bg-earth-indigo/20 text-earth-indigo' :
+            series.status === 'En cours' ? 'bg-earth-saffron/20 text-earth-saffron' :
+            series.status === 'Abandonnée' ? 'bg-earth-clay/20 text-earth-clay' :
             'bg-gray-500/20 text-gray-400'
           }`}>
             {series.status}

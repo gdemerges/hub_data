@@ -42,18 +42,18 @@ export default async function GamesPage() {
     .map(([platform, hours]) => ({ platform, hours }))
     .sort((a, b) => b.hours - a.hours)
 
-  // Generate colors for the pie chart
+  // Palette earth/solarpunk pour les charts (10 stops construits sur la palette)
   const colors = [
-    '#6366f1', // indigo
-    '#8b5cf6', // violet
-    '#ec4899', // pink
-    '#f59e0b', // amber
-    '#10b981', // emerald
-    '#06b6d4', // cyan
-    '#f97316', // orange
-    '#84cc16', // lime
-    '#14b8a6', // teal
-    '#a855f7', // purple
+    '#5a7d4a', // moss
+    '#b86b3c', // terracotta
+    '#7ba896', // fern
+    '#d9a441', // saffron
+    '#a8552c', // rust
+    '#3d5170', // indigo
+    '#a3b598', // sage
+    '#b06868', // clay
+    '#8ab274', // mossSoft
+    '#c8893f', // amber
   ]
 
   const pieChartData = platformData.map((item, index) => ({
@@ -87,18 +87,18 @@ export default async function GamesPage() {
     .sort((a, b) => b.hours - a.hours)
     .slice(0, 10) // Top 10 genres
 
-  // Colors for genre chart (different from platform colors)
+  // Genre palette : décalage par rapport au platform pour distinguer visuellement
   const genreColors = [
-    '#3b82f6', // blue
-    '#ef4444', // red
-    '#22c55e', // green
-    '#eab308', // yellow
-    '#a855f7', // purple
-    '#ec4899', // pink
-    '#06b6d4', // cyan
-    '#f97316', // orange
-    '#84cc16', // lime
-    '#6366f1', // indigo
+    '#3d5170', // indigo
+    '#b86b3c', // terracotta
+    '#5a7d4a', // moss
+    '#d9a441', // saffron
+    '#a3b598', // sage
+    '#b06868', // clay
+    '#7ba896', // fern
+    '#a8552c', // rust
+    '#8ab274', // mossSoft
+    '#c8893f', // amber
   ]
 
   const genreChartData = genreData.map((item, index) => ({
@@ -111,7 +111,9 @@ export default async function GamesPage() {
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
         title="Jeux"
-        subtitle={`${games.length} entrées dans la bibliothèque`}
+        subtitle="Bibliothèque · plateformes, genres et heures jouées"
+        eyebrow="Catalogue"
+        dateline={`${games.length.toLocaleString('fr-FR')} jeux · ${Math.round(totalHours).toLocaleString('fr-FR')} h`}
         color="moss"
         icon={GameController}
       />

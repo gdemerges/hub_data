@@ -21,9 +21,10 @@ const HR_ZONES = [
     name: 'Récupération',
     minPercent: 50,
     maxPercent: 60,
-    color: 'rgb(147, 197, 253)', // blue-300
-    bgColor: 'bg-blue-300/10',
-    borderColor: 'border-blue-300/30',
+    rgb: '61 81 112', // earth.indigo
+    text: 'text-earth-indigo',
+    bg: 'bg-earth-indigo/10',
+    border: 'border-earth-indigo/30',
     description: 'Récupération active, endurance de base',
   },
   {
@@ -31,19 +32,21 @@ const HR_ZONES = [
     name: 'Endurance',
     minPercent: 60,
     maxPercent: 70,
-    color: 'rgb(134, 239, 172)', // green-300
-    bgColor: 'bg-green-300/10',
-    borderColor: 'border-green-300/30',
-    description: 'Développement de l\'endurance aérobie',
+    rgb: '138 178 116', // earth.mossSoft
+    text: 'text-earth-mossSoft',
+    bg: 'bg-earth-mossSoft/10',
+    border: 'border-earth-mossSoft/30',
+    description: "Développement de l'endurance aérobie",
   },
   {
     zone: 3,
     name: 'Tempo',
     minPercent: 70,
     maxPercent: 80,
-    color: 'rgb(253, 224, 71)', // yellow-300
-    bgColor: 'bg-yellow-300/10',
-    borderColor: 'border-yellow-300/30',
+    rgb: '217 164 65', // earth.saffron
+    text: 'text-earth-saffron',
+    bg: 'bg-earth-saffron/10',
+    border: 'border-earth-saffron/30',
     description: 'Amélioration du seuil lactique',
   },
   {
@@ -51,9 +54,10 @@ const HR_ZONES = [
     name: 'Seuil',
     minPercent: 80,
     maxPercent: 90,
-    color: 'rgb(251, 146, 60)', // orange-400
-    bgColor: 'bg-orange-400/10',
-    borderColor: 'border-orange-400/30',
+    rgb: '168 85 44', // earth.rust
+    text: 'text-earth-rust',
+    bg: 'bg-earth-rust/10',
+    border: 'border-earth-rust/30',
     description: 'Travail au seuil anaérobie',
   },
   {
@@ -61,18 +65,19 @@ const HR_ZONES = [
     name: 'VO2 Max',
     minPercent: 90,
     maxPercent: 100,
-    color: 'rgb(239, 68, 68)', // red-500
-    bgColor: 'bg-red-500/10',
-    borderColor: 'border-red-500/30',
+    rgb: '176 104 104', // earth.clay
+    text: 'text-earth-clay',
+    bg: 'bg-earth-clay/10',
+    border: 'border-earth-clay/30',
     description: 'Efforts maximaux, développement VO2max',
   },
 ]
 
 function calculateZoneDistribution(activities: Activity[], lthr: number) {
-  const activitiesWithHR = activities.filter(a => a.averageHeartrate && a.averageHeartrate > 0)
+  const activitiesWithHR = activities.filter((a) => a.averageHeartrate && a.averageHeartrate > 0)
 
   if (activitiesWithHR.length === 0) {
-    return HR_ZONES.map(zone => ({ ...zone, minutes: 0, percentage: 0 }))
+    return HR_ZONES.map((zone) => ({ ...zone, minutes: 0, percentage: 0 }))
   }
 
   const zoneMinutes = HR_ZONES.map(() => 0)
@@ -82,7 +87,6 @@ function calculateZoneDistribution(activities: Activity[], lthr: number) {
     const hr = activity.averageHeartrate!
     const minutes = activity.movingTime
 
-    // Déterminer dans quelle zone se trouve cette activité
     for (let i = 0; i < HR_ZONES.length; i++) {
       const zone = HR_ZONES[i]
       const minHR = lthr * (zone.minPercent / 100)
@@ -95,7 +99,6 @@ function calculateZoneDistribution(activities: Activity[], lthr: number) {
       }
     }
 
-    // Si au-dessus de la zone 5
     if (hr >= lthr) {
       zoneMinutes[4] += minutes
       totalMinutes += minutes
@@ -119,143 +122,96 @@ function formatMinutes(minutes: number): string {
 }
 
 export function HeartRateZones({ activities, lthr }: HeartRateZonesProps) {
-  const activitiesWithHR = activities.filter(a => a.averageHeartrate && a.averageHeartrate > 0)
+  const activitiesWithHR = activities.filter((a) => a.averageHeartrate && a.averageHeartrate > 0)
   const zones = calculateZoneDistribution(activities, lthr)
+  const estimatedMaxHR = Math.round(lthr / 0.9)
+  const dominantZone = zones.reduce((max, zone) => (zone.minutes > max.minutes ? zone : max), zones[0])
+  const avgHR =
+    activitiesWithHR.length > 0
+      ? Math.round(
+          activitiesWithHR.reduce((sum, a) => sum + (a.averageHeartrate || 0), 0) / activitiesWithHR.length,
+        )
+      : 0
 
-  // Calcul de la FC max estimée (LTHR ≈ 90% FCmax)
-  const estimatedMaxHR = Math.round(lthr / 0.90)
-
-  // Trouver la zone dominante
-  const dominantZone = zones.reduce((max, zone) => zone.minutes > max.minutes ? zone : max, zones[0])
-
-  // Calculer la FC moyenne de toutes les activités
-  const avgHR = activitiesWithHR.length > 0
-    ? Math.round(activitiesWithHR.reduce((sum, a) => sum + (a.averageHeartrate || 0), 0) / activitiesWithHR.length)
-    : 0
-
-  // Recommandations basées sur la distribution
   const getRecommendation = () => {
     const zone2Percent = zones[1].percentage
     const zone4And5Percent = zones[3].percentage + zones[4].percentage
-
     if (zone2Percent < 60) {
       return {
-        type: 'warning',
         message: `Tu passes seulement ${zone2Percent.toFixed(0)}% du temps en zone 2. Augmente ton volume en endurance de base.`,
         color: 'text-earth-saffron',
       }
     }
-
     if (zone4And5Percent > 30) {
       return {
-        type: 'caution',
         message: `${zone4And5Percent.toFixed(0)}% du temps en zones intenses. Attention au surentraînement.`,
         color: 'text-earth-rust',
       }
     }
-
     return {
-      type: 'good',
-      message: 'Distribution équilibrée des zones d\'entraînement. Continue comme ça !',
+      message: "Distribution équilibrée des zones d'entraînement. Continue comme ça.",
       color: 'text-earth-moss',
     }
   }
-
   const recommendation = getRecommendation()
 
   if (activitiesWithHR.length === 0) {
     return (
-      <div className="tech-card p-6 border-border-subtle">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-red-500/10 border border-red-500/30 rounded">
-            <Heart className="w-5 h-5 text-red-500" />
-          </div>
-          <div>
-            <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-              Heart_Rate_Zones // Zones FC
-            </h3>
-            <p className="text-xs font-mono text-text-muted mt-1">
-              Aucune donnée de fréquence cardiaque disponible
-            </p>
-          </div>
-        </div>
-        <p className="text-sm font-mono text-text-secondary">
-          Les données de fréquence cardiaque permettent des calculs de TSS plus précis.
-          Assure-toi que ton capteur FC est bien connecté à Strava.
+      <div className="tech-card p-6">
+        <Header />
+        <p className="text-sm text-text-secondary">
+          Aucune donnée de fréquence cardiaque pour le moment. Assure-toi que ton capteur FC est bien connecté à
+          Strava — les calculs de TSS gagnent en précision avec ces données.
         </p>
       </div>
     )
   }
 
   return (
-    <div className="tech-card p-6 border-red-500/30">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 bg-red-500/10 border border-red-500/30 rounded">
-          <Heart className="w-5 h-5 text-red-500" />
-        </div>
-        <div className="flex-1">
-          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Heart_Rate_Zones // Analyse FC
-          </h3>
-          <p className="text-xs font-mono text-text-muted mt-1">
-            Distribution de l'entraînement par zones de fréquence cardiaque
-          </p>
-        </div>
-      </div>
+    <div className="tech-card p-6">
+      <Header />
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <div className="bg-bg-primary p-4 rounded-lg border border-red-500/20">
-          <div className="flex items-center gap-2 mb-1">
-            <Heart className="w-4 h-4 text-red-500" />
-            <p className="text-xs font-mono text-text-muted">LTHR</p>
-          </div>
-          <p className="text-2xl font-mono font-bold text-red-500">{lthr}</p>
-          <p className="text-xs font-mono text-text-muted mt-1">bpm (seuil lactique)</p>
-        </div>
-        <div className="bg-bg-primary p-4 rounded-lg border border-border-subtle">
-          <p className="text-xs font-mono text-text-muted mb-1">FC max estimée</p>
-          <p className="text-2xl font-mono font-bold text-text-primary">{estimatedMaxHR}</p>
-          <p className="text-xs font-mono text-text-muted mt-1">bpm</p>
-        </div>
-        <div className="bg-bg-primary p-4 rounded-lg border border-border-subtle">
-          <p className="text-xs font-mono text-text-muted mb-1">FC moyenne</p>
-          <p className="text-2xl font-mono font-bold text-text-primary">{avgHR}</p>
-          <p className="text-xs font-mono text-text-muted mt-1">bpm (récent)</p>
-        </div>
+      <div className="grid grid-cols-3 gap-3 mb-6">
+        <KeyMetric label="LTHR" value={lthr} sub="bpm (seuil lactique)" tone="clay" icon={Heart} />
+        <KeyMetric label="FC max estimée" value={estimatedMaxHR} sub="bpm" />
+        <KeyMetric label="FC moyenne" value={avgHR} sub="bpm récent" />
       </div>
 
       {/* Zone Distribution */}
       <div className="mb-6">
-        <h4 className="text-xs font-mono font-semibold text-text-primary uppercase tracking-wider mb-3">
+        <h4 className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-secondary mb-4">
           Distribution par zone
         </h4>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {zones.map((zone) => (
             <div key={zone.zone}>
-              <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-bold text-text-primary">
+              <div className="flex items-center justify-between mb-1.5 text-xs">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span
+                    className={`font-display text-sm font-medium num shrink-0 ${zone.text}`}
+                    aria-label={`Zone ${zone.zone}`}
+                  >
                     Z{zone.zone}
                   </span>
-                  <span className="text-xs font-mono text-text-secondary">{zone.name}</span>
-                  <span className="text-xs font-mono text-text-muted">
-                    ({Math.round(lthr * zone.minPercent / 100)}-{Math.round(lthr * zone.maxPercent / 100)} bpm)
+                  <span className="text-text-primary font-medium">{zone.name}</span>
+                  <span className="text-text-muted num hidden sm:inline">
+                    {Math.round((lthr * zone.minPercent) / 100)}–{Math.round((lthr * zone.maxPercent) / 100)} bpm
                   </span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono text-text-muted">{formatMinutes(zone.minutes)}</span>
-                  <span className="text-xs font-mono font-bold text-text-primary w-12 text-right">
+                <div className="flex items-center gap-3 shrink-0">
+                  <span className="text-text-muted num">{formatMinutes(zone.minutes)}</span>
+                  <span className="font-display font-medium num text-text-primary w-10 text-right">
                     {zone.percentage.toFixed(0)}%
                   </span>
                 </div>
               </div>
-              <div className="relative h-2 bg-bg-card rounded-full overflow-hidden">
+              <div className="relative h-1.5 bg-bg-tertiary/30 rounded-full overflow-hidden">
                 <div
-                  className="h-full transition-all duration-500"
+                  className="h-full transition-all duration-700 ease-out rounded-full"
                   style={{
                     width: `${zone.percentage}%`,
-                    backgroundColor: zone.color,
+                    backgroundColor: `rgb(${zone.rgb})`,
                   }}
                 />
               </div>
@@ -265,39 +221,75 @@ export function HeartRateZones({ activities, lthr }: HeartRateZonesProps) {
       </div>
 
       {/* Dominant Zone */}
-      <div className={`p-4 rounded-lg border ${dominantZone.borderColor} ${dominantZone.bgColor} mb-6`}>
-        <div className="flex items-center gap-2 mb-2">
-          <TrendingUp className="w-4 h-4" style={{ color: dominantZone.color }} />
-          <p className="text-xs font-mono font-semibold text-text-primary">
-            Zone dominante: {dominantZone.name} ({dominantZone.percentage.toFixed(0)}%)
+      <div className={`p-4 rounded-xl border ${dominantZone.border} ${dominantZone.bg} mb-6`}>
+        <div className="flex items-center gap-2 mb-1.5">
+          <TrendingUp className={`w-4 h-4 ${dominantZone.text}`} strokeWidth={1.75} />
+          <p className="text-sm font-medium text-text-primary">
+            Zone dominante : <span className={dominantZone.text}>{dominantZone.name}</span>{' '}
+            <span className="text-text-muted num">({dominantZone.percentage.toFixed(0)}%)</span>
           </p>
         </div>
-        <p className="text-xs font-mono text-text-secondary">{dominantZone.description}</p>
+        <p className="text-xs text-text-secondary">{dominantZone.description}</p>
       </div>
 
       {/* Recommendation */}
-      <div className="border-t border-border-subtle pt-4">
+      <div className="border-t border-border-subtle pt-5">
         <div className="flex items-start gap-3">
-          <Zap className={`w-5 h-5 ${recommendation.color} mt-0.5`} />
+          <Zap className={`w-4 h-4 ${recommendation.color} mt-0.5 shrink-0`} strokeWidth={1.75} />
           <div>
-            <p className={`text-sm font-mono font-semibold ${recommendation.color} mb-1`}>
-              Recommandation
-            </p>
-            <p className="text-xs font-mono text-text-secondary leading-relaxed">
-              {recommendation.message}
-            </p>
+            <p className={`text-sm font-medium ${recommendation.color}`}>Recommandation</p>
+            <p className="text-xs text-text-secondary leading-relaxed mt-1">{recommendation.message}</p>
           </div>
         </div>
       </div>
 
       {/* Info */}
-      <div className="mt-6 p-4 bg-bg-primary rounded-lg border border-border-subtle">
-        <p className="text-xs font-mono text-text-secondary leading-relaxed">
-          <span className="text-red-500">LTHR</span> (Lactate Threshold Heart Rate) est calculé automatiquement
-          à partir de tes efforts intenses récents. Les calculs de <span className="text-earth-fern">TSS</span> utilisent
-          maintenant la fréquence cardiaque pour plus de précision quand disponible.
+      <div className="mt-6 tech-card-flat p-4">
+        <p className="text-xs text-text-secondary leading-relaxed">
+          La <span className="text-earth-clay font-medium">LTHR</span> (Lactate Threshold HR) est calculée
+          automatiquement à partir de tes efforts intenses récents. Les calculs de{' '}
+          <span className="text-earth-fern font-medium">TSS</span> utilisent la fréquence cardiaque quand elle est
+          disponible.
         </p>
       </div>
+    </div>
+  )
+}
+
+function Header() {
+  return (
+    <div className="flex items-center gap-3 mb-6">
+      <div className="p-2 bg-earth-clay/10 border border-earth-clay/30 rounded-xl">
+        <Heart className="w-4 h-4 text-earth-clay" strokeWidth={1.75} />
+      </div>
+      <div>
+        <h3 className="font-display text-lg font-medium tracking-tight text-text-primary">
+          Zones de fréquence cardiaque
+        </h3>
+        <p className="text-xs text-text-muted mt-0.5">Distribution de l'entraînement par intensité</p>
+      </div>
+    </div>
+  )
+}
+
+type KeyMetricProps = {
+  label: string
+  value: number
+  sub: string
+  tone?: 'clay'
+  icon?: typeof Heart
+}
+
+function KeyMetric({ label, value, sub, tone, icon: Icon }: KeyMetricProps) {
+  const valueClass = tone === 'clay' ? 'text-earth-clay' : 'text-text-primary'
+  return (
+    <div className="tech-card-flat p-4">
+      <div className="flex items-center gap-2 mb-2">
+        {Icon && <Icon className={`w-3.5 h-3.5 ${valueClass}`} strokeWidth={1.75} />}
+        <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted">{label}</p>
+      </div>
+      <p className={`font-display text-3xl font-medium tracking-tight num leading-none ${valueClass}`}>{value}</p>
+      <p className="text-[11px] text-text-muted mt-2">{sub}</p>
     </div>
   )
 }

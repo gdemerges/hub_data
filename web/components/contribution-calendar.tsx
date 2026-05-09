@@ -102,10 +102,10 @@ export function ContributionCalendar({
   const getColor = (level: number) => {
     const colors = {
       0: 'bg-bg-tertiary',
-      1: 'bg-green-900/30',
-      2: 'bg-green-700/50',
-      3: 'bg-green-600/70',
-      4: 'bg-green-500',
+      1: 'bg-earth-mossDeep/30',
+      2: 'bg-earth-mossDeep/50',
+      3: 'bg-earth-moss/70',
+      4: 'bg-earth-moss',
     }
     return colors[level as keyof typeof colors] || colors[0]
   }

@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
+import { MediaTopPicks, type TopPick } from '@/components/media-top-picks'
 import { Search, SlidersHorizontal, Gamepad2, Clock, Calendar, Star } from 'lucide-react'
 import { Game } from '@/lib/types'
 
@@ -104,26 +105,48 @@ export function GamesClient({ games, platforms, initialFilter }: GamesClientProp
     return result
   }, [items, search, filter, minHours, sortBy])
 
+  // Top 3 par heures jouées (ou notes), seulement quand pas de filtre / search actif
+  const topPicks: TopPick[] = useMemo(() => {
+    return [...games]
+      .filter((g) => g.hoursPlayed && g.hoursPlayed > 0)
+      .sort((a, b) => (b.hoursPlayed ?? 0) - (a.hoursPlayed ?? 0))
+      .slice(0, 3)
+      .map((g) => ({
+        title: g.title,
+        imageUrl: g.coverUrl,
+        metric: g.hoursPlayed ? `${g.hoursPlayed}h` : undefined,
+        metricLabel: 'Joué',
+        meta: g.platform,
+        onClick: () => setSelectedItem(g),
+      }))
+  }, [games])
+
+  const showHero = !search && filter === 'all' && minHours === 0
+
   return (
     <>
+      {showHero && topPicks.length > 0 && (
+        <MediaTopPicks picks={topPicks} accent="moss" title="Jeux les plus joués" eyebrow="Top 3" />
+      )}
+
       {/* Search & Filters */}
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" strokeWidth={1.75} />
           <input
             type="text"
-            placeholder="Rechercher un jeu..."
+            placeholder="Rechercher un jeu…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-bg-secondary border border-border-subtle rounded-xl text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-glow transition-all"
+            className="w-full pl-10 pr-4 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-primary placeholder:text-text-muted focus:outline-none focus:border-earth-moss/50 focus:ring-2 focus:ring-earth-moss/15 transition-all"
           />
         </div>
 
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center gap-2 px-4 py-2.5 bg-bg-secondary border border-border-subtle rounded-xl text-text-secondary hover:text-text-primary hover:border-border-default transition-all"
+          className="flex items-center gap-2 px-4 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-secondary hover:text-text-primary hover:border-border-default transition-all"
         >
-          <SlidersHorizontal className="w-4 h-4" />
+          <SlidersHorizontal className="w-4 h-4" strokeWidth={1.75} />
           <span>Filtres</span>
         </button>
       </div>
@@ -296,15 +319,15 @@ function GameDetail({ game }: { game: Game }) {
         )}
         {game.rating && (
           <div className="flex items-center gap-2">
-            <Star className="w-4 h-4 text-yellow-500" />
+            <Star className="w-4 h-4 text-earth-saffron" />
             <span>{game.rating}/20</span>
           </div>
         )}
         {game.status && !game.platforms && (
           <div className="flex items-center gap-2">
             <span className={`px-2 py-0.5 rounded text-xs ${
-              game.status === 'Fini' ? 'bg-green-500/20 text-green-400' :
-              game.status === 'En cours' ? 'bg-blue-500/20 text-blue-400' :
+              game.status === 'Fini' ? 'bg-earth-moss/20 text-earth-mossSoft' :
+              game.status === 'En cours' ? 'bg-earth-indigo/20 text-earth-indigo' :
               'bg-gray-500/20 text-gray-400'
             }`}>
               {game.status}
@@ -328,8 +351,8 @@ function GameDetail({ game }: { game: Game }) {
                   <span className="text-sm font-medium text-text-primary">{platform.platform}</span>
                   {platform.status && (
                     <span className={`px-2 py-0.5 rounded text-xs ${
-                      platform.status === 'Fini' ? 'bg-green-500/20 text-green-400' :
-                      platform.status === 'En cours' ? 'bg-blue-500/20 text-blue-400' :
+                      platform.status === 'Fini' ? 'bg-earth-moss/20 text-earth-mossSoft' :
+                      platform.status === 'En cours' ? 'bg-earth-indigo/20 text-earth-indigo' :
                       'bg-gray-500/20 text-gray-400'
                     }`}>
                       {platform.status}

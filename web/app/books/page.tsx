@@ -23,7 +23,9 @@ export default async function BooksPage() {
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
         title="Lecture"
-        subtitle={`${totalBooks} livres dans la bibliothèque`}
+        subtitle="Bibliothèque personnelle · notes et auteurs"
+        eyebrow="Bibliothèque"
+        dateline={`${booksRead.toLocaleString('fr-FR')} lus · ${totalBooks.toLocaleString('fr-FR')} au total`}
         color="indigo"
         icon={Books}
       />
@@ -36,13 +38,14 @@ export default async function BooksPage() {
       </div>
 
       <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-earth-saffron/10 border border-earth-saffron/30 rounded">
-            <Star className="w-5 h-5 text-earth-saffron" />
+        <div className="flex items-center gap-3 mb-5">
+          <div className="p-2 bg-earth-saffron/10 border border-earth-saffron/30 rounded-xl">
+            <Star className="w-4 h-4 text-earth-saffron" strokeWidth={1.75} />
           </div>
-          <h2 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Meilleurs_Livres
+          <h2 className="font-display text-lg font-medium tracking-tight text-text-primary">
+            Meilleurs livres
           </h2>
+          <span className="h-px flex-1 ml-3 bg-earth-saffron/15" aria-hidden />
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
@@ -90,12 +93,15 @@ export default async function BooksPage() {
 
       <div className="tech-card p-6">
         <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
-            <BookOpen className="w-5 h-5 text-earth-fern" />
+          <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded-xl">
+            <BookOpen className="w-4 h-4 text-earth-fern" strokeWidth={1.75} />
           </div>
-          <h2 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Tous_Les_Livres ({totalBooks})
+          <h2 className="font-display text-lg font-medium tracking-tight text-text-primary">
+            Tous les livres
           </h2>
+          <span className="text-[10px] uppercase tracking-[0.18em] text-text-muted ml-auto num">
+            {totalBooks.toLocaleString('fr-FR')}
+          </span>
         </div>
 
         <div className="space-y-2 max-h-[600px] overflow-y-auto">

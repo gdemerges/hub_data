@@ -29,7 +29,7 @@ export function YearFilter() {
     <div className="flex items-center gap-4">
       <div className="flex items-center gap-2 text-earth-fern">
         <Calendar className="w-4 h-4" />
-        <span className="text-xs font-mono uppercase tracking-wider">Année</span>
+        <span className="text-[11px] font-medium uppercase tracking-[0.18em]">Année</span>
       </div>
       <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
         {years.slice(0, 8).map((year) => {
@@ -39,7 +39,7 @@ export function YearFilter() {
               key={year}
               onClick={() => handleYearChange(year)}
               className={cn(
-                'px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded-lg border transition-all duration-300 whitespace-nowrap',
+                'px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] rounded-lg border transition-all duration-300 whitespace-nowrap',
                 isActive
                   ? 'bg-earth-fern/15 border-earth-fern/50 text-earth-fern shadow-[0_0_10px_rgba(0,255,255,0.15)]'
                   : 'border-border-subtle text-text-secondary hover:text-earth-fern hover:border-earth-fern/30 hover:bg-earth-fern/5'
@@ -56,7 +56,7 @@ export function YearFilter() {
             if (e.target.value) handleYearChange(e.target.value)
           }}
           className={cn(
-            'px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded-lg border transition-all duration-300 bg-transparent appearance-none cursor-pointer',
+            'px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] rounded-lg border transition-all duration-300 bg-transparent appearance-none cursor-pointer',
             years.slice(8).includes(currentYear)
               ? 'bg-earth-fern/15 border-earth-fern/50 text-earth-fern'
               : 'border-border-subtle text-text-secondary hover:text-earth-fern hover:border-earth-fern/30'

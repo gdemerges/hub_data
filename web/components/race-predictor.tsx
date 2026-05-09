@@ -34,8 +34,8 @@ export function RacePredictor({ predictions, onSetGoal }: RacePredictorProps) {
 
   if (predictions.length === 0) {
     return (
-      <div className="text-center py-8 text-text-muted font-mono text-sm">
-        Pas assez de données de course pour prédire les temps
+      <div className="text-center py-8 text-text-muted text-sm">
+        Pas assez de données de course pour prédire les temps.
       </div>
     )
   }
@@ -112,17 +112,17 @@ export function RacePredictor({ predictions, onSetGoal }: RacePredictorProps) {
   }
 
   return (
-    <div className="tech-card p-6 border-earth-terracotta/30">
+    <div className="tech-card p-6">
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 bg-earth-terracotta/10 border border-earth-terracotta/30 rounded">
-          <Award className="w-5 h-5 text-earth-terracotta" />
+        <div className="p-2 bg-earth-terracotta/10 border border-earth-terracotta/30 rounded-xl">
+          <Award className="w-4 h-4 text-earth-terracotta" strokeWidth={1.75} />
         </div>
         <div className="flex-1">
-          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Race_Predictor // Prédictions de temps
+          <h3 className="font-display text-lg font-medium tracking-tight text-text-primary">
+            Prédicteur de course
           </h3>
-          <p className="text-xs font-mono text-text-muted mt-1">
-            Temps estimés basés sur tes performances récentes (formule de Riegel)
+          <p className="text-xs text-text-muted mt-0.5">
+            Temps estimés via la formule de Riegel
           </p>
         </div>
       </div>
@@ -141,24 +141,24 @@ export function RacePredictor({ predictions, onSetGoal }: RacePredictorProps) {
           return (
             <div
               key={distance}
-              className={`bg-bg-primary p-4 rounded-lg border ${getProgressColor(prediction, goal)} transition-all hover:border-earth-terracotta/50`}
+              className={`tech-card-flat p-5 border ${getProgressColor(prediction, goal)} transition-all hover:border-earth-terracotta/50`}
             >
-              <div className="flex items-start justify-between mb-3">
+              <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h4 className="font-mono font-bold text-text-primary">{label}</h4>
-                  <p className="text-xs font-mono text-text-muted mt-1">
-                    Allure: {prediction.currentPace.toFixed(2)} min/km
+                  <h4 className="font-display text-lg font-medium tracking-tight text-text-primary">{label}</h4>
+                  <p className="text-[11px] text-text-muted mt-0.5 num">
+                    Allure : {prediction.currentPace.toFixed(2)} min/km
                   </p>
                 </div>
-                <div className={`text-xs font-mono ${getConfidenceColor(prediction.confidence)}`}>
+                <div className={`text-[10px] uppercase tracking-[0.18em] font-medium ${getConfidenceColor(prediction.confidence)}`}>
                   {prediction.confidence}% conf.
                 </div>
               </div>
 
               {/* Predicted Time */}
-              <div className="mb-3">
-                <p className="text-xs font-mono text-text-muted mb-1">Temps prédit</p>
-                <p className="text-2xl font-mono font-bold text-earth-terracotta">
+              <div className="mb-4">
+                <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-1.5">Temps prédit</p>
+                <p className="font-display text-3xl font-medium tracking-tight num text-earth-terracotta leading-none">
                   {formatTime(prediction.predictedTime)}
                 </p>
               </div>
@@ -169,67 +169,72 @@ export function RacePredictor({ predictions, onSetGoal }: RacePredictorProps) {
                   {goal ? (
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <p className="text-xs font-mono text-text-muted">Objectif</p>
+                        <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted">Objectif</p>
                         <button
                           onClick={() => handleSetGoal(distance)}
-                          className="text-earth-fern hover:text-earth-fern/70 transition-colors"
+                          className="text-earth-fern hover:text-text-primary transition-colors"
+                          aria-label="Modifier l'objectif"
                         >
-                          <Edit2 className="w-3 h-3" />
+                          <Edit2 className="w-3 h-3" strokeWidth={1.75} />
                         </button>
                       </div>
-                      <p className="text-lg font-mono font-bold text-earth-fern mb-2">
+                      <p className="font-display text-xl font-medium tracking-tight num text-earth-fern mb-2">
                         {formatTime(goal.targetTime)}
                       </p>
                       {isAheadOfGoal ? (
-                        <div className="flex items-center gap-2 text-earth-moss text-xs font-mono">
-                          <Check className="w-4 h-4" />
-                          <span>Objectif atteignable ! ({formatTime(Math.abs(timeDiff))} d'avance)</span>
+                        <div className="flex items-center gap-2 text-earth-moss text-xs">
+                          <Check className="w-3.5 h-3.5" strokeWidth={2} />
+                          <span>Atteignable · {formatTime(Math.abs(timeDiff))} d'avance</span>
                         </div>
                       ) : (
-                        <div className="flex items-center gap-2 text-earth-rust text-xs font-mono">
-                          <TrendingUp className="w-4 h-4" />
-                          <span>Écart: +{formatTime(Math.abs(timeDiff))}</span>
+                        <div className="flex items-center gap-2 text-earth-rust text-xs">
+                          <TrendingUp className="w-3.5 h-3.5" strokeWidth={1.75} />
+                          <span>Écart : +{formatTime(Math.abs(timeDiff))}</span>
                         </div>
                       )}
                       {prediction.timeToTarget !== undefined && prediction.timeToTarget > 0 && (
-                        <p className="text-xs font-mono text-text-muted mt-2">
-                          Estimation: {Math.ceil(prediction.timeToTarget / 30)} mois d'entraînement
+                        <p className="text-[11px] text-text-muted mt-2">
+                          ≈ {Math.ceil(prediction.timeToTarget / 30)} mois d'entraînement
                         </p>
                       )}
                     </div>
                   ) : (
                     <button
                       onClick={() => handleSetGoal(distance)}
-                      className="w-full py-2 px-3 border border-earth-fern/30 rounded text-earth-fern text-xs font-mono hover:bg-earth-fern/10 transition-all flex items-center justify-center gap-2"
+                      className="w-full py-2 px-3 border border-earth-fern/30 rounded-full text-earth-fern text-xs font-medium hover:bg-earth-fern/10 hover:border-earth-fern/50 transition-all flex items-center justify-center gap-2"
                     >
-                      <Target className="w-3 h-3" />
+                      <Target className="w-3 h-3" strokeWidth={2} />
                       Définir un objectif
                     </button>
                   )}
                 </div>
               ) : (
                 <div className="border-t border-border-subtle pt-3">
-                  <p className="text-xs font-mono text-text-muted mb-2">Temps objectif (MM:SS ou HH:MM:SS)</p>
+                  <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-2">
+                    Temps objectif (MM:SS ou HH:MM:SS)
+                  </p>
                   <div className="flex items-center gap-2">
                     <input
                       type="text"
                       value={targetInput}
                       onChange={(e) => setTargetInput(e.target.value)}
                       placeholder="59:00"
-                      className="flex-1 px-3 py-2 bg-bg-card border border-border-subtle rounded text-text-primary font-mono text-sm focus:outline-none focus:border-earth-fern/50"
+                      className="flex-1 px-3 py-2 bg-bg-card border border-border-subtle rounded-full text-text-primary text-sm num focus:outline-none focus:border-earth-fern/60"
                       autoFocus
                     />
                     <button
                       onClick={() => handleSaveGoal(distance)}
-                      className="p-2 bg-earth-moss/20 border border-earth-moss/30 rounded text-earth-moss hover:bg-earth-moss/30 transition-all"
+                      className="p-2 bg-earth-moss/15 border border-earth-moss/30 rounded-full text-earth-moss hover:bg-earth-moss/25 transition-all"
+                      aria-label="Valider"
                     >
-                      <Check className="w-4 h-4" />
+                      <Check className="w-4 h-4" strokeWidth={2} />
                     </button>
                     <button
                       onClick={handleCancelEdit}
-                      className="p-2 bg-red-500/20 border border-red-500/30 rounded text-red-400 hover:bg-red-500/30 transition-all"
+                      className="p-2 bg-earth-clay/15 border border-earth-clay/30 rounded-full text-earth-clay hover:bg-earth-clay/25 transition-all"
+                      aria-label="Annuler"
                     >
-                      <X className="w-4 h-4" />
+                      <X className="w-4 h-4" strokeWidth={2} />
                     </button>
                   </div>
                 </div>
@@ -239,12 +244,11 @@ export function RacePredictor({ predictions, onSetGoal }: RacePredictorProps) {
         })}
       </div>
 
-      {/* Info box */}
-      <div className="mt-6 p-4 bg-bg-primary rounded-lg border border-border-subtle">
-        <p className="text-xs font-mono text-text-secondary leading-relaxed">
-          Les prédictions sont calculées via la <span className="text-earth-terracotta">formule de Riegel</span> ajustée,
-          basée sur tes performances récentes. Le niveau de confiance dépend du nombre de sorties et de la
-          similarité avec la distance cible. Définis un objectif pour suivre ta progression !
+      <div className="mt-6 tech-card-flat p-4">
+        <p className="text-xs text-text-secondary leading-relaxed">
+          Prédictions via la <span className="text-earth-terracotta font-medium">formule de Riegel</span> ajustée,
+          basées sur tes performances récentes. La confiance dépend du nombre de sorties et de la similarité avec la
+          distance cible.
         </p>
       </div>
     </div>

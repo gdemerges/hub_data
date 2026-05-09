@@ -119,8 +119,8 @@ export function UnifiedTimeline() {
           <div className="p-2 bg-earth-terracotta/10 border border-earth-terracotta/30 rounded">
             <Clock className="w-5 h-5 text-earth-terracotta" />
           </div>
-          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Unified_Timeline
+          <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+            Chronologie unifiée
           </h3>
         </div>
 

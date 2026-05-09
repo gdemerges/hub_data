@@ -39,8 +39,8 @@ export function SteamPlaytimeSection({ promise, year }: Props) {
           <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
             <Clock className="w-5 h-5 text-earth-fern" />
           </div>
-          <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-            Playtime_Tracker
+          <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+            Suivi du temps de jeu
           </h3>
         </div>
         <div className="flex flex-wrap items-center gap-3">
@@ -122,8 +122,8 @@ export function SteamPlaytimeSkeleton() {
         <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
           <Clock className="w-5 h-5 text-earth-fern" />
         </div>
-        <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-          Playtime_Tracker
+        <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+          Suivi du temps de jeu
         </h3>
       </div>
       <div className="h-40 bg-bg-card/50 border border-border-subtle rounded animate-pulse" />
