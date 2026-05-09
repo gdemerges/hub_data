@@ -64,7 +64,7 @@ export function MediaCard({
     <button
       onClick={onClick}
       className={cn(
-        'group relative w-full text-left overflow-hidden',
+        'group relative w-full text-left overflow-hidden flex flex-col',
         'bg-bg-card border border-border-subtle rounded-xl',
         'transition-all duration-300 ease-out',
         c.border,

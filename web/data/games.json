@@ -530,7 +530,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2dyy.jpg"
   },
   {
-    "title": "Digimon World 3: Aratanaru Bôken no Tobira (Digimon World 2003)",
+    "title": "Digimon World 2003",
     "platform": "Playstation",
     "status": "Joué",
     "hoursPlayed": 0,
@@ -639,7 +639,7 @@
     "releaseYear": 2008
   },
   {
-    "title": "????????IX ?????? - Dragon Quest IX: Hoshizora no Mamoribito (Dragon Quest IX : Les Sentinelles du Firmament)",
+    "title": "Dragon Quest IX : Les Sentinelles du Firmament",
     "platform": "Nintendo DS",
     "status": "Joué",
     "hoursPlayed": 30,
@@ -650,7 +650,7 @@
     "releaseYear": 2010
   },
   {
-    "title": "Dragon Quest V: Hand of the Heavenly Bride (Dragon Quest V : La Fiancée Céleste)",
+    "title": "Dragon Quest V : La Fiancée Céleste",
     "platform": "Nintendo DS",
     "status": "Joué",
     "hoursPlayed": 0,
@@ -672,7 +672,7 @@
     "releaseYear": 2016
   },
   {
-    "title": "Doragon Kuesuto Eito Sora to Umi to Daichi to Norowareshi Himegimi (Dragon Quest VIII : L'Odyssée du Roi Maudit)",
+    "title": "Dragon Quest VIII : L'Odyssée du Roi Maudit",
     "platform": "Playstation 2",
     "status": "Joué",
     "hoursPlayed": 18,
@@ -683,7 +683,7 @@
     "releaseYear": 2006
   },
   {
-    "title": "Dragon Quest XI S: Echoes of an Elusive Age - Definitive Edition (Dragon Quest XI S : Les Combattants de la destinée - Edition Ultime)",
+    "title": "Dragon Quest XI S : Les Combattants de la destinée - Edition Ultime",
     "platform": "Nintendo Switch",
     "status": "Fini",
     "hoursPlayed": 65,
@@ -695,7 +695,7 @@
     "releaseYear": 2019
   },
   {
-    "title": "Driver: You Are the Wheelman (Driver)",
+    "title": "Driver",
     "platform": "Playstation",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -721,7 +721,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co214k.jpg"
   },
   {
-    "title": "TrustyBell ~ Chopin no Yume ~ (Eternal Sonata)",
+    "title": "Eternal Sonata",
     "platform": "Xbox 360",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -734,7 +734,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1n47.jpg"
   },
   {
-    "title": "Fable II (Fable 2)",
+    "title": "Fable 2",
     "platform": "Xbox 360",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -862,7 +862,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1vjk.jpg"
   },
   {
-    "title": "Fainaru Fantaj? Sur? (Final Fantasy III)",
+    "title": "Final Fantasy III",
     "platform": "Nintendo DS",
     "status": "Fini",
     "hoursPlayed": 43,
@@ -875,7 +875,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co9ojk.jpg"
   },
   {
-    "title": "Fainaru Fantaj? F? (Final Fantasy IV)",
+    "title": "Final Fantasy IV",
     "platform": "Nintendo DS",
     "status": "Joué",
     "hoursPlayed": 10,
@@ -1029,7 +1029,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/coboys.jpg"
   },
   {
-    "title": "Fainaru Fantaj? S?t?n Ts? (Final Fantasy XIII-2)",
+    "title": "Final Fantasy XIII-2",
     "platform": "Xbox 360",
     "status": "Fini",
     "hoursPlayed": 23,
@@ -1042,7 +1042,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1tr9.jpg"
   },
   {
-    "title": "Final Fantasy XIV Shinsei Eorzea (Final Fantasy XIV : A Realm Reborn)",
+    "title": "Final Fantasy XIV : A Realm Reborn",
     "platform": "PC",
     "status": "Joué",
     "hoursPlayed": 19,
@@ -1262,7 +1262,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2f2q.jpg"
   },
   {
-    "title": "Grand Theft Auto: Chinatown Wars (GTA : Chinatown Wars)",
+    "title": "GTA : Chinatown Wars",
     "platform": "Nintendo DS",
     "status": "Joué",
     "hoursPlayed": 0,
@@ -1275,7 +1275,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2lba.jpg"
   },
   {
-    "title": "Grand Theft Auto : Episodes from Liberty City (GTA : Episodes from Liberty City)",
+    "title": "GTA : Episodes from Liberty City",
     "platform": "Xbox 360",
     "status": "Joué",
     "hoursPlayed": 0,
@@ -1288,7 +1288,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2lbe.jpg"
   },
   {
-    "title": "Grand Theft Auto: San Andreas (GTA : San Andreas)",
+    "title": "GTA : San Andreas",
     "platform": "PC",
     "status": "Joué",
     "hoursPlayed": 0,
@@ -1302,7 +1302,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co8q4j.jpg"
   },
   {
-    "title": "Grand Theft Auto IV (GTA IV)",
+    "title": "GTA IV",
     "platforms": [
       {
         "platform": "Xbox 360",
@@ -1326,7 +1326,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1twe.jpg"
   },
   {
-    "title": "Grand Theft Auto V (GTA V)",
+    "title": "GTA V",
     "platform": "PC",
     "status": "Fini",
     "hoursPlayed": 41,
@@ -1391,7 +1391,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1xha.jpg"
   },
   {
-    "title": "Harry Potter: Quidditch World Cup (Harry Potter : Coupe du Monde de Quidditch)",
+    "title": "Harry Potter : Coupe du Monde de Quidditch",
     "platform": "GameBoy Advance",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -1403,7 +1403,7 @@
     "releaseYear": 2003
   },
   {
-    "title": "Harry Potter and the Philosopher's Stone (Harry Potter à l'Ecole des Sorciers)",
+    "title": "Harry Potter à l'Ecole des Sorciers",
     "platform": "Playstation",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -1416,7 +1416,7 @@
     "releaseYear": 2001
   },
   {
-    "title": "Harry Potter and the Chamber of Secrets (Harry Potter et la Chambre des Secrets)",
+    "title": "Harry Potter et la Chambre des Secrets",
     "platform": "Playstation",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -1429,7 +1429,7 @@
     "releaseYear": 2002
   },
   {
-    "title": "Harry Potter and the Prisoner of Azkaban (Harry Potter et le Prisonnier d'Azkaban)",
+    "title": "Harry Potter et le Prisonnier d'Azkaban",
     "platform": "GameCube",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -1466,7 +1466,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/coaajv.jpg"
   },
   {
-    "title": "Hercules (Hercule)",
+    "title": "Hercule",
     "platform": "Playstation",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -1478,7 +1478,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/cobkd4.jpg"
   },
   {
-    "title": "Hogwarts Legacy (Hogwarts Legacy : L'Héritage de Poudlard)",
+    "title": "Hogwarts Legacy : L'Héritage de Poudlard",
     "platforms": [
       {
         "platform": "PC",
@@ -1499,7 +1499,7 @@
     "releaseYear": 2023
   },
   {
-    "title": "Zeruda Mus? Hairaru ?rusut?zu (Hyrule Warriors : Legends)",
+    "title": "Hyrule Warriors : Legends",
     "platform": "Nintendo 3DS",
     "status": "Joué",
     "hoursPlayed": 4,
@@ -1610,7 +1610,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2ldn.jpg"
   },
   {
-    "title": "Middle-earth: Shadow of Mordor (La Terre du Milieu : L'Ombre du Mordor)",
+    "title": "La Terre du Milieu : L'Ombre du Mordor",
     "platform": "PC",
     "status": "En cours",
     "hoursPlayed": 1,
@@ -1648,7 +1648,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co3wnv.jpg"
   },
   {
-    "title": "The Sims 2 (Les Sims 2)",
+    "title": "Les Sims 2",
     "platform": "PC",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -1660,7 +1660,7 @@
     "releaseYear": 2004
   },
   {
-    "title": "The Sims 3 (Les Sims 3)",
+    "title": "Les Sims 3",
     "platform": "PC",
     "status": "Joué",
     "hoursPlayed": 0,
@@ -1698,7 +1698,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1twj.jpg"
   },
   {
-    "title": "Raitoningu Rit?nzu: Fainaru Fantaj? S?t?n (Lightning Returns : Final Fantasy XIII)",
+    "title": "Lightning Returns : Final Fantasy XIII",
     "platform": "Xbox 360",
     "status": "Joué",
     "hoursPlayed": 0,
@@ -1954,7 +1954,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2sf5.jpg"
   },
   {
-    "title": "Monster Hunter 4G (Monster Hunter 4 Ultimate)",
+    "title": "Monster Hunter 4 Ultimate",
     "platform": "Nintendo 3DS",
     "status": "Joué",
     "hoursPlayed": 14,
@@ -2083,7 +2083,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co21ts.jpg"
   },
   {
-    "title": "Ni no Kuni II: Revenant Kingdom (Ni no Kuni 2 : L'avènement d'un nouveau Royaume)",
+    "title": "Ni no Kuni 2 : L'avènement d'un nouveau Royaume",
     "platform": "PC",
     "status": "Fini",
     "hoursPlayed": 43,
@@ -2095,7 +2095,7 @@
     "releaseYear": 2018
   },
   {
-    "title": "Ninokuni Shikkoku no Madôshi (Ni no Kuni : La Vengeance de la Sorcière Céleste)",
+    "title": "Ni no Kuni : La Vengeance de la Sorcière Céleste",
     "platform": "Nintendo Switch",
     "status": "Fini",
     "hoursPlayed": 35,
@@ -2232,7 +2232,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co8h07.jpg"
   },
   {
-    "title": "Persona 5 Scramble: The Phantom Strikers (Persona 5 Strikers)",
+    "title": "Persona 5 Strikers",
     "platform": "Nintendo Switch",
     "status": "En cours",
     "hoursPlayed": 0,
@@ -2244,7 +2244,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2zoq.jpg"
   },
   {
-    "title": "Gyakuten Saiban (Phoenix Wright : Ace Attorney)",
+    "title": "Phoenix Wright : Ace Attorney",
     "platform": "Nintendo DS",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -2270,7 +2270,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/coa98w.jpg"
   },
   {
-    "title": "Pokemon Koroshiamu (Pokémon Colosseum)",
+    "title": "Pokémon Colosseum",
     "platform": "GameCube",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -2284,7 +2284,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2tpe.jpg"
   },
   {
-    "title": "Pokémon Fushigi no Dungeon Ao no Ky?jotai (Pokémon Donjon Mystère : Équipe de Secours Bleue)",
+    "title": "Pokémon Donjon Mystère : Équipe de Secours Bleue",
     "platform": "Nintendo DS",
     "status": "Fini",
     "hoursPlayed": 76,
@@ -2297,7 +2297,7 @@
     "releaseYear": 2006
   },
   {
-    "title": "Pokemon Fushigi no Dungeon: Toki no Tankentai (Pokémon Donjon Mystère : Explorateurs du Temps)",
+    "title": "Pokémon Donjon Mystère : Explorateurs du Temps",
     "platform": "Nintendo DS",
     "status": "Fini",
     "hoursPlayed": 23,
@@ -2334,7 +2334,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1zjv.jpg"
   },
   {
-    "title": "Pocket Monsters Omega Ruby (Pokémon Rubis Omega)",
+    "title": "Pokémon Rubis Omega",
     "platform": "Nintendo 3DS",
     "status": "Fini",
     "hoursPlayed": 53,
@@ -2359,7 +2359,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co6i7h.jpg"
   },
   {
-    "title": "Pocket Monsters Sun (Pokémon Soleil)",
+    "title": "Pokémon Soleil",
     "platform": "Nintendo 3DS",
     "status": "Joué",
     "hoursPlayed": 11,
@@ -2372,7 +2372,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co3co7.jpg"
   },
   {
-    "title": "Pocket Monsters Gin (Pokémon Version Argent)",
+    "title": "Pokémon Version Argent",
     "platform": "GameBoy Color",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -2385,7 +2385,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co5pid.jpg"
   },
   {
-    "title": "Pocket Monsters White (Pokémon Version Blanche)",
+    "title": "Pokémon Version Blanche",
     "platform": "Nintendo DS",
     "status": "Fini",
     "hoursPlayed": 39,
@@ -2398,7 +2398,7 @@
     "releaseYear": 2011
   },
   {
-    "title": "Pocket Monsters Ao (Pokémon Version Bleue)",
+    "title": "Pokémon Version Bleue",
     "platform": "GameBoy",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -2410,7 +2410,7 @@
     "releaseYear": 1999
   },
   {
-    "title": "Pocket Monsters Crystal Version (Pokémon Version Cristal)",
+    "title": "Pokémon Version Cristal",
     "platform": "GameBoy Color",
     "status": "Fini",
     "hoursPlayed": 94,
@@ -2423,7 +2423,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co5pil.jpg"
   },
   {
-    "title": "Pocket Monsters Diamond (Pokémon Version Diamant)",
+    "title": "Pokémon Version Diamant",
     "platform": "Nintendo DS",
     "status": "Fini",
     "hoursPlayed": 193,
@@ -2437,7 +2437,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1zht.jpg"
   },
   {
-    "title": "Pocket Monsters Emerald (Pokémon Version Émeraude)",
+    "title": "Pokémon Version Émeraude",
     "platform": "GameBoy Advance",
     "status": "Fini",
     "hoursPlayed": 110,
@@ -2449,7 +2449,7 @@
     "releaseYear": 2005
   },
   {
-    "title": "Pocket Monsters Pikachu (Pokémon Version Jaune)",
+    "title": "Pokémon Version Jaune",
     "platforms": [
       {
         "platform": "GameBoy",
@@ -2471,7 +2471,7 @@
     "releaseYear": 2000
   },
   {
-    "title": "Pocket Monsters Heartgold (Pokémon Version Or : HeartGold)",
+    "title": "Pokémon Version Or : HeartGold",
     "platform": "Nintendo DS",
     "status": "Fini",
     "hoursPlayed": 31,
@@ -2485,7 +2485,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1z57.jpg"
   },
   {
-    "title": "Pocket Monsters Kin (Pokémon Version Or)",
+    "title": "Pokémon Version Or",
     "platform": "GameBoy Color",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -2498,7 +2498,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co8o11.jpg"
   },
   {
-    "title": "Pocket Monsters Pearl (Pokémon Version Perle)",
+    "title": "Pokémon Version Perle",
     "platform": "Nintendo DS",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -2512,7 +2512,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1zio.jpg"
   },
   {
-    "title": "Pocket Monsters Platinum (Pokémon Version Platine)",
+    "title": "Pokémon Version Platine",
     "platform": "Nintendo DS",
     "status": "Fini",
     "hoursPlayed": 70,
@@ -2526,7 +2526,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co8gvp.jpg"
   },
   {
-    "title": "Pocket Monsters Ruby (Pokémon Version Rubis)",
+    "title": "Pokémon Version Rubis",
     "platform": "GameBoy Advance",
     "status": "Fini",
     "hoursPlayed": 429,
@@ -2539,7 +2539,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1zhq.jpg"
   },
   {
-    "title": "Pocket Monsters Sapphire (Pokémon Version Saphir)",
+    "title": "Pokémon Version Saphir",
     "platform": "GameBoy Advance",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -2552,7 +2552,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1zhp.jpg"
   },
   {
-    "title": "Pocket Monsters Leaf Green (Pokémon Version Vert Feuille)",
+    "title": "Pokémon Version Vert Feuille",
     "platform": "GameBoy Advance",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -2565,7 +2565,7 @@
     "releaseYear": 2004
   },
   {
-    "title": "Pocket Monsters X (Pokémon X)",
+    "title": "Pokémon X",
     "platform": "Nintendo 3DS",
     "status": "Fini",
     "hoursPlayed": 124,
@@ -2579,7 +2579,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1z8y.jpg"
   },
   {
-    "title": "Layton-ky?uju to Fushigi na Machi (Professeur Layton et l'Étrange Village)",
+    "title": "Professeur Layton et l'Étrange Village",
     "platform": "Nintendo DS",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -2631,7 +2631,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1xuq.jpg"
   },
   {
-    "title": "Shiritsu Justice Gakuen: LEGION OF HEROES (Rival Schools : United by Fate)",
+    "title": "Rival Schools : United by Fate",
     "platform": "Playstation",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -2802,7 +2802,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1nnh.jpg"
   },
   {
-    "title": "Star Wars: The Force Unleashed (Star Wars : Le Pouvoir de la Force)",
+    "title": "Star Wars : Le Pouvoir de la Force",
     "platform": "Xbox 360",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -2863,7 +2863,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co9nh7.jpg"
   },
   {
-    "title": "Star Wars: Episode I - The Phantom Menace (Star Wars: Episode I - La Menace Fantôme)",
+    "title": "Star Wars: Episode I - La Menace Fantôme",
     "platform": "Playstation",
     "status": "Fini",
     "hoursPlayed": 0,
@@ -2887,7 +2887,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1tmz.jpg"
   },
   {
-    "title": "Starcraft II: Wings of Liberty (StarCraft 2 : Les ailes de la liberté)",
+    "title": "StarCraft 2 : Les ailes de la liberté",
     "platform": "PC",
     "status": "Joué",
     "hoursPlayed": 0,
@@ -2994,7 +2994,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co5k7b.jpg"
   },
   {
-    "title": "S?p? Mario Gyarakush? (Super Mario Galaxy)",
+    "title": "Super Mario Galaxy",
     "platform": "Wii",
     "status": "Joué",
     "hoursPlayed": 0,
@@ -3293,7 +3293,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co6txb.jpg"
   },
   {
-    "title": "Wied?min 2: Zabójcy królów (The Witcher 2 - Assassins of Kings)",
+    "title": "The Witcher 2 - Assassins of Kings",
     "platforms": [
       {
         "platform": "PC",
@@ -3316,7 +3316,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1wy4.jpg"
   },
   {
-    "title": "Wied?min 3: Dziki Gon (The Witcher 3 - Wild Hunt)",
+    "title": "The Witcher 3 - Wild Hunt",
     "platforms": [
       {
         "platform": "Playstation 4",
@@ -3339,7 +3339,7 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co7zoz.jpg"
   },
   {
-    "title": "Wied?min (The Witcher)",
+    "title": "The Witcher",
     "platform": "PC",
     "status": "Fini",
     "hoursPlayed": 31,

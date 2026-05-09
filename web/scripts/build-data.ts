@@ -249,6 +249,7 @@ async function fetchTMDBPoster(title: string, type: 'movie' | 'tv', year?: numbe
 interface RawGame {
   Titre: string
   'Titre VO': string
+  'Titre VF': string
   Support: string
   Etat: string
   'Heures de jeu': string
@@ -313,8 +314,10 @@ async function processGames() {
       totalHours = parseNumber(baseEntry['Heures de jeu']) || 0
     }
 
+    const displayTitle = baseEntry['Titre VF'] || baseEntry.Titre || baseEntry['Titre VO']
+
     games.push({
-      title,
+      title: displayTitle,
       platform: platforms ? undefined : (baseEntry.Support || undefined),
       platforms,
       status: platforms ? undefined : (baseEntry.Etat || undefined),
