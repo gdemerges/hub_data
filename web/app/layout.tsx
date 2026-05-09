@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Suspense } from 'react'
 import { Inter, JetBrains_Mono, Fraunces } from 'next/font/google'
-import { Navigation, CommandPalette, ServiceWorkerRegister } from '@/components'
+import { Navigation, CommandPalette, ServiceWorkerRegister, Footer, RouteProgress } from '@/components'
 import { SWRProvider } from '@/lib/swr-config'
 import './globals.css'
 
@@ -68,13 +68,17 @@ export default function RootLayout({
         <SWRProvider>
           <ServiceWorkerRegister />
           <a href="#main" className="skip-link">Aller au contenu</a>
+          <Suspense fallback={null}>
+            <RouteProgress />
+          </Suspense>
           <Navigation />
           <CommandPalette />
-          <main id="main" className="min-h-screen pb-16">
+          <main id="main" className="min-h-screen">
             <Suspense fallback={<PageFallback />}>
               {children}
             </Suspense>
           </main>
+          <Footer />
         </SWRProvider>
       </body>
     </html>

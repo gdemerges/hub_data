@@ -130,11 +130,11 @@ export function BarChart({ data, height = 300 }: BarChartProps) {
           )
         })}
 
-        {/* Gradient definition */}
+        {/* Gradient earth tones (moss → mossSoft) */}
         <defs>
           <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#6366f1" />
-            <stop offset="100%" stopColor="#8b5cf6" />
+            <stop offset="0%" stopColor="#8ab274" />
+            <stop offset="100%" stopColor="#5a7d4a" />
           </linearGradient>
         </defs>
       </svg>

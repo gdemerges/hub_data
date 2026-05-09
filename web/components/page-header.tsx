@@ -1,4 +1,5 @@
 import type { Icon } from '@phosphor-icons/react'
+import { cn } from '@/lib/utils'
 
 type Accent =
   | 'moss'
@@ -55,6 +56,10 @@ interface PageHeaderProps {
   /** Sous-titre humain (remplace `loadingMessage`). */
   loadingMessage?: string
   subtitle?: string
+  /** Petit label en surtitre, ex. "Section 03" ou "Personnel" */
+  eyebrow?: string
+  /** Date longue (mois Année), affichée à droite façon éditorial */
+  dateline?: string
   color: Accent | keyof typeof legacyMap
   icon?: Icon
   actions?: React.ReactNode
@@ -65,6 +70,8 @@ export function PageHeader({
   status,
   subtitle,
   loadingMessage,
+  eyebrow,
+  dateline,
   color,
   icon: IconComponent,
   actions,
@@ -73,16 +80,26 @@ export function PageHeader({
   const c = accentClass[accent] ?? accentClass.moss
   const sub = subtitle ?? loadingMessage
 
-  // Titre humain : "GAMES" → "Games", "STRAVA" → "Strava"
   const displayTitle = title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()
 
   return (
-    <header className="mb-10">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="flex items-center gap-4">
+    <header className="mb-12">
+      {/* Ligne de surtitre : eyebrow + dateline. Ne s'affiche que si fournie. */}
+      {(eyebrow || dateline) && (
+        <div className="flex items-center justify-between mb-6 text-[10px] uppercase tracking-[0.22em] text-text-muted font-mono">
+          <span className={cn('inline-flex items-center gap-2', c.text)}>
+            <span className={`inline-block w-6 h-px ${c.ring}`} aria-hidden />
+            {eyebrow ?? '·'}
+          </span>
+          {dateline && <span>{dateline}</span>}
+        </div>
+      )}
+
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+        <div className="flex items-start gap-4">
           {IconComponent && (
             <div
-              className={`gradient-mesh p-3.5 rounded-2xl ${c.border} border shadow-soft`}
+              className={`gradient-mesh p-3.5 rounded-2xl ${c.border} border shadow-soft mt-1`}
               style={{
                 ['--mesh-a' as string]: c.meshA,
                 ['--mesh-b' as string]: c.meshB,
@@ -93,11 +110,11 @@ export function PageHeader({
             </div>
           )}
           <div>
-            <h1 className="font-display text-3xl sm:text-4xl font-medium tracking-tight text-text-primary">
+            <h1 className="font-display text-4xl sm:text-5xl font-medium tracking-tight text-text-primary leading-[0.95]">
               {displayTitle}
             </h1>
             {(sub || status) && (
-              <p className="text-sm text-text-secondary mt-1 flex items-center gap-2 flex-wrap">
+              <p className="text-sm text-text-secondary mt-3 flex items-center gap-2 flex-wrap">
                 {status && (
                   <span className="inline-flex items-center gap-1.5">
                     <span className={`w-1.5 h-1.5 rounded-full ${c.ring}`} aria-hidden />
@@ -110,8 +127,9 @@ export function PageHeader({
             )}
           </div>
         </div>
-        {actions && <div className="flex items-center gap-2">{actions}</div>}
+        {actions && <div className="flex items-center gap-2 flex-shrink-0">{actions}</div>}
       </div>
     </header>
   )
 }
+

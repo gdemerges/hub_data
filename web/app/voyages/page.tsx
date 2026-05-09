@@ -1,6 +1,6 @@
 import { MapPin, Globe, Calendar, Upload, Building2, TrendingUp } from 'lucide-react'
 import { Compass } from '@phosphor-icons/react/dist/ssr'
-import { StatCard, PageHeader } from '@/components'
+import { StatCard, PageHeader, SectionCard, RankRow } from '@/components'
 import { WorldMapClient } from '@/components/world-map-client'
 import { loadVoyages } from '@/lib/voyages'
 
@@ -11,213 +11,148 @@ export default async function VoyagesPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
-      <PageHeader title="Voyages" subtitle="Historique des lieux visités" color="sage" icon={Compass} />
+      <PageHeader
+        title="Voyages"
+        subtitle="Historique des lieux visités"
+        eyebrow={stats ? `${stats.totalCountries} pays · ${stats.totalCities} villes` : 'Section'}
+        dateline="Tous les voyages"
+        color="sage"
+        icon={Compass}
+      />
 
       {!stats ? (
-        <div className="tech-card p-8 border-earth-sage/30">
-          <div className="text-center max-w-2xl mx-auto">
-            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-earth-sage/10 border border-earth-sage/30 flex items-center justify-center">
-              <Upload className="w-10 h-10 text-earth-sage" />
+        <div className="tech-card-raised p-10 border-earth-sage/30 max-w-2xl mx-auto">
+          <div className="text-center">
+            <div className="gradient-mesh w-20 h-20 mx-auto mb-6 rounded-3xl border border-earth-sage/30 flex items-center justify-center"
+                 style={{ ['--mesh-a' as string]: '163 181 152', ['--mesh-b' as string]: '90 125 74', ['--mesh-c' as string]: '163 181 152' } as React.CSSProperties}>
+              <Upload className="w-9 h-9 text-earth-sage" strokeWidth={1.5} />
             </div>
-            <h2 className="text-xl font-display font-bold text-text-primary mb-4 tracking-wider">
-              IMPORT_REQUIRED
+            <h2 className="font-display text-2xl text-text-primary mb-3">
+              Import requis
             </h2>
-            <p className="text-text-secondary mb-8 font-mono text-sm leading-relaxed">
+            <p className="text-text-secondary text-sm leading-relaxed mb-8">
               Pour afficher tes voyages, exporte ton historique de localisation depuis Google Takeout
-              et place les fichiers dans le dossier <code className="text-earth-sage bg-earth-sage/10 px-2 py-0.5 rounded">data/location-history/</code>
+              et dépose les fichiers dans <code className="text-earth-sage bg-earth-sage/10 px-1.5 py-0.5 rounded font-mono text-xs">data/location-history/</code>.
             </p>
 
-            <div className="text-left space-y-4 mb-8">
-              <h3 className="text-sm font-mono font-semibold text-neon-cyan uppercase tracking-wider">
-                Instructions :
-              </h3>
-              <ol className="space-y-3 text-sm text-text-secondary font-mono">
-                <li className="flex items-start gap-3">
-                  <span className="w-6 h-6 flex-shrink-0 rounded bg-earth-sage/20 text-earth-sage flex items-center justify-center text-xs font-bold">1</span>
-                  <span>Va sur <a href="https://takeout.google.com" target="_blank" rel="noopener noreferrer" className="text-neon-cyan hover:underline">takeout.google.com</a></span>
+            <ol className="text-left space-y-2 mb-8 max-w-md mx-auto">
+              {[
+                <>Aller sur <a href="https://takeout.google.com" target="_blank" rel="noopener noreferrer" className="text-earth-sage hover:underline">takeout.google.com</a></>,
+                'Sélectionner uniquement "Historique des positions"',
+                'Choisir le format JSON',
+                'Télécharger et extraire l\'archive',
+                <>Placer le dossier <em>Semantic Location History</em> dans <code className="text-earth-sage text-xs">data/location-history/</code></>,
+              ].map((txt, i) => (
+                <li key={i} className="flex items-start gap-3 text-sm text-text-secondary">
+                  <span className="font-display text-earth-sage shrink-0 num w-6">{String(i + 1).padStart(2, '0')}</span>
+                  <span>{txt}</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-6 h-6 flex-shrink-0 rounded bg-earth-sage/20 text-earth-sage flex items-center justify-center text-xs font-bold">2</span>
-                  <span>Sélectionne uniquement &quot;Historique des positions&quot;</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-6 h-6 flex-shrink-0 rounded bg-earth-sage/20 text-earth-sage flex items-center justify-center text-xs font-bold">3</span>
-                  <span>Choisis le format JSON</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-6 h-6 flex-shrink-0 rounded bg-earth-sage/20 text-earth-sage flex items-center justify-center text-xs font-bold">4</span>
-                  <span>Télécharge et extrait l&apos;archive</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-6 h-6 flex-shrink-0 rounded bg-earth-sage/20 text-earth-sage flex items-center justify-center text-xs font-bold">5</span>
-                  <span>Place le dossier &quot;Semantic Location History&quot; dans <code className="text-earth-sage">data/location-history/</code></span>
-                </li>
-              </ol>
-            </div>
+              ))}
+            </ol>
 
             <a
               href="https://takeout.google.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-earth-sage/10 border border-earth-sage/30 rounded-lg text-earth-sage font-mono hover:bg-earth-sage/20 hover:border-earth-sage/50 transition-all duration-300 group"
+              className="btn-primary group"
             >
-              <Globe className="w-5 h-5" />
-              <span>OPEN_GOOGLE_TAKEOUT</span>
-              <span className="group-hover:translate-x-1 transition-transform">&gt;</span>
+              <Globe className="w-4 h-4" />
+              <span>Ouvrir Google Takeout</span>
+              <span className="transition-transform group-hover:translate-x-0.5">→</span>
             </a>
           </div>
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="motion-stagger grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <StatCard label="Lieux visités" value={stats.totalPlaces} icon={MapPin} color="purple" />
             <StatCard label="Pays" value={stats.totalCountries} icon={Globe} color="cyan" />
             <StatCard label="Villes" value={stats.totalCities} icon={Building2} color="magenta" />
             <StatCard label="Jours de voyage" value={stats.totalDays} icon={Calendar} color="green" />
           </div>
 
-          <div className="tech-card p-6 mb-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-earth-sage/10 border border-earth-sage/30 rounded">
-                <Globe className="w-5 h-5 text-earth-sage" />
-              </div>
-              <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-                World_Map
-              </h3>
-            </div>
+          <SectionCard title="Carte du monde" icon={Globe} accent="sage" raised>
             <div className="h-96">
               <WorldMapClient visitedCountries={stats.topCountries.map((c) => c.name)} />
             </div>
-          </div>
+          </SectionCard>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <div className="tech-card p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-neon-magenta/10 border border-neon-magenta/30 rounded">
-                  <Building2 className="w-5 h-5 text-neon-magenta" />
-                </div>
-                <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-                  Top_Cities
-                </h3>
-              </div>
-              <div className="space-y-3">
+            <SectionCard title="Top villes" icon={Building2} accent="terracotta">
+              <ol className="space-y-1">
                 {stats.topCities.slice(0, 8).map((city, i) => (
-                  <div key={city.name} className="group flex items-center gap-3">
-                    <div className="w-6 h-6 flex items-center justify-center bg-neon-magenta/10 border border-neon-magenta/30 rounded text-xs font-mono font-bold text-neon-magenta">
-                      {i + 1}
-                    </div>
-                    <div className="flex-1 flex items-center justify-between">
-                      <div>
-                        <span className="text-sm font-medium text-text-primary group-hover:text-neon-magenta transition-colors">
-                          {city.name}
-                        </span>
-                        {city.country && (
-                          <span className="text-xs text-text-muted ml-2 font-mono">
-                            {city.country}
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-xs font-mono text-neon-magenta">
-                        {city.visits} visits
-                      </span>
-                    </div>
-                  </div>
+                  <RankRow
+                    key={city.name}
+                    rank={i + 1}
+                    accent="terracotta"
+                    primary={city.name}
+                    secondary={city.country}
+                    metric={`${city.visits} visites`}
+                  />
                 ))}
-              </div>
-            </div>
+              </ol>
+            </SectionCard>
 
-            <div className="tech-card p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
-                  <Globe className="w-5 h-5 text-neon-cyan" />
-                </div>
-                <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-                  Top_Countries
-                </h3>
-              </div>
-              <div className="space-y-3">
+            <SectionCard title="Top pays" icon={Globe} accent="fern">
+              <ol className="space-y-1">
                 {stats.topCountries.slice(0, 8).map((country, i) => (
-                  <div key={country.name} className="group flex items-center gap-3">
-                    <div className="w-6 h-6 flex items-center justify-center bg-neon-cyan/10 border border-neon-cyan/30 rounded text-xs font-mono font-bold text-neon-cyan">
-                      {i + 1}
-                    </div>
-                    <div className="flex-1 flex items-center justify-between">
-                      <span className="text-sm font-medium text-text-primary group-hover:text-neon-cyan transition-colors">
-                        {country.name}
-                      </span>
-                      <span className="text-xs font-mono text-neon-cyan">
-                        {country.visits} visits
-                      </span>
-                    </div>
-                  </div>
+                  <RankRow
+                    key={country.name}
+                    rank={i + 1}
+                    accent="fern"
+                    primary={country.name}
+                    metric={`${country.visits} visites`}
+                  />
                 ))}
-              </div>
-            </div>
+              </ol>
+            </SectionCard>
           </div>
 
-          <div className="tech-card p-6 mb-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-earth-sage/10 border border-earth-sage/30 rounded">
-                <MapPin className="w-5 h-5 text-earth-sage" />
-              </div>
-              <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-                Most_Visited_Places
-              </h3>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <SectionCard title="Lieux les plus fréquentés" icon={MapPin} accent="sage">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {stats.topPlaces.slice(0, 9).map((place, i) => (
                 <div
                   key={place.name}
-                  className="group relative bg-bg-primary border border-border-subtle rounded-lg p-4 hover:border-earth-sage/50 transition-all duration-300"
+                  className="tech-card-flat group relative p-4 hover:border-earth-sage/50"
                 >
-                  <div className="absolute top-2 right-2 w-6 h-6 bg-earth-sage/20 rounded text-earth-sage text-xs font-mono font-bold flex items-center justify-center">
-                    {i + 1}
+                  <div className="absolute top-3 right-3 font-display text-2xl text-earth-sage/40 leading-none num">
+                    {String(i + 1).padStart(2, '0')}
                   </div>
-                  <h4 className="font-medium text-text-primary group-hover:text-earth-sage transition-colors pr-8 truncate">
+                  <h4 className="font-display text-base text-text-primary pr-10 truncate">
                     {place.name}
                   </h4>
                   {place.city && (
-                    <p className="text-xs text-text-muted font-mono mt-1">
-                      {place.city}
-                    </p>
+                    <p className="text-xs text-text-muted mt-1">{place.city}</p>
                   )}
-                  <p className="text-xs font-mono text-earth-sage mt-2">
-                    {place.visits} visits
+                  <p className="text-[10px] uppercase tracking-[0.18em] text-earth-sage mt-3 num">
+                    {place.visits} visites
                   </p>
                 </div>
               ))}
             </div>
-          </div>
+          </SectionCard>
 
           {stats.visitsByYear.length > 0 && (
-            <div className="tech-card p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-neon-green/10 border border-neon-green/30 rounded">
-                  <TrendingUp className="w-5 h-5 text-neon-green" />
-                </div>
-                <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
-                  Yearly_Activity
-                </h3>
-              </div>
+            <SectionCard title="Activité annuelle" icon={TrendingUp} accent="moss">
               <div className="flex items-end justify-between gap-2">
                 {stats.visitsByYear.map((year) => {
                   const maxVisits = Math.max(...stats.visitsByYear.map((y) => y.visits))
                   const height = (year.visits / maxVisits) * 100
                   return (
-                    <div key={year.year} className="flex-1 flex flex-col items-center justify-end h-48 gap-2">
+                    <div key={year.year} className="flex-1 flex flex-col items-center justify-end h-48 gap-2 group">
                       <div
-                        className="w-full bg-gradient-to-t from-neon-green/50 to-neon-green rounded-t transition-all hover:from-neon-green/70 hover:to-neon-green"
+                        className="w-full bg-gradient-to-t from-earth-moss/40 to-earth-moss rounded-t transition-all duration-300 group-hover:from-earth-moss/60 group-hover:to-earth-mossSoft"
                         style={{ height: `${height}%`, minHeight: year.visits > 0 ? '4px' : '0' }}
                         title={`${year.visits} visites`}
                       />
-                      <span className="text-xs font-mono text-text-muted shrink-0">
-                        {year.year.toString().slice(-2)}
+                      <span className="text-[11px] text-text-muted shrink-0 num">
+                        '{year.year.toString().slice(-2)}
                       </span>
                     </div>
                   )
                 })}
               </div>
-            </div>
+            </SectionCard>
           )}
         </>
       )}

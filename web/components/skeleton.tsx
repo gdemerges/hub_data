@@ -2,60 +2,97 @@
 
 import { cn } from '@/lib/utils'
 
-interface SkeletonProps {
-  className?: string
+type Accent = 'moss' | 'fern' | 'terracotta' | 'rust' | 'saffron' | 'clay' | 'indigo' | 'sage'
+
+const accentRgb: Record<Accent, string> = {
+  moss: '90 125 74',
+  fern: '123 168 150',
+  terracotta: '184 107 60',
+  rust: '168 85 44',
+  saffron: '217 164 65',
+  clay: '176 104 104',
+  indigo: '61 81 112',
+  sage: '163 181 152',
 }
 
-export function Skeleton({ className }: SkeletonProps) {
+interface SkeletonProps {
+  className?: string
+  /** Couleur du shimmer — sinon teinte neutre */
+  accent?: Accent
+}
+
+export function Skeleton({ className, accent }: SkeletonProps) {
+  const style = accent
+    ? ({ ['--accent' as string]: accentRgb[accent] } as React.CSSProperties)
+    : undefined
   return (
     <div
+      style={style}
       className={cn(
-        'animate-pulse rounded-lg bg-bg-tertiary',
-        className
+        'rounded-lg bg-bg-tertiary/50 skeleton-shimmer',
+        className,
       )}
     />
   )
 }
 
-export function SkeletonStatCard() {
+export function SkeletonStatCard({ accent }: { accent?: Accent }) {
+  const style = accent
+    ? ({ ['--accent' as string]: accentRgb[accent] } as React.CSSProperties)
+    : undefined
   return (
-    <div className="bg-bg-card border border-border-subtle rounded-2xl p-4">
-      <div className="flex items-center gap-3">
-        <Skeleton className="w-10 h-10 rounded-xl" />
-        <div className="space-y-2 flex-1">
-          <Skeleton className="h-3 w-20" />
-          <Skeleton className="h-6 w-16" />
-        </div>
+    <div
+      style={style}
+      className="tech-card p-6 skeleton-shimmer"
+    >
+      <div className="flex items-start justify-between mb-6">
+        <div className="w-12 h-12 rounded-2xl bg-bg-tertiary/40" />
+      </div>
+      <div className="h-12 w-2/3 rounded-lg bg-bg-tertiary/40" />
+      <div className="mt-5 flex items-center gap-3">
+        <div className="h-px flex-1 bg-bg-tertiary/40" />
+        <div className="h-2 w-16 rounded-full bg-bg-tertiary/40" />
       </div>
     </div>
   )
 }
 
-export function SkeletonChart() {
+export function SkeletonChart({ accent }: { accent?: Accent }) {
+  const style = accent
+    ? ({ ['--accent' as string]: accentRgb[accent] } as React.CSSProperties)
+    : undefined
   return (
-    <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
-      <Skeleton className="h-6 w-48 mb-4" />
-      <Skeleton className="h-64 w-full" />
+    <div
+      style={style}
+      className="tech-card p-6 skeleton-shimmer"
+    >
+      <div className="h-4 w-48 mb-6 rounded bg-bg-tertiary/40" />
+      <div className="h-64 w-full rounded-lg bg-bg-tertiary/30" />
     </div>
   )
 }
 
-export function SkeletonProfile() {
+export function SkeletonProfile({ accent }: { accent?: Accent }) {
+  const style = accent
+    ? ({ ['--accent' as string]: accentRgb[accent] } as React.CSSProperties)
+    : undefined
   return (
-    <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
+    <div
+      style={style}
+      className="tech-card p-6 skeleton-shimmer"
+    >
       <div className="flex flex-col sm:flex-row items-start gap-6">
-        <Skeleton className="w-[120px] h-[120px] rounded-full" />
+        <div className="w-[120px] h-[120px] rounded-full bg-bg-tertiary/40" />
         <div className="flex-1 space-y-3">
-          <Skeleton className="h-6 w-40" />
-          <Skeleton className="h-4 w-24" />
-          <Skeleton className="h-4 w-64" />
+          <div className="h-6 w-40 rounded bg-bg-tertiary/40" />
+          <div className="h-4 w-24 rounded bg-bg-tertiary/40" />
+          <div className="h-4 w-64 rounded bg-bg-tertiary/40" />
           <div className="flex gap-4 mt-4">
-            <Skeleton className="h-4 w-24" />
-            <Skeleton className="h-4 w-24" />
+            <div className="h-4 w-24 rounded bg-bg-tertiary/40" />
+            <div className="h-4 w-24 rounded bg-bg-tertiary/40" />
           </div>
         </div>
       </div>
     </div>
   )
 }
-

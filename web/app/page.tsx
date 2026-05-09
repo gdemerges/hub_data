@@ -47,6 +47,8 @@ export default async function HomePage({
       <PageHeader
         title="Aperçu"
         subtitle="Tableau de bord personnel · jeux, films, séries, lecture"
+        eyebrow={selectedYear ? `Année ${selectedYear}` : 'Vue d\'ensemble'}
+        dateline={new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
         color="moss"
         icon={Sun}
         actions={<YearFilter />}

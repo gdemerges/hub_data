@@ -45,20 +45,39 @@ export function ThemeToggle() {
     return () => mql.removeEventListener('change', onChange)
   }, [])
 
-  // Cycle: system → light → dark → system
-  const cycle = () => {
+  // Cycle: system → light → dark → system, avec View Transition révélée depuis le bouton
+  const cycle = (e: React.MouseEvent<HTMLButtonElement>) => {
     const order: Preference[] = ['system', 'light', 'dark']
     const next = order[(order.indexOf(pref) + 1) % order.length]
-    setPref(next)
-    if (next === 'system') {
-      localStorage.removeItem(STORAGE_KEY)
-      const sys = systemTheme()
-      setResolved(sys)
-      applyTheme(sys)
+
+    const apply = () => {
+      setPref(next)
+      if (next === 'system') {
+        localStorage.removeItem(STORAGE_KEY)
+        const sys = systemTheme()
+        setResolved(sys)
+        applyTheme(sys)
+      } else {
+        localStorage.setItem(STORAGE_KEY, next)
+        setResolved(next)
+        applyTheme(next)
+      }
+    }
+
+    // Position du clic en pixels viewport pour le clip-path circle
+    const root = document.documentElement
+    const r = e.currentTarget.getBoundingClientRect()
+    root.style.setProperty('--theme-x', `${r.left + r.width / 2}px`)
+    root.style.setProperty('--theme-y', `${r.top + r.height / 2}px`)
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const supportsVT = 'startViewTransition' in document
+    if (!reduce && supportsVT) {
+      root.classList.add('theme-changing')
+      const t = (document as Document & { startViewTransition: (cb: () => void) => { finished: Promise<void> } }).startViewTransition(apply)
+      t.finished.finally(() => root.classList.remove('theme-changing'))
     } else {
-      localStorage.setItem(STORAGE_KEY, next)
-      setResolved(next)
-      applyTheme(next)
+      apply()
     }
   }
 

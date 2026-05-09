@@ -76,15 +76,34 @@ export function Navigation() {
       <Link
         href={item.href}
         onClick={onClick}
+        aria-current={isActive ? 'page' : undefined}
         className={cn(
-          'relative flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition-colors',
+          'group relative flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-soft',
           isActive
             ? `${accentBg[item.color]} ${accentText[item.color]}`
-            : 'text-text-secondary hover:text-text-primary hover:bg-bg-hover'
+            : 'text-text-secondary hover:text-text-primary hover:bg-bg-hover',
         )}
       >
-        <Icon size={18} weight={isActive ? 'duotone' : 'regular'} />
+        <Icon
+          size={18}
+          weight={isActive ? 'duotone' : 'regular'}
+          className={cn(
+            'transition-transform duration-300 ease-spring',
+            isActive ? 'scale-110' : 'group-hover:scale-110',
+          )}
+        />
         <span className="whitespace-nowrap">{item.label}</span>
+        {/* Soulignement animé sous l'item actif */}
+        <span
+          aria-hidden
+          className={cn(
+            'absolute left-3 right-3 -bottom-0.5 h-px origin-left transition-transform duration-500 ease-soft',
+            isActive
+              ? `scale-x-100 ${accentText[item.color]}`
+              : 'scale-x-0 group-hover:scale-x-100 text-border-default',
+          )}
+          style={{ background: 'currentColor' }}
+        />
       </Link>
     )
   }
@@ -94,7 +113,10 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-6 py-3">
         <div className="flex items-center justify-between gap-6">
           <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-            <span className="p-1.5 rounded-xl bg-earth-moss/10 border border-earth-moss/30">
+            <span
+              className="p-1.5 rounded-xl bg-earth-moss/10 border border-earth-moss/30 transition-transform duration-500 ease-spring group-hover:rotate-[-12deg] group-hover:scale-110"
+              style={{ transformOrigin: 'bottom center' }}
+            >
               <Leaf size={20} weight="duotone" className="text-earth-moss" />
             </span>
             <span className="font-display text-lg font-medium tracking-tight text-text-primary">

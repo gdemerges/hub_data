@@ -26,29 +26,41 @@ export default function InsightsPage() {
       <PageHeader
         title="Insights"
         subtitle="Analyses transverses sur l'ensemble des données"
+        eyebrow="Méta-vue"
+        dateline="Toutes sources"
         color="fern"
         icon={Sparkle}
       />
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+      <div className="motion-stagger grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
         <Link
           href="/insights/correlations"
-          className="tech-card p-5 hover:border-neon-cyan/50 transition-all flex items-center gap-4"
+          className="tech-card p-6 group flex items-start gap-4"
+          style={{ ['--accent' as string]: '123 168 150' } as React.CSSProperties}
         >
-          <TrendingUp className="w-6 h-6 text-neon-cyan shrink-0" />
-          <div>
-            <div className="font-mono text-sm font-semibold text-text-primary uppercase tracking-wider">Corrélations</div>
-            <div className="text-xs text-text-secondary mt-1">Toutes les sections, année par année</div>
+          <span className="gradient-mesh w-12 h-12 rounded-2xl border border-earth-fern/30 flex items-center justify-center shrink-0"
+                style={{ ['--mesh-a' as string]: '123 168 150', ['--mesh-b' as string]: '163 181 152', ['--mesh-c' as string]: '123 168 150' } as React.CSSProperties}>
+            <TrendingUp className="w-5 h-5 text-earth-fern" strokeWidth={1.75} />
+          </span>
+          <div className="flex-1 min-w-0">
+            <div className="font-display text-lg text-text-primary tracking-tight">Corrélations</div>
+            <div className="text-sm text-text-secondary mt-1">Toutes les sections, année par année</div>
           </div>
+          <span className="text-text-muted group-hover:text-earth-fern group-hover:translate-x-0.5 transition-all">→</span>
         </Link>
         <Link
           href="/insights/year-in-review"
-          className="tech-card p-5 hover:border-neon-magenta/50 transition-all flex items-center gap-4"
+          className="tech-card p-6 group flex items-start gap-4"
+          style={{ ['--accent' as string]: '184 107 60' } as React.CSSProperties}
         >
-          <Calendar className="w-6 h-6 text-neon-magenta shrink-0" />
-          <div>
-            <div className="font-mono text-sm font-semibold text-text-primary uppercase tracking-wider">Year in Review</div>
-            <div className="text-xs text-text-secondary mt-1">Récap annuel toutes sections</div>
+          <span className="gradient-mesh w-12 h-12 rounded-2xl border border-earth-terracotta/30 flex items-center justify-center shrink-0"
+                style={{ ['--mesh-a' as string]: '184 107 60', ['--mesh-b' as string]: '217 164 65', ['--mesh-c' as string]: '184 107 60' } as React.CSSProperties}>
+            <Calendar className="w-5 h-5 text-earth-terracotta" strokeWidth={1.75} />
+          </span>
+          <div className="flex-1 min-w-0">
+            <div className="font-display text-lg text-text-primary tracking-tight">Year in Review</div>
+            <div className="text-sm text-text-secondary mt-1">Récap annuel toutes sections</div>
           </div>
+          <span className="text-text-muted group-hover:text-earth-terracotta group-hover:translate-x-0.5 transition-all">→</span>
         </Link>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
