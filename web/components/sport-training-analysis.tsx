@@ -14,7 +14,7 @@ export function SportTrainingAnalysis({ runs }: Props) {
 
   return (
     <ExpandableSection
-      title="Training_Analysis"
+      title="Analyse d'entraînement"
       subtitle={subtitle}
       icon={<Target className="w-5 h-5 text-earth-fern" />}
       defaultExpanded={false}
@@ -24,113 +24,126 @@ export function SportTrainingAnalysis({ runs }: Props) {
           {a.alerts.map((alert, i) => (
             <div
               key={i}
-              className={`flex items-center gap-3 p-3 rounded-lg border ${
+              className={`flex items-center gap-3 p-3 rounded-xl border ${
                 alert.type === 'danger'
-                  ? 'bg-red-500/10 border-red-500/30 text-red-400'
+                  ? 'bg-earth-clay/10 border-earth-clay/30 text-earth-clay'
                   : alert.type === 'warning'
                   ? 'bg-earth-saffron/10 border-earth-saffron/30 text-earth-saffron'
                   : 'bg-earth-moss/10 border-earth-moss/30 text-earth-moss'
               }`}
             >
               {alert.type === 'success' ? (
-                <CheckCircle className="w-5 h-5 shrink-0" />
+                <CheckCircle className="w-5 h-5 shrink-0" strokeWidth={1.75} />
               ) : (
-                <AlertTriangle className="w-5 h-5 shrink-0" />
+                <AlertTriangle className="w-5 h-5 shrink-0" strokeWidth={1.75} />
               )}
-              <span className="font-mono text-sm">{alert.message}</span>
+              <span className="text-sm">{alert.message}</span>
             </div>
           ))}
         </div>
       )}
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-bg-primary p-4 rounded-lg border border-border-subtle">
-          <p className="text-xs font-mono text-text-muted mb-1">Cette semaine</p>
-          <p className="text-2xl font-mono font-bold text-earth-fern">
-            {a.currentWeekDistance.toFixed(1)} km
-          </p>
-          <p className="text-xs font-mono text-text-muted">{a.currentWeekRuns} sortie(s)</p>
-        </div>
-        <div className="bg-bg-primary p-4 rounded-lg border border-border-subtle">
-          <p className="text-xs font-mono text-text-muted mb-1">Semaine dernière</p>
-          <p className="text-2xl font-mono font-bold text-text-primary">
-            {a.lastWeekDistance.toFixed(1)} km
-          </p>
-          {a.increaseFromLastWeek !== 0 && (
-            <p
-              className={`text-xs font-mono flex items-center gap-1 ${
-                a.increaseFromLastWeek > 10 ? 'text-earth-saffron' : 'text-earth-moss'
-              }`}
-            >
-              {a.increaseFromLastWeek > 0 ? (
-                <TrendingUp className="w-3 h-3" />
-              ) : (
-                <TrendingDown className="w-3 h-3" />
-              )}
-              {a.increaseFromLastWeek > 0 ? '+' : ''}
-              {Math.round(a.increaseFromLastWeek)}%
-            </p>
-          )}
-        </div>
-        <div className="bg-bg-primary p-4 rounded-lg border border-border-subtle">
-          <p className="text-xs font-mono text-text-muted mb-1">Moyenne (4 sem.)</p>
-          <p className="text-2xl font-mono font-bold text-text-primary">
-            {a.avgDistance4Weeks.toFixed(1)} km
-          </p>
-          <p className="text-xs font-mono text-text-muted">
-            {a.avgRunsPerWeek.toFixed(1)} sortie(s)/sem
-          </p>
-        </div>
-        <div className="bg-bg-primary p-4 rounded-lg border border-border-subtle">
-          <p className="text-xs font-mono text-text-muted mb-1">Dernière sortie</p>
-          <p className="text-2xl font-mono font-bold text-text-primary">
-            {a.daysSinceLastRun !== null
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        <MiniStat
+          label="Cette semaine"
+          value={`${a.currentWeekDistance.toFixed(1)} km`}
+          sub={`${a.currentWeekRuns} sortie(s)`}
+          tone="fern"
+        />
+        <MiniStat
+          label="Semaine dernière"
+          value={`${a.lastWeekDistance.toFixed(1)} km`}
+          extra={
+            a.increaseFromLastWeek !== 0 ? (
+              <span
+                className={`inline-flex items-center gap-1 num ${
+                  a.increaseFromLastWeek > 10 ? 'text-earth-saffron' : 'text-earth-moss'
+                }`}
+              >
+                {a.increaseFromLastWeek > 0 ? (
+                  <TrendingUp className="w-3 h-3" strokeWidth={2} />
+                ) : (
+                  <TrendingDown className="w-3 h-3" strokeWidth={2} />
+                )}
+                {a.increaseFromLastWeek > 0 ? '+' : ''}
+                {Math.round(a.increaseFromLastWeek)}%
+              </span>
+            ) : undefined
+          }
+        />
+        <MiniStat
+          label="Moyenne 4 sem."
+          value={`${a.avgDistance4Weeks.toFixed(1)} km`}
+          sub={`${a.avgRunsPerWeek.toFixed(1)} sortie(s)/sem`}
+        />
+        <MiniStat
+          label="Dernière sortie"
+          value={
+            a.daysSinceLastRun !== null
               ? a.daysSinceLastRun === 0
                 ? "Aujourd'hui"
                 : `Il y a ${a.daysSinceLastRun}j`
-              : '-'}
-          </p>
-          {a.lastRun && (
-            <p className="text-xs font-mono text-text-muted">
-              {a.lastRun.distance.toFixed(1)} km
-            </p>
-          )}
-        </div>
+              : '—'
+          }
+          sub={a.lastRun ? `${a.lastRun.distance.toFixed(1)} km` : undefined}
+        />
       </div>
 
       <div className="border-t border-border-subtle pt-6">
-        <div className="flex items-center gap-2 mb-4">
-          <Zap className="w-4 h-4 text-earth-terracotta" />
-          <h4 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
+        <div className="flex items-center gap-2 mb-5">
+          <Zap className="w-4 h-4 text-earth-terracotta" strokeWidth={1.75} />
+          <h4 className="font-display text-base font-medium tracking-tight text-text-primary">
             Recommandations
           </h4>
+          <span className="h-px flex-1 ml-3 bg-earth-terracotta/15" aria-hidden />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-bg-primary p-4 rounded-lg border border-earth-moss/20">
-            <p className="text-xs font-mono text-earth-moss mb-2">Objectif semaine</p>
-            <p className="text-xl font-mono font-bold text-text-primary">
-              {a.predictedWeeklyDistance.toFixed(0)} km
-            </p>
-            <p className="text-xs font-mono text-text-muted mt-1">+5% progressif recommandé</p>
-          </div>
-          <div className="bg-bg-primary p-4 rounded-lg border border-earth-terracotta/20">
-            <p className="text-xs font-mono text-earth-terracotta mb-2">Sortie longue max</p>
-            <p className="text-xl font-mono font-bold text-text-primary">
-              {a.recommendedLongRun.toFixed(1)} km
-            </p>
-            <p className="text-xs font-mono text-text-muted mt-1">
-              +10% vs moyenne ({a.avgLongestRun.toFixed(1)} km)
-            </p>
-          </div>
-          <div className="bg-bg-primary p-4 rounded-lg border border-earth-fern/20">
-            <p className="text-xs font-mono text-earth-fern mb-2">Projection mensuelle</p>
-            <p className="text-xl font-mono font-bold text-text-primary">
-              {a.predictedMonthlyDistance.toFixed(0)} km
-            </p>
-            <p className="text-xs font-mono text-text-muted mt-1">Sur base du rythme actuel</p>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <MiniStat
+            label="Objectif semaine"
+            value={`${a.predictedWeeklyDistance.toFixed(0)} km`}
+            sub="+5% progressif"
+            tone="moss"
+          />
+          <MiniStat
+            label="Sortie longue max"
+            value={`${a.recommendedLongRun.toFixed(1)} km`}
+            sub={`+10% vs moy. (${a.avgLongestRun.toFixed(1)} km)`}
+            tone="terracotta"
+          />
+          <MiniStat
+            label="Projection mensuelle"
+            value={`${a.predictedMonthlyDistance.toFixed(0)} km`}
+            sub="Sur base du rythme actuel"
+            tone="fern"
+          />
         </div>
       </div>
     </ExpandableSection>
+  )
+}
+
+function MiniStat({
+  label,
+  value,
+  sub,
+  extra,
+  tone,
+}: {
+  label: string
+  value: string
+  sub?: string
+  extra?: React.ReactNode
+  tone?: 'fern' | 'moss' | 'terracotta'
+}) {
+  const valueClass = tone
+    ? { fern: 'text-earth-fern', moss: 'text-earth-moss', terracotta: 'text-earth-terracotta' }[tone]
+    : 'text-text-primary'
+  return (
+    <div className="tech-card-flat p-4">
+      <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-2">{label}</p>
+      <p className={`font-display text-2xl tracking-tight num leading-none ${valueClass}`}>{value}</p>
+      {sub && <p className="text-[11px] text-text-muted mt-2 num">{sub}</p>}
+      {extra && <div className="text-[11px] mt-2">{extra}</div>}
+    </div>
   )
 }

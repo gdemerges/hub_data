@@ -26,7 +26,9 @@ export default async function SportPage({
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
         title="Sport"
-        subtitle="Statistiques Strava"
+        subtitle="Course, vélo, RPM · synchronisé via Strava"
+        eyebrow={filter === 'all' ? 'Toutes activités' : filter === 'Run' ? 'Course' : filter === 'Ride' ? 'Vélo' : 'RPM'}
+        dateline={`Année ${year}`}
         color="rust"
         icon={PersonSimpleRun}
       />
