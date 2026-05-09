@@ -9,27 +9,27 @@ import { Calendar, Clock, Star, Gamepad2, Film as FilmIcon, Tv, ChevronRight } f
 
 const sectionColors = {
   green: {
-    icon: 'text-neon-green',
-    iconBg: 'bg-neon-green/10 border-neon-green/30',
-    link: 'text-neon-green border-neon-green/30 hover:border-neon-green/60 hover:bg-neon-green/10',
+    icon: 'text-earth-moss',
+    iconBg: 'bg-earth-moss/10 border-earth-moss/30',
+    link: 'text-earth-moss border-earth-moss/30 hover:border-earth-moss/60 hover:bg-earth-moss/10',
   },
   magenta: {
-    icon: 'text-neon-magenta',
-    iconBg: 'bg-neon-magenta/10 border-neon-magenta/30',
-    link: 'text-neon-magenta border-neon-magenta/30 hover:border-neon-magenta/60 hover:bg-neon-magenta/10',
+    icon: 'text-earth-terracotta',
+    iconBg: 'bg-earth-terracotta/10 border-earth-terracotta/30',
+    link: 'text-earth-terracotta border-earth-terracotta/30 hover:border-earth-terracotta/60 hover:bg-earth-terracotta/10',
   },
   yellow: {
-    icon: 'text-neon-yellow',
-    iconBg: 'bg-neon-yellow/10 border-neon-yellow/30',
-    link: 'text-neon-yellow border-neon-yellow/30 hover:border-neon-yellow/60 hover:bg-neon-yellow/10',
+    icon: 'text-earth-saffron',
+    iconBg: 'bg-earth-saffron/10 border-earth-saffron/30',
+    link: 'text-earth-saffron border-earth-saffron/30 hover:border-earth-saffron/60 hover:bg-earth-saffron/10',
   },
 } as const
 
 const badgeColors = {
-  cyan: 'border-neon-cyan/30 bg-neon-cyan/5 text-neon-cyan',
-  green: 'border-neon-green/30 bg-neon-green/5 text-neon-green',
-  magenta: 'border-neon-magenta/30 bg-neon-magenta/5 text-neon-magenta',
-  yellow: 'border-neon-yellow/30 bg-neon-yellow/5 text-neon-yellow',
+  cyan: 'border-earth-fern/30 bg-earth-fern/5 text-earth-fern',
+  green: 'border-earth-moss/30 bg-earth-moss/5 text-earth-moss',
+  magenta: 'border-earth-terracotta/30 bg-earth-terracotta/5 text-earth-terracotta',
+  yellow: 'border-earth-saffron/30 bg-earth-saffron/5 text-earth-saffron',
 } as const
 
 interface OverviewSectionsProps {

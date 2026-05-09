@@ -155,7 +155,7 @@ export default function ActivityPage() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="tech-card p-8 text-center">
           <p className="text-red-400 font-mono mb-4">{error || 'Erreur'}</p>
-          <Link href="/sport" className="text-neon-orange hover:underline font-mono">
+          <Link href="/sport" className="text-earth-rust hover:underline font-mono">
             &lt; Retour
           </Link>
         </div>
@@ -172,22 +172,22 @@ export default function ActivityPage() {
       <div className="mb-8">
         <Link
           href="/sport"
-          className="inline-flex items-center gap-2 text-sm font-mono text-text-muted hover:text-neon-orange transition-colors mb-4"
+          className="inline-flex items-center gap-2 text-sm font-mono text-text-muted hover:text-earth-rust transition-colors mb-4"
         >
           <ArrowLeft className="w-4 h-4" />
           Retour aux activités
         </Link>
 
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-bg-card border border-neon-orange/30 rounded-lg">
-            <Activity className="w-8 h-8 text-neon-orange" />
+          <div className="p-3 bg-bg-card border border-earth-rust/30 rounded-lg">
+            <Activity className="w-8 h-8 text-earth-rust" />
           </div>
           <div>
             <h1 className="text-2xl font-display font-bold tracking-wider text-text-primary">
               {activity.name}
             </h1>
-            <p className="text-xs font-mono text-neon-cyan/70 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-neon-cyan rounded-full" />
+            <p className="text-xs font-mono text-earth-fern/70 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-earth-fern rounded-full" />
               {new Date(activity.startDate).toLocaleDateString('fr-FR', {
                 weekday: 'long',
                 day: 'numeric',
@@ -204,7 +204,7 @@ export default function ActivityPage() {
 
       {/* Map */}
       {routePoints.length > 0 && (
-        <div className="tech-card p-4 mb-8 border-neon-orange/30">
+        <div className="tech-card p-4 mb-8 border-earth-rust/30">
           <div className="relative h-80 rounded-lg overflow-hidden bg-bg-primary">
             <iframe
               width="100%"
@@ -219,7 +219,7 @@ export default function ActivityPage() {
                 href={`https://www.strava.com/activities/${activity.id}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-mono bg-bg-card/90 px-2 py-1 rounded text-neon-orange hover:bg-bg-card transition-colors"
+                className="text-xs font-mono bg-bg-card/90 px-2 py-1 rounded text-earth-rust hover:bg-bg-card transition-colors"
               >
                 Voir sur Strava →
               </a>
@@ -294,8 +294,8 @@ export default function ActivityPage() {
       {laps.length > 0 && (
         <div className="tech-card p-6 mb-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
-              <Clock className="w-5 h-5 text-neon-cyan" />
+            <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
+              <Clock className="w-5 h-5 text-earth-fern" />
             </div>
             <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
               Splits_Par_Kilomètre
@@ -311,12 +311,12 @@ export default function ActivityPage() {
                   key={index}
                   className={`flex items-center gap-4 p-3 rounded-lg border transition-all ${
                     isFastest
-                      ? 'bg-neon-green/10 border-neon-green/30'
+                      ? 'bg-earth-moss/10 border-earth-moss/30'
                       : 'bg-bg-primary border-border-subtle'
                   }`}
                 >
                   <span className={`w-8 text-center font-mono font-bold ${
-                    isFastest ? 'text-neon-green' : 'text-text-muted'
+                    isFastest ? 'text-earth-moss' : 'text-text-muted'
                   }`}>
                     {index + 1}
                   </span>
@@ -324,24 +324,24 @@ export default function ActivityPage() {
                     <div className="h-2 bg-bg-card rounded-full overflow-hidden">
                       <div
                         className={`h-full rounded-full ${
-                          isFastest ? 'bg-neon-green' : 'bg-neon-orange/50'
+                          isFastest ? 'bg-earth-moss' : 'bg-earth-rust/50'
                         }`}
                         style={{ width: `${(lap.averageSpeed / fastestPace) * 100}%` }}
                       />
                     </div>
                   </div>
                   <span className={`font-mono font-semibold w-20 text-right ${
-                    isFastest ? 'text-neon-green' : 'text-text-primary'
+                    isFastest ? 'text-earth-moss' : 'text-text-primary'
                   }`}>
                     {pace}
                   </span>
                   {lap.averageHeartrate && (
-                    <span className="font-mono text-sm text-neon-red/70 w-16 text-right">
+                    <span className="font-mono text-sm text-earth-clay/70 w-16 text-right">
                       {Math.round(lap.averageHeartrate)} bpm
                     </span>
                   )}
                   {lap.totalElevationGain > 0 && (
-                    <span className="font-mono text-sm text-neon-cyan/70 w-16 text-right">
+                    <span className="font-mono text-sm text-earth-fern/70 w-16 text-right">
                       +{Math.round(lap.totalElevationGain)}m
                     </span>
                   )}
@@ -356,8 +356,8 @@ export default function ActivityPage() {
       {streams?.altitude && streams.altitude.length > 0 && (
         <div className="tech-card p-6 mb-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-neon-green/10 border border-neon-green/30 rounded">
-              <Mountain className="w-5 h-5 text-neon-green" />
+            <div className="p-2 bg-earth-moss/10 border border-earth-moss/30 rounded">
+              <Mountain className="w-5 h-5 text-earth-moss" />
             </div>
             <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
               Profil_Altitude
@@ -366,7 +366,7 @@ export default function ActivityPage() {
           <div className="flex gap-3">
             {/* Y-axis labels */}
             <div className="flex flex-col justify-between h-32 text-xs font-mono text-text-muted py-1">
-              <span className="text-neon-green">{Math.round(Math.max(...streams.altitude))}m</span>
+              <span className="text-earth-moss">{Math.round(Math.max(...streams.altitude))}m</span>
               <span>{Math.round((Math.max(...streams.altitude) + Math.min(...streams.altitude)) / 2)}m</span>
               <span>{Math.round(Math.min(...streams.altitude))}m</span>
             </div>
@@ -385,11 +385,11 @@ export default function ActivityPage() {
                   return (
                     <div
                       key={i}
-                      className="group relative flex-1 bg-gradient-to-t from-neon-green/30 to-neon-green/70 rounded-t transition-all duration-150 hover:from-neon-green/50 hover:to-neon-green hover:scale-x-150 hover:z-10 cursor-crosshair"
+                      className="group relative flex-1 bg-gradient-to-t from-earth-moss/30 to-earth-moss/70 rounded-t transition-all duration-150 hover:from-earth-moss/50 hover:to-earth-moss hover:scale-x-150 hover:z-10 cursor-crosshair"
                       style={{ height: `${Math.max(5, height)}%` }}
                     >
                       {/* Tooltip on hover */}
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-bg-card border border-neon-green/50 rounded text-xs font-mono text-neon-green whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg">
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-bg-card border border-earth-moss/50 rounded text-xs font-mono text-earth-moss whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg">
                         {Math.round(alt)}m
                       </div>
                     </div>
@@ -409,8 +409,8 @@ export default function ActivityPage() {
       {streams?.heartrate && streams.heartrate.length > 0 && (
         <div className="tech-card p-6">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-neon-red/10 border border-neon-red/30 rounded">
-              <Heart className="w-5 h-5 text-neon-red" />
+            <div className="p-2 bg-earth-clay/10 border border-earth-clay/30 rounded">
+              <Heart className="w-5 h-5 text-earth-clay" />
             </div>
             <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
               Fréquence_Cardiaque
@@ -419,7 +419,7 @@ export default function ActivityPage() {
           <div className="flex gap-3">
             {/* Y-axis labels */}
             <div className="flex flex-col justify-between h-32 text-xs font-mono text-text-muted py-1">
-              <span className="text-neon-red">{Math.round(Math.max(...streams.heartrate))}</span>
+              <span className="text-earth-clay">{Math.round(Math.max(...streams.heartrate))}</span>
               <span>{Math.round((Math.max(...streams.heartrate) + Math.min(...streams.heartrate)) / 2)}</span>
               <span>{Math.round(Math.min(...streams.heartrate))}</span>
             </div>
@@ -438,11 +438,11 @@ export default function ActivityPage() {
                   return (
                     <div
                       key={i}
-                      className="group relative flex-1 bg-gradient-to-t from-neon-red/30 to-neon-red/70 rounded-t transition-all duration-150 hover:from-neon-red/50 hover:to-neon-red hover:scale-x-150 hover:z-10 cursor-crosshair"
+                      className="group relative flex-1 bg-gradient-to-t from-earth-clay/30 to-earth-clay/70 rounded-t transition-all duration-150 hover:from-earth-clay/50 hover:to-earth-clay hover:scale-x-150 hover:z-10 cursor-crosshair"
                       style={{ height: `${Math.max(5, height)}%` }}
                     >
                       {/* Tooltip on hover */}
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-bg-card border border-neon-red/50 rounded text-xs font-mono text-neon-red whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg">
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-bg-card border border-earth-clay/50 rounded text-xs font-mono text-earth-clay whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg">
                         {Math.round(hr)} bpm
                       </div>
                     </div>

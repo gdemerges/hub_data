@@ -15,8 +15,8 @@ export function GitHubYearlySection({ promise }: Props) {
   return (
     <div className="tech-card p-6">
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 bg-neon-yellow/10 border border-neon-yellow/30 rounded">
-          <TrendingUp className="w-5 h-5 text-neon-yellow" />
+        <div className="p-2 bg-earth-saffron/10 border border-earth-saffron/30 rounded">
+          <TrendingUp className="w-5 h-5 text-earth-saffron" />
         </div>
         <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
           Yearly_Evolution
@@ -50,8 +50,8 @@ export function GitHubYearlySkeleton() {
   return (
     <div className="tech-card p-6">
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 bg-neon-yellow/10 border border-neon-yellow/30 rounded">
-          <TrendingUp className="w-5 h-5 text-neon-yellow" />
+        <div className="p-2 bg-earth-saffron/10 border border-earth-saffron/30 rounded">
+          <TrendingUp className="w-5 h-5 text-earth-saffron" />
         </div>
         <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
           Yearly_Evolution

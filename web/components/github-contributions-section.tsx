@@ -21,8 +21,8 @@ export function GitHubContributionsSection({ promise, year }: Props) {
     <div className="tech-card p-6 mb-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-neon-green/10 border border-neon-green/30 rounded">
-            <Activity className="w-5 h-5 text-neon-green" />
+          <div className="p-2 bg-earth-moss/10 border border-earth-moss/30 rounded">
+            <Activity className="w-5 h-5 text-earth-moss" />
           </div>
           <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
             Contribution_Calendar
@@ -39,12 +39,12 @@ export function GitHubContributionsSection({ promise, year }: Props) {
               href={`/github?year=${year - 1}`}
               onClick={() => setOptimisticYear(year - 1)}
               prefetch={false}
-              className="p-1 hover:bg-neon-green/10 rounded transition-colors"
+              className="p-1 hover:bg-earth-moss/10 rounded transition-colors"
               aria-label="Année précédente"
             >
-              <ChevronLeft className="w-4 h-4 text-neon-green" />
+              <ChevronLeft className="w-4 h-4 text-earth-moss" />
             </Link>
-            <span className="text-sm font-mono font-medium text-neon-green min-w-[4rem] text-center">
+            <span className="text-sm font-mono font-medium text-earth-moss min-w-[4rem] text-center">
               {optimisticYear}
             </span>
             {canGoNext ? (
@@ -52,14 +52,14 @@ export function GitHubContributionsSection({ promise, year }: Props) {
                 href={`/github?year=${year + 1}`}
                 onClick={() => setOptimisticYear(year + 1)}
                 prefetch={false}
-                className="p-1 hover:bg-neon-green/10 rounded transition-colors"
+                className="p-1 hover:bg-earth-moss/10 rounded transition-colors"
                 aria-label="Année suivante"
               >
-                <ChevronRight className="w-4 h-4 text-neon-green" />
+                <ChevronRight className="w-4 h-4 text-earth-moss" />
               </Link>
             ) : (
               <span className="p-1 opacity-50 cursor-not-allowed" aria-label="Année suivante">
-                <ChevronRight className="w-4 h-4 text-neon-green" />
+                <ChevronRight className="w-4 h-4 text-earth-moss" />
               </span>
             )}
           </div>
@@ -80,8 +80,8 @@ export function GitHubContributionsSkeleton() {
   return (
     <div className="tech-card p-6 mb-8">
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 bg-neon-green/10 border border-neon-green/30 rounded">
-          <Activity className="w-5 h-5 text-neon-green" />
+        <div className="p-2 bg-earth-moss/10 border border-earth-moss/30 rounded">
+          <Activity className="w-5 h-5 text-earth-moss" />
         </div>
         <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
           Contribution_Calendar

@@ -27,7 +27,7 @@ export function YearFilter() {
 
   return (
     <div className="flex items-center gap-4">
-      <div className="flex items-center gap-2 text-neon-cyan">
+      <div className="flex items-center gap-2 text-earth-fern">
         <Calendar className="w-4 h-4" />
         <span className="text-xs font-mono uppercase tracking-wider">Année</span>
       </div>
@@ -41,8 +41,8 @@ export function YearFilter() {
               className={cn(
                 'px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded-lg border transition-all duration-300 whitespace-nowrap',
                 isActive
-                  ? 'bg-neon-cyan/15 border-neon-cyan/50 text-neon-cyan shadow-[0_0_10px_rgba(0,255,255,0.15)]'
-                  : 'border-border-subtle text-text-secondary hover:text-neon-cyan hover:border-neon-cyan/30 hover:bg-neon-cyan/5'
+                  ? 'bg-earth-fern/15 border-earth-fern/50 text-earth-fern shadow-[0_0_10px_rgba(0,255,255,0.15)]'
+                  : 'border-border-subtle text-text-secondary hover:text-earth-fern hover:border-earth-fern/30 hover:bg-earth-fern/5'
               )}
             >
               {year === 'global' ? 'Global' : year}
@@ -58,8 +58,8 @@ export function YearFilter() {
           className={cn(
             'px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded-lg border transition-all duration-300 bg-transparent appearance-none cursor-pointer',
             years.slice(8).includes(currentYear)
-              ? 'bg-neon-cyan/15 border-neon-cyan/50 text-neon-cyan'
-              : 'border-border-subtle text-text-secondary hover:text-neon-cyan hover:border-neon-cyan/30'
+              ? 'bg-earth-fern/15 border-earth-fern/50 text-earth-fern'
+              : 'border-border-subtle text-text-secondary hover:text-earth-fern hover:border-earth-fern/30'
           )}
         >
           <option value="" className="bg-bg-primary text-text-secondary">

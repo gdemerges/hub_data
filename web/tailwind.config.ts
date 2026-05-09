@@ -2,9 +2,7 @@ import type { Config } from 'tailwindcss'
 
 /**
  * Solarpunk palette.
- * Per-section accents are exposed under both their natural names
- * AND the legacy `neon-*` keys, so existing components keep compiling
- * during the migration. The legacy aliases will be removed in PR C.
+ * Per-section accents exposed sous leurs noms naturels (`earth.*`).
  */
 const earth = {
   parchment: '#f5efe2',
@@ -47,7 +45,6 @@ const config: Config = {
         border: {
           subtle: 'rgb(var(--border-subtle) / <alpha-value>)',
           default: 'rgb(var(--border-default) / <alpha-value>)',
-          neon: earth.moss + '4d',
         },
         text: {
           primary: 'rgb(var(--text-primary) / <alpha-value>)',
@@ -62,16 +59,6 @@ const config: Config = {
           glow: 'rgb(90 125 74 / 0.15)',
         },
         earth,
-        // Legacy section aliases — same keys as before, new earthy hues
-        neon: {
-          cyan: earth.fern,
-          magenta: earth.terracotta,
-          green: earth.moss,
-          yellow: earth.saffron,
-          orange: earth.rust,
-          pink: earth.clay,
-          red: earth.clay,
-        },
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'Inter', 'system-ui', 'sans-serif'],
@@ -101,13 +88,6 @@ const config: Config = {
         'soft': '0 1px 2px rgb(35 30 20 / 0.04), 0 1px 3px rgb(35 30 20 / 0.06)',
         'soft-md': '0 4px 12px rgb(35 30 20 / 0.08), 0 2px 4px rgb(35 30 20 / 0.05)',
         'soft-lg': '0 10px 24px rgb(35 30 20 / 0.10), 0 4px 8px rgb(35 30 20 / 0.06)',
-        // Legacy aliases — glow effects flattened to soft shadows
-        'neon-cyan': '0 4px 12px rgb(123 168 150 / 0.25)',
-        'neon-magenta': '0 4px 12px rgb(184 107 60 / 0.25)',
-        'neon-green': '0 4px 12px rgb(90 125 74 / 0.25)',
-        'neon-sm': '0 1px 3px rgb(35 30 20 / 0.06)',
-        'neon-md': '0 4px 12px rgb(35 30 20 / 0.10)',
-        'neon-lg': '0 10px 24px rgb(35 30 20 / 0.12)',
         'inner-glow': 'inset 0 1px 2px rgb(35 30 20 / 0.04)',
       },
     },

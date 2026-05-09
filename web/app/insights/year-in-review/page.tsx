@@ -59,7 +59,7 @@ function Section({
                 <span className="text-text-muted mr-2">{i + 1}.</span>
                 {item.title}
               </span>
-              {item.rating && <span className="text-neon-yellow ml-2">{item.rating}</span>}
+              {item.rating && <span className="text-earth-saffron ml-2">{item.rating}</span>}
             </div>
           ))}
         </div>
@@ -93,8 +93,8 @@ export default function YearInReviewPage() {
             className={cn(
               'px-3 py-1.5 font-mono text-xs rounded border transition-all',
               y === year
-                ? 'border-neon-magenta text-neon-magenta bg-neon-magenta/10'
-                : 'border-border-subtle text-text-secondary hover:border-neon-magenta/40 hover:text-neon-magenta'
+                ? 'border-earth-terracotta text-earth-terracotta bg-earth-terracotta/10'
+                : 'border-border-subtle text-text-secondary hover:border-earth-terracotta/40 hover:text-earth-terracotta'
             )}
           >
             {y}
@@ -109,14 +109,14 @@ export default function YearInReviewPage() {
       {data && (
         <>
           {data.highlights.length > 0 && (
-            <div className="tech-card p-6 mb-6 bg-gradient-to-br from-neon-magenta/5 to-neon-cyan/5">
+            <div className="tech-card p-6 mb-6 bg-gradient-to-br from-earth-terracotta/5 to-earth-fern/5">
               <div className="flex items-center gap-2 mb-4">
-                <Sparkles className="w-5 h-5 text-neon-magenta" />
+                <Sparkles className="w-5 h-5 text-earth-terracotta" />
                 <h2 className="font-display font-semibold text-text-primary uppercase tracking-wider">Faits marquants</h2>
               </div>
               <div className="flex flex-wrap gap-3">
                 {data.highlights.map((h, i) => (
-                  <div key={i} className="px-4 py-2 bg-bg-card border border-neon-magenta/30 rounded-lg font-mono text-sm text-text-primary">
+                  <div key={i} className="px-4 py-2 bg-bg-card border border-earth-terracotta/30 rounded-lg font-mono text-sm text-text-primary">
                     {h}
                   </div>
                 ))}
@@ -128,7 +128,7 @@ export default function YearInReviewPage() {
             <Section
               icon={FilmIcon}
               title="Films"
-              color="text-neon-magenta"
+              color="text-earth-terracotta"
               stats={[`${data.films.total} films`, `~${data.films.hoursWatched}h`]}
               topRated={data.films.topRated}
               extra={
@@ -142,7 +142,7 @@ export default function YearInReviewPage() {
             <Section
               icon={Tv}
               title="Séries"
-              color="text-neon-yellow"
+              color="text-earth-saffron"
               stats={[`${data.series.total} terminées`, `${data.series.episodes} épisodes`]}
               topRated={data.series.topRated}
               extra={
@@ -156,7 +156,7 @@ export default function YearInReviewPage() {
             <Section
               icon={Gamepad2}
               title="Jeux"
-              color="text-neon-green"
+              color="text-earth-moss"
               stats={[`${data.games.total} jeux`, `${data.games.hoursPlayed}h`]}
               topRated={data.games.topRated}
               extra={

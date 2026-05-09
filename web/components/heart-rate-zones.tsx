@@ -142,7 +142,7 @@ export function HeartRateZones({ activities, lthr }: HeartRateZonesProps) {
       return {
         type: 'warning',
         message: `Tu passes seulement ${zone2Percent.toFixed(0)}% du temps en zone 2. Augmente ton volume en endurance de base.`,
-        color: 'text-neon-yellow',
+        color: 'text-earth-saffron',
       }
     }
 
@@ -150,14 +150,14 @@ export function HeartRateZones({ activities, lthr }: HeartRateZonesProps) {
       return {
         type: 'caution',
         message: `${zone4And5Percent.toFixed(0)}% du temps en zones intenses. Attention au surentraînement.`,
-        color: 'text-neon-orange',
+        color: 'text-earth-rust',
       }
     }
 
     return {
       type: 'good',
       message: 'Distribution équilibrée des zones d\'entraînement. Continue comme ça !',
-      color: 'text-neon-green',
+      color: 'text-earth-moss',
     }
   }
 
@@ -294,7 +294,7 @@ export function HeartRateZones({ activities, lthr }: HeartRateZonesProps) {
       <div className="mt-6 p-4 bg-bg-primary rounded-lg border border-border-subtle">
         <p className="text-xs font-mono text-text-secondary leading-relaxed">
           <span className="text-red-500">LTHR</span> (Lactate Threshold Heart Rate) est calculé automatiquement
-          à partir de tes efforts intenses récents. Les calculs de <span className="text-neon-cyan">TSS</span> utilisent
+          à partir de tes efforts intenses récents. Les calculs de <span className="text-earth-fern">TSS</span> utilisent
           maintenant la fréquence cardiaque pour plus de précision quand disponible.
         </p>
       </div>

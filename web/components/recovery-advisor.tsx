@@ -13,18 +13,18 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
       case 'ready':
         return {
           icon: CheckCircle,
-          textColor: 'text-neon-green',
-          bgColor: 'bg-neon-green/10',
-          borderColor: 'border-neon-green/30',
+          textColor: 'text-earth-moss',
+          bgColor: 'bg-earth-moss/10',
+          borderColor: 'border-earth-moss/30',
           title: 'READY_TO_TRAIN',
           message: 'Tu es prêt pour une nouvelle séance !',
         }
       case 'caution':
         return {
           icon: AlertTriangle,
-          textColor: 'text-neon-yellow',
-          bgColor: 'bg-neon-yellow/10',
-          borderColor: 'border-neon-yellow/30',
+          textColor: 'text-earth-saffron',
+          bgColor: 'bg-earth-saffron/10',
+          borderColor: 'border-earth-saffron/30',
           title: 'CAUTION_MODE',
           message: 'Sortie légère recommandée ou repos.',
         }
@@ -45,8 +45,8 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
 
   const getRiskBarColor = () => {
     if (advice.riskScore >= 70) return 'bg-red-500'
-    if (advice.riskScore >= 40) return 'bg-neon-yellow'
-    return 'bg-neon-green'
+    if (advice.riskScore >= 40) return 'bg-earth-saffron'
+    return 'bg-earth-moss'
   }
 
   const formatHours = (hours: number) => {
@@ -117,10 +117,10 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div className="bg-bg-primary p-4 rounded-lg border border-border-subtle">
             <div className="flex items-center gap-2 mb-2">
-              <Clock className="w-4 h-4 text-neon-cyan" />
+              <Clock className="w-4 h-4 text-earth-fern" />
               <p className="text-xs font-mono text-text-muted">Repos recommandé</p>
             </div>
-            <p className="text-2xl font-mono font-bold text-neon-cyan">
+            <p className="text-2xl font-mono font-bold text-earth-fern">
               {formatHours(advice.hoursRecommended)}
             </p>
           </div>
@@ -146,15 +146,15 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
           {advice.status === 'ready' && (
             <>
               <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
-                <span className="text-neon-green mt-0.5">✓</span>
+                <span className="text-earth-moss mt-0.5">✓</span>
                 <span>Tu peux faire une sortie intensive ou longue</span>
               </div>
               <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
-                <span className="text-neon-green mt-0.5">✓</span>
+                <span className="text-earth-moss mt-0.5">✓</span>
                 <span>Maintiens une bonne hydratation et nutrition</span>
               </div>
               <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
-                <span className="text-neon-green mt-0.5">✓</span>
+                <span className="text-earth-moss mt-0.5">✓</span>
                 <span>Écoute ton corps pendant l'effort</span>
               </div>
             </>
@@ -162,15 +162,15 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
           {advice.status === 'caution' && (
             <>
               <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
-                <span className="text-neon-yellow mt-0.5">⚠</span>
+                <span className="text-earth-saffron mt-0.5">⚠</span>
                 <span>Privilégie une sortie en endurance douce</span>
               </div>
               <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
-                <span className="text-neon-yellow mt-0.5">⚠</span>
+                <span className="text-earth-saffron mt-0.5">⚠</span>
                 <span>Évite les efforts intenses ou le fractionné</span>
               </div>
               <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
-                <span className="text-neon-yellow mt-0.5">⚠</span>
+                <span className="text-earth-saffron mt-0.5">⚠</span>
                 <span>Fais attention aux signaux de fatigue</span>
               </div>
             </>
@@ -178,15 +178,15 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
           {advice.status === 'rest' && (
             <>
               <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
-                <span className="text-neon-red mt-0.5">✗</span>
+                <span className="text-earth-clay mt-0.5">✗</span>
                 <span>Prends un jour de repos complet</span>
               </div>
               <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
-                <span className="text-neon-red mt-0.5">✗</span>
+                <span className="text-earth-clay mt-0.5">✗</span>
                 <span>Favorise le sommeil et la récupération active (marche, étirements)</span>
               </div>
               <div className="flex items-start gap-2 text-xs font-mono text-text-secondary">
-                <span className="text-neon-red mt-0.5">✗</span>
+                <span className="text-earth-clay mt-0.5">✗</span>
                 <span>Évite toute activité intense pour réduire le risque de blessure</span>
               </div>
             </>
@@ -197,7 +197,7 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
       {/* Info */}
       <div className="mt-6 p-4 bg-bg-primary rounded-lg border border-border-subtle">
         <p className="text-xs font-mono text-text-secondary leading-relaxed">
-          Le <span className="text-neon-cyan">score de risque</span> est calculé en fonction de l'augmentation de
+          Le <span className="text-earth-fern">score de risque</span> est calculé en fonction de l'augmentation de
           charge hebdomadaire, de l'intensité récente, du temps de récupération et de la fréquence des sorties.
           Un score &gt;50 indique un risque élevé de blessure.
         </p>

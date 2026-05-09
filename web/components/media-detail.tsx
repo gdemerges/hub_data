@@ -24,13 +24,13 @@ export function MediaDetail({ isOpen, onClose, title, imageUrl, children }: Medi
 
       {/* Modal */}
       <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto tech-card animate-slide-up rounded-lg">
-        {/* Top neon accent line */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-cyan to-transparent" />
+        {/* Top accent line */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-earth-fern to-transparent" />
 
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 p-2 border border-neon-cyan/30 rounded-lg bg-bg-primary/80 backdrop-blur-sm text-text-secondary hover:text-neon-cyan hover:border-neon-cyan/60 hover:bg-neon-cyan/10 transition-all duration-300"
+          className="absolute top-4 right-4 z-10 p-2 border border-earth-fern/30 rounded-lg bg-bg-primary/80 backdrop-blur-sm text-text-secondary hover:text-earth-fern hover:border-earth-fern/60 hover:bg-earth-fern/10 transition-all duration-300"
         >
           <X className="w-4 h-4" />
         </button>
@@ -39,7 +39,7 @@ export function MediaDetail({ isOpen, onClose, title, imageUrl, children }: Medi
           {/* Poster */}
           <div className="flex-shrink-0 w-full md:w-56">
             {imageUrl ? (
-              <div className="relative aspect-[2/3] rounded-lg overflow-hidden border border-neon-magenta/20">
+              <div className="relative aspect-[2/3] rounded-lg overflow-hidden border border-earth-terracotta/20">
                 <Image
                   src={imageUrl}
                   alt={title}
@@ -64,13 +64,13 @@ export function MediaDetail({ isOpen, onClose, title, imageUrl, children }: Medi
             <h2 className="text-xl font-display font-bold tracking-wider uppercase text-text-primary mb-1">
               {title}
             </h2>
-            <div className="h-px bg-gradient-to-r from-neon-cyan/40 to-transparent mb-5" />
+            <div className="h-px bg-gradient-to-r from-earth-fern/40 to-transparent mb-5" />
             {children}
           </div>
         </div>
 
-        {/* Bottom neon accent line */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-magenta to-transparent" />
+        {/* Bottom accent line */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-earth-terracotta to-transparent" />
       </div>
     </div>
   )

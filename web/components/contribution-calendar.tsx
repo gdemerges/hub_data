@@ -163,7 +163,7 @@ export function ContributionCalendar({
                     key={dayIndex}
                     className={`rounded-sm ${
                       day.date ? getColor(day.level) : 'bg-transparent'
-                    } transition-colors hover:ring-2 hover:ring-neon-green cursor-pointer`}
+                    } transition-colors hover:ring-2 hover:ring-earth-moss cursor-pointer`}
                     style={{
                       width: '100%',
                       height: cellHeight,

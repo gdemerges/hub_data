@@ -54,7 +54,7 @@ export default function CorrelationsPage() {
           <div className="space-y-3">
             {stats.map(row => (
               <div key={row.year} className="grid grid-cols-[80px_1fr] gap-4 items-center">
-                <div className="font-mono text-sm text-neon-cyan font-semibold">{row.year}</div>
+                <div className="font-mono text-sm text-earth-fern font-semibold">{row.year}</div>
                 <div className="space-y-1">
                   {SECTIONS.map(s => {
                     const v = row[s.key] as number

@@ -33,24 +33,8 @@ const accentClass: Record<Accent, AccentTokens> = {
   leaf:       { text: 'text-earth-leaf',       border: 'border-earth-leaf/30',       ring: 'bg-earth-leaf',       meshA: '79 140 74',   meshB: '138 178 116' },
 }
 
-// Map des anciens noms (compat : pages encore en `color="neon-cyan"` etc.)
-const legacyMap: Record<string, Accent> = {
-  'neon-cyan': 'fern',
-  'neon-magenta': 'terracotta',
-  'neon-green': 'moss',
-  'neon-yellow': 'saffron',
-  'neon-orange': 'rust',
-  'neon-red': 'clay',
-  'purple-400': 'indigo',
-  'blue-400': 'indigo',
-}
-
 interface PageHeaderProps {
   title: string
-  /** Anciennement `systemName`, ignoré dans le nouveau design. */
-  systemName?: string
-  /** Anciennement `statusDetail`, ignoré. */
-  statusDetail?: string
   /** Statut court (ex. "12 jours d'activité") — affiché à côté du titre. */
   status?: string
   /** Sous-titre humain (remplace `loadingMessage`). */
@@ -60,7 +44,7 @@ interface PageHeaderProps {
   eyebrow?: string
   /** Date longue (mois Année), affichée à droite façon éditorial */
   dateline?: string
-  color: Accent | keyof typeof legacyMap
+  color: Accent
   icon?: Icon
   actions?: React.ReactNode
 }
@@ -76,8 +60,7 @@ export function PageHeader({
   icon: IconComponent,
   actions,
 }: PageHeaderProps) {
-  const accent = (legacyMap[color as keyof typeof legacyMap] ?? color) as Accent
-  const c = accentClass[accent] ?? accentClass.moss
+  const c = accentClass[color] ?? accentClass.moss
   const sub = subtitle ?? loadingMessage
 
   const displayTitle = title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()

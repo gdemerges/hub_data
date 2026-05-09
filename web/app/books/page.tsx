@@ -37,8 +37,8 @@ export default async function BooksPage() {
 
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-neon-yellow/10 border border-neon-yellow/30 rounded">
-            <Star className="w-5 h-5 text-neon-yellow" />
+          <div className="p-2 bg-earth-saffron/10 border border-earth-saffron/30 rounded">
+            <Star className="w-5 h-5 text-earth-saffron" />
           </div>
           <h2 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
             Meilleurs_Livres
@@ -49,7 +49,7 @@ export default async function BooksPage() {
           {topBooks.map((book) => (
             <div
               key={book.id}
-              className="group tech-card p-3 hover:border-neon-yellow/60 transition-all duration-300"
+              className="group tech-card p-3 hover:border-earth-saffron/60 transition-all duration-300"
             >
               <div className="flex flex-col h-full">
                 <div className="relative aspect-[2/3] mb-3 rounded-lg overflow-hidden bg-bg-primary border border-border-subtle">
@@ -66,16 +66,16 @@ export default async function BooksPage() {
                     </div>
                   )}
                   {book.rating && (
-                    <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-bg-primary/90 rounded-full border border-neon-yellow/30">
-                      <Star className="w-3 h-3 text-neon-yellow fill-neon-yellow" />
-                      <span className="text-xs font-mono font-bold text-neon-yellow">
+                    <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-bg-primary/90 rounded-full border border-earth-saffron/30">
+                      <Star className="w-3 h-3 text-earth-saffron fill-earth-saffron" />
+                      <span className="text-xs font-mono font-bold text-earth-saffron">
                         {book.rating}
                       </span>
                     </div>
                   )}
                 </div>
                 <div className="flex-1 min-h-0">
-                  <h3 className="font-medium text-sm text-text-primary group-hover:text-neon-yellow transition-colors mb-1 line-clamp-2">
+                  <h3 className="font-medium text-sm text-text-primary group-hover:text-earth-saffron transition-colors mb-1 line-clamp-2">
                     {book.title}
                   </h3>
                   {book.author && (
@@ -90,8 +90,8 @@ export default async function BooksPage() {
 
       <div className="tech-card p-6">
         <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
-            <BookOpen className="w-5 h-5 text-neon-cyan" />
+          <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
+            <BookOpen className="w-5 h-5 text-earth-fern" />
           </div>
           <h2 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
             Tous_Les_Livres ({totalBooks})
@@ -102,7 +102,7 @@ export default async function BooksPage() {
           {books.map((book) => (
             <div
               key={book.id}
-              className="group flex items-center gap-4 p-3 bg-bg-primary border border-border-subtle rounded-lg hover:border-neon-cyan/50 transition-all duration-300"
+              className="group flex items-center gap-4 p-3 bg-bg-primary border border-border-subtle rounded-lg hover:border-earth-fern/50 transition-all duration-300"
             >
               <div className="w-10 h-14 rounded overflow-hidden bg-bg-card border border-border-subtle shrink-0">
                 {book.coverUrl ? (
@@ -116,7 +116,7 @@ export default async function BooksPage() {
               </div>
 
               <div className="flex-1 min-w-0">
-                <h3 className="font-medium text-text-primary group-hover:text-neon-cyan transition-colors truncate">
+                <h3 className="font-medium text-text-primary group-hover:text-earth-fern transition-colors truncate">
                   {book.title}
                 </h3>
                 <div className="flex items-center gap-3 mt-1">
@@ -144,8 +144,8 @@ export default async function BooksPage() {
                 )}
                 {book.rating && (
                   <div className="flex items-center gap-1">
-                    <Star className="w-3 h-3 text-neon-yellow fill-neon-yellow" />
-                    <span className="text-sm font-mono font-bold text-neon-yellow">
+                    <Star className="w-3 h-3 text-earth-saffron fill-earth-saffron" />
+                    <span className="text-sm font-mono font-bold text-earth-saffron">
                       {book.rating}
                     </span>
                   </div>

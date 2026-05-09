@@ -71,8 +71,8 @@ export default async function RencontresPage() {
 
       <div className="tech-card p-6 mb-8">
         <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 bg-neon-red/10 border border-neon-red/30 rounded">
-            <Globe className="w-5 h-5 text-neon-red" />
+          <div className="p-2 bg-earth-clay/10 border border-earth-clay/30 rounded">
+            <Globe className="w-5 h-5 text-earth-clay" />
           </div>
           <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
             Carte_des_Nationalités
@@ -86,8 +86,8 @@ export default async function RencontresPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="tech-card p-6">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
-              <MapPin className="w-5 h-5 text-neon-cyan" />
+            <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
+              <MapPin className="w-5 h-5 text-earth-fern" />
             </div>
             <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
               Villes
@@ -100,8 +100,8 @@ export default async function RencontresPage() {
 
         <div className="tech-card p-6">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-neon-magenta/10 border border-neon-magenta/30 rounded">
-              <Globe className="w-5 h-5 text-neon-magenta" />
+            <div className="p-2 bg-earth-terracotta/10 border border-earth-terracotta/30 rounded">
+              <Globe className="w-5 h-5 text-earth-terracotta" />
             </div>
             <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
               Nationalités
@@ -116,8 +116,8 @@ export default async function RencontresPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="tech-card p-6">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-neon-green/10 border border-neon-green/30 rounded">
-              <TrendingUp className="w-5 h-5 text-neon-green" />
+            <div className="p-2 bg-earth-moss/10 border border-earth-moss/30 rounded">
+              <TrendingUp className="w-5 h-5 text-earth-moss" />
             </div>
             <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
               Par_Année
@@ -133,12 +133,12 @@ export default async function RencontresPage() {
                     style={{ height: `${height}%`, minHeight: item.count > 0 ? '20px' : '0' }}
                   >
                     {item.count > 0 && (
-                      <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full text-xs font-mono font-bold text-neon-green mb-1">
+                      <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full text-xs font-mono font-bold text-earth-moss mb-1">
                         {item.count}
                       </span>
                     )}
                     <div
-                      className="w-full h-full bg-gradient-to-t from-neon-green/50 to-neon-green rounded-t transition-all hover:from-neon-green/70 hover:to-neon-green cursor-pointer"
+                      className="w-full h-full bg-gradient-to-t from-earth-moss/50 to-earth-moss rounded-t transition-all hover:from-earth-moss/70 hover:to-earth-moss cursor-pointer"
                       title={`${item.annee}: ${item.count} rencontres`}
                     />
                   </div>
@@ -153,8 +153,8 @@ export default async function RencontresPage() {
 
         <div className="tech-card p-6">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-neon-yellow/10 border border-neon-yellow/30 rounded">
-              <Calendar className="w-5 h-5 text-neon-yellow" />
+            <div className="p-2 bg-earth-saffron/10 border border-earth-saffron/30 rounded">
+              <Calendar className="w-5 h-5 text-earth-saffron" />
             </div>
             <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
               Par_Année_Naissance
@@ -170,12 +170,12 @@ export default async function RencontresPage() {
                     style={{ height: `${height}%`, minHeight: item.count > 0 ? '20px' : '0' }}
                   >
                     {item.count > 0 && (
-                      <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full text-[10px] font-mono font-bold text-neon-yellow mb-1">
+                      <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full text-[10px] font-mono font-bold text-earth-saffron mb-1">
                         {item.count}
                       </span>
                     )}
                     <div
-                      className="w-full h-full bg-gradient-to-t from-neon-yellow/50 to-neon-yellow rounded-t transition-all hover:from-neon-yellow/70 hover:to-neon-yellow cursor-pointer"
+                      className="w-full h-full bg-gradient-to-t from-earth-saffron/50 to-earth-saffron rounded-t transition-all hover:from-earth-saffron/70 hover:to-earth-saffron cursor-pointer"
                       title={`${item.annee}: ${item.count} personnes`}
                     />
                   </div>

@@ -190,7 +190,7 @@ export const NationalityMap = memo(function NationalityMap({ data }: Nationality
   return (
     <div className="w-full h-full bg-bg-primary rounded-lg border border-border-subtle overflow-hidden relative">
       {/* Glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-b from-neon-red/5 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-earth-clay/5 to-transparent pointer-events-none" />
 
       <ComposableMap
         projection="geoMercator"
@@ -256,13 +256,13 @@ export const NationalityMap = memo(function NationalityMap({ data }: Nationality
 
       {/* Legend */}
       <div className="absolute bottom-4 left-4 flex items-center gap-4 text-xs font-mono">
-        <div className="flex items-center gap-2 bg-bg-card/90 px-3 py-2 rounded border border-neon-red/30">
+        <div className="flex items-center gap-2 bg-bg-card/90 px-3 py-2 rounded border border-earth-clay/30">
           <div className="flex items-center gap-1">
             <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: 'rgb(77, 0, 6)' }} />
             <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: 'rgb(153, 0, 12)' }} />
-            <div className="w-3 h-3 rounded-sm bg-neon-red" />
+            <div className="w-3 h-3 rounded-sm bg-earth-clay" />
           </div>
-          <span className="text-neon-red">Nationalités (intensité)</span>
+          <span className="text-earth-clay">Nationalités (intensité)</span>
         </div>
       </div>
     </div>

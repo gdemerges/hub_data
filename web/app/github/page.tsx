@@ -58,7 +58,7 @@ export default async function GitHubPage({
         actions={<GitHubSyncButton username={GITHUB_USERNAME} />}
       />
 
-      <div className="tech-card p-6 mb-8 border-neon-magenta/30 hover:border-neon-magenta/60 transition-all duration-300">
+      <div className="tech-card p-6 mb-8 border-earth-terracotta/30 hover:border-earth-terracotta/60 transition-all duration-300">
         <div className="flex flex-col sm:flex-row items-start gap-6">
           <div className="relative">
             <Image
@@ -66,9 +66,9 @@ export default async function GitHubPage({
               alt={data.user.name}
               width={120}
               height={120}
-              className="rounded-lg ring-2 ring-neon-magenta/30"
+              className="rounded-lg ring-2 ring-earth-terracotta/30"
             />
-            <div className="absolute -top-2 -right-2 w-6 h-6 bg-neon-magenta rounded-full border-2 border-bg-primary flex items-center justify-center">
+            <div className="absolute -top-2 -right-2 w-6 h-6 bg-earth-terracotta rounded-full border-2 border-bg-primary flex items-center justify-center">
               <Code className="w-3 h-3 text-bg-primary" />
             </div>
           </div>
@@ -76,20 +76,20 @@ export default async function GitHubPage({
             <h2 className="text-xl font-display font-bold text-text-primary tracking-wider">
               {data.user.name}
             </h2>
-            <p className="text-sm font-mono text-neon-magenta/70 mt-1">@{data.user.login}</p>
+            <p className="text-sm font-mono text-earth-terracotta/70 mt-1">@{data.user.login}</p>
             {data.user.bio && (
               <p className="mt-3 text-sm text-text-secondary leading-relaxed">{data.user.bio}</p>
             )}
             <div className="flex flex-wrap gap-4 mt-4 text-sm">
               {data.user.location && (
                 <div className="flex items-center gap-2 text-text-muted font-mono">
-                  <MapPin className="w-4 h-4 text-neon-cyan" />
+                  <MapPin className="w-4 h-4 text-earth-fern" />
                   <span>{data.user.location}</span>
                 </div>
               )}
               {data.user.company && (
                 <div className="flex items-center gap-2 text-text-muted font-mono">
-                  <Building className="w-4 h-4 text-neon-cyan" />
+                  <Building className="w-4 h-4 text-earth-fern" />
                   <span>{data.user.company}</span>
                 </div>
               )}
@@ -116,8 +116,8 @@ export default async function GitHubPage({
 
       <div className="tech-card p-6 mb-8">
         <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
-            <Code className="w-5 h-5 text-neon-cyan" />
+          <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
+            <Code className="w-5 h-5 text-earth-fern" />
           </div>
           <div>
             <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
@@ -129,19 +129,19 @@ export default async function GitHubPage({
         <div className="space-y-3">
           {data.stats.topLanguages.map((lang, i) => (
             <div key={lang.language} className="group flex items-center gap-3">
-              <div className="w-6 h-6 flex items-center justify-center bg-neon-cyan/10 border border-neon-cyan/30 rounded text-xs font-mono font-bold text-neon-cyan">
+              <div className="w-6 h-6 flex items-center justify-center bg-earth-fern/10 border border-earth-fern/30 rounded text-xs font-mono font-bold text-earth-fern">
                 {i + 1}
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-sm font-medium text-text-primary group-hover:text-neon-cyan transition-colors">
+                  <span className="text-sm font-medium text-text-primary group-hover:text-earth-fern transition-colors">
                     {lang.language}
                   </span>
-                  <span className="text-xs font-mono font-bold text-neon-cyan">{lang.percentage}%</span>
+                  <span className="text-xs font-mono font-bold text-earth-fern">{lang.percentage}%</span>
                 </div>
                 <div className="h-2 bg-bg-primary rounded-full overflow-hidden border border-border-subtle">
                   <div
-                    className="h-full bg-gradient-to-r from-neon-cyan to-neon-magenta rounded-full transition-all duration-500"
+                    className="h-full bg-gradient-to-r from-earth-fern to-earth-terracotta rounded-full transition-all duration-500"
                     style={{ width: `${lang.percentage}%` }}
                   />
                 </div>

@@ -9,17 +9,17 @@ interface PerformanceFactorsProps {
 
 export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
   const getImprovementColor = (improvement: number) => {
-    if (improvement >= 5) return 'text-neon-green'
-    if (improvement >= 0) return 'text-neon-cyan'
-    if (improvement >= -5) return 'text-neon-yellow'
-    return 'text-neon-orange'
+    if (improvement >= 5) return 'text-earth-moss'
+    if (improvement >= 0) return 'text-earth-fern'
+    if (improvement >= -5) return 'text-earth-saffron'
+    return 'text-earth-rust'
   }
 
   const getImprovementBg = (improvement: number) => {
-    if (improvement >= 5) return 'bg-neon-green/10 border-neon-green/30'
-    if (improvement >= 0) return 'bg-neon-cyan/10 border-neon-cyan/30'
-    if (improvement >= -5) return 'bg-neon-yellow/10 border-neon-yellow/30'
-    return 'bg-neon-orange/10 border-neon-orange/30'
+    if (improvement >= 5) return 'bg-earth-moss/10 border-earth-moss/30'
+    if (improvement >= 0) return 'bg-earth-fern/10 border-earth-fern/30'
+    if (improvement >= -5) return 'bg-earth-saffron/10 border-earth-saffron/30'
+    return 'bg-earth-rust/10 border-earth-rust/30'
   }
 
   const formatSpeed = (speed: number) => {
@@ -60,10 +60,10 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
   const restInsights = analysis.insights.filter(i => i.factor === 'rest')
 
   return (
-    <div className="tech-card p-6 border-neon-magenta/30">
+    <div className="tech-card p-6 border-earth-terracotta/30">
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 bg-neon-magenta/10 border border-neon-magenta/30 rounded">
-          <BarChart3 className="w-5 h-5 text-neon-magenta" />
+        <div className="p-2 bg-earth-terracotta/10 border border-earth-terracotta/30 rounded">
+          <BarChart3 className="w-5 h-5 text-earth-terracotta" />
         </div>
         <div className="flex-1">
           <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
@@ -76,11 +76,11 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
       </div>
 
       {/* Smart Insight */}
-      <div className="mb-6 p-4 bg-neon-magenta/10 border border-neon-magenta/30 rounded-lg">
+      <div className="mb-6 p-4 bg-earth-terracotta/10 border border-earth-terracotta/30 rounded-lg">
         <div className="flex items-start gap-3">
-          <Lightbulb className="w-6 h-6 text-neon-magenta shrink-0 mt-0.5" />
+          <Lightbulb className="w-6 h-6 text-earth-terracotta shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm font-mono font-semibold text-neon-magenta mb-1">
+            <p className="text-sm font-mono font-semibold text-earth-terracotta mb-1">
               Insight principal
             </p>
             <p className="text-sm font-mono text-text-secondary leading-relaxed">
@@ -95,7 +95,7 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
         {/* Best Day */}
         <div className={`p-4 rounded-lg border ${getImprovementBg(analysis.bestDayOfWeek.improvement)}`}>
           <div className="flex items-center gap-2 mb-2">
-            <Calendar className="w-4 h-4 text-neon-cyan" />
+            <Calendar className="w-4 h-4 text-earth-fern" />
             <p className="text-xs font-mono text-text-muted">Meilleur jour</p>
           </div>
           <p className="text-lg font-mono font-bold text-text-primary mb-1">
@@ -113,7 +113,7 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
         {/* Best Time */}
         <div className={`p-4 rounded-lg border ${getImprovementBg(analysis.bestTimeOfDay.improvement)}`}>
           <div className="flex items-center gap-2 mb-2">
-            <Clock className="w-4 h-4 text-neon-green" />
+            <Clock className="w-4 h-4 text-earth-moss" />
             <p className="text-xs font-mono text-text-muted">Meilleure heure</p>
           </div>
           <p className="text-lg font-mono font-bold text-text-primary mb-1">
@@ -131,7 +131,7 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
         {/* Best Rest */}
         <div className={`p-4 rounded-lg border ${getImprovementBg(analysis.bestRestDays.improvement)}`}>
           <div className="flex items-center gap-2 mb-2">
-            <Coffee className="w-4 h-4 text-neon-yellow" />
+            <Coffee className="w-4 h-4 text-earth-saffron" />
             <p className="text-xs font-mono text-text-muted">Meilleur repos</p>
           </div>
           <p className="text-lg font-mono font-bold text-text-primary mb-1">
@@ -152,7 +152,7 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
         {/* Day of Week */}
         <div>
           <h4 className="text-xs font-mono font-semibold text-text-primary uppercase tracking-wider mb-3 flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-neon-cyan" />
+            <Calendar className="w-4 h-4 text-earth-fern" />
             Par jour de la semaine
           </h4>
           <div className="space-y-2">
@@ -162,7 +162,7 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
                 <div className="flex-1 relative h-2 bg-bg-card rounded-full overflow-hidden">
                   <div
                     className={`h-full transition-all ${
-                      insight.improvement >= 0 ? 'bg-neon-green' : 'bg-neon-orange'
+                      insight.improvement >= 0 ? 'bg-earth-moss' : 'bg-earth-rust'
                     }`}
                     style={{
                       width: `${Math.min(100, Math.abs(insight.improvement) * 10)}%`,
@@ -186,7 +186,7 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
         {/* Time of Day */}
         <div>
           <h4 className="text-xs font-mono font-semibold text-text-primary uppercase tracking-wider mb-3 flex items-center gap-2">
-            <Clock className="w-4 h-4 text-neon-green" />
+            <Clock className="w-4 h-4 text-earth-moss" />
             Par heure de la journée
           </h4>
           <div className="space-y-2">
@@ -196,7 +196,7 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
                 <div className="flex-1 relative h-2 bg-bg-card rounded-full overflow-hidden">
                   <div
                     className={`h-full transition-all ${
-                      insight.improvement >= 0 ? 'bg-neon-green' : 'bg-neon-orange'
+                      insight.improvement >= 0 ? 'bg-earth-moss' : 'bg-earth-rust'
                     }`}
                     style={{
                       width: `${Math.min(100, Math.abs(insight.improvement) * 10)}%`,
@@ -220,7 +220,7 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
         {/* Rest Days */}
         <div>
           <h4 className="text-xs font-mono font-semibold text-text-primary uppercase tracking-wider mb-3 flex items-center gap-2">
-            <Coffee className="w-4 h-4 text-neon-yellow" />
+            <Coffee className="w-4 h-4 text-earth-saffron" />
             Par jours de repos
           </h4>
           <div className="space-y-2">
@@ -230,7 +230,7 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
                 <div className="flex-1 relative h-2 bg-bg-card rounded-full overflow-hidden">
                   <div
                     className={`h-full transition-all ${
-                      insight.improvement >= 0 ? 'bg-neon-green' : 'bg-neon-orange'
+                      insight.improvement >= 0 ? 'bg-earth-moss' : 'bg-earth-rust'
                     }`}
                     style={{
                       width: `${Math.min(100, Math.abs(insight.improvement) * 10)}%`,
@@ -255,7 +255,7 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
       {/* Info */}
       <div className="mt-6 p-4 bg-bg-primary rounded-lg border border-border-subtle">
         <p className="text-xs font-mono text-text-secondary leading-relaxed">
-          <span className="text-neon-magenta">Vitesse moyenne globale:</span> {formatSpeed(analysis.globalAvgSpeed)} ({analysis.globalAvgSpeed.toFixed(1)} km/h).
+          <span className="text-earth-terracotta">Vitesse moyenne globale:</span> {formatSpeed(analysis.globalAvgSpeed)} ({analysis.globalAvgSpeed.toFixed(1)} km/h).
           Les pourcentages montrent l'amélioration de performance relative à cette moyenne dans différentes conditions.
         </p>
       </div>

@@ -85,8 +85,8 @@ export function SportClient({ promise, filter, year }: Props) {
               onClick={() => setOptimisticFilter(f.key)}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-sm transition-all duration-300 border ${
                 isActive
-                  ? 'bg-neon-orange/20 border-neon-orange/50 text-neon-orange shadow-[0_0_15px_rgba(255,136,0,0.2)]'
-                  : 'bg-bg-card border-border-subtle text-text-muted hover:border-neon-orange/30 hover:text-text-primary'
+                  ? 'bg-earth-rust/20 border-earth-rust/50 text-earth-rust shadow-[0_0_15px_rgba(255,136,0,0.2)]'
+                  : 'bg-bg-card border-border-subtle text-text-muted hover:border-earth-rust/30 hover:text-text-primary'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -126,16 +126,16 @@ export function SportClient({ promise, filter, year }: Props) {
         stats={yearlyStats(filtered, filter === 'RPM' ? 'hours' : 'distance')}
       />
 
-      <div className="mb-8 border-t-2 border-neon-cyan/20 pt-8">
+      <div className="mb-8 border-t-2 border-earth-fern/20 pt-8">
         <div className="flex items-center gap-3 mb-8">
-          <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
-            <Zap className="w-6 h-6 text-neon-cyan" />
+          <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
+            <Zap className="w-6 h-6 text-earth-fern" />
           </div>
           <div>
             <h2 className="text-xl font-display font-bold tracking-wider text-text-primary">
-              <span className="text-neon-cyan">AI</span>_PERFORMANCE_ANALYSIS
+              <span className="text-earth-fern">AI</span>_PERFORMANCE_ANALYSIS
             </h2>
-            <p className="text-xs font-mono text-neon-cyan/70">Analyses avancées avec Machine Learning</p>
+            <p className="text-xs font-mono text-earth-fern/70">Analyses avancées avec Machine Learning</p>
           </div>
         </div>
       </div>
@@ -160,10 +160,10 @@ export function SportSkeleton() {
 
 function ConnectPanel() {
   return (
-    <div className="tech-card p-8 border-neon-orange/30">
+    <div className="tech-card p-8 border-earth-rust/30">
       <div className="text-center max-w-xl mx-auto">
-        <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-neon-orange/10 border border-neon-orange/30 flex items-center justify-center">
-          <Activity className="w-10 h-10 text-neon-orange" />
+        <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-earth-rust/10 border border-earth-rust/30 flex items-center justify-center">
+          <Activity className="w-10 h-10 text-earth-rust" />
         </div>
         <h2 className="text-xl font-display font-bold text-text-primary mb-4 tracking-wider">
           AUTHENTICATION_REQUIRED
@@ -192,7 +192,7 @@ function ConnectPanel() {
 
 function AthleteCard({ athlete }: { athlete: StravaAthlete }) {
   return (
-    <div className="tech-card p-6 mb-8 border-neon-orange/30 hover:border-neon-orange/60 transition-all duration-300">
+    <div className="tech-card p-6 mb-8 border-earth-rust/30 hover:border-earth-rust/60 transition-all duration-300">
       <div className="flex flex-col sm:flex-row items-start gap-6">
         <div className="relative">
           <Image
@@ -200,7 +200,7 @@ function AthleteCard({ athlete }: { athlete: StravaAthlete }) {
             alt={athlete.firstname}
             width={120}
             height={120}
-            className="rounded-lg ring-2 ring-neon-orange/30"
+            className="rounded-lg ring-2 ring-earth-rust/30"
           />
           <div className="absolute -top-2 -right-2 w-6 h-6 bg-[#FC4C02] rounded-full border-2 border-bg-primary flex items-center justify-center">
             <Activity className="w-3 h-3 text-white" />
@@ -210,7 +210,7 @@ function AthleteCard({ athlete }: { athlete: StravaAthlete }) {
           <h2 className="text-xl font-display font-bold text-text-primary tracking-wider">
             {athlete.firstname} {athlete.lastname}
           </h2>
-          <p className="text-sm font-mono text-neon-orange/70 mt-1">@{athlete.username}</p>
+          <p className="text-sm font-mono text-earth-rust/70 mt-1">@{athlete.username}</p>
           {(athlete.city || athlete.country) && (
             <p className="text-sm text-text-muted font-mono mt-2">
               {[athlete.city, athlete.country].filter(Boolean).join(', ')}
@@ -226,8 +226,8 @@ function RecentActivities({ activities }: { activities: SportActivity[] }) {
   return (
     <div className="tech-card p-6 mb-8">
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 bg-neon-magenta/10 border border-neon-magenta/30 rounded">
-          <Activity className="w-5 h-5 text-neon-magenta" />
+        <div className="p-2 bg-earth-terracotta/10 border border-earth-terracotta/30 rounded">
+          <Activity className="w-5 h-5 text-earth-terracotta" />
         </div>
         <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
           Recent_Activities
@@ -238,13 +238,13 @@ function RecentActivities({ activities }: { activities: SportActivity[] }) {
           <a
             key={activity.id}
             href={`/sport/activity/${activity.id}`}
-            className="group flex items-center gap-4 p-4 bg-bg-primary border border-border-subtle rounded-lg hover:border-neon-magenta/50 hover:bg-neon-magenta/5 transition-all duration-300 cursor-pointer"
+            className="group flex items-center gap-4 p-4 bg-bg-primary border border-border-subtle rounded-lg hover:border-earth-terracotta/50 hover:bg-earth-terracotta/5 transition-all duration-300 cursor-pointer"
           >
-            <div className="w-10 h-10 rounded-lg bg-neon-magenta/10 border border-neon-magenta/30 flex items-center justify-center text-neon-magenta">
+            <div className="w-10 h-10 rounded-lg bg-earth-terracotta/10 border border-earth-terracotta/30 flex items-center justify-center text-earth-terracotta">
               {getActivityIcon(activity.type)}
             </div>
             <div className="flex-1 min-w-0">
-              <h4 className="font-medium text-text-primary truncate group-hover:text-neon-magenta transition-colors">
+              <h4 className="font-medium text-text-primary truncate group-hover:text-earth-terracotta transition-colors">
                 {activity.name}
               </h4>
               <p className="text-xs font-mono text-text-muted">
@@ -257,12 +257,12 @@ function RecentActivities({ activities }: { activities: SportActivity[] }) {
             </div>
             <div className="flex items-center gap-4 text-xs font-mono">
               <div className="text-right">
-                <p className="text-neon-cyan">{activity.distance.toFixed(1)} km</p>
+                <p className="text-earth-fern">{activity.distance.toFixed(1)} km</p>
                 <p className="text-text-muted">{formatDuration(activity.movingTime)}</p>
               </div>
               {activity.totalElevationGain > 0 && (
                 <div className="text-right">
-                  <p className="text-neon-green">+{Math.round(activity.totalElevationGain)} m</p>
+                  <p className="text-earth-moss">+{Math.round(activity.totalElevationGain)} m</p>
                   <p className="text-text-muted">{activity.averageSpeed.toFixed(1)} km/h</p>
                 </div>
               )}
@@ -297,8 +297,8 @@ function YearStatsCard({
     <div className="tech-card p-6 mb-8">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
-            <Calendar className="w-5 h-5 text-neon-cyan" />
+          <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
+            <Calendar className="w-5 h-5 text-earth-fern" />
           </div>
           <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
             Year_Stats ({label})
@@ -313,8 +313,8 @@ function YearStatsCard({
               onClick={() => onSelectYear(y)}
               className={`px-3 py-1 rounded font-mono text-sm transition-all duration-300 border ${
                 selectedYear === y
-                  ? 'bg-neon-cyan/20 border-neon-cyan/50 text-neon-cyan shadow-[0_0_10px_rgba(0,255,255,0.2)]'
-                  : 'bg-bg-card border-border-subtle text-text-muted hover:border-neon-cyan/30 hover:text-text-primary'
+                  ? 'bg-earth-fern/20 border-earth-fern/50 text-earth-fern shadow-[0_0_10px_rgba(0,255,255,0.2)]'
+                  : 'bg-bg-card border-border-subtle text-text-muted hover:border-earth-fern/30 hover:text-text-primary'
               }`}
             >
               {y}
@@ -324,15 +324,15 @@ function YearStatsCard({
       </div>
       <div className="grid grid-cols-3 gap-6">
         <div className="text-center">
-          <p className="text-3xl font-mono font-bold text-neon-cyan">{Math.round(distance)}</p>
+          <p className="text-3xl font-mono font-bold text-earth-fern">{Math.round(distance)}</p>
           <p className="text-xs font-mono text-text-muted mt-1">km parcourus</p>
         </div>
         <div className="text-center">
-          <p className="text-3xl font-mono font-bold text-neon-magenta">{Math.round(time)}</p>
+          <p className="text-3xl font-mono font-bold text-earth-terracotta">{Math.round(time)}</p>
           <p className="text-xs font-mono text-text-muted mt-1">heures d&apos;activité</p>
         </div>
         <div className="text-center">
-          <p className="text-3xl font-mono font-bold text-neon-green">{count}</p>
+          <p className="text-3xl font-mono font-bold text-earth-moss">{count}</p>
           <p className="text-xs font-mono text-text-muted mt-1">activités</p>
         </div>
       </div>
@@ -357,8 +357,8 @@ function YearlyEvolution({
   return (
     <div className="tech-card p-6 mb-8">
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 bg-neon-green/10 border border-neon-green/30 rounded">
-          <TrendingUp className="w-5 h-5 text-neon-green" />
+        <div className="p-2 bg-earth-moss/10 border border-earth-moss/30 rounded">
+          <TrendingUp className="w-5 h-5 text-earth-moss" />
         </div>
         <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
           {title} ({label})
@@ -369,12 +369,12 @@ function YearlyEvolution({
           const height = maxValue > 0 ? (y.value / maxValue) * 100 : 0
           return (
             <div key={y.year} className="flex flex-col items-center gap-2 w-24">
-              <span className="text-sm font-mono font-bold text-neon-orange">
+              <span className="text-sm font-mono font-bold text-earth-rust">
                 {Math.round(y.value)} {unit}
               </span>
               <div className="w-full h-32 flex items-end">
                 <div
-                  className="w-full bg-gradient-to-t from-neon-orange/50 to-neon-orange rounded-t transition-all hover:from-neon-orange/70 hover:to-neon-orange"
+                  className="w-full bg-gradient-to-t from-earth-rust/50 to-earth-rust rounded-t transition-all hover:from-earth-rust/70 hover:to-earth-rust"
                   style={{ height: `${height}%`, minHeight: y.value > 0 ? '8px' : '0' }}
                 />
               </div>

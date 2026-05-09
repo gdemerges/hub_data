@@ -35,9 +35,9 @@ export function FitnessChart({ data }: FitnessChartProps) {
 
   // Interpréter le TSB
   const getFormStatus = (tsb: number) => {
-    if (tsb > 10) return { status: 'Forme optimale', color: 'text-neon-green', icon: TrendingUp }
-    if (tsb > -10) return { status: 'Forme stable', color: 'text-neon-cyan', icon: Activity }
-    return { status: 'Fatigue élevée', color: 'text-neon-yellow', icon: Zap }
+    if (tsb > 10) return { status: 'Forme optimale', color: 'text-earth-moss', icon: TrendingUp }
+    if (tsb > -10) return { status: 'Forme stable', color: 'text-earth-fern', icon: Activity }
+    return { status: 'Fatigue élevée', color: 'text-earth-saffron', icon: Zap }
   }
 
   const formStatus = getFormStatus(latestMetrics.tsb)
@@ -47,10 +47,10 @@ export function FitnessChart({ data }: FitnessChartProps) {
   const sampledData = recentData.filter((_, i) => i % 3 === 0 || i === recentData.length - 1)
 
   return (
-    <div className="tech-card p-6 border-neon-cyan/30">
+    <div className="tech-card p-6 border-earth-fern/30">
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
-          <TrendingUp className="w-5 h-5 text-neon-cyan" />
+        <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
+          <TrendingUp className="w-5 h-5 text-earth-fern" />
         </div>
         <div className="flex-1">
           <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
@@ -71,14 +71,14 @@ export function FitnessChart({ data }: FitnessChartProps) {
           </p>
           <p className="text-xs font-mono text-text-muted mt-1">Forme long terme</p>
         </div>
-        <div className="bg-bg-primary p-4 rounded-lg border border-neon-magenta/20">
+        <div className="bg-bg-primary p-4 rounded-lg border border-earth-terracotta/20">
           <p className="text-xs font-mono text-text-muted mb-1">ATL (Fatigue)</p>
-          <p className="text-2xl font-mono font-bold text-neon-magenta">
+          <p className="text-2xl font-mono font-bold text-earth-terracotta">
             {latestMetrics.atl.toFixed(1)}
           </p>
           <p className="text-xs font-mono text-text-muted mt-1">Charge récente</p>
         </div>
-        <div className="bg-bg-primary p-4 rounded-lg border border-neon-green/20">
+        <div className="bg-bg-primary p-4 rounded-lg border border-earth-moss/20">
           <div className="flex items-center gap-2 mb-1">
             <StatusIcon className={`w-4 h-4 ${formStatus.color}`} />
             <p className="text-xs font-mono text-text-muted">TSB (Forme)</p>
@@ -165,11 +165,11 @@ export function FitnessChart({ data }: FitnessChartProps) {
           <span className="text-text-muted">CTL (Fitness)</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-0.5 bg-neon-magenta" />
+          <div className="w-4 h-0.5 bg-earth-terracotta" />
           <span className="text-text-muted">ATL (Fatigue)</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-0.5 bg-neon-green border-dashed" style={{ borderTop: '2px dashed' }} />
+          <div className="w-4 h-0.5 bg-earth-moss border-dashed" style={{ borderTop: '2px dashed' }} />
           <span className="text-text-muted">TSB (Forme)</span>
         </div>
       </div>
@@ -177,9 +177,9 @@ export function FitnessChart({ data }: FitnessChartProps) {
       {/* Explanation */}
       <div className="mt-6 p-4 bg-bg-primary rounded-lg border border-border-subtle">
         <p className="text-xs font-mono text-text-secondary leading-relaxed">
-          <span className="text-neon-cyan">CTL</span> (Chronic Training Load) mesure ta fitness long terme (42 jours).
-          <span className="text-neon-magenta ml-2">ATL</span> (Acute Training Load) mesure ta fatigue récente (7 jours).
-          <span className="text-neon-green ml-2">TSB</span> = CTL - ATL. Un TSB positif indique que tu es en forme,
+          <span className="text-earth-fern">CTL</span> (Chronic Training Load) mesure ta fitness long terme (42 jours).
+          <span className="text-earth-terracotta ml-2">ATL</span> (Acute Training Load) mesure ta fatigue récente (7 jours).
+          <span className="text-earth-moss ml-2">TSB</span> = CTL - ATL. Un TSB positif indique que tu es en forme,
           un TSB négatif indique de la fatigue accumulée.
         </p>
       </div>

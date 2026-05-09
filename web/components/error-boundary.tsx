@@ -29,13 +29,13 @@ export class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div className="flex flex-col items-center justify-center gap-3 py-12 text-center">
-          <AlertTriangle className="w-8 h-8 text-neon-red/60" />
+          <AlertTriangle className="w-8 h-8 text-earth-clay/60" />
           <p className="text-sm font-mono text-text-muted">
             {this.props.label ?? 'Une erreur est survenue'}
           </p>
           <button
             onClick={() => this.setState({ hasError: false })}
-            className="text-xs font-mono text-neon-cyan hover:text-neon-cyan/80 underline"
+            className="text-xs font-mono text-earth-fern hover:text-earth-fern/80 underline"
           >
             Réessayer
           </button>

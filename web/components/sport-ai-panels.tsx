@@ -41,7 +41,7 @@ export function SportAiPanels({ activities, runOnlyMode }: Props) {
         <ExpandableSection
           title="Fitness_Metrics // CTL/ATL/TSB"
           subtitle="Analyse de ta forme physique et fatigue"
-          icon={<TrendingUp className="w-5 h-5 text-neon-cyan" />}
+          icon={<TrendingUp className="w-5 h-5 text-earth-fern" />}
           defaultExpanded={false}
         >
           <FitnessChart data={calculateFitnessMetrics(activities)} />
@@ -52,7 +52,7 @@ export function SportAiPanels({ activities, runOnlyMode }: Props) {
         <ExpandableSection
           title="Heart_Rate_Zones"
           subtitle="Analyse des zones de fréquence cardiaque"
-          icon={<Heart className="w-5 h-5 text-neon-cyan" />}
+          icon={<Heart className="w-5 h-5 text-earth-fern" />}
           defaultExpanded={false}
         >
           <HeartRateZones activities={runs} lthr={calculateLTHR(runs)} />
@@ -96,7 +96,7 @@ function RacePredictorPanel({ runs }: { runs: SportActivity[] }) {
     <ExpandableSection
       title="Race_Predictor"
       subtitle="Prédictions de temps de course avec objectifs"
-      icon={<Award className="w-5 h-5 text-neon-cyan" />}
+      icon={<Award className="w-5 h-5 text-earth-fern" />}
       defaultExpanded={false}
     >
       <RacePredictor predictions={predictions} />
@@ -111,7 +111,7 @@ function PerformanceFactorsPanel({ runs }: { runs: SportActivity[] }) {
     <ExpandableSection
       title="Performance_Factors"
       subtitle="Corrélations entre performances et conditions"
-      icon={<BarChart3 className="w-5 h-5 text-neon-cyan" />}
+      icon={<BarChart3 className="w-5 h-5 text-earth-fern" />}
       defaultExpanded={false}
     >
       <PerformanceFactors analysis={analysis} />

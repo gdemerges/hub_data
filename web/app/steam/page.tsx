@@ -34,7 +34,7 @@ export default async function SteamPage({
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader title="Steam" subtitle="Profil et bibliothèque" color="moss" icon={SteamLogo} />
 
-      <div className="tech-card p-6 mb-8 border-neon-green/30 hover:border-neon-green/60 transition-all duration-300">
+      <div className="tech-card p-6 mb-8 border-earth-moss/30 hover:border-earth-moss/60 transition-all duration-300">
         <div className="flex flex-col sm:flex-row items-start gap-6">
           <div className="relative">
             <Image
@@ -42,9 +42,9 @@ export default async function SteamPage({
               alt={data.user.username}
               width={120}
               height={120}
-              className="rounded-lg ring-2 ring-neon-green/30"
+              className="rounded-lg ring-2 ring-earth-moss/30"
             />
-            <div className="absolute -top-2 -right-2 w-6 h-6 bg-neon-green rounded-full border-2 border-bg-primary flex items-center justify-center">
+            <div className="absolute -top-2 -right-2 w-6 h-6 bg-earth-moss rounded-full border-2 border-bg-primary flex items-center justify-center">
               <Zap className="w-3 h-3 text-bg-primary" />
             </div>
           </div>
@@ -60,7 +60,7 @@ export default async function SteamPage({
                 href={data.user.profileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-neon-green/10 border border-neon-green/30 rounded-lg text-neon-green text-sm font-mono hover:bg-neon-green/20 hover:border-neon-green/50 transition-all duration-300 group"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-earth-moss/10 border border-earth-moss/30 rounded-lg text-earth-moss text-sm font-mono hover:bg-earth-moss/20 hover:border-earth-moss/50 transition-all duration-300 group"
               >
                 <span>VIEW_PROFILE</span>
                 <span className="group-hover:translate-x-1 transition-transform">&gt;</span>
@@ -82,8 +82,8 @@ export default async function SteamPage({
 
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-neon-magenta/10 border border-neon-magenta/30 rounded">
-            <Trophy className="w-5 h-5 text-neon-magenta" />
+          <div className="p-2 bg-earth-terracotta/10 border border-earth-terracotta/30 rounded">
+            <Trophy className="w-5 h-5 text-earth-terracotta" />
           </div>
           <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
             Top_Games
@@ -93,10 +93,10 @@ export default async function SteamPage({
           {data.topGames.slice(0, 6).map((game, index) => (
             <div
               key={game.appid}
-              className="group relative bg-bg-card border border-border-subtle rounded-lg p-4 flex items-center gap-4 hover:border-neon-magenta/50 hover:-translate-y-0.5 transition-all duration-300"
+              className="group relative bg-bg-card border border-border-subtle rounded-lg p-4 flex items-center gap-4 hover:border-earth-terracotta/50 hover:-translate-y-0.5 transition-all duration-300"
             >
-              <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-neon-magenta/40 rounded-tl-lg transition-all group-hover:border-neon-magenta group-hover:w-4 group-hover:h-4" />
-              <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-neon-cyan/40 rounded-br-lg transition-all group-hover:border-neon-cyan group-hover:w-4 group-hover:h-4" />
+              <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-earth-terracotta/40 rounded-tl-lg transition-all group-hover:border-earth-terracotta group-hover:w-4 group-hover:h-4" />
+              <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-earth-fern/40 rounded-br-lg transition-all group-hover:border-earth-fern group-hover:w-4 group-hover:h-4" />
 
               <div className="relative">
                 <Image
@@ -104,14 +104,14 @@ export default async function SteamPage({
                   alt={game.name}
                   width={64}
                   height={64}
-                  className="rounded-lg ring-2 ring-border-subtle group-hover:ring-neon-magenta/30 transition-all"
+                  className="rounded-lg ring-2 ring-border-subtle group-hover:ring-earth-terracotta/30 transition-all"
                 />
-                <div className="absolute -top-1 -left-1 w-5 h-5 bg-neon-magenta rounded text-bg-primary text-xs font-mono font-bold flex items-center justify-center">
+                <div className="absolute -top-1 -left-1 w-5 h-5 bg-earth-terracotta rounded text-bg-primary text-xs font-mono font-bold flex items-center justify-center">
                   {index + 1}
                 </div>
               </div>
               <div className="flex-1 min-w-0">
-                <h4 className="font-medium text-text-primary truncate group-hover:text-neon-magenta transition-colors">
+                <h4 className="font-medium text-text-primary truncate group-hover:text-earth-terracotta transition-colors">
                   {game.name}
                 </h4>
                 <p className="text-xs font-mono text-text-muted">
@@ -126,8 +126,8 @@ export default async function SteamPage({
       {data.recentGames.length > 0 && (
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-neon-yellow/10 border border-neon-yellow/30 rounded">
-              <Gamepad2 className="w-5 h-5 text-neon-yellow" />
+            <div className="p-2 bg-earth-saffron/10 border border-earth-saffron/30 rounded">
+              <Gamepad2 className="w-5 h-5 text-earth-saffron" />
             </div>
             <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
               Recent_Activity
@@ -137,17 +137,17 @@ export default async function SteamPage({
             {data.recentGames.map((game) => (
               <div
                 key={game.appid}
-                className="group bg-bg-card border border-border-subtle rounded-lg p-4 flex items-center gap-3 hover:border-neon-yellow/50 hover:-translate-y-0.5 transition-all duration-300"
+                className="group bg-bg-card border border-border-subtle rounded-lg p-4 flex items-center gap-3 hover:border-earth-saffron/50 hover:-translate-y-0.5 transition-all duration-300"
               >
                 <Image
                   src={game.iconUrl}
                   alt={game.name}
                   width={48}
                   height={48}
-                  className="rounded-lg ring-2 ring-border-subtle group-hover:ring-neon-yellow/30 transition-all"
+                  className="rounded-lg ring-2 ring-border-subtle group-hover:ring-earth-saffron/30 transition-all"
                 />
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-medium text-text-primary truncate group-hover:text-neon-yellow transition-colors text-sm">
+                  <h4 className="font-medium text-text-primary truncate group-hover:text-earth-saffron transition-colors text-sm">
                     {game.name}
                   </h4>
                   <p className="text-xs font-mono text-text-muted">

@@ -16,7 +16,7 @@ export function SportTrainingAnalysis({ runs }: Props) {
     <ExpandableSection
       title="Training_Analysis"
       subtitle={subtitle}
-      icon={<Target className="w-5 h-5 text-neon-cyan" />}
+      icon={<Target className="w-5 h-5 text-earth-fern" />}
       defaultExpanded={false}
     >
       {a.alerts.length > 0 && (
@@ -28,8 +28,8 @@ export function SportTrainingAnalysis({ runs }: Props) {
                 alert.type === 'danger'
                   ? 'bg-red-500/10 border-red-500/30 text-red-400'
                   : alert.type === 'warning'
-                  ? 'bg-neon-yellow/10 border-neon-yellow/30 text-neon-yellow'
-                  : 'bg-neon-green/10 border-neon-green/30 text-neon-green'
+                  ? 'bg-earth-saffron/10 border-earth-saffron/30 text-earth-saffron'
+                  : 'bg-earth-moss/10 border-earth-moss/30 text-earth-moss'
               }`}
             >
               {alert.type === 'success' ? (
@@ -46,7 +46,7 @@ export function SportTrainingAnalysis({ runs }: Props) {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-bg-primary p-4 rounded-lg border border-border-subtle">
           <p className="text-xs font-mono text-text-muted mb-1">Cette semaine</p>
-          <p className="text-2xl font-mono font-bold text-neon-cyan">
+          <p className="text-2xl font-mono font-bold text-earth-fern">
             {a.currentWeekDistance.toFixed(1)} km
           </p>
           <p className="text-xs font-mono text-text-muted">{a.currentWeekRuns} sortie(s)</p>
@@ -59,7 +59,7 @@ export function SportTrainingAnalysis({ runs }: Props) {
           {a.increaseFromLastWeek !== 0 && (
             <p
               className={`text-xs font-mono flex items-center gap-1 ${
-                a.increaseFromLastWeek > 10 ? 'text-neon-yellow' : 'text-neon-green'
+                a.increaseFromLastWeek > 10 ? 'text-earth-saffron' : 'text-earth-moss'
               }`}
             >
               {a.increaseFromLastWeek > 0 ? (
@@ -100,21 +100,21 @@ export function SportTrainingAnalysis({ runs }: Props) {
 
       <div className="border-t border-border-subtle pt-6">
         <div className="flex items-center gap-2 mb-4">
-          <Zap className="w-4 h-4 text-neon-magenta" />
+          <Zap className="w-4 h-4 text-earth-terracotta" />
           <h4 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
             Recommandations
           </h4>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-bg-primary p-4 rounded-lg border border-neon-green/20">
-            <p className="text-xs font-mono text-neon-green mb-2">Objectif semaine</p>
+          <div className="bg-bg-primary p-4 rounded-lg border border-earth-moss/20">
+            <p className="text-xs font-mono text-earth-moss mb-2">Objectif semaine</p>
             <p className="text-xl font-mono font-bold text-text-primary">
               {a.predictedWeeklyDistance.toFixed(0)} km
             </p>
             <p className="text-xs font-mono text-text-muted mt-1">+5% progressif recommandé</p>
           </div>
-          <div className="bg-bg-primary p-4 rounded-lg border border-neon-magenta/20">
-            <p className="text-xs font-mono text-neon-magenta mb-2">Sortie longue max</p>
+          <div className="bg-bg-primary p-4 rounded-lg border border-earth-terracotta/20">
+            <p className="text-xs font-mono text-earth-terracotta mb-2">Sortie longue max</p>
             <p className="text-xl font-mono font-bold text-text-primary">
               {a.recommendedLongRun.toFixed(1)} km
             </p>
@@ -122,8 +122,8 @@ export function SportTrainingAnalysis({ runs }: Props) {
               +10% vs moyenne ({a.avgLongestRun.toFixed(1)} km)
             </p>
           </div>
-          <div className="bg-bg-primary p-4 rounded-lg border border-neon-cyan/20">
-            <p className="text-xs font-mono text-neon-cyan mb-2">Projection mensuelle</p>
+          <div className="bg-bg-primary p-4 rounded-lg border border-earth-fern/20">
+            <p className="text-xs font-mono text-earth-fern mb-2">Projection mensuelle</p>
             <p className="text-xl font-mono font-bold text-text-primary">
               {a.predictedMonthlyDistance.toFixed(0)} km
             </p>

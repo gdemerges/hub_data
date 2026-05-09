@@ -36,8 +36,8 @@ export function SteamPlaytimeSection({ promise, year }: Props) {
     <div className="tech-card p-6 mb-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
-            <Clock className="w-5 h-5 text-neon-cyan" />
+          <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
+            <Clock className="w-5 h-5 text-earth-fern" />
           </div>
           <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
             Playtime_Tracker
@@ -51,7 +51,7 @@ export function SteamPlaytimeSection({ promise, year }: Props) {
             onClick={handleSync}
             disabled={pendingSync}
             aria-label="Synchroniser le tracker Steam"
-            className="flex items-center gap-2 px-3 py-1.5 bg-neon-green/10 border border-neon-green/30 hover:bg-neon-green/20 hover:border-neon-green/50 text-neon-green rounded text-xs font-mono transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-3 py-1.5 bg-earth-moss/10 border border-earth-moss/30 hover:bg-earth-moss/20 hover:border-earth-moss/50 text-earth-moss rounded text-xs font-mono transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <RefreshCw className={`w-3 h-3 ${pendingSync ? 'animate-spin' : ''}`} />
             <span>SYNC</span>
@@ -61,12 +61,12 @@ export function SteamPlaytimeSection({ promise, year }: Props) {
               href={prevHref}
               onClick={() => setOptimisticYear(year - 1)}
               prefetch={false}
-              className="p-1 hover:bg-neon-cyan/10 rounded transition-colors"
+              className="p-1 hover:bg-earth-fern/10 rounded transition-colors"
               aria-label="Année précédente"
             >
-              <ChevronLeft className="w-4 h-4 text-neon-cyan" />
+              <ChevronLeft className="w-4 h-4 text-earth-fern" />
             </Link>
-            <span className="text-sm font-mono font-medium text-neon-cyan min-w-[4rem] text-center">
+            <span className="text-sm font-mono font-medium text-earth-fern min-w-[4rem] text-center">
               {optimisticYear}
             </span>
             {canGoNext ? (
@@ -74,14 +74,14 @@ export function SteamPlaytimeSection({ promise, year }: Props) {
                 href={nextHref}
                 onClick={() => setOptimisticYear(year + 1)}
                 prefetch={false}
-                className="p-1 hover:bg-neon-cyan/10 rounded transition-colors"
+                className="p-1 hover:bg-earth-fern/10 rounded transition-colors"
                 aria-label="Année suivante"
               >
-                <ChevronRight className="w-4 h-4 text-neon-cyan" />
+                <ChevronRight className="w-4 h-4 text-earth-fern" />
               </Link>
             ) : (
               <span className="p-1 opacity-50 cursor-not-allowed" aria-label="Année suivante">
-                <ChevronRight className="w-4 h-4 text-neon-cyan" />
+                <ChevronRight className="w-4 h-4 text-earth-fern" />
               </span>
             )}
           </div>
@@ -104,7 +104,7 @@ export function SteamPlaytimeSection({ promise, year }: Props) {
           <button
             onClick={handleSync}
             disabled={pendingSync}
-            className="flex items-center gap-2 px-4 py-2 bg-neon-green/10 border border-neon-green/30 text-neon-green rounded-lg hover:bg-neon-green/20 hover:border-neon-green/50 transition-all font-mono text-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-earth-moss/10 border border-earth-moss/30 text-earth-moss rounded-lg hover:bg-earth-moss/20 hover:border-earth-moss/50 transition-all font-mono text-sm"
           >
             <RefreshCw className={`w-4 h-4 ${pendingSync ? 'animate-spin' : ''}`} />
             START_TRACKING
@@ -119,8 +119,8 @@ export function SteamPlaytimeSkeleton() {
   return (
     <div className="tech-card p-6 mb-8">
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
-          <Clock className="w-5 h-5 text-neon-cyan" />
+        <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
+          <Clock className="w-5 h-5 text-earth-fern" />
         </div>
         <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
           Playtime_Tracker

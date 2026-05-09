@@ -21,14 +21,14 @@ export function ExpandableSection({
   const [isExpanded, setIsExpanded] = useState(defaultExpanded)
 
   return (
-    <div className="tech-card border-neon-cyan/30 overflow-hidden mb-6">
+    <div className="tech-card border-earth-fern/30 overflow-hidden mb-6">
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full p-6 flex items-center justify-between hover:bg-neon-cyan/5 transition-colors"
+        className="w-full p-6 flex items-center justify-between hover:bg-earth-fern/5 transition-colors"
       >
         <div className="flex items-center gap-3">
           {icon && (
-            <div className="p-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded">
+            <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
               {icon}
             </div>
           )}
@@ -43,18 +43,18 @@ export function ExpandableSection({
         </div>
         <div className="flex items-center gap-3">
           {!isExpanded && (
-            <span className="text-xs font-mono text-neon-cyan">Cliquer pour voir</span>
+            <span className="text-xs font-mono text-earth-fern">Cliquer pour voir</span>
           )}
           {isExpanded ? (
-            <ChevronUp className="w-5 h-5 text-neon-cyan" />
+            <ChevronUp className="w-5 h-5 text-earth-fern" />
           ) : (
-            <ChevronDown className="w-5 h-5 text-neon-cyan" />
+            <ChevronDown className="w-5 h-5 text-earth-fern" />
           )}
         </div>
       </button>
 
       {isExpanded && (
-        <div className="px-6 pb-6 border-t border-neon-cyan/20">
+        <div className="px-6 pb-6 border-t border-earth-fern/20">
           <div className="pt-6">{children}</div>
         </div>
       )}

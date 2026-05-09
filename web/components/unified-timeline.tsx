@@ -33,12 +33,12 @@ const iconMap: Record<string, any> = {
 }
 
 const colorMap: Record<string, string> = {
-  magenta: 'border-neon-magenta/50 bg-neon-magenta/10 text-neon-magenta',
-  yellow: 'border-neon-yellow/50 bg-neon-yellow/10 text-neon-yellow',
-  green: 'border-neon-green/50 bg-neon-green/10 text-neon-green',
-  orange: 'border-neon-orange/50 bg-neon-orange/10 text-neon-orange',
-  cyan: 'border-neon-cyan/50 bg-neon-cyan/10 text-neon-cyan',
-  red: 'border-neon-red/50 bg-neon-red/10 text-neon-red',
+  magenta: 'border-earth-terracotta/50 bg-earth-terracotta/10 text-earth-terracotta',
+  yellow: 'border-earth-saffron/50 bg-earth-saffron/10 text-earth-saffron',
+  green: 'border-earth-moss/50 bg-earth-moss/10 text-earth-moss',
+  orange: 'border-earth-rust/50 bg-earth-rust/10 text-earth-rust',
+  cyan: 'border-earth-fern/50 bg-earth-fern/10 text-earth-fern',
+  red: 'border-earth-clay/50 bg-earth-clay/10 text-earth-clay',
 }
 
 const typeLabels: Record<string, string> = {
@@ -116,8 +116,8 @@ export function UnifiedTimeline() {
     <div className="tech-card p-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-neon-magenta/10 border border-neon-magenta/30 rounded">
-            <Clock className="w-5 h-5 text-neon-magenta" />
+          <div className="p-2 bg-earth-terracotta/10 border border-earth-terracotta/30 rounded">
+            <Clock className="w-5 h-5 text-earth-terracotta" />
           </div>
           <h3 className="text-sm font-mono font-semibold text-text-primary uppercase tracking-wider">
             Unified_Timeline
@@ -132,7 +132,7 @@ export function UnifiedTimeline() {
               onClick={() => setFilter(null)}
               className={`px-2 py-1 rounded text-xs font-mono transition-colors ${
                 filter === null
-                  ? 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/50'
+                  ? 'bg-earth-fern/20 text-earth-fern border border-earth-fern/50'
                   : 'bg-bg-tertiary text-text-muted hover:bg-bg-hover'
               }`}
             >
@@ -144,7 +144,7 @@ export function UnifiedTimeline() {
                 onClick={() => setFilter(filter === type ? null : type)}
                 className={`px-2 py-1 rounded text-xs font-mono transition-colors ${
                   filter === type
-                    ? 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/50'
+                    ? 'bg-earth-fern/20 text-earth-fern border border-earth-fern/50'
                     : 'bg-bg-tertiary text-text-muted hover:bg-bg-hover'
                 }`}
               >
@@ -158,7 +158,7 @@ export function UnifiedTimeline() {
       {/* Timeline */}
       <div className="relative max-h-[500px] overflow-y-auto pr-2 scrollbar-thin">
         {/* Vertical line */}
-        <div className="absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-neon-cyan/50 via-neon-magenta/50 to-neon-orange/50" />
+        <div className="absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-earth-fern/50 via-earth-terracotta/50 to-earth-rust/50" />
 
         {Object.entries(groupedEvents).map(([yearMonth, monthEvents]) => (
           <div key={yearMonth} className="mb-6">
@@ -193,10 +193,10 @@ export function UnifiedTimeline() {
                     </div>
 
                     {/* Content */}
-                    <div className="flex-1 min-w-0 bg-bg-primary border border-border-subtle rounded-lg p-3 group-hover:border-neon-cyan/30 transition-colors">
+                    <div className="flex-1 min-w-0 bg-bg-primary border border-border-subtle rounded-lg p-3 group-hover:border-earth-fern/30 transition-colors">
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0">
-                          <h4 className="text-sm font-medium text-text-primary truncate group-hover:text-neon-cyan transition-colors">
+                          <h4 className="text-sm font-medium text-text-primary truncate group-hover:text-earth-fern transition-colors">
                             {event.title}
                           </h4>
                           {event.subtitle && (
@@ -236,7 +236,7 @@ export function UnifiedTimeline() {
         <div className="mt-4 pt-4 border-t border-border-subtle text-center">
           <button
             onClick={() => setLimit(limit + 30)}
-            className="px-4 py-2 bg-neon-cyan/10 border border-neon-cyan/30 rounded text-neon-cyan text-sm font-mono hover:bg-neon-cyan/20 transition-colors"
+            className="px-4 py-2 bg-earth-fern/10 border border-earth-fern/30 rounded text-earth-fern text-sm font-mono hover:bg-earth-fern/20 transition-colors"
           >
             Charger plus
           </button>

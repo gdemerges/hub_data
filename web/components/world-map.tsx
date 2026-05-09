@@ -36,7 +36,7 @@ export const WorldMap = memo(function WorldMap({ visitedCountries }: WorldMapPro
   return (
     <div className="w-full h-full bg-bg-primary rounded-lg border border-border-subtle overflow-hidden relative">
       {/* Glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-b from-neon-orange/5 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-earth-rust/5 to-transparent pointer-events-none" />
 
       <ComposableMap
         projection="geoMercator"
@@ -101,9 +101,9 @@ export const WorldMap = memo(function WorldMap({ visitedCountries }: WorldMapPro
 
       {/* Legend */}
       <div className="absolute bottom-4 left-4 flex items-center gap-4 text-xs font-mono">
-        <div className="flex items-center gap-2 bg-bg-card/90 px-3 py-2 rounded border border-neon-orange/30">
-          <div className="w-3 h-3 rounded-sm bg-neon-orange" />
-          <span className="text-neon-orange">Pays visités</span>
+        <div className="flex items-center gap-2 bg-bg-card/90 px-3 py-2 rounded border border-earth-rust/30">
+          <div className="w-3 h-3 rounded-sm bg-earth-rust" />
+          <span className="text-earth-rust">Pays visités</span>
         </div>
         <div className="flex items-center gap-2 bg-bg-card/90 px-3 py-2 rounded border border-border-subtle">
           <div className="w-3 h-3 rounded-sm bg-bg-tertiary" />
