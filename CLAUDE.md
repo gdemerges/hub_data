@@ -1,6 +1,6 @@
 # HUB LIFE - Personal Dashboard
 
-Dashboard Next.js 14 cyberpunk — agrège games, films, séries, books, sport, Spotify, GitHub, Steam, voyages, rencontres.
+Dashboard Next.js 14 solarpunk — agrège games, films, séries, books, sport, Spotify, GitHub, Steam, voyages, rencontres.
 
 ## Commandes
 
@@ -19,7 +19,7 @@ make update-quick # Génère JSON sans re-télécharger
 - Données jamais committées — `data/` et `web/data/` sont gitignorés
 - Erreurs API : toujours `{ data: [], hasData: false }` + `console.error`
 - Images externes : `<Image>` Next.js ; couvertures livres : `<img>`
-- Style : thème cyberpunk sombre, JetBrains Mono + Orbitron
+- Style : thème solarpunk (parchemin chaud, mousse, terracotta), Fraunces (display) + Inter (sans) + JetBrains Mono
 
 ## Pointeurs
 
