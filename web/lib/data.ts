@@ -57,71 +57,67 @@ export async function getBooksData(): Promise<Book[]> {
   return loadBooks()
 }
 
+const GITHUB_FLOOR_YEAR = 2008
+
+function buildAllYearsQuery(startYear: number, endYear: number): string {
+  const aliases = []
+  for (let y = startYear; y <= endYear; y++) {
+    aliases.push(
+      `y${y}: contributionsCollection(from: "${y}-01-01T00:00:00Z", to: "${y}-12-31T23:59:59Z") { contributionCalendar { totalContributions } }`
+    )
+  }
+  return `
+    query($username: String!) {
+      user(login: $username) {
+        createdAt
+        ${aliases.join('\n        ')}
+      }
+    }
+  `
+}
+
 export async function getGitHubContributions(year?: number | null): Promise<number> {
   try {
     const token = process.env.GITHUB_TOKEN
-
-    // If no year specified, sum contributions from all years
-    if (!year) {
-      // Get user creation year to know how far back to go
-      const userQuery = {
-        query: `
-          query($username: String!) {
-            user(login: $username) {
-              createdAt
-            }
-          }
-        `,
-        variables: { username: GITHUB_USERNAME },
-      }
-
-      const userResponse = await fetch(GITHUB_GRAPHQL_API, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` }),
-        },
-        body: JSON.stringify(userQuery),
-        next: { revalidate: 3600 },
-      })
-
-      const userData = await userResponse.json()
-      const createdAt = userData.data?.user?.createdAt
-      const startYear = createdAt ? new Date(createdAt).getFullYear() : 2008
-      const currentYear = new Date().getFullYear()
-
-      // Query each year individually in parallel and sum up
-      const yearPromises = []
-      for (let y = startYear; y <= currentYear; y++) {
-        yearPromises.push(
-          fetch(GITHUB_GRAPHQL_API, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', ...(token && { Authorization: `Bearer ${token}` }) },
-            body: JSON.stringify(contributionsQuery(y)),
-            next: { revalidate: 3600 },
-          }).then(res => res.json())
-        )
-      }
-
-      const results = await Promise.all(yearPromises)
-      const totalContributions = results.reduce((sum, data) => {
-        const yearContributions = data.data?.user?.contributionsCollection?.contributionCalendar?.totalContributions || 0
-        return sum + yearContributions
-      }, 0)
-
-      return totalContributions
+    const headers = {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }),
     }
 
-    // Get contributions for specific year
+    // Specific year — single query
+    if (year) {
+      const response = await fetch(GITHUB_GRAPHQL_API, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(contributionsQuery(year)),
+        next: { revalidate: 3600 },
+      })
+      const data = await response.json()
+      return data.data?.user?.contributionsCollection?.contributionCalendar?.totalContributions || 0
+    }
+
+    // All years — single combined query with aliases (one round trip)
+    const currentYear = new Date().getFullYear()
     const response = await fetch(GITHUB_GRAPHQL_API, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...(token && { Authorization: `Bearer ${token}` }) },
-      body: JSON.stringify(contributionsQuery(year)),
+      headers,
+      body: JSON.stringify({
+        query: buildAllYearsQuery(GITHUB_FLOOR_YEAR, currentYear),
+        variables: { username: GITHUB_USERNAME },
+      }),
       next: { revalidate: 3600 },
     })
 
     const data = await response.json()
-    return data.data?.user?.contributionsCollection?.contributionCalendar?.totalContributions || 0
+    const user = data.data?.user
+    if (!user) return 0
+
+    const createdYear = user.createdAt ? new Date(user.createdAt).getFullYear() : GITHUB_FLOOR_YEAR
+    let total = 0
+    for (let y = Math.max(createdYear, GITHUB_FLOOR_YEAR); y <= currentYear; y++) {
+      total += user[`y${y}`]?.contributionCalendar?.totalContributions || 0
+    }
+    return total
   } catch (error) {
     logger.error('Failed to fetch GitHub contributions:', error)
     return 0

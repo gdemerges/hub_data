@@ -83,34 +83,43 @@ export async function loadStrava({ force = false } = {}): Promise<StravaData | n
 
     const headers = { Authorization: `Bearer ${accessToken}` }
 
-    const athleteResponse = await fetch(`${STRAVA_API}/athlete`, { headers })
+    const [athleteResponse, cache] = await Promise.all([
+      fetch(`${STRAVA_API}/athlete`, { headers }),
+      readFileCache<StravaRawActivity[]>(ACTIVITIES_CACHE_FILE),
+    ])
     if (!athleteResponse.ok) return null
     const athlete = await athleteResponse.json()
 
-    const statsResponse = await fetch(`${STRAVA_API}/athletes/${athlete.id}/stats`, { headers })
-    const statsData = statsResponse.ok ? await statsResponse.json() : null
+    const statsPromise = fetch(`${STRAVA_API}/athletes/${athlete.id}/stats`, { headers })
 
     const currentYear = new Date().getFullYear()
     const fullSyncAfter = Math.floor(new Date(`${currentYear - 1}-01-01`).getTime() / 1000)
 
-    const cache = await readFileCache<StravaRawActivity[]>(ACTIVITIES_CACHE_FILE)
-    let activities: StravaRawActivity[]
+    const cacheStale = force || !cache || !isCacheFresh(cache.cachedAt, CACHE_TTL_MS)
+    let activitiesPromise: Promise<StravaRawActivity[]>
 
-    if (force || !cache || !isCacheFresh(cache.cachedAt, CACHE_TTL_MS)) {
+    if (cacheStale) {
       if (cache && cache.data.length > 0 && !force) {
         const latestCachedDate = cache.data
           .map((a) => new Date(a.start_date_local).getTime() / 1000)
           .reduce((max, t) => Math.max(max, t), 0)
-        const newActivities = await fetchActivities(headers, Math.floor(latestCachedDate))
-        const cachedById = new Map(cache.data.map((a) => [a.id, a]))
-        for (const a of newActivities) cachedById.set(a.id, a)
-        activities = Array.from(cachedById.values())
+        activitiesPromise = fetchActivities(headers, Math.floor(latestCachedDate)).then((newActivities) => {
+          const cachedById = new Map(cache.data.map((a) => [a.id, a]))
+          for (const a of newActivities) cachedById.set(a.id, a)
+          return Array.from(cachedById.values())
+        })
       } else {
-        activities = await fetchActivities(headers, fullSyncAfter)
+        activitiesPromise = fetchActivities(headers, fullSyncAfter)
       }
-      await writeFileCache(ACTIVITIES_CACHE_FILE, activities)
     } else {
-      activities = cache.data
+      activitiesPromise = Promise.resolve(cache!.data)
+    }
+
+    const [statsResponse, activities] = await Promise.all([statsPromise, activitiesPromise])
+    const statsData = statsResponse.ok ? await statsResponse.json() : null
+
+    if (cacheStale) {
+      await writeFileCache(ACTIVITIES_CACHE_FILE, activities)
     }
 
     const stats = {
