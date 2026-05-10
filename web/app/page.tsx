@@ -2,6 +2,11 @@ import { Sun, ChartLineUp } from '@phosphor-icons/react/dist/ssr'
 import { YearFilter, OverviewSections, TemporalStats, YearComparison, PageHeader } from '@/components'
 import { OverviewStats } from '@/components/overview-stats'
 import { getGamesData, getFilmsData, getSeriesData } from '@/lib/data'
+import { loadUnifiedActivity } from '@/lib/activity'
+import { UnifiedActivityHeatmap } from '@/components/unified-activity-heatmap'
+import { TimeOfDayBackground } from '@/components/time-of-day-background'
+
+const GITHUB_USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'gdemerges'
 
 export const revalidate = 3600
 
@@ -14,10 +19,11 @@ export default async function HomePage({
   const selectedYear = year ? parseInt(year) : null
 
   // GitHub contributions fetched client-side in OverviewStats (non-blocking)
-  const [allGames, allFilms, allSeries] = await Promise.all([
+  const [allGames, allFilms, allSeries, activity] = await Promise.all([
     getGamesData(),
     getFilmsData(),
     getSeriesData(),
+    loadUnifiedActivity(GITHUB_USERNAME),
   ])
 
   // Filter by year if selected
@@ -44,6 +50,7 @@ export default async function HomePage({
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
+      <TimeOfDayBackground />
       <PageHeader
         title="Aperçu"
         subtitle="Tableau de bord personnel · jeux, films, séries, lecture"
@@ -61,6 +68,11 @@ export default async function HomePage({
         seriesCount={series.length}
         selectedYear={selectedYear}
       />
+
+      {/* Unified activity heatmap */}
+      <div className="mb-8">
+        <UnifiedActivityHeatmap data={activity} />
+      </div>
 
       {/* Sections */}
       <OverviewSections
