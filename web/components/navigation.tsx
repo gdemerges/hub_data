@@ -12,11 +12,10 @@ import {
   Television,
   Books,
   HeartHalf,
-  GithubLogo,
+  Code,
   MusicNote,
   PersonSimpleRun,
   Compass,
-  SteamLogo,
   List,
   X,
   MagnifyingGlass,
@@ -58,11 +57,10 @@ const navItems: { href: string; label: string; icon: Icon; color: Accent }[] = [
   { href: '/series', label: 'Séries', icon: Television, color: 'saffron' },
   { href: '/books', label: 'Lecture', icon: Books, color: 'indigo' },
   { href: '/rencontres', label: 'Rencontres', icon: HeartHalf, color: 'clay' },
-  { href: '/github', label: 'Dev', icon: GithubLogo, color: 'indigo' },
+  { href: '/github', label: 'Dev', icon: Code, color: 'indigo' },
   { href: '/spotify', label: 'Musique', icon: MusicNote, color: 'leaf' },
   { href: '/sport', label: 'Sport', icon: PersonSimpleRun, color: 'rust' },
   { href: '/voyages', label: 'Voyages', icon: Compass, color: 'sage' },
-  { href: '/steam', label: 'Steam', icon: SteamLogo, color: 'moss' },
 ]
 
 export function Navigation() {
