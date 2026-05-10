@@ -26,8 +26,22 @@ function contributionsQuery(year: number) {
   }
 }
 
+// Aliases applied at read time so all consumers (stats, charts, lists) see the same
+// merged platform names. Macintosh is folded into PC since both run the same titles.
+const PLATFORM_ALIASES: Record<string, string> = {
+  Macintosh: 'PC',
+}
+
+function normalizePlatform(p: string): string {
+  return PLATFORM_ALIASES[p] ?? p
+}
+
 export async function getGamesData(): Promise<Game[]> {
-  return gamesData as Game[]
+  return (gamesData as Game[]).map(g => ({
+    ...g,
+    platform: g.platform ? normalizePlatform(g.platform) : g.platform,
+    platforms: g.platforms?.map(p => ({ ...p, platform: normalizePlatform(p.platform) })),
+  }))
 }
 
 export async function getFilmsData(): Promise<Film[]> {
