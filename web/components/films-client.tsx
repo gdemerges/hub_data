@@ -7,8 +7,17 @@ import { MediaDetail } from '@/components/media-detail'
 import { MediaTopPicks, type TopPick } from '@/components/media-top-picks'
 import { Recommendations } from '@/components/recommendations'
 import { StaggerContainer, StaggerItem } from '@/components/page-transition'
-import { Search, Calendar, Star, Clock } from 'lucide-react'
+import { Search, Calendar, Star, Clock, ArrowUpDown } from 'lucide-react'
 import { Film } from '@/lib/types'
+
+type SortOption = 'recent' | 'oldest' | 'rating' | 'title'
+
+const SORT_LABELS: Record<SortOption, string> = {
+  recent: 'Plus récent',
+  oldest: 'Plus ancien',
+  rating: 'Mieux notés',
+  title: 'Ordre alphabétique',
+}
 
 interface FilmsClientProps {
   films: Film[]
@@ -19,6 +28,10 @@ export function FilmsClient({ films }: FilmsClientProps) {
   const router = useRouter()
   const pathname = usePathname()
   const [search, setSearch] = useState(() => searchParams.get('q') ?? '')
+  const [year, setYear] = useState<string>(() => searchParams.get('year') ?? '')
+  const [sortBy, setSortBy] = useState<SortOption>(
+    () => (searchParams.get('sort') as SortOption) || 'recent'
+  )
   const [selectedItem, setSelectedItem] = useState<Film | null>(null)
   const deferredSearch = useDeferredValue(search)
 
@@ -34,8 +47,18 @@ export function FilmsClient({ films }: FilmsClientProps) {
     const url = new URL(window.location.href)
     if (search) url.searchParams.set('q', search)
     else url.searchParams.delete('q')
+    if (year) url.searchParams.set('year', year)
+    else url.searchParams.delete('year')
+    if (sortBy && sortBy !== 'recent') url.searchParams.set('sort', sortBy)
+    else url.searchParams.delete('sort')
     window.history.replaceState(null, '', url.toString())
-  }, [search])
+  }, [search, year, sortBy])
+
+  const availableYears = useMemo(() => {
+    const set = new Set<number>()
+    for (const f of films) if (f.releaseYear) set.add(f.releaseYear)
+    return Array.from(set).sort((a, b) => b - a)
+  }, [films])
 
   const items = useMemo(() => {
     return films.map((film) => ({
@@ -47,10 +70,32 @@ export function FilmsClient({ films }: FilmsClientProps) {
   }, [films])
 
   const filteredItems = useMemo(() => {
-    if (!deferredSearch) return items
-    const searchLower = deferredSearch.toLowerCase()
-    return items.filter((item) => item.title.toLowerCase().includes(searchLower))
-  }, [items, deferredSearch])
+    let result = items
+    if (deferredSearch) {
+      const searchLower = deferredSearch.toLowerCase()
+      result = result.filter((item) => item.title.toLowerCase().includes(searchLower))
+    }
+    if (year) {
+      const y = parseInt(year, 10)
+      result = result.filter((item) => item.releaseYear === y)
+    }
+    const sorted = [...result]
+    switch (sortBy) {
+      case 'recent':
+        sorted.sort((a, b) => (b.releaseYear ?? 0) - (a.releaseYear ?? 0))
+        break
+      case 'oldest':
+        sorted.sort((a, b) => (a.releaseYear ?? Infinity) - (b.releaseYear ?? Infinity))
+        break
+      case 'rating':
+        sorted.sort((a, b) => (b.rating ?? -1) - (a.rating ?? -1))
+        break
+      case 'title':
+        sorted.sort((a, b) => a.title.localeCompare(b.title, 'fr', { sensitivity: 'base' }))
+        break
+    }
+    return sorted
+  }, [items, deferredSearch, year, sortBy])
 
   // Top 3 par note (cachés si recherche active)
   const topPicks: TopPick[] = useMemo(() => {
@@ -75,8 +120,8 @@ export function FilmsClient({ films }: FilmsClientProps) {
         <MediaTopPicks picks={topPicks} accent="terracotta" title="Tes plus belles notes" eyebrow="Top 3" />
       )}
 
-      {/* Search */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+      {/* Search + year filter */}
+      <div className="flex flex-col gap-3 mb-6">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" strokeWidth={1.75} />
           <input
@@ -86,6 +131,33 @@ export function FilmsClient({ films }: FilmsClientProps) {
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-primary placeholder:text-text-muted focus:outline-none focus:border-earth-terracotta/50 focus:ring-2 focus:ring-earth-terracotta/15 transition-all"
           />
+        </div>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <div className="relative flex-1 sm:flex-none">
+            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none" strokeWidth={1.75} />
+            <select
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+              className="w-full pl-10 pr-8 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-primary focus:outline-none focus:border-earth-terracotta/50 focus:ring-2 focus:ring-earth-terracotta/15 transition-all appearance-none cursor-pointer"
+            >
+              <option value="">Toutes les années</option>
+              {availableYears.map((y) => (
+                <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
+          </div>
+          <div className="relative flex-1 sm:flex-none">
+            <ArrowUpDown className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none" strokeWidth={1.75} />
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SortOption)}
+              className="w-full pl-10 pr-8 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-primary focus:outline-none focus:border-earth-terracotta/50 focus:ring-2 focus:ring-earth-terracotta/15 transition-all appearance-none cursor-pointer"
+            >
+              {(Object.keys(SORT_LABELS) as SortOption[]).map((k) => (
+                <option key={k} value={k}>{SORT_LABELS[k]}</option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 

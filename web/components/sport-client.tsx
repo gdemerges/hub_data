@@ -1,6 +1,6 @@
 'use client'
 
-import { use, useOptimistic } from 'react'
+import { use, useOptimistic, startTransition } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -85,7 +85,7 @@ export function SportClient({ promise, filter, year }: Props) {
       <FilterBar
         filters={ACTIVITY_FILTERS}
         active={optimisticFilter}
-        onSelect={setOptimisticFilter}
+        onSelect={(k) => startTransition(() => setOptimisticFilter(k))}
         buildHref={(k) => buildHref(k, year)}
       />
 
@@ -101,7 +101,7 @@ export function SportClient({ promise, filter, year }: Props) {
         years={years}
         selectedYear={optimisticYear}
         buildHref={(y) => buildHref(filter, y)}
-        onSelectYear={setOptimisticYear}
+        onSelectYear={(y) => startTransition(() => setOptimisticYear(y))}
         distance={yearStats.totalDistance}
         time={yearStats.totalTime}
         count={yearStats.totalActivities}
