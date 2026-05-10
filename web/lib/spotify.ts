@@ -1,4 +1,5 @@
 import 'server-only'
+import fs from 'fs'
 import path from 'path'
 import { z } from 'zod'
 
@@ -20,8 +21,57 @@ const SPOTIFY_CACHE_FILE = path.join(process.cwd(), 'data', 'spotify-cache.json'
 const SPOTIFY_CACHE_TTL = 3600_000
 
 type SpotifyArtist = z.infer<typeof spotifyArtistSchema>
+type SpotifyTrackRaw = z.infer<typeof spotifyTrackSchema>
 
 const tokenCache = new TokenCache()
+
+function mapTracks(items: SpotifyTrackRaw[]) {
+  return items.map(track => ({
+    name: track.name,
+    artist: track.artists.map(a => a.name).join(', '),
+    album: track.album.name,
+    albumCover: track.album.images[0]?.url ?? '',
+    duration: track.duration_ms,
+    previewUrl: track.preview_url ?? undefined,
+    spotifyUrl: track.external_urls.spotify,
+  }))
+}
+
+function mapArtists(items: SpotifyArtist[]) {
+  return items.map(artist => ({
+    name: artist.name,
+    image: artist.images[0]?.url ?? '',
+    genres: artist.genres.slice(0, 3),
+    followers: artist.followers.total,
+    popularity: artist.popularity,
+    spotifyUrl: artist.external_urls.spotify,
+  }))
+}
+
+// Spotify can rotate refresh tokens on each refresh call. If the response includes
+// a new refresh_token, we persist it back to web/.env so subsequent runs succeed.
+function persistRefreshToken(newToken: string): void {
+  try {
+    const envPath = path.resolve(process.cwd(), '.env')
+    if (!fs.existsSync(envPath)) return
+    const content = fs.readFileSync(envPath, 'utf-8')
+    const lines = content.split('\n')
+    let found = false
+    const updated = lines.map(l => {
+      if (l.startsWith('SPOTIFY_REFRESH_TOKEN=')) {
+        found = true
+        return `SPOTIFY_REFRESH_TOKEN=${newToken}`
+      }
+      return l
+    })
+    if (!found) updated.push(`SPOTIFY_REFRESH_TOKEN=${newToken}`)
+    fs.writeFileSync(envPath, updated.join('\n'))
+    process.env.SPOTIFY_REFRESH_TOKEN = newToken
+    logger.info('Spotify refresh token rotated and persisted to .env')
+  } catch (e) {
+    logger.error('Failed to persist rotated Spotify refresh token:', e)
+  }
+}
 
 async function getAccessToken(): Promise<string | null> {
   const cached = tokenCache.get()
@@ -46,6 +96,13 @@ async function getAccessToken(): Promise<string | null> {
       body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: refreshToken }),
     })
     const data = await response.json()
+    if (!data.access_token) {
+      logger.error('Spotify token refresh failed:', data)
+      return null
+    }
+    if (data.refresh_token && data.refresh_token !== refreshToken) {
+      persistRefreshToken(data.refresh_token)
+    }
     tokenCache.set(data.access_token, data.expires_in ?? 3600)
     return data.access_token
   } catch (error) {
@@ -68,24 +125,51 @@ export async function loadSpotify({ force = false }: { force?: boolean } = {}): 
   const headers = { Authorization: `Bearer ${accessToken}` }
 
   try {
-    const [profileRes, topTracksRes, topArtistsRes, recentlyPlayedRes] = await Promise.all([
+    const ranges: Array<'short_term' | 'medium_term' | 'long_term'> = [
+      'short_term',
+      'medium_term',
+      'long_term',
+    ]
+
+    const [
+      profileRes,
+      tracksShortRes, tracksMedRes, tracksLongRes,
+      artistsShortRes, artistsMedRes, artistsLongRes,
+      recentlyPlayedRes,
+    ] = await Promise.all([
       fetch(`${SPOTIFY_API_URL}/me`, { headers }),
-      fetch(`${SPOTIFY_API_URL}/me/top/tracks?limit=10&time_range=medium_term`, { headers }),
-      fetch(`${SPOTIFY_API_URL}/me/top/artists?limit=10&time_range=medium_term`, { headers }),
-      fetch(`${SPOTIFY_API_URL}/me/player/recently-played?limit=20`, { headers }),
+      ...ranges.map(r =>
+        fetch(`${SPOTIFY_API_URL}/me/top/tracks?limit=20&time_range=${r}`, { headers })
+      ),
+      ...ranges.map(r =>
+        fetch(`${SPOTIFY_API_URL}/me/top/artists?limit=20&time_range=${r}`, { headers })
+      ),
+      fetch(`${SPOTIFY_API_URL}/me/player/recently-played?limit=50`, { headers }),
     ])
 
-    const [profileRaw, topTracksRaw, topArtistsRaw, recentlyPlayedRaw] = await Promise.all([
+    const [
+      profileRaw,
+      tracksShortRaw, tracksMedRaw, tracksLongRaw,
+      artistsShortRaw, artistsMedRaw, artistsLongRaw,
+      recentlyPlayedRaw,
+    ] = await Promise.all([
       profileRes.json(),
-      topTracksRes.json(),
-      topArtistsRes.json(),
+      tracksShortRes.json(), tracksMedRes.json(), tracksLongRes.json(),
+      artistsShortRes.json(), artistsMedRes.json(), artistsLongRes.json(),
       recentlyPlayedRes.json(),
     ])
 
     const profile = spotifyProfileSchema.parse(profileRaw)
-    const topTracks = spotifyPaginatedSchema(spotifyTrackSchema).parse(topTracksRaw)
-    const topArtists = spotifyPaginatedSchema(spotifyArtistSchema).parse(topArtistsRaw)
+    const tracksShort = spotifyPaginatedSchema(spotifyTrackSchema).parse(tracksShortRaw)
+    const tracksMed = spotifyPaginatedSchema(spotifyTrackSchema).parse(tracksMedRaw)
+    const tracksLong = spotifyPaginatedSchema(spotifyTrackSchema).parse(tracksLongRaw)
+    const artistsShort = spotifyPaginatedSchema(spotifyArtistSchema).parse(artistsShortRaw)
+    const artistsMed = spotifyPaginatedSchema(spotifyArtistSchema).parse(artistsMedRaw)
+    const artistsLong = spotifyPaginatedSchema(spotifyArtistSchema).parse(artistsLongRaw)
     const recentlyPlayed = spotifyPaginatedSchema(spotifyRecentlyPlayedItemSchema).parse(recentlyPlayedRaw)
+
+    const topTracks = tracksMed
+    const topArtists = artistsMed
 
     const genreCount: Record<string, number> = {}
     ;(topArtists.items as SpotifyArtist[]).forEach((artist) => {
@@ -120,6 +204,7 @@ export async function loadSpotify({ force = false }: { force?: boolean } = {}): 
         image: artist.images[0]?.url ?? '',
         genres: artist.genres.slice(0, 3),
         followers: artist.followers.total,
+        popularity: artist.popularity,
         spotifyUrl: artist.external_urls.spotify,
       })),
       recentlyPlayed: recentlyPlayed.items.map((item) => ({
@@ -128,8 +213,19 @@ export async function loadSpotify({ force = false }: { force?: boolean } = {}): 
         album: item.track.album.name,
         albumCover: item.track.album.images[0]?.url ?? '',
         playedAt: item.played_at,
+        duration: item.track.duration_ms,
         spotifyUrl: item.track.external_urls.spotify,
       })),
+      topTracksByRange: {
+        short_term: mapTracks(tracksShort.items),
+        medium_term: mapTracks(tracksMed.items),
+        long_term: mapTracks(tracksLong.items),
+      },
+      topArtistsByRange: {
+        short_term: mapArtists(artistsShort.items),
+        medium_term: mapArtists(artistsMed.items),
+        long_term: mapArtists(artistsLong.items),
+      },
       topGenres,
       stats: {
         totalTracks: topTracks.items?.length || 0,

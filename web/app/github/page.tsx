@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import Image from 'next/image'
 import { StatCard, PageHeader } from '@/components'
 import { Star, GitFork, Users, MapPin, Building, Code } from 'lucide-react'
-import { GithubLogo } from '@phosphor-icons/react/dist/ssr'
+import { Code as CodeIcon } from '@phosphor-icons/react/dist/ssr'
 import { loadGitHub, loadGitHubContributions, loadGitHubYearly } from '@/lib/github'
 import {
   GitHubContributionsSection,
@@ -10,6 +10,9 @@ import {
 } from '@/components/github-contributions-section'
 import { GitHubYearlySection, GitHubYearlySkeleton } from '@/components/github-yearly-section'
 import { GitHubSyncButton } from '@/components/github-sync-button'
+import { ClaudeStatsSection } from '@/components/claude-stats-section'
+import { loadClaudeStats } from '@/lib/claude'
+import { DevTabs } from '@/components/dev-tabs'
 
 export const revalidate = 21600
 
@@ -25,7 +28,7 @@ function timeAgo(iso: string): string {
   return `il y a ${Math.floor(hours / 24)}j`
 }
 
-export default async function GitHubPage({
+export default async function DevPage({
   searchParams,
 }: {
   searchParams: Promise<{ year?: string }>
@@ -36,11 +39,12 @@ export default async function GitHubPage({
   const contributionsPromise = loadGitHubContributions(GITHUB_USERNAME, year)
   const yearlyPromise = loadGitHubYearly(GITHUB_USERNAME)
   const data = await loadGitHub(GITHUB_USERNAME)
+  const claudeStats = await loadClaudeStats()
 
   if (!data) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <PageHeader title="GitHub" subtitle="Erreur de chargement" color="indigo" icon={GithubLogo} />
+        <PageHeader title="Dev" subtitle="Erreur de chargement" color="indigo" icon={CodeIcon} />
         <div className="text-center py-12">
           <p className="text-text-muted">Impossible de charger les données GitHub</p>
         </div>
@@ -48,18 +52,8 @@ export default async function GitHubPage({
     )
   }
 
-  return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
-      <PageHeader
-        title="GitHub"
-        subtitle={data.fetchedAt ? `Synchronisé ${timeAgo(data.fetchedAt)}` : 'Profil développeur'}
-        eyebrow="Code"
-        dateline={`${data.stats.totalRepos.toLocaleString('fr-FR')} repos · ${data.stats.totalContributions.toLocaleString('fr-FR')} contributions`}
-        color="indigo"
-        icon={GithubLogo}
-        actions={<GitHubSyncButton username={GITHUB_USERNAME} />}
-      />
-
+  const githubSection = (
+    <>
       <div className="tech-card p-6 mb-8 border-earth-terracotta/30 hover:border-earth-terracotta/60 transition-all duration-300">
         <div className="flex flex-col sm:flex-row items-start gap-6">
           <div className="relative">
@@ -156,6 +150,24 @@ export default async function GitHubPage({
       <Suspense fallback={<GitHubYearlySkeleton />}>
         <GitHubYearlySection promise={yearlyPromise} />
       </Suspense>
+    </>
+  )
+
+  const claudeSection = <ClaudeStatsSection stats={claudeStats} />
+
+  return (
+    <div className="max-w-7xl mx-auto px-6 py-8">
+      <PageHeader
+        title="Dev"
+        subtitle={data.fetchedAt ? `Synchronisé ${timeAgo(data.fetchedAt)}` : 'Profil développeur'}
+        eyebrow="Code"
+        dateline={`${data.stats.totalRepos.toLocaleString('fr-FR')} repos · ${data.stats.totalContributions.toLocaleString('fr-FR')} contributions`}
+        color="indigo"
+        icon={CodeIcon}
+        actions={<GitHubSyncButton username={GITHUB_USERNAME} />}
+      />
+
+      <DevTabs github={githubSection} claude={claudeSection} />
     </div>
   )
 }

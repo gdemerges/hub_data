@@ -19,6 +19,7 @@ export const spotifyArtistSchema = z.object({
   images: z.array(spotifyImageSchema).default([]),
   genres: z.array(z.string()).default([]),
   followers: z.object({ total: z.number() }).default({ total: 0 }),
+  popularity: z.number().default(0),
   external_urls: z.object({ spotify: z.string() }).default({ spotify: '' }),
 })
 

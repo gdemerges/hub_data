@@ -176,6 +176,27 @@ export interface PerformanceAnalysis {
 
 // API response types (shared between API routes and page components)
 
+export type SpotifyTimeRange = 'short_term' | 'medium_term' | 'long_term'
+
+export interface SpotifyTrack {
+  name: string
+  artist: string
+  album: string
+  albumCover: string
+  duration: number
+  previewUrl?: string
+  spotifyUrl: string
+}
+
+export interface SpotifyArtistEntry {
+  name: string
+  image: string
+  genres: string[]
+  followers: number
+  popularity: number
+  spotifyUrl: string
+}
+
 export interface SpotifyData {
   user: {
     name: string
@@ -183,28 +204,18 @@ export interface SpotifyData {
     followers: number
     profileUrl: string
   }
-  topTracks: {
-    name: string
-    artist: string
-    album: string
-    albumCover: string
-    duration: number
-    previewUrl?: string
-    spotifyUrl: string
-  }[]
-  topArtists: {
-    name: string
-    image: string
-    genres: string[]
-    followers: number
-    spotifyUrl: string
-  }[]
+  topTracks: SpotifyTrack[]
+  topArtists: SpotifyArtistEntry[]
+  // Top items broken down by Spotify's time range buckets (4 weeks, 6 months, years).
+  topTracksByRange?: Record<SpotifyTimeRange, SpotifyTrack[]>
+  topArtistsByRange?: Record<SpotifyTimeRange, SpotifyArtistEntry[]>
   recentlyPlayed: {
     name: string
     artist: string
     album: string
     albumCover: string
     playedAt: string
+    duration?: number
     spotifyUrl: string
   }[]
   topGenres: { genre: string; count: number }[]

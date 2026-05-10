@@ -1,14 +1,20 @@
 'use client'
 
-import { use, useTransition } from 'react'
+import { use, useState, useTransition, useMemo } from 'react'
 import Image from 'next/image'
-import { Music, Users, Clock, Disc, Mic2, ListMusic, ExternalLink, RefreshCw } from 'lucide-react'
+import { Music, Users, Clock, Disc, Mic2, ListMusic, ExternalLink, RefreshCw, Activity } from 'lucide-react'
 import { MusicNotes } from '@phosphor-icons/react/dist/ssr'
 import { StatCard, PageHeader } from '@/components'
 import { SkeletonStatCard, SkeletonProfile, SkeletonChart } from '@/components/skeleton'
 import { FadeIn } from '@/components/page-transition'
 import { syncSpotifyAction } from '@/lib/spotify-actions'
-import type { SpotifyData } from '@/lib/types'
+import type { SpotifyData, SpotifyTimeRange } from '@/lib/types'
+
+const RANGE_LABELS: Record<SpotifyTimeRange, string> = {
+  short_term: '4 semaines',
+  medium_term: '6 mois',
+  long_term: 'Tout',
+}
 
 interface Props {
   promise: Promise<SpotifyData | null>
@@ -57,6 +63,7 @@ function SyncButton({ pending, onSync }: { pending: boolean; onSync: () => void 
 export function SpotifyClient({ promise }: Props) {
   const data = use(promise)
   const [pending, startTransition] = useTransition()
+  const [range, setRange] = useState<SpotifyTimeRange>('medium_term')
 
   function handleSync() {
     startTransition(async () => {
@@ -68,7 +75,7 @@ export function SpotifyClient({ promise }: Props) {
   if (!data || !data.user) {
     return (
       <>
-        <PageHeader title="Spotify" subtitle="Statistiques d'écoute" color="leaf" icon={MusicNotes} />
+        <PageHeader title="Musique" subtitle="Statistiques d'écoute" color="leaf" icon={MusicNotes} />
         <div className="tech-card p-8">
           <div className="text-center max-w-xl mx-auto">
             <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-earth-leaf/10 border border-earth-leaf/30 flex items-center justify-center">
@@ -93,10 +100,15 @@ export function SpotifyClient({ promise }: Props) {
     ? `Synchronisé ${timeAgo(data.fetchedAt)}`
     : 'Statistiques d\'écoute'
 
+  const currentTopTracks =
+    data.topTracksByRange?.[range] ?? data.topTracks
+  const currentTopArtists =
+    data.topArtistsByRange?.[range] ?? data.topArtists
+
   return (
     <>
       <PageHeader
-        title="Spotify"
+        title="Musique"
         subtitle={subtitle}
         eyebrow="Écoute"
         dateline={`${data.stats.totalTracks.toLocaleString('fr-FR')} titres · ${data.stats.totalArtists.toLocaleString('fr-FR')} artistes`}
@@ -150,6 +162,27 @@ export function SpotifyClient({ promise }: Props) {
         </div>
       </FadeIn>
 
+      {data.topTracksByRange && (
+        <div className="flex items-center justify-end gap-1 mb-4">
+          <span className="text-[10px] uppercase tracking-[0.18em] text-text-muted mr-2">
+            Période
+          </span>
+          {(Object.keys(RANGE_LABELS) as SpotifyTimeRange[]).map(k => (
+            <button
+              key={k}
+              onClick={() => setRange(k)}
+              className={`px-3 py-1.5 text-xs font-mono rounded-full border transition-all ${
+                range === k
+                  ? 'bg-earth-leaf/15 text-earth-leaf border-earth-leaf/40'
+                  : 'text-text-muted border-transparent hover:text-text-primary hover:border-border-default'
+              }`}
+            >
+              {RANGE_LABELS[k]}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <FadeIn delay={0.15}>
           <div className="tech-card p-6 h-full">
@@ -162,7 +195,7 @@ export function SpotifyClient({ promise }: Props) {
               </h3>
             </div>
             <div className="space-y-2">
-              {data.topTracks.slice(0, 5).map((track, index) => (
+              {currentTopTracks.slice(0, 5).map((track, index) => (
                 <a
                   key={`${track.name}-${index}`}
                   href={track.spotifyUrl}
@@ -196,7 +229,7 @@ export function SpotifyClient({ promise }: Props) {
               </h3>
             </div>
             <div className="space-y-2">
-              {data.topArtists.slice(0, 5).map((artist, index) => (
+              {currentTopArtists.slice(0, 5).map((artist, index) => (
                 <a
                   key={`${artist.name}-${index}`}
                   href={artist.spotifyUrl}
@@ -212,9 +245,18 @@ export function SpotifyClient({ promise }: Props) {
                     <p className="text-sm font-medium text-text-primary truncate">{artist.name}</p>
                     <p className="text-xs text-text-muted truncate">{artist.genres.join(', ')}</p>
                   </div>
-                  <span className="text-xs font-mono text-text-muted num">
-                    {artist.followers.toLocaleString('fr-FR')}
-                  </span>
+                  <div className="flex flex-col items-end gap-0.5 min-w-[64px]">
+                    {artist.popularity > 0 && (
+                      <span className="text-xs font-mono text-earth-fern num">
+                        {artist.popularity}/100
+                      </span>
+                    )}
+                    {artist.followers > 0 && (
+                      <span className="text-[10px] font-mono text-text-muted num">
+                        {artist.followers.toLocaleString('fr-FR')} fans
+                      </span>
+                    )}
+                  </div>
                 </a>
               ))}
             </div>
@@ -244,6 +286,10 @@ export function SpotifyClient({ promise }: Props) {
             ))}
           </div>
         </div>
+      </FadeIn>
+
+      <FadeIn delay={0.28}>
+        <ListeningPatterns recentlyPlayed={data.recentlyPlayed} />
       </FadeIn>
 
       <FadeIn delay={0.3}>
@@ -284,10 +330,131 @@ export function SpotifyClient({ promise }: Props) {
   )
 }
 
+const DAY_LABELS = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']
+
+function ListeningPatterns({
+  recentlyPlayed,
+}: {
+  recentlyPlayed: SpotifyData['recentlyPlayed']
+}) {
+  const stats = useMemo(() => {
+    if (!recentlyPlayed.length) return null
+    const heat: number[][] = Array.from({ length: 7 }, () => Array(24).fill(0))
+    let totalMs = 0
+    const dayCount = new Map<number, number>()
+    const hourCount = new Map<number, number>()
+    for (const item of recentlyPlayed) {
+      const d = new Date(item.playedAt)
+      const day = d.getDay()
+      const hour = d.getHours()
+      heat[day][hour] += 1
+      dayCount.set(day, (dayCount.get(day) ?? 0) + 1)
+      hourCount.set(hour, (hourCount.get(hour) ?? 0) + 1)
+      totalMs += item.duration ?? 0
+    }
+    const max = Math.max(...heat.flat(), 1)
+    const totalMinutes = Math.round(totalMs / 60000)
+    const topDay = [...dayCount.entries()].sort((a, b) => b[1] - a[1])[0]?.[0]
+    const topHour = [...hourCount.entries()].sort((a, b) => b[1] - a[1])[0]?.[0]
+    const span =
+      recentlyPlayed.length > 1
+        ? new Date(recentlyPlayed[0].playedAt).getTime() -
+          new Date(recentlyPlayed[recentlyPlayed.length - 1].playedAt).getTime()
+        : 0
+    return { heat, max, totalMinutes, topDay, topHour, span, count: recentlyPlayed.length }
+  }, [recentlyPlayed])
+
+  if (!stats) return null
+
+  const spanLabel = (() => {
+    const days = Math.round(stats.span / (1000 * 60 * 60 * 24))
+    if (days <= 0) return 'aujourd\'hui'
+    if (days < 7) return `${days} derniers jours`
+    if (days < 60) return `${Math.round(days / 7)} dernières semaines`
+    return `${Math.round(days / 30)} derniers mois`
+  })()
+
+  return (
+    <div className="tech-card p-6 mb-8">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="p-2 bg-earth-leaf/10 border border-earth-leaf/30 rounded-lg">
+          <Activity className="w-5 h-5 text-earth-leaf" />
+        </div>
+        <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+          Patterns d&apos;écoute
+        </h3>
+        <span className="text-[10px] uppercase tracking-[0.18em] text-text-muted ml-auto">
+          {stats.count} titres · {spanLabel}
+        </span>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="bg-bg-card border border-border-subtle rounded-xl p-4">
+          <p className="text-xs text-text-muted uppercase tracking-wide mb-1">Temps cumulé</p>
+          <p className="text-2xl font-bold text-text-primary num">
+            {stats.totalMinutes >= 60
+              ? `${Math.floor(stats.totalMinutes / 60)} h ${stats.totalMinutes % 60} min`
+              : `${stats.totalMinutes} min`}
+          </p>
+        </div>
+        <div className="bg-bg-card border border-border-subtle rounded-xl p-4">
+          <p className="text-xs text-text-muted uppercase tracking-wide mb-1">Jour le plus actif</p>
+          <p className="text-2xl font-bold text-text-primary">
+            {stats.topDay !== undefined ? DAY_LABELS[stats.topDay] : '—'}
+          </p>
+        </div>
+        <div className="bg-bg-card border border-border-subtle rounded-xl p-4">
+          <p className="text-xs text-text-muted uppercase tracking-wide mb-1">Heure de pointe</p>
+          <p className="text-2xl font-bold text-text-primary num">
+            {stats.topHour !== undefined ? `${stats.topHour}h` : '—'}
+          </p>
+        </div>
+      </div>
+
+      <div className="overflow-x-auto">
+        <div className="inline-block min-w-full">
+          <div className="grid gap-1" style={{ gridTemplateColumns: '40px repeat(24, minmax(14px, 1fr))' }}>
+            <div />
+            {Array.from({ length: 24 }, (_, h) => (
+              <div key={h} className="text-[9px] font-mono text-text-muted text-center">
+                {h % 3 === 0 ? h : ''}
+              </div>
+            ))}
+            {[1, 2, 3, 4, 5, 6, 0].map(day => (
+              <div key={day} className="contents">
+                <div className="text-[10px] font-mono text-text-muted flex items-center pr-1">
+                  {DAY_LABELS[day]}
+                </div>
+                {Array.from({ length: 24 }, (_, h) => {
+                  const v = stats.heat[day][h]
+                  const intensity = stats.max ? v / stats.max : 0
+                  return (
+                    <div
+                      key={h}
+                      title={`${DAY_LABELS[day]} ${h}h · ${v} titre${v > 1 ? 's' : ''}`}
+                      className="aspect-square rounded-sm border border-border-subtle/40"
+                      style={{
+                        background:
+                          v === 0
+                            ? 'transparent'
+                            : `rgba(79, 140, 74, ${0.15 + intensity * 0.85})`,
+                      }}
+                    />
+                  )
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function SpotifySkeleton() {
   return (
     <>
-      <PageHeader title="Spotify" subtitle="Chargement…" color="leaf" icon={MusicNotes} />
+      <PageHeader title="Musique" subtitle="Chargement…" color="leaf" icon={MusicNotes} />
       <SkeletonProfile />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-8">
         {[...Array(4)].map((_, i) => (
