@@ -61,21 +61,23 @@ const GAME_NAME_MAP: Record<string, string> = {
   'Dragon Quest IX: Hoshizora no Mamoribito': 'Dragon Quest IX: Sentinels of the Starry Skies',
   
   // Pokémon games
-  'Pocket Monsters Ruby': 'Pokemon Ruby',
-  'Pocket Monsters Sapphire': 'Pokemon Sapphire',
-  'Pocket Monsters Emerald': 'Pokemon Emerald',
-  'Pocket Monsters FireRed': 'Pokemon FireRed',
-  'Pocket Monsters LeafGreen': 'Pokemon LeafGreen',
-  'Pocket Monsters Diamond': 'Pokemon Diamond',
-  'Pocket Monsters Pearl': 'Pokemon Pearl',
-  'Pocket Monsters Platinum': 'Pokemon Platinum',
-  'Pocket Monsters HeartGold': 'Pokemon HeartGold',
-  'Pocket Monsters SoulSilver': 'Pokemon SoulSilver',
-  'Pocket Monsters Black': 'Pokemon Black',
-  'Pocket Monsters White': 'Pokemon White',
-  'Pocket Monsters X': 'Pokemon X',
-  'Pocket Monsters Y': 'Pokemon Y',
-  
+  // Use the IGDB canonical names ("Pokémon X Version") so the exact-match score wins.
+  'Pocket Monsters Ruby': 'Pokémon Ruby Version',
+  'Pocket Monsters Sapphire': 'Pokémon Sapphire Version',
+  'Pocket Monsters Emerald': 'Pokémon Emerald Version',
+  'Pocket Monsters FireRed': 'Pokémon FireRed Version',
+  'Pocket Monsters LeafGreen': 'Pokémon LeafGreen Version',
+  'Pocket Monsters Diamond': 'Pokémon Diamond Version',
+  'Pocket Monsters Pearl': 'Pokémon Pearl Version',
+  'Pocket Monsters Platinum': 'Pokémon Platinum Version',
+  'Pocket Monsters HeartGold': 'Pokémon HeartGold Version',
+  'Pocket Monsters SoulSilver': 'Pokémon SoulSilver Version',
+  'Pocket Monsters Black': 'Pokémon Black Version',
+  'Pocket Monsters White': 'Pokémon White Version',
+  'Pocket Monsters X': 'Pokémon X',
+  'Pocket Monsters Y': 'Pokémon Y',
+  'Pokémon GO': 'Pokémon GO',
+
   // Add more mappings as needed
 }
 
@@ -158,48 +160,135 @@ async function getIGDBToken(): Promise<string> {
   return igdbToken.token
 }
 
-async function fetchGameCover(gameName: string): Promise<string | undefined> {
-  // Check cache first
-  if (gameName in coversCache.games) {
-    return coversCache.games[gameName] ?? undefined
+// IGDB game categories: 0=main, 1=dlc, 2=expansion, 3=bundle, 4=standalone_expansion,
+// 5=mod, 6=episode, 7=season, 8=remake, 9=remaster, 10=expanded, 11=port, 13=pack, 14=update.
+const GOOD_CATEGORIES = new Set([0, 4, 8, 9, 10, 11])
+
+type IgdbGame = {
+  name: string
+  cover?: { image_id: string }
+  category?: number
+  total_rating_count?: number
+  first_release_date?: number
+}
+
+function normalizeForCompare(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+}
+
+async function searchIgdb(query: string): Promise<IgdbGame[]> {
+  const token = await getIGDBToken()
+  const clientId = process.env.IGDB_CLIENT_ID!
+  const response = await fetch('https://api.igdb.com/v4/games', {
+    method: 'POST',
+    headers: {
+      'Client-ID': clientId,
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'text/plain',
+    },
+    body: `search "${query.replace(/"/g, '')}"; fields name,cover.image_id,category,total_rating_count,first_release_date; limit 10;`,
+  })
+  if (!response.ok) return []
+  return (await response.json()) as IgdbGame[]
+}
+
+// Exact-name lookup: bypasses IGDB's fuzzy search. Used when we know the canonical
+// IGDB name (via GAME_NAME_MAP). The 'name' field comparison is case-sensitive in
+// the where clause, so we match on a slug-style derived field.
+async function lookupByName(name: string): Promise<IgdbGame[]> {
+  const token = await getIGDBToken()
+  const clientId = process.env.IGDB_CLIENT_ID!
+  const escaped = name.replace(/"/g, '')
+  const response = await fetch('https://api.igdb.com/v4/games', {
+    method: 'POST',
+    headers: {
+      'Client-ID': clientId,
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'text/plain',
+    },
+    body: `fields name,cover.image_id,category,total_rating_count,first_release_date; where name ~ "${escaped}" | name ~ "${escaped}"*; limit 10;`,
+  })
+  if (!response.ok) return []
+  return (await response.json()) as IgdbGame[]
+}
+
+function pickBestCandidate(candidates: IgdbGame[], searchTerm: string): IgdbGame | undefined {
+  const withCover = candidates.filter(c => c.cover?.image_id)
+  if (!withCover.length) return undefined
+
+  const target = normalizeForCompare(searchTerm)
+  const score = (c: IgdbGame): number => {
+    const n = normalizeForCompare(c.name)
+    let s = 0
+    if (n === target) s += 1000 // exact match wins
+    else if (n.startsWith(target + ' ')) s += 400
+    else if (n.startsWith(target)) s += 200
+    else if (n.includes(target)) s += 50
+    if (GOOD_CATEGORIES.has(c.category ?? 0)) s += 100
+    s += Math.min(50, c.total_rating_count ?? 0) // popularity tiebreaker, capped
+    return s
+  }
+
+  return [...withCover].sort((a, b) => score(b) - score(a))[0]
+}
+
+async function fetchGameCoverFor(
+  cacheKey: string,
+  primaryName: string,
+  fallbackName?: string
+): Promise<string | undefined> {
+  if (cacheKey in coversCache.games) {
+    return coversCache.games[cacheKey] ?? undefined
   }
 
   try {
-    const token = await getIGDBToken()
-    const clientId = process.env.IGDB_CLIENT_ID!
+    const primary = normalizeGameTitle(primaryName)
+    // If the primary name came from an explicit override, treat it as canonical
+    // and ask IGDB by name (bypasses fuzzy search picking the wrong title).
+    const isOverride = primaryName in GAME_NAME_MAP
+    let candidates = isOverride
+      ? await lookupByName(primary)
+      : await searchIgdb(primary)
+    let picked = pickBestCandidate(candidates, primary)
 
-    // Normalize the game name for better search results
-    const searchName = normalizeGameTitle(gameName)
+    // If override lookup returned nothing usable, also try a fuzzy search.
+    if (!picked && isOverride) {
+      candidates = await searchIgdb(primary)
+      picked = pickBestCandidate(candidates, primary)
+    }
 
-    const response = await fetch('https://api.igdb.com/v4/games', {
-      method: 'POST',
-      headers: {
-        'Client-ID': clientId,
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'text/plain',
-      },
-      body: `search "${searchName}"; fields cover.image_id; limit 1;`,
-    })
+    if (!picked && fallbackName) {
+      const alt = normalizeGameTitle(fallbackName)
+      if (alt && alt !== primary) {
+        candidates = await searchIgdb(alt)
+        picked = pickBestCandidate(candidates, alt)
+      }
+    }
 
-    if (!response.ok) {
-      coversCache.games[gameName] = null
+    if (!picked) {
+      coversCache.games[cacheKey] = null
       return undefined
     }
 
-    const games = await response.json()
-    if (games.length === 0 || !games[0].cover?.image_id) {
-      coversCache.games[gameName] = null
-      return undefined
-    }
-
-    const url = `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${games[0].cover.image_id}.jpg`
-    coversCache.games[gameName] = url
+    const url = `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${picked.cover!.image_id}.jpg`
+    coversCache.games[cacheKey] = url
     return url
   } catch {
-    coversCache.games[gameName] = null
+    coversCache.games[cacheKey] = null
     return undefined
   }
 }
+
+// Backwards-compat shim used elsewhere; not currently called but kept for safety.
+async function fetchGameCover(gameName: string): Promise<string | undefined> {
+  return fetchGameCoverFor(gameName, gameName)
+}
+void fetchGameCover
 
 // ============ TMDB API ============
 
@@ -312,12 +401,16 @@ async function processGames() {
     
     process.stdout.write(`\r   [${i + 1}/${total}] ${title.substring(0, 40).padEnd(40)}`)
 
-    // Fetch cover only once per title
-    const coverUrl = await fetchGameCover(title)
-    await sleep(100) // Rate limiting
-
-    // Use first entry as base data
+    // IGDB matches better against the original/VO name than the French/marketing
+    // title. The full Titre stays as the cache key (so we cache per-game uniquely).
+    // Use first entry as base data for both search and merging
     const baseEntry = entries[0]
+    // IGDB matches better against the original/VO name than the French/marketing
+    // title. The full Titre stays as the cache key (so we cache per-game uniquely).
+    const searchPrimary = baseEntry['Titre VO'] || title
+    const searchFallback = baseEntry['Titre VF'] || title
+    const coverUrl = await fetchGameCoverFor(title, searchPrimary, searchFallback)
+    await sleep(100) // Rate limiting
     
     // If multiple platforms, merge them
     let platforms: Array<{platform: string, status?: string, hoursPlayed?: number}> | undefined

@@ -223,25 +223,31 @@ export function GameStats({ games }: GameStatsProps) {
       .sort((a, b) => b.value - a.value)
       .slice(0, 8)
 
-    const sagaMap = new Map<string, { hours: number; cover?: string; games: Game[] }>()
+    const sagaMap = new Map<string, { hours: number; games: Game[] }>()
     for (const g of played) {
       const saga = detectSaga(g.title)
       if (!saga) continue
-      const cur = sagaMap.get(saga) ?? { hours: 0, cover: undefined, games: [] }
+      const cur = sagaMap.get(saga) ?? { hours: 0, games: [] }
       cur.hours += gameHours(g)
       cur.games.push(g)
-      if (!cur.cover && g.coverUrl) cur.cover = g.coverUrl
       sagaMap.set(saga, cur)
     }
     const sagas = Array.from(sagaMap.entries())
       .filter(([, v]) => v.games.length >= 2)
-      .map(([name, v]) => ({
-        name,
-        hours: v.hours,
-        count: v.games.length,
-        cover: v.cover,
-        games: [...v.games].sort((a, b) => gameHours(b) - gameHours(a)),
-      }))
+      .map(([name, v]) => {
+        const sortedGames = [...v.games].sort((a, b) => gameHours(b) - gameHours(a))
+        // Cover = most-played game with a cover, fall back to any cover in the saga
+        const cover =
+          sortedGames.find(g => g.coverUrl)?.coverUrl ??
+          v.games.find(g => g.coverUrl)?.coverUrl
+        return {
+          name,
+          hours: v.hours,
+          count: v.games.length,
+          cover,
+          games: sortedGames,
+        }
+      })
       .sort((a, b) => b.hours - a.hours)
       .slice(0, 12)
 
