@@ -134,7 +134,15 @@ async function main() {
     scope: string
   }
 
-  // Write directly to .env to avoid copy-paste truncation.
+  // Persist in two places:
+  // 1) data/spotify-refresh-token.txt — read by the runtime on every refresh
+  //    (re-read from disk to handle token rotation reliably).
+  // 2) web/.env — kept in sync as a fallback / for clarity.
+  const tokenFile = resolve(__dirname, '../../data/spotify-refresh-token.txt')
+  const fs = await import('fs')
+  fs.mkdirSync(resolve(__dirname, '../../data'), { recursive: true })
+  fs.writeFileSync(tokenFile, data.refresh_token, { mode: 0o600 })
+
   const envPath = resolve(__dirname, '../.env')
   const line = `SPOTIFY_REFRESH_TOKEN=${data.refresh_token}`
   if (existsSync(envPath)) {
@@ -150,13 +158,14 @@ async function main() {
     })
     if (!found) updated.push(line)
     writeFileSync(envPath, updated.join('\n'))
-    console.log(`\n✅ web/.env mis à jour :`)
-    console.log(`   ${line.slice(0, 30)}…${line.slice(-10)}  (longueur ${data.refresh_token.length})`)
   } else {
     writeFileSync(envPath, line + '\n')
-    console.log(`\n✅ web/.env créé avec :`)
-    console.log(`   ${line.slice(0, 30)}…${line.slice(-10)}`)
   }
+
+  console.log('\n✅ Refresh token sauvegardé :')
+  console.log(`   - ${tokenFile}`)
+  console.log(`   - ${envPath}`)
+  console.log(`   longueur ${data.refresh_token.length}`)
   console.log('\nRedémarre le serveur Next.js (make dev).')
 }
 

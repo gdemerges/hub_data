@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
@@ -20,6 +20,9 @@ import {
   X,
   MagnifyingGlass,
   Leaf,
+  CaretDown,
+  Stack,
+  Heartbeat,
   type Icon,
 } from '@phosphor-icons/react'
 import { ThemeToggle } from './theme-toggle'
@@ -49,25 +52,83 @@ const accentBg: Record<Accent, string> = {
   leaf: 'bg-earth-leaf/10',
 }
 
-const navItems: { href: string; label: string; icon: Icon; color: Accent }[] = [
+interface NavItem {
+  href: string
+  label: string
+  icon: Icon
+  color: Accent
+}
+
+interface NavGroup {
+  label: string
+  icon: Icon
+  color: Accent
+  items: NavItem[]
+}
+
+type NavEntry = NavItem | NavGroup
+
+function isGroup(e: NavEntry): e is NavGroup {
+  return 'items' in e
+}
+
+const navEntries: NavEntry[] = [
   { href: '/', label: 'Aperçu', icon: House, color: 'moss' },
   { href: '/insights', label: 'Insights', icon: Sparkle, color: 'fern' },
-  { href: '/games', label: 'Jeux', icon: GameController, color: 'moss' },
-  { href: '/films', label: 'Films', icon: FilmStrip, color: 'terracotta' },
-  { href: '/series', label: 'Séries', icon: Television, color: 'saffron' },
-  { href: '/books', label: 'Lecture', icon: Books, color: 'indigo' },
-  { href: '/rencontres', label: 'Rencontres', icon: HeartHalf, color: 'clay' },
+  {
+    label: 'Médias',
+    icon: Stack,
+    color: 'terracotta',
+    items: [
+      { href: '/games', label: 'Jeux', icon: GameController, color: 'moss' },
+      { href: '/films', label: 'Films', icon: FilmStrip, color: 'terracotta' },
+      { href: '/series', label: 'Séries', icon: Television, color: 'saffron' },
+      { href: '/books', label: 'Lecture', icon: Books, color: 'indigo' },
+      { href: '/spotify', label: 'Musique', icon: MusicNote, color: 'leaf' },
+    ],
+  },
+  {
+    label: 'Vie',
+    icon: Heartbeat,
+    color: 'rust',
+    items: [
+      { href: '/sport', label: 'Sport', icon: PersonSimpleRun, color: 'rust' },
+      { href: '/voyages', label: 'Voyages', icon: Compass, color: 'sage' },
+      { href: '/rencontres', label: 'Rencontres', icon: HeartHalf, color: 'clay' },
+    ],
+  },
   { href: '/github', label: 'Dev', icon: Code, color: 'indigo' },
-  { href: '/spotify', label: 'Musique', icon: MusicNote, color: 'leaf' },
-  { href: '/sport', label: 'Sport', icon: PersonSimpleRun, color: 'rust' },
-  { href: '/voyages', label: 'Voyages', icon: Compass, color: 'sage' },
 ]
+
+// Flat list for the mobile menu / utilities.
+const flatItems: NavItem[] = navEntries.flatMap(e => (isGroup(e) ? e.items : [e]))
 
 export function Navigation() {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [openGroup, setOpenGroup] = useState<string | null>(null)
+  const groupRef = useRef<HTMLDivElement | null>(null)
 
-  const NavLink = ({ item, onClick }: { item: typeof navItems[0]; onClick?: () => void }) => {
+  // Close dropdown on outside click / Escape
+  useEffect(() => {
+    if (!openGroup) return
+    const onDown = (e: MouseEvent) => {
+      if (groupRef.current && !groupRef.current.contains(e.target as Node)) {
+        setOpenGroup(null)
+      }
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpenGroup(null)
+    }
+    document.addEventListener('mousedown', onDown)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onDown)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [openGroup])
+
+  const NavLink = ({ item, onClick }: { item: NavItem; onClick?: () => void }) => {
     const isActive = pathname === item.href
     const Icon = item.icon
     return (
@@ -91,7 +152,6 @@ export function Navigation() {
           )}
         />
         <span className="whitespace-nowrap">{item.label}</span>
-        {/* Soulignement animé sous l'item actif */}
         <span
           aria-hidden
           className={cn(
@@ -103,6 +163,68 @@ export function Navigation() {
           style={{ background: 'currentColor' }}
         />
       </Link>
+    )
+  }
+
+  const GroupTrigger = ({ group }: { group: NavGroup }) => {
+    const isOpen = openGroup === group.label
+    const hasActiveChild = group.items.some(it => pathname === it.href)
+    const Icon = group.icon
+    return (
+      <div className="relative" ref={isOpen ? groupRef : undefined}>
+        <button
+          onClick={() => setOpenGroup(isOpen ? null : group.label)}
+          className={cn(
+            'group flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-soft',
+            hasActiveChild
+              ? `${accentBg[group.color]} ${accentText[group.color]}`
+              : 'text-text-secondary hover:text-text-primary hover:bg-bg-hover',
+          )}
+        >
+          <Icon
+            size={18}
+            weight={hasActiveChild ? 'duotone' : 'regular'}
+            className={cn(
+              'transition-transform duration-300 ease-spring',
+              hasActiveChild ? 'scale-110' : 'group-hover:scale-110',
+            )}
+          />
+          <span className="whitespace-nowrap">{group.label}</span>
+          <CaretDown
+            size={12}
+            weight="bold"
+            className={cn('transition-transform duration-200', isOpen && 'rotate-180')}
+          />
+        </button>
+        {isOpen && (
+          <div className="absolute right-0 top-full mt-2 min-w-[180px] py-2 bg-bg-primary border border-border-subtle rounded-xl shadow-soft-lg z-50 animate-fade-in">
+            {group.items.map(item => {
+              const isActive = pathname === item.href
+              const ItemIcon = item.icon
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpenGroup(null)}
+                  className={cn(
+                    'flex items-center gap-3 px-3 py-2 mx-1 rounded-lg text-sm transition-colors',
+                    isActive
+                      ? `${accentBg[item.color]} ${accentText[item.color]}`
+                      : 'text-text-secondary hover:text-text-primary hover:bg-bg-hover',
+                  )}
+                >
+                  <ItemIcon
+                    size={16}
+                    weight={isActive ? 'duotone' : 'regular'}
+                    className={accentText[item.color]}
+                  />
+                  <span className="font-medium">{item.label}</span>
+                </Link>
+              )
+            })}
+          </div>
+        )}
+      </div>
     )
   }
 
@@ -122,10 +244,14 @@ export function Navigation() {
             </span>
           </Link>
 
-          <nav className="hidden lg:flex flex-wrap items-center justify-end gap-1 flex-1">
-            {navItems.map((item) => (
-              <NavLink key={item.href} item={item} />
-            ))}
+          <nav className="hidden lg:flex items-center justify-end gap-1 flex-1">
+            {navEntries.map(entry =>
+              isGroup(entry) ? (
+                <GroupTrigger key={entry.label} group={entry} />
+              ) : (
+                <NavLink key={entry.href} item={entry} />
+              )
+            )}
           </nav>
 
           <div className="flex items-center gap-2">
@@ -155,7 +281,7 @@ export function Navigation() {
       {mobileOpen && (
         <div className="lg:hidden absolute top-full left-0 right-0 bg-bg-primary border-b border-border-subtle shadow-soft-md">
           <nav className="max-w-7xl mx-auto px-6 py-4 grid grid-cols-2 gap-2">
-            {navItems.map((item) => (
+            {flatItems.map((item) => (
               <NavLink key={item.href} item={item} onClick={() => setMobileOpen(false)} />
             ))}
           </nav>

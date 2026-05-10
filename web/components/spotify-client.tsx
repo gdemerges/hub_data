@@ -105,6 +105,19 @@ export function SpotifyClient({ promise }: Props) {
   const currentTopArtists =
     data.topArtistsByRange?.[range] ?? data.topArtists
 
+  // Recently-played counts, used to display a "X écoutes récentes" hint next to
+  // top items. Spotify doesn't expose true play counts; this is computed locally
+  // from the last 50 played tracks.
+  const recentTrackCount = new Map<string, number>()
+  const recentArtistCount = new Map<string, number>()
+  for (const item of data.recentlyPlayed) {
+    const tk = `${item.name}::${item.artist}`
+    recentTrackCount.set(tk, (recentTrackCount.get(tk) ?? 0) + 1)
+    for (const a of item.artist.split(',').map(s => s.trim())) {
+      if (a) recentArtistCount.set(a, (recentArtistCount.get(a) ?? 0) + 1)
+    }
+  }
+
   return (
     <>
       <PageHeader
@@ -195,25 +208,37 @@ export function SpotifyClient({ promise }: Props) {
               </h3>
             </div>
             <div className="space-y-2">
-              {currentTopTracks.slice(0, 5).map((track, index) => (
-                <a
-                  key={`${track.name}-${index}`}
-                  href={track.spotifyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-2 rounded-lg hover:bg-bg-secondary transition-colors"
-                >
-                  <span className="text-sm font-mono text-text-muted w-5">{index + 1}</span>
-                  {track.albumCover && (
-                    <Image src={track.albumCover} alt={track.album} width={48} height={48} className="rounded" />
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-text-primary truncate">{track.name}</p>
-                    <p className="text-xs text-text-muted truncate">{track.artist}</p>
-                  </div>
-                  <span className="text-xs font-mono text-text-muted num">{formatDuration(track.duration)}</span>
-                </a>
-              ))}
+              {currentTopTracks.slice(0, 5).map((track, index) => {
+                const recent = recentTrackCount.get(`${track.name}::${track.artist}`) ?? 0
+                return (
+                  <a
+                    key={`${track.name}-${index}`}
+                    href={track.spotifyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-bg-secondary transition-colors"
+                  >
+                    <span className="text-sm font-mono text-text-muted w-5">{index + 1}</span>
+                    {track.albumCover && (
+                      <Image src={track.albumCover} alt={track.album} width={48} height={48} className="rounded" />
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-text-primary truncate">{track.name}</p>
+                      <p className="text-xs text-text-muted truncate">{track.artist}</p>
+                    </div>
+                    <div className="flex flex-col items-end gap-0.5 min-w-[64px]">
+                      {recent > 0 && (
+                        <span className="text-xs font-mono text-earth-leaf num">
+                          {recent}× récent{recent > 1 ? 'es' : 'e'}
+                        </span>
+                      )}
+                      <span className="text-[10px] font-mono text-text-muted num">
+                        {formatDuration(track.duration)}
+                      </span>
+                    </div>
+                  </a>
+                )
+              })}
             </div>
           </div>
         </FadeIn>
@@ -229,64 +254,87 @@ export function SpotifyClient({ promise }: Props) {
               </h3>
             </div>
             <div className="space-y-2">
-              {currentTopArtists.slice(0, 5).map((artist, index) => (
-                <a
-                  key={`${artist.name}-${index}`}
-                  href={artist.spotifyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-2 rounded-lg hover:bg-bg-secondary transition-colors"
-                >
-                  <span className="text-sm font-mono text-text-muted w-5">{index + 1}</span>
-                  {artist.image && (
-                    <Image src={artist.image} alt={artist.name} width={48} height={48} className="rounded-full" />
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-text-primary truncate">{artist.name}</p>
-                    <p className="text-xs text-text-muted truncate">{artist.genres.join(', ')}</p>
-                  </div>
-                  <div className="flex flex-col items-end gap-0.5 min-w-[64px]">
-                    {artist.popularity > 0 && (
-                      <span className="text-xs font-mono text-earth-fern num">
-                        {artist.popularity}/100
-                      </span>
+              {currentTopArtists.slice(0, 5).map((artist, index) => {
+                const recent = recentArtistCount.get(artist.name) ?? 0
+                return (
+                  <a
+                    key={`${artist.name}-${index}`}
+                    href={artist.spotifyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-bg-secondary transition-colors"
+                  >
+                    <span className="text-sm font-mono text-text-muted w-5">{index + 1}</span>
+                    {artist.image && (
+                      <Image src={artist.image} alt={artist.name} width={48} height={48} className="rounded-full" />
                     )}
-                    {artist.followers > 0 && (
-                      <span className="text-[10px] font-mono text-text-muted num">
-                        {artist.followers.toLocaleString('fr-FR')} fans
-                      </span>
-                    )}
-                  </div>
-                </a>
-              ))}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-text-primary truncate">{artist.name}</p>
+                      <p className="text-xs text-text-muted truncate">{artist.genres.join(', ')}</p>
+                    </div>
+                    <div className="flex flex-col items-end gap-0.5 min-w-[72px]">
+                      {recent > 0 && (
+                        <span className="text-xs font-mono text-earth-leaf num">
+                          {recent}× récent{recent > 1 ? 'es' : 'e'}
+                        </span>
+                      )}
+                      {artist.popularity > 0 && (
+                        <span className="text-[10px] font-mono text-earth-fern num">
+                          pop. {artist.popularity}
+                        </span>
+                      )}
+                    </div>
+                  </a>
+                )
+              })}
             </div>
           </div>
         </FadeIn>
       </div>
 
-      <FadeIn delay={0.25}>
-        <div className="tech-card p-6 mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-earth-leaf/10 border border-earth-leaf/30 rounded-lg">
-              <ListMusic className="w-5 h-5 text-earth-leaf" />
-            </div>
-            <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
-              Top genres
-            </h3>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {data.topGenres.map((genre, index) => (
-              <span
-                key={genre.genre}
-                className="px-3 py-1.5 bg-earth-leaf/10 text-earth-leaf border border-earth-leaf/20 rounded-full text-sm font-medium"
-                style={{ opacity: 1 - index * 0.08 }}
-              >
-                {genre.genre}
+      {data.topAlbums && data.topAlbums.length > 0 && (
+        <FadeIn delay={0.25}>
+          <div className="tech-card p-6 mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-earth-leaf/10 border border-earth-leaf/30 rounded-lg">
+                <Disc className="w-5 h-5 text-earth-leaf" />
+              </div>
+              <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+                Top albums
+              </h3>
+              <span className="text-[10px] uppercase tracking-[0.18em] text-text-muted ml-auto">
+                Calculé depuis tes top tracks
               </span>
-            ))}
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+              {data.topAlbums.map((album) => (
+                <div key={`${album.name}-${album.artist}`} className="group">
+                  {album.cover ? (
+                    <Image
+                      src={album.cover}
+                      alt={album.name}
+                      width={120}
+                      height={120}
+                      className="w-full aspect-square rounded-lg object-cover border border-border-subtle"
+                    />
+                  ) : (
+                    <div className="w-full aspect-square rounded-lg bg-bg-tertiary border border-border-subtle flex items-center justify-center">
+                      <Disc className="w-6 h-6 text-text-muted/40" />
+                    </div>
+                  )}
+                  <p className="mt-2 text-xs font-medium text-text-primary truncate group-hover:text-earth-leaf transition-colors">
+                    {album.name}
+                  </p>
+                  <p className="text-[10px] text-text-muted truncate">{album.artist}</p>
+                  <p className="text-[10px] font-mono text-earth-leaf mt-0.5">
+                    {album.count} titre{album.count > 1 ? 's' : ''} dans tes tops
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </FadeIn>
+        </FadeIn>
+      )}
 
       <FadeIn delay={0.28}>
         <ListeningPatterns recentlyPlayed={data.recentlyPlayed} />

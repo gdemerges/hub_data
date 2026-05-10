@@ -48,26 +48,34 @@ function mapArtists(items: SpotifyArtist[]) {
   }))
 }
 
-// Spotify can rotate refresh tokens on each refresh call. If the response includes
-// a new refresh_token, we persist it back to web/.env so subsequent runs succeed.
+// Spotify rotates refresh tokens aggressively. Storing them in .env is racy with
+// Next.js dev (process.env cached, multiple workers, hot-reloads). We mirror the
+// current refresh token in a dedicated file that's re-read on every refresh call,
+// and atomically rewritten when Spotify returns a new one.
+const REFRESH_TOKEN_FILE = path.join(process.cwd(), 'data', 'spotify-refresh-token.txt')
+
+function readRefreshToken(): string | undefined {
+  try {
+    if (fs.existsSync(REFRESH_TOKEN_FILE)) {
+      const value = fs.readFileSync(REFRESH_TOKEN_FILE, 'utf-8').trim()
+      if (value) return value
+    }
+  } catch {
+    // fall through to env
+  }
+  return process.env.SPOTIFY_REFRESH_TOKEN || undefined
+}
+
 function persistRefreshToken(newToken: string): void {
   try {
-    const envPath = path.resolve(process.cwd(), '.env')
-    if (!fs.existsSync(envPath)) return
-    const content = fs.readFileSync(envPath, 'utf-8')
-    const lines = content.split('\n')
-    let found = false
-    const updated = lines.map(l => {
-      if (l.startsWith('SPOTIFY_REFRESH_TOKEN=')) {
-        found = true
-        return `SPOTIFY_REFRESH_TOKEN=${newToken}`
-      }
-      return l
-    })
-    if (!found) updated.push(`SPOTIFY_REFRESH_TOKEN=${newToken}`)
-    fs.writeFileSync(envPath, updated.join('\n'))
+    fs.mkdirSync(path.dirname(REFRESH_TOKEN_FILE), { recursive: true })
+    // Atomic write: write to temp file then rename, avoids partial reads under
+    // concurrent access.
+    const tmp = `${REFRESH_TOKEN_FILE}.tmp`
+    fs.writeFileSync(tmp, newToken, { mode: 0o600 })
+    fs.renameSync(tmp, REFRESH_TOKEN_FILE)
     process.env.SPOTIFY_REFRESH_TOKEN = newToken
-    logger.info('Spotify refresh token rotated and persisted to .env')
+    logger.info('Spotify refresh token rotated and persisted')
   } catch (e) {
     logger.error('Failed to persist rotated Spotify refresh token:', e)
   }
@@ -79,7 +87,9 @@ async function getAccessToken(): Promise<string | null> {
 
   const clientId = process.env.SPOTIFY_CLIENT_ID
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET
-  const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN
+  // Read fresh from disk every call: Spotify rotates the token aggressively and
+  // process.env can be stale across workers / requests in Next.js dev.
+  const refreshToken = readRefreshToken()
 
   if (!clientId || !clientSecret || !refreshToken) {
     logger.error('Missing Spotify credentials')
@@ -168,6 +178,10 @@ export async function loadSpotify({ force = false }: { force?: boolean } = {}): 
     const artistsLong = spotifyPaginatedSchema(spotifyArtistSchema).parse(artistsLongRaw)
     const recentlyPlayed = spotifyPaginatedSchema(spotifyRecentlyPlayedItemSchema).parse(recentlyPlayedRaw)
 
+    // Spotify deprecated /v1/artists for new apps in Nov 2024 (403), so genres
+    // are no longer obtainable. We compute a Top albums section from the top
+    // tracks instead — same data, no extra API calls.
+
     const topTracks = tracksMed
     const topArtists = artistsMed
 
@@ -182,6 +196,27 @@ export async function loadSpotify({ force = false }: { force?: boolean } = {}): 
       .sort((a, b) => b[1] - a[1])
       .slice(0, 8)
       .map(([genre, count]) => ({ genre, count }))
+
+    // Top albums: aggregate album occurrences across the 3 time-range top tracks.
+    const albumMap = new Map<
+      string,
+      { name: string; artist: string; cover: string; count: number }
+    >()
+    for (const tr of [...tracksShort.items, ...tracksMed.items, ...tracksLong.items]) {
+      const key = `${tr.album.name} – ${tr.artists[0]?.name ?? ''}`
+      const cur = albumMap.get(key)
+      if (cur) cur.count += 1
+      else
+        albumMap.set(key, {
+          name: tr.album.name,
+          artist: tr.artists.map(a => a.name).join(', '),
+          cover: tr.album.images[0]?.url ?? '',
+          count: 1,
+        })
+    }
+    const topAlbums = Array.from(albumMap.values())
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 8)
 
     const data: SpotifyData = {
       user: {
@@ -227,6 +262,7 @@ export async function loadSpotify({ force = false }: { force?: boolean } = {}): 
         long_term: mapArtists(artistsLong.items),
       },
       topGenres,
+      topAlbums,
       stats: {
         totalTracks: topTracks.items?.length || 0,
         totalArtists: topArtists.items?.length || 0,

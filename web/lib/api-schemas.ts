@@ -15,6 +15,7 @@ export const spotifyImageSchema = z.object({
 })
 
 export const spotifyArtistSchema = z.object({
+  id: z.string().default(''),
   name: z.string(),
   images: z.array(spotifyImageSchema).default([]),
   genres: z.array(z.string()).default([]),
