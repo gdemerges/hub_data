@@ -31,14 +31,24 @@ function gameHours(g: Game): number {
   return g.hoursPlayed ?? 0
 }
 
+const UNPLAYED_STATUSES = new Set(['Wishé', 'Jamais joué'])
+
 function gameStatus(g: Game): string | undefined {
   if (g.status) return g.status
   if (g.platforms && g.platforms.length > 0) {
     if (g.platforms.some(p => p.status === 'Fini')) return 'Fini'
     if (g.platforms.some(p => p.status === 'En cours')) return 'En cours'
+    // Prefer a "played" platform over a wished/unplayed one
+    const played = g.platforms.find(p => p.status && !UNPLAYED_STATUSES.has(p.status))
+    if (played) return played.status
     return g.platforms[0].status
   }
   return undefined
+}
+
+function isUnplayed(g: Game): boolean {
+  const s = gameStatus(g)
+  return !!s && UNPLAYED_STATUSES.has(s)
 }
 
 function avg(nums: number[]): number {
@@ -128,23 +138,29 @@ export function GameStats({ games }: GameStatsProps) {
     avgRatingByGenre,
     avgRatingByPlatform,
     sagas,
+    unplayed,
+    statusTotal,
   } = useMemo(() => {
-    const totalGames = games.length
-    const totalHours = games.reduce((s, g) => s + gameHours(g), 0)
+    // Separate played from wishlist / never-played: stats only consider played games.
+    const played = games.filter(g => !isUnplayed(g))
+    const unplayed = games.filter(isUnplayed)
 
-    const finished = games.filter(g => gameStatus(g) === 'Fini').length
+    const totalGames = played.length
+    const totalHours = played.reduce((s, g) => s + gameHours(g), 0)
+
+    const finished = played.filter(g => gameStatus(g) === 'Fini').length
     const completionRate = totalGames ? (finished / totalGames) * 100 : 0
 
-    const ratedGames = games.filter(g => typeof g.rating === 'number')
+    const ratedGames = played.filter(g => typeof g.rating === 'number')
     const avgRating = avg(ratedGames.map(g => g.rating!))
 
     // Personal bias: average delta between user rating and crowd average
-    const bothRated = games.filter(
+    const bothRated = played.filter(
       g => typeof g.rating === 'number' && typeof g.avgRating === 'number'
     )
     const avgVsCrowd = avg(bothRated.map(g => g.rating! - g.avgRating!))
 
-    const topPlayed = [...games]
+    const topPlayed = [...played]
       .filter(g => gameHours(g) > 0)
       .sort((a, b) => gameHours(b) - gameHours(a))
       .slice(0, 10)
@@ -153,17 +169,25 @@ export function GameStats({ games }: GameStatsProps) {
       .sort((a, b) => (b.rating! - a.rating!) || gameHours(b) - gameHours(a))
       .slice(0, 10)
 
+    // Per-platform breakdown: one entry per platform (a game on PC+PS5 counts twice).
+    // Excludes Wishé / Jamais joué.
     const statusCounts = new Map<string, number>()
+    let statusTotal = 0
     for (const g of games) {
-      const s = gameStatus(g) || 'Inconnu'
-      statusCounts.set(s, (statusCounts.get(s) ?? 0) + 1)
+      const platformStatuses =
+        g.platforms?.map(p => p.status) ?? (g.status ? [g.status] : [])
+      for (const s of platformStatuses) {
+        if (!s || UNPLAYED_STATUSES.has(s)) continue
+        statusCounts.set(s, (statusCounts.get(s) ?? 0) + 1)
+        statusTotal += 1
+      }
     }
     const statusBreakdown = Array.from(statusCounts.entries())
       .map(([label, count]) => ({ label, count }))
       .sort((a, b) => b.count - a.count)
 
     const decadeMap = new Map<string, number>()
-    for (const g of games) {
+    for (const g of played) {
       if (!g.releaseYear) continue
       const decade = `${Math.floor(g.releaseYear / 10) * 10}s`
       decadeMap.set(decade, (decadeMap.get(decade) ?? 0) + gameHours(g))
@@ -200,7 +224,7 @@ export function GameStats({ games }: GameStatsProps) {
       .slice(0, 8)
 
     const sagaMap = new Map<string, { hours: number; cover?: string; games: Game[] }>()
-    for (const g of games) {
+    for (const g of played) {
       const saga = detectSaga(g.title)
       if (!saga) continue
       const cur = sagaMap.get(saga) ?? { hours: 0, cover: undefined, games: [] }
@@ -235,6 +259,8 @@ export function GameStats({ games }: GameStatsProps) {
       avgRatingByGenre,
       avgRatingByPlatform,
       sagas,
+      unplayed,
+      statusTotal,
     }
   }, [games])
 
@@ -247,6 +273,7 @@ export function GameStats({ games }: GameStatsProps) {
         completionRate={completionRate}
         avgRating={avgRating}
         avgVsCrowd={avgVsCrowd}
+        backlogCount={unplayed.length}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -272,9 +299,11 @@ export function GameStats({ games }: GameStatsProps) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <StatusBreakdown items={statusBreakdown} total={totalGames} />
+        <StatusBreakdown items={statusBreakdown} total={statusTotal} />
         <HoursByDecade items={hoursByDecade} />
       </div>
+
+      <BacklogList games={unplayed} />
 
       <SagaList items={sagas} />
 
@@ -320,6 +349,7 @@ function KpiRow({
   completionRate,
   avgRating,
   avgVsCrowd,
+  backlogCount,
 }: {
   totalGames: number
   totalHours: number
@@ -327,12 +357,16 @@ function KpiRow({
   completionRate: number
   avgRating: number
   avgVsCrowd: number
+  backlogCount: number
 }) {
+  const catalogTotal = totalGames + backlogCount
   const items = [
     {
-      label: 'Total',
+      label: 'Joués',
       value: totalGames.toString(),
-      sub: 'jeux',
+      sub: backlogCount
+        ? `+ ${backlogCount} dans le backlog (${catalogTotal} total)`
+        : 'jeux',
       icon: <Trophy className="w-5 h-5" />,
       color: 'text-earth-moss',
       bg: 'bg-earth-moss/10',
@@ -483,6 +517,9 @@ function StatusBreakdown({
         <h3 className="text-sm font-semibold text-text-secondary">
           Répartition par statut
         </h3>
+        <span className="text-xs text-text-muted ml-auto">
+          {total} entrées (par plateforme)
+        </span>
       </div>
       <div className="space-y-3">
         {items.map(({ label, count }) => {
@@ -552,6 +589,73 @@ function HoursByDecade({
             </div>
           )
         })}
+      </div>
+    </div>
+  )
+}
+
+function BacklogList({ games }: { games: Game[] }) {
+  if (!games.length) return null
+  // Group by status (Wishé / Jamais joué)
+  const groups = new Map<string, Game[]>()
+  for (const g of games) {
+    const s = gameStatus(g) || 'Inconnu'
+    if (!groups.has(s)) groups.set(s, [])
+    groups.get(s)!.push(g)
+  }
+  const ordered = ['Wishé', 'Jamais joué', 'Inconnu']
+    .filter(s => groups.has(s))
+    .map(s => [s, groups.get(s)!] as const)
+
+  return (
+    <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
+      <div className="flex items-center gap-3 mb-4">
+        <Star className="w-5 h-5 text-earth-saffron" />
+        <h3 className="text-sm font-semibold text-text-secondary">
+          Backlog &amp; wishlist
+        </h3>
+        <span className="text-xs text-text-muted ml-auto">
+          {games.length} jeux · exclus des stats
+        </span>
+      </div>
+      <div className="space-y-5">
+        {ordered.map(([status, gs]) => (
+          <div key={status}>
+            <div className="flex items-baseline gap-2 mb-2">
+              <span className="text-sm font-semibold text-text-primary">
+                {status}
+              </span>
+              <span className="text-xs text-text-muted">{gs.length}</span>
+            </div>
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
+              {gs.map((g, idx) => (
+                <li key={`${g.title}-${idx}`} className="flex items-center gap-3 py-1">
+                  <div className="relative w-7 h-10 flex-shrink-0 rounded-sm overflow-hidden bg-bg-tertiary border border-border-subtle">
+                    {g.coverUrl ? (
+                      <Image
+                        src={g.coverUrl}
+                        alt={g.title}
+                        fill
+                        sizes="28px"
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-[8px] text-text-muted font-display">
+                        {g.title.slice(0, 2).toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-text-primary truncate">{g.title}</p>
+                    <p className="text-xs text-text-muted truncate">
+                      {(g.platforms?.map(p => p.platform).join(' · ') ?? g.platform) || '—'}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </div>
   )
