@@ -83,31 +83,93 @@ function saveCache(cache: Record<string, string | null>): void {
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
+function normalize(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+}
+
+function authorLastName(a?: string): string {
+  if (!a) return ''
+  // Strip "et", "and", roles. Keep first comma-separated piece for primary author.
+  const first = a.split(/[,;&]| et /i)[0].trim()
+  // CSV uses "Asimov Isaac" — last name first.
+  const tokens = first.split(/\s+/).filter(Boolean)
+  return tokens[0] ? normalize(tokens[0]) : ''
+}
+
+function scoreMatch(
+  candidateTitle: string,
+  candidateAuthors: string[],
+  expectedTitle: string,
+  expectedAuthor?: string
+): number {
+  const ct = normalize(candidateTitle)
+  const et = normalize(expectedTitle)
+  let s = 0
+  if (ct === et) s += 1000
+  else if (ct.startsWith(et + ' ')) s += 500
+  else if (ct.startsWith(et)) s += 350
+  else if (ct.includes(et)) s += 150
+  // shared word ratio
+  const cw = new Set(ct.split(' '))
+  const ew = et.split(' ')
+  const shared = ew.filter(w => w.length > 2 && cw.has(w)).length
+  s += shared * 25
+  // author match
+  if (expectedAuthor) {
+    const expectedLast = authorLastName(expectedAuthor)
+    if (expectedLast && candidateAuthors.some(a => normalize(a).includes(expectedLast))) {
+      s += 200
+    }
+  }
+  return s
+}
+
 async function openLibraryByIsbn(isbn: string): Promise<string | null> {
-  const url = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`
+  // ?default=false → server returns 404 if no real cover (avoids placeholder image).
+  const url = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg?default=false`
   try {
     const res = await fetch(url, { method: 'HEAD', redirect: 'follow' })
     if (!res.ok) return null
-    const len = Number(res.headers.get('content-length') ?? '0')
-    return len > 1000 ? url : null
+    return url
   } catch {
     return null
   }
 }
 
+interface OLDoc {
+  title?: string
+  author_name?: string[]
+  cover_i?: number
+  isbn?: string[]
+}
+
 async function openLibrarySearch(title: string, author?: string): Promise<string | null> {
   const q = author ? `${title} ${author}` : title
-  const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(q)}&limit=1`
+  const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(q)}&limit=8&fields=title,author_name,cover_i,isbn`
   try {
     const res = await fetch(url)
     if (!res.ok) return null
-    const data = (await res.json()) as { docs?: { cover_i?: number; isbn?: string[] }[] }
-    const doc = data.docs?.[0]
-    if (!doc) return null
-    if (doc.cover_i) return `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`
-    for (const isbn of (doc.isbn ?? []).slice(0, 3)) {
-      const cover = await openLibraryByIsbn(isbn)
-      if (cover) return cover
+    const data = (await res.json()) as { docs?: OLDoc[] }
+    const docs = data.docs ?? []
+    if (!docs.length) return null
+    const scored = docs
+      .map(d => ({
+        d,
+        score: scoreMatch(d.title ?? '', d.author_name ?? [], title, author),
+      }))
+      .sort((a, b) => b.score - a.score)
+    for (const { d, score } of scored) {
+      if (score < 100) break // poor match — skip
+      if (d.cover_i) return `https://covers.openlibrary.org/b/id/${d.cover_i}-L.jpg?default=false`
+      for (const isbn of (d.isbn ?? []).slice(0, 3)) {
+        const cover = await openLibraryByIsbn(isbn)
+        if (cover) return cover
+      }
     }
     return null
   } catch {
@@ -116,27 +178,63 @@ async function openLibrarySearch(title: string, author?: string): Promise<string
 }
 
 interface GoogleBookItem {
-  volumeInfo?: { imageLinks?: { thumbnail?: string; smallThumbnail?: string } }
+  volumeInfo?: {
+    title?: string
+    authors?: string[]
+    imageLinks?: { thumbnail?: string; smallThumbnail?: string }
+  }
+}
+
+function pickGoogleImage(links?: { thumbnail?: string; smallThumbnail?: string }): string | null {
+  const raw = links?.thumbnail || links?.smallThumbnail
+  if (!raw) return null
+  // Drop edge=curl (paper-curl effect), bump zoom for higher resolution.
+  return raw
+    .replace(/^http:/, 'https:')
+    .replace(/&edge=curl/g, '')
+    .replace(/zoom=\d/, 'zoom=1')
 }
 
 async function googleBooks(title: string, author?: string, isbn?: string): Promise<string | null> {
   const q = isbn ? `isbn:${isbn}` : `intitle:${title}${author ? `+inauthor:${author}` : ''}`
-  let url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(q)}&maxResults=1`
+  let url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(q)}&maxResults=8`
   if (GOOGLE_BOOKS_API_KEY) url += `&key=${GOOGLE_BOOKS_API_KEY}`
   try {
     const res = await fetch(url)
     if (!res.ok) return null
     const data = (await res.json()) as { items?: GoogleBookItem[] }
-    const links = data.items?.[0]?.volumeInfo?.imageLinks
-    const raw = links?.thumbnail || links?.smallThumbnail
-    if (!raw) return null
-    return raw.replace(/^http:/, 'https:').replace(/zoom=\d/, 'zoom=2')
+    const items = data.items ?? []
+    if (!items.length) return null
+    if (isbn) {
+      // ISBN query is precise — first item with image wins.
+      for (const it of items) {
+        const img = pickGoogleImage(it.volumeInfo?.imageLinks)
+        if (img) return img
+      }
+      return null
+    }
+    const scored = items
+      .map(it => {
+        const v = it.volumeInfo
+        return {
+          it,
+          score: scoreMatch(v?.title ?? '', v?.authors ?? [], title, author),
+        }
+      })
+      .sort((a, b) => b.score - a.score)
+    for (const { it, score } of scored) {
+      if (score < 100) break
+      const img = pickGoogleImage(it.volumeInfo?.imageLinks)
+      if (img) return img
+    }
+    return null
   } catch {
     return null
   }
 }
 
 async function findCover(book: BookRow): Promise<string | null> {
+  // ISBN paths first — they're effectively unambiguous when valid.
   if (book.isbn) {
     const c = await openLibraryByIsbn(book.isbn)
     if (c) return c
@@ -145,6 +243,7 @@ async function findCover(book: BookRow): Promise<string | null> {
     if (c2) return c2
     await sleep(150)
   }
+  // Title+author search with similarity scoring & author validation.
   const c3 = await openLibrarySearch(book.title, book.author)
   if (c3) return c3
   await sleep(150)

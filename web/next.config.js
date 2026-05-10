@@ -18,6 +18,12 @@ const IMG_HOSTS = [
   'covers.openlibrary.org',
 ]
 
+// Wildcard image hosts (Spotify users linked via Facebook serve avatars from
+// regional fbcdn subdomains like scontent-fra5-1.xx.fbcdn.net).
+const IMG_WILDCARD_HOSTS = [
+  '*.fbcdn.net',
+]
+
 const CONNECT_HOSTS = [
   'api.themoviedb.org',
   'api.igdb.com',
@@ -39,7 +45,7 @@ const csp = [
   `script-src 'self' 'unsafe-inline'${isProd ? '' : " 'unsafe-eval'"}`,
   `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
   `font-src 'self' data: https://fonts.gstatic.com`,
-  `img-src 'self' data: blob: https://${IMG_HOSTS.join(' https://')}`,
+  `img-src 'self' data: blob: https://${IMG_HOSTS.join(' https://')} https://${IMG_WILDCARD_HOSTS.join(' https://')}`,
   `connect-src 'self' https://${CONNECT_HOSTS.join(' https://')}`,
   `frame-ancestors 'none'`,
   `base-uri 'self'`,
@@ -59,7 +65,10 @@ const securityHeaders = [
 
 const nextConfig = {
   images: {
-    remotePatterns: IMG_HOSTS.map((hostname) => ({ protocol: 'https', hostname })),
+    remotePatterns: [
+      ...IMG_HOSTS.map((hostname) => ({ protocol: 'https', hostname })),
+      ...IMG_WILDCARD_HOSTS.map((hostname) => ({ protocol: 'https', hostname })),
+    ],
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
