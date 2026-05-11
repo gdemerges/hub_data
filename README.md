@@ -228,7 +228,7 @@ hub_data/
 
 ## 🔧 Technologies
 
-- **Next.js 14** - Framework React avec App Router
+- **Next.js 15** - Framework React avec App Router
 - **TypeScript** - Typage statique
 - **Tailwind CSS** - Styling avec thème cyberpunk personnalisé
 - **Recharts** - Graphiques (radar, bar charts)

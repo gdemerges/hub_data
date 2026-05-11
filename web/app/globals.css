@@ -1,6 +1,398 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-bg-primary: rgb(var(--bg-primary));
+  --color-bg-secondary: rgb(var(--bg-secondary));
+  --color-bg-tertiary: rgb(var(--bg-tertiary));
+  --color-bg-hover: rgb(var(--bg-hover));
+  --color-bg-card: rgb(var(--bg-card));
+
+  --color-border-subtle: rgb(var(--border-subtle));
+  --color-border-default: rgb(var(--border-default));
+
+  --color-text-primary: rgb(var(--text-primary));
+  --color-text-secondary: rgb(var(--text-secondary));
+  --color-text-muted: rgb(var(--text-muted));
+
+  --color-accent-primary: #5a7d4a;
+  --color-accent-secondary: #b86b3c;
+  --color-accent-tertiary: #7ba896;
+  --color-accent-warning: #d9a441;
+  --color-accent-glow: rgb(90 125 74 / 0.15);
+
+  --color-earth-parchment: #f5efe2;
+  --color-earth-cream: #fffdf7;
+  --color-earth-taupe: #ebe2d0;
+  --color-earth-taupeDark: #c8bba1;
+  --color-earth-ink: #1d2a1c;
+  --color-earth-moss: #5a7d4a;
+  --color-earth-mossDeep: #3f5a35;
+  --color-earth-mossSoft: #8ab274;
+  --color-earth-fern: #7ba896;
+  --color-earth-sage: #a3b598;
+  --color-earth-terracotta: #b86b3c;
+  --color-earth-rust: #a8552c;
+  --color-earth-saffron: #d9a441;
+  --color-earth-amber: #c8893f;
+  --color-earth-clay: #b06868;
+  --color-earth-indigo: #3d5170;
+  --color-earth-slate: #4a4a3d;
+  --color-earth-leaf: #4f8c4a;
+  --color-earth-wine: #8e3a3a;
+
+  --font-sans: var(--font-sans), Inter, system-ui, sans-serif;
+  --font-mono: var(--font-mono), JetBrains Mono, monospace;
+  --font-display: var(--font-display), Fraunces, Georgia, serif;
+
+  --animate-fade-in: fadeIn 0.3s ease-out;
+  --animate-slide-up: slideUp 0.3s ease-out;
+  --animate-float: float 4s ease-in-out infinite;
+
+  --shadow-soft: 0 1px 2px rgb(35 30 20 / 0.04), 0 1px 3px rgb(35 30 20 / 0.06);
+  --shadow-soft-md:
+    0 4px 12px rgb(35 30 20 / 0.08), 0 2px 4px rgb(35 30 20 / 0.05);
+  --shadow-soft-lg:
+    0 10px 24px rgb(35 30 20 / 0.1), 0 4px 8px rgb(35 30 20 / 0.06);
+  --shadow-inner-glow: inset 0 1px 2px rgb(35 30 20 / 0.04);
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes slideUp {
+    0% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility tech-card-flat {
+  /* === Cartes — 3 niveaux === */
+
+  /* Niveau 0 : flat — pour les sous-blocs, listes, items secondaires */
+  @apply relative bg-bg-card/60 border border-border-subtle rounded-xl overflow-hidden;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+
+  &:hover {
+    background: rgb(var(--bg-card));
+    border-color: rgb(var(--border-default));
+  }
+}
+
+@utility tech-card {
+  /* Niveau 1 : carte standard avec ombre douce et highlight curseur */
+  @apply relative bg-bg-card border border-border-subtle rounded-2xl overflow-hidden;
+  box-shadow:
+    0 1px 2px rgb(35 30 20 / 0.04),
+    0 1px 3px rgb(35 30 20 / 0.06);
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Highlight radial qui suit le curseur (--mx/--my fournis par JS) */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 50%),
+      rgb(var(--accent) / 0.1),
+      transparent 45%
+    );
+    z-index: 0;
+  }
+
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: rgb(var(--accent) / 0.35);
+    box-shadow:
+      0 6px 18px rgb(35 30 20 / 0.1),
+      0 2px 4px rgb(35 30 20 / 0.06);
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+}
+
+@utility tech-card-raised {
+  /* Niveau 2 : raised — pour les cartes "featured", KPI principaux, hero */
+  @apply relative bg-bg-card border border-border-subtle rounded-3xl overflow-hidden;
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.5) inset,
+    0 12px 28px rgb(35 30 20 / 0.1),
+    0 4px 10px rgb(35 30 20 / 0.06);
+  transition:
+    box-shadow 0.35s ease,
+    border-color 0.3s ease,
+    transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    background: radial-gradient(
+      520px circle at var(--mx, 50%) var(--my, 50%),
+      rgb(var(--accent) / 0.14),
+      transparent 50%
+    );
+    z-index: 0;
+  }
+
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: rgb(var(--accent) / 0.4);
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.5) inset,
+      0 18px 40px rgb(35 30 20 / 0.14),
+      0 6px 14px rgb(35 30 20 / 0.08);
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  html.dark & {
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.04) inset,
+      0 12px 28px rgb(0 0 0 / 0.35),
+      0 4px 10px rgb(0 0 0 / 0.2);
+  }
+
+  html.dark &:hover {
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.05) inset,
+      0 18px 40px rgb(0 0 0 / 0.45),
+      0 6px 14px rgb(0 0 0 / 0.25);
+  }
+}
+
+@utility dark {
+  &html .tech-card-raised {
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.04) inset,
+      0 12px 28px rgb(0 0 0 / 0.35),
+      0 4px 10px rgb(0 0 0 / 0.2);
+  }
+
+  &html .tech-card-raised:hover {
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.05) inset,
+      0 18px 40px rgb(0 0 0 / 0.45),
+      0 6px 14px rgb(0 0 0 / 0.25);
+  }
+}
+
+@utility gradient-mesh {
+  /* === Gradient mesh === */
+  /* Utiliser via style={{'--mesh': 'rgb(...)'}} ou CSS vars accent.
+     Combine 3 radial-gradients pour un effet "aquarelle" subtil. */
+  background-color: rgb(var(--accent) / 0.08);
+  background-image:
+    radial-gradient(
+      at 18% 22%,
+      rgb(var(--mesh-a, var(--accent)) / 0.35) 0,
+      transparent 55%
+    ),
+    radial-gradient(
+      at 82% 18%,
+      rgb(var(--mesh-b, var(--accent-warm)) / 0.28) 0,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 50% 90%,
+      rgb(var(--mesh-c, var(--accent)) / 0.22) 0,
+      transparent 60%
+    );
+}
+
+@utility btn-primary {
+  /* Bouton primaire douceur */
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-full font-medium;
+  background: rgb(var(--accent));
+  color: rgb(var(--bg-card));
+  transition:
+    filter 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+}
+
+@utility btn-secondary {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-full font-medium;
+  background: rgb(var(--bg-card));
+  color: rgb(var(--text-primary));
+  border: 1px solid rgb(var(--border-default));
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    background: rgb(var(--bg-hover));
+    border-color: rgb(var(--accent) / 0.5);
+  }
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility ease-soft {
+  /* === Motion grammar === */
+  transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@utility ease-spring {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@utility motion-stagger {
+  /* Stagger via animation-delay sur enfants */
+  & > * {
+    animation: motionEnter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  }
+  & > *:nth-child(1) {
+    animation-delay: 0.02s;
+  }
+  & > *:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  & > *:nth-child(3) {
+    animation-delay: 0.14s;
+  }
+  & > *:nth-child(4) {
+    animation-delay: 0.2s;
+  }
+  & > *:nth-child(5) {
+    animation-delay: 0.26s;
+  }
+  & > *:nth-child(6) {
+    animation-delay: 0.32s;
+  }
+  & > *:nth-child(7) {
+    animation-delay: 0.38s;
+  }
+  & > *:nth-child(8) {
+    animation-delay: 0.44s;
+  }
+  & > *:nth-child(n + 9) {
+    animation-delay: 0.5s;
+  }
+}
+
+@utility skeleton-shimmer {
+  /* Shimmer pour skeletons */
+  background-image: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgb(var(--accent, var(--text-muted)) / 0.1) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: skeletonShimmer 1.6s ease-in-out infinite;
+}
+
+@utility route-progress {
+  /* Top loading bar (route transitions) */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 100;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(var(--accent)),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: routeProgress 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@utility num {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility scrollbar-thin {
+  &::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgb(var(--border-default));
+    border-radius: 2px;
+  }
+}
+
+@utility glass {
+  @apply bg-bg-secondary;
+}
 
 @layer base {
   /* Light (default) — solarpunk: parchemin, mousse, terracotta */
@@ -136,260 +528,48 @@
   }
 }
 
-@layer components {
-  /* === Cartes — 3 niveaux === */
-
-  /* Niveau 0 : flat — pour les sous-blocs, listes, items secondaires */
-  .tech-card-flat {
-    @apply relative bg-bg-card/60 border border-border-subtle rounded-xl overflow-hidden;
-    transition: background 0.25s ease, border-color 0.25s ease;
-  }
-
-  .tech-card-flat:hover {
-    background: rgb(var(--bg-card));
-    border-color: rgb(var(--border-default));
-  }
-
-  /* Niveau 1 : carte standard avec ombre douce et highlight curseur */
-  .tech-card {
-    @apply relative bg-bg-card border border-border-subtle rounded-2xl overflow-hidden;
-    box-shadow: 0 1px 2px rgb(35 30 20 / 0.04), 0 1px 3px rgb(35 30 20 / 0.06);
-    transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  /* Highlight radial qui suit le curseur (--mx/--my fournis par JS) */
-  .tech-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    background: radial-gradient(
-      420px circle at var(--mx, 50%) var(--my, 50%),
-      rgb(var(--accent) / 0.10),
-      transparent 45%
-    );
-    z-index: 0;
-  }
-
-  .tech-card > * {
-    position: relative;
-    z-index: 1;
-  }
-
-  .tech-card:hover {
-    transform: translateY(-2px);
-    border-color: rgb(var(--accent) / 0.35);
-    box-shadow: 0 6px 18px rgb(35 30 20 / 0.10), 0 2px 4px rgb(35 30 20 / 0.06);
-  }
-
-  .tech-card:hover::before {
-    opacity: 1;
-  }
-
-  /* Niveau 2 : raised — pour les cartes "featured", KPI principaux, hero */
-  .tech-card-raised {
-    @apply relative bg-bg-card border border-border-subtle rounded-3xl overflow-hidden;
-    box-shadow:
-      0 1px 0 rgb(255 255 255 / 0.5) inset,
-      0 12px 28px rgb(35 30 20 / 0.10),
-      0 4px 10px rgb(35 30 20 / 0.06);
-    transition: box-shadow 0.35s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .tech-card-raised::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.35s ease;
-    background: radial-gradient(
-      520px circle at var(--mx, 50%) var(--my, 50%),
-      rgb(var(--accent) / 0.14),
-      transparent 50%
-    );
-    z-index: 0;
-  }
-
-  .tech-card-raised > * {
-    position: relative;
-    z-index: 1;
-  }
-
-  .tech-card-raised:hover {
-    transform: translateY(-3px);
-    border-color: rgb(var(--accent) / 0.4);
-    box-shadow:
-      0 1px 0 rgb(255 255 255 / 0.5) inset,
-      0 18px 40px rgb(35 30 20 / 0.14),
-      0 6px 14px rgb(35 30 20 / 0.08);
-  }
-
-  .tech-card-raised:hover::before {
-    opacity: 1;
-  }
-
-  html.dark .tech-card-raised {
-    box-shadow:
-      0 1px 0 rgb(255 255 255 / 0.04) inset,
-      0 12px 28px rgb(0 0 0 / 0.35),
-      0 4px 10px rgb(0 0 0 / 0.20);
-  }
-
-  html.dark .tech-card-raised:hover {
-    box-shadow:
-      0 1px 0 rgb(255 255 255 / 0.05) inset,
-      0 18px 40px rgb(0 0 0 / 0.45),
-      0 6px 14px rgb(0 0 0 / 0.25);
-  }
-
-  /* === Gradient mesh === */
-  /* Utiliser via style={{'--mesh': 'rgb(...)'}} ou CSS vars accent.
-     Combine 3 radial-gradients pour un effet "aquarelle" subtil. */
-  .gradient-mesh {
-    background-color: rgb(var(--accent) / 0.08);
-    background-image:
-      radial-gradient(at 18% 22%, rgb(var(--mesh-a, var(--accent)) / 0.35) 0, transparent 55%),
-      radial-gradient(at 82% 18%, rgb(var(--mesh-b, var(--accent-warm)) / 0.28) 0, transparent 50%),
-      radial-gradient(at 50% 90%, rgb(var(--mesh-c, var(--accent)) / 0.22) 0, transparent 60%);
-  }
-
-  /* Bouton primaire douceur */
-  .btn-primary {
-    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full font-medium;
-    background: rgb(var(--accent));
-    color: rgb(var(--bg-card));
-    transition: filter 0.2s ease, transform 0.2s ease;
-  }
-
-  .btn-primary:hover {
-    filter: brightness(1.08);
-  }
-
-  .btn-secondary {
-    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full font-medium;
-    background: rgb(var(--bg-card));
-    color: rgb(var(--text-primary));
-    border: 1px solid rgb(var(--border-default));
-    transition: background 0.2s ease, border-color 0.2s ease;
-  }
-
-  .btn-secondary:hover {
-    background: rgb(var(--bg-hover));
-    border-color: rgb(var(--accent) / 0.5);
-  }
-
-}
-
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  /* === Motion grammar === */
-  .ease-soft   { transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
-  .ease-spring { transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); }
-
-  /* Stagger via animation-delay sur enfants */
-  .motion-stagger > * {
-    animation: motionEnter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
-  }
-  .motion-stagger > *:nth-child(1) { animation-delay: 0.02s; }
-  .motion-stagger > *:nth-child(2) { animation-delay: 0.08s; }
-  .motion-stagger > *:nth-child(3) { animation-delay: 0.14s; }
-  .motion-stagger > *:nth-child(4) { animation-delay: 0.20s; }
-  .motion-stagger > *:nth-child(5) { animation-delay: 0.26s; }
-  .motion-stagger > *:nth-child(6) { animation-delay: 0.32s; }
-  .motion-stagger > *:nth-child(7) { animation-delay: 0.38s; }
-  .motion-stagger > *:nth-child(8) { animation-delay: 0.44s; }
-  .motion-stagger > *:nth-child(n+9) { animation-delay: 0.50s; }
 
   @keyframes motionEnter {
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-
-  /* Shimmer pour skeletons */
   @keyframes skeletonShimmer {
     0%   { background-position: -200% 0; }
     100% { background-position: 200% 0; }
   }
-
-  .skeleton-shimmer {
-    background-image: linear-gradient(
-      110deg,
-      transparent 30%,
-      rgb(var(--accent, var(--text-muted)) / 0.10) 50%,
-      transparent 70%
-    );
-    background-size: 200% 100%;
-    background-repeat: no-repeat;
-    animation: skeletonShimmer 1.6s ease-in-out infinite;
-  }
-
-  /* Top loading bar (route transitions) */
   @keyframes routeProgress {
     0%   { transform: translateX(-100%); }
     50%  { transform: translateX(-20%); }
     100% { transform: translateX(100%); }
   }
-
-  .route-progress {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    z-index: 100;
-    background: linear-gradient(90deg, transparent, rgb(var(--accent)), transparent);
-    transform: translateX(-100%);
-    animation: routeProgress 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  }
-
-  .num {
-    font-variant-numeric: tabular-nums;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar {
-    height: 4px;
-    width: 4px;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: rgb(var(--border-default));
-    border-radius: 2px;
-  }
-}
-
-/* === View Transitions API (theme toggle) === */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-
-::view-transition-old(root) { z-index: 1; }
-::view-transition-new(root) { z-index: 999; }
-
-html.theme-changing::view-transition-new(root) {
-  animation: themeReveal 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes themeReveal {
-  from {
-    clip-path: circle(0% at var(--theme-x, 100%) var(--theme-y, 0%));
-  }
-  to {
-    clip-path: circle(150% at var(--theme-x, 100%) var(--theme-y, 0%));
-  }
 }
 
 @layer utilities {
-  .glass {
-    @apply bg-bg-secondary;
+  /* === View Transitions API (theme toggle) === */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-old(root) {
+    z-index: 1;
+  }
+  ::view-transition-new(root) {
+    z-index: 999;
+  }
+
+  html.theme-changing::view-transition-new(root) {
+    animation: themeReveal 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes themeReveal {
+    from {
+      clip-path: circle(0% at var(--theme-x, 100%) var(--theme-y, 0%));
+    }
+    to {
+      clip-path: circle(150% at var(--theme-x, 100%) var(--theme-y, 0%));
+    }
   }
 }

@@ -1,6 +1,6 @@
 # HUB LIFE - Personal Dashboard
 
-Dashboard Next.js 14 solarpunk — agrège games, films, séries, books, sport, Spotify, GitHub, Steam, voyages, rencontres.
+Dashboard Next.js 15 solarpunk — agrège games, films, séries, books, sport, Spotify, GitHub, Steam, voyages, rencontres.
 
 ## Commandes
 
