@@ -194,6 +194,7 @@ export function GameStats({ games }: GameStatsProps) {
     }
     const hoursByDecade = Array.from(decadeMap.entries())
       .map(([decade, hours]) => ({ decade, hours }))
+      .filter(d => d.hours > 0)
       .sort((a, b) => a.decade.localeCompare(b.decade))
 
     const byGenre = new Map<string, number[]>()
@@ -580,7 +581,7 @@ function HoursByDecade({
           return (
             <div
               key={decade}
-              className="flex-1 flex flex-col items-center justify-end gap-2"
+              className="flex-1 h-full flex flex-col items-center justify-end gap-2"
             >
               <span className="text-xs font-mono text-text-secondary">
                 {Math.round(hours)}h

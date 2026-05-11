@@ -16,7 +16,8 @@
     "analyze": "ANALYZE=true next build",
     "steam:sync": "curl -X POST http://localhost:3000/api/steam/sync",
     "refresh:covers": "tsx scripts/refresh-covers.ts",
-    "refresh:book-covers": "tsx scripts/refresh-book-covers.ts"
+    "refresh:book-covers": "tsx scripts/refresh-book-covers.ts",
+    "track:play-deltas": "tsx scripts/track-play-deltas.ts"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

@@ -41,4 +41,11 @@ if grep -q "Utilisation des données existantes" "$RUN_LOG"; then
 fi
 
 rm -f "$RUN_LOG"
+
+# Track per-game playtime deltas (snapshot + diff vs previous day)
+( cd web && npm run --silent track:play-deltas ) || {
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] ⚠ track:play-deltas failed (non-fatal)"
+  notify "HUB LIFE — SerieBox" "Track play-deltas a échoué"
+}
+
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✓ Done"

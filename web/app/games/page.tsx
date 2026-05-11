@@ -1,12 +1,15 @@
 import { Suspense } from 'react'
 import { getGamesData } from '@/lib/data'
+import { getMonthlyPlaytime, getCurrentMonth } from '@/lib/play-log'
 import { GameController } from '@phosphor-icons/react/dist/ssr'
-import { GamesPageClient, PageHeader, SkeletonChart } from '@/components'
+import { GamesPageClient, MonthlyPlaytime, PageHeader, SkeletonChart } from '@/components'
 
 export const revalidate = 3600
 
 export default async function GamesPage() {
   const games = await getGamesData()
+  const currentMonth = getCurrentMonth()
+  const monthlyPlaytime = getMonthlyPlaytime(currentMonth)
 
   // Extract all unique platforms, including from multi-platform games
   const platformSet = new Set<string>()
@@ -117,6 +120,10 @@ export default async function GamesPage() {
         color="moss"
         icon={GameController}
       />
+      <div className="mb-8">
+        <MonthlyPlaytime month={currentMonth} playtime={monthlyPlaytime} />
+      </div>
+
       <Suspense fallback={<SkeletonChart />}>
         <GamesPageClient
           games={games}
