@@ -4,7 +4,6 @@ import { OverviewStats } from '@/components/overview-stats'
 import { getGamesData, getFilmsData, getSeriesData } from '@/lib/data'
 import { loadUnifiedActivity } from '@/lib/activity'
 import { UnifiedActivityHeatmap } from '@/components/unified-activity-heatmap'
-import { TimeOfDayBackground } from '@/components/time-of-day-background'
 
 const GITHUB_USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'gdemerges'
 
@@ -50,7 +49,6 @@ export default async function HomePage({
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
-      <TimeOfDayBackground />
       <PageHeader
         title="Aperçu"
         subtitle="Tableau de bord personnel · jeux, films, séries, lecture"
