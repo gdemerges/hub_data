@@ -1,6 +1,6 @@
 'use client'
 
-import { use, useOptimistic } from 'react'
+import { startTransition, use, useOptimistic } from 'react'
 import Link from 'next/link'
 import { ContributionCalendar } from '@/components'
 import { Activity, ChevronLeft, ChevronRight } from 'lucide-react'
@@ -37,8 +37,9 @@ export function GitHubContributionsSection({ promise, year }: Props) {
           <div className="flex items-center gap-2">
             <Link
               href={`/github?year=${year - 1}`}
-              onClick={() => setOptimisticYear(year - 1)}
+              onClick={() => startTransition(() => setOptimisticYear(year - 1))}
               prefetch={false}
+              scroll={false}
               className="p-1 hover:bg-earth-moss/10 rounded transition-colors"
               aria-label="Année précédente"
             >
@@ -50,8 +51,9 @@ export function GitHubContributionsSection({ promise, year }: Props) {
             {canGoNext ? (
               <Link
                 href={`/github?year=${year + 1}`}
-                onClick={() => setOptimisticYear(year + 1)}
+                onClick={() => startTransition(() => setOptimisticYear(year + 1))}
                 prefetch={false}
+                scroll={false}
                 className="p-1 hover:bg-earth-moss/10 rounded transition-colors"
                 aria-label="Année suivante"
               >

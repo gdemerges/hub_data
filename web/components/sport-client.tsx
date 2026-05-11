@@ -259,6 +259,7 @@ function FilterBar({
             key={f.key}
             href={buildHref(f.key)}
             prefetch={false}
+            scroll={false}
             onClick={() => onSelect(f.key)}
             role="tab"
             aria-selected={isActive}
@@ -320,6 +321,7 @@ function YearFocus({
                 key={y}
                 href={buildHref(y)}
                 prefetch={false}
+                scroll={false}
                 onClick={() => onSelectYear(y)}
                 aria-current={isActive ? 'true' : undefined}
                 className={
