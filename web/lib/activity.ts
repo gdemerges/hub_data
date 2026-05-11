@@ -82,7 +82,10 @@ async function loadStravaActivitiesForYear(): Promise<StravaActivity[]> {
     for (let page = 1; page <= 5; page++) {
       const res = await fetch(
         `https://www.strava.com/api/v3/athlete/activities?after=${after}&per_page=100&page=${page}`,
-        { headers: { Authorization: `Bearer ${tokens.access_token}` } }
+        {
+          headers: { Authorization: `Bearer ${tokens.access_token}` },
+          next: { revalidate: 1800 },
+        }
       )
       if (!res.ok) break
       const items = (await res.json()) as StravaActivity[]

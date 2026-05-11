@@ -1,12 +1,14 @@
 'use client'
 
+import { useTransition } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Calendar } from 'lucide-react'
+import { Calendar, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export function YearFilter() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const [isPending, startTransition] = useTransition()
   const currentYear = searchParams.get('year') || 'global'
 
   const now = new Date().getFullYear()
@@ -22,13 +24,20 @@ export function YearFilter() {
     } else {
       params.set('year', year)
     }
-    router.push(`/?${params.toString()}`)
+    const qs = params.toString()
+    startTransition(() => {
+      router.push(qs ? `/?${qs}` : '/', { scroll: false })
+    })
   }
 
   return (
     <div className="flex items-center gap-4">
       <div className="flex items-center gap-2 text-earth-fern">
-        <Calendar className="w-4 h-4" />
+        {isPending ? (
+          <Loader2 className="w-4 h-4 animate-spin" />
+        ) : (
+          <Calendar className="w-4 h-4" />
+        )}
         <span className="text-[11px] font-medium uppercase tracking-[0.18em]">Année</span>
       </div>
       <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
