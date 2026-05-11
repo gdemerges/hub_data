@@ -123,7 +123,7 @@
       "Infiltration"
     ],
     "rating": 17,
-    "avgRating": 17.0638,
+    "avgRating": 17.0775,
     "releaseYear": 2009,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1rcf.jpg"
   },
@@ -137,7 +137,7 @@
       "Infiltration"
     ],
     "rating": 15,
-    "avgRating": 15.7699,
+    "avgRating": 15.7632,
     "releaseYear": 2012,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1xii.jpg"
   },
@@ -167,7 +167,7 @@
     "title": "Assassin's Creed Origins",
     "platform": "PC",
     "status": "En cours",
-    "hoursPlayed": 18,
+    "hoursPlayed": 21,
     "genres": [
       "Action-RPG",
       "Aventure"
@@ -185,7 +185,7 @@
       "Action/Aventure"
     ],
     "rating": 16,
-    "avgRating": 16.5895,
+    "avgRating": 16.5938,
     "releaseYear": 2010,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co6t4d.jpg"
   },
@@ -198,7 +198,7 @@
       "Action/Aventure"
     ],
     "rating": 15,
-    "avgRating": 15.7846,
+    "avgRating": 15.7879,
     "releaseYear": 2011,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1xih.jpg"
   },
@@ -958,12 +958,12 @@
     "title": "Final Fantasy VII Remake",
     "platform": "PC",
     "status": "Fini",
-    "hoursPlayed": 27,
+    "hoursPlayed": 31,
     "genres": [
       "RPG"
     ],
-    "rating": 15,
-    "avgRating": 16.6667,
+    "rating": 16,
+    "avgRating": 16.75,
     "releaseYear": 2021,
     "dateStarted": "2026-03-21",
     "dateFinished": "2026-05-09",
@@ -977,7 +977,7 @@
     "genres": [
       "Action-RPG"
     ],
-    "avgRating": 17.4684,
+    "avgRating": 17.478,
     "releaseYear": 1999,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2z7d.jpg"
   },
@@ -990,7 +990,7 @@
       "RPG"
     ],
     "rating": 18,
-    "avgRating": 17.925,
+    "avgRating": 17.9295,
     "releaseYear": 2002,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1tr1.jpg"
   },
@@ -1514,7 +1514,7 @@
     "genres": [
       "RPG"
     ],
-    "avgRating": 16.0978,
+    "avgRating": 16.0538,
     "releaseYear": 2023,
     "dateStarted": "2025-08-11",
     "dateFinished": "2025-09-14",
@@ -1558,7 +1558,8 @@
     ],
     "rating": 17,
     "avgRating": 16,
-    "releaseYear": 2013
+    "releaseYear": 2013,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co407r.jpg"
   },
   {
     "title": "Inazuma Eleven Go : Lumière",
@@ -2154,7 +2155,7 @@
     "title": "NieR : Automata",
     "platform": "PC",
     "status": "En cours",
-    "hoursPlayed": 21,
+    "hoursPlayed": 22,
     "genres": [
       "Action-RPG"
     ],
@@ -2987,7 +2988,7 @@
     "title": "Stray",
     "platform": "PC",
     "status": "En cours",
-    "hoursPlayed": 1,
+    "hoursPlayed": 2,
     "genres": [
       "Aventure"
     ],
@@ -3195,7 +3196,7 @@
       "Jeu de combat"
     ],
     "rating": 15,
-    "avgRating": 15.7593,
+    "avgRating": 15.7615,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co8d7r.jpg"
   },
   {
@@ -3599,7 +3600,7 @@
     "genres": [
       "MMORPG"
     ],
-    "avgRating": 16.8,
+    "avgRating": 16.8061,
     "releaseYear": 2005,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2l7z.jpg"
   },

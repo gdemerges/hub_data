@@ -1300,7 +1300,7 @@
     "titleVO": "Conclave",
     "releaseYear": 2024,
     "rating": 17,
-    "avgRating": 14.89,
+    "avgRating": 14.9,
     "runtime": 120,
     "genres": [
       "Thriller"
@@ -1918,7 +1918,7 @@
     "titleVO": "F1 The Movie",
     "releaseYear": 2025,
     "rating": 17,
-    "avgRating": 15,
+    "avgRating": 14.99,
     "runtime": 155,
     "genres": [
       "Drame",
@@ -2670,7 +2670,7 @@
     "titleVO": "Interstellar",
     "releaseYear": 2014,
     "rating": 19,
-    "avgRating": 16.71,
+    "avgRating": 16.7,
     "runtime": 169,
     "genres": [
       "Science-Fiction"
@@ -4140,7 +4140,7 @@
     "titleVO": "The Perks of Being a Wallflower",
     "releaseYear": 2012,
     "rating": 17,
-    "avgRating": 16.07,
+    "avgRating": 16.08,
     "runtime": 103,
     "genres": [
       "Drame",
@@ -4550,7 +4550,7 @@
     "titleVO": "Les Algues vertes",
     "releaseYear": 2023,
     "rating": 17,
-    "avgRating": 14.74,
+    "avgRating": 14.73,
     "runtime": 107,
     "genres": [
       "Drame"
@@ -5288,7 +5288,7 @@
     "titleVO": "Mais où est donc passée la 7ème Compagnie ?",
     "releaseYear": 1973,
     "rating": 16,
-    "avgRating": 14.49,
+    "avgRating": 14.48,
     "runtime": 95,
     "genres": [
       "Comédie"
@@ -5929,7 +5929,7 @@
     "titleVO": "Once Upon a Time... in Hollywood",
     "releaseYear": 2019,
     "rating": 16,
-    "avgRating": 14.38,
+    "avgRating": 14.39,
     "runtime": 165,
     "genres": [
       "Drame",
@@ -6011,7 +6011,7 @@
     "titleVO": "Oppenheimer",
     "releaseYear": 2023,
     "rating": 17,
-    "avgRating": 15.86,
+    "avgRating": 15.85,
     "runtime": 180,
     "genres": [
       "Historique",
@@ -6890,7 +6890,7 @@
     "titleVO": "Seuls",
     "releaseYear": 2017,
     "rating": 14,
-    "avgRating": 11.96,
+    "avgRating": 11.95,
     "runtime": 98,
     "genres": [
       "Jeunesse",
@@ -8080,7 +8080,7 @@
     "titleVO": "Transformers: Dark of the Moon",
     "releaseYear": 2011,
     "rating": 14,
-    "avgRating": 12.93,
+    "avgRating": 12.94,
     "runtime": 154,
     "genres": [
       "Action",

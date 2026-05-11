@@ -553,7 +553,7 @@
     "title": "Cyberpunk: Edgerunners",
     "status": "À jour",
     "rating": 16,
-    "avgRating": 16.42,
+    "avgRating": 16.41,
     "episodesWatched": 10,
     "episodes": 10,
     "releaseYear": 2022,
@@ -1046,10 +1046,10 @@
   },
   {
     "title": "Euphoria",
-    "status": "À jour",
-    "avgRating": 16.12,
+    "status": "En cours",
+    "avgRating": 16.13,
     "episodesWatched": 22,
-    "episodes": 22,
+    "episodes": 23,
     "releaseYear": 2019,
     "airingStatus": "Diffusion actuelle",
     "genres": [
@@ -1305,7 +1305,7 @@
   {
     "title": "Gangs of London",
     "status": "En cours",
-    "avgRating": 16.33,
+    "avgRating": 16.28,
     "episodesWatched": 9,
     "episodes": 25,
     "releaseYear": 2020,
@@ -2780,7 +2780,7 @@
     "status": "En cours",
     "avgRating": 17.78,
     "episodesWatched": 848,
-    "episodes": 1160,
+    "episodes": 1161,
     "releaseYear": 1999,
     "airingStatus": "Diffusion actuelle",
     "genres": [
@@ -2791,7 +2791,7 @@
   {
     "title": "One Piece (2023)",
     "status": "En cours",
-    "avgRating": 16.2,
+    "avgRating": 16.21,
     "episodesWatched": 8,
     "episodes": 16,
     "releaseYear": 2023,
@@ -3451,7 +3451,7 @@
   {
     "title": "The Acolyte",
     "status": "À commencer",
-    "avgRating": 13.07,
+    "avgRating": 13.02,
     "episodesWatched": 0,
     "episodes": 8,
     "releaseYear": 2024,
@@ -3508,7 +3508,7 @@
   {
     "title": "The Fall",
     "status": "En cours",
-    "avgRating": 16.25,
+    "avgRating": 16.24,
     "episodesWatched": 11,
     "episodes": 17,
     "releaseYear": 2013,
@@ -3552,7 +3552,7 @@
     "title": "The Handmaid's Tale",
     "titleVF": "The Handmaid?s Tale : La Servante Écarlate",
     "status": "En attente",
-    "avgRating": 16.91,
+    "avgRating": 16.9,
     "episodesWatched": 1,
     "episodes": 66,
     "releaseYear": 2017,
