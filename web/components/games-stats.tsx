@@ -110,6 +110,7 @@ const SAGAS: { name: string; pattern: RegExp }[] = [
   { name: 'Tomb Raider', pattern: /\btomb raider\b/i },
   { name: 'Trine', pattern: /\btrine\b/i },
   { name: 'Watch Dogs', pattern: /\bwatch dogs\b/i },
+  { name: 'League of Legends', pattern: /\b(league of legends|lol|teamfight tactics|tft|wild rift|legends of runeterra)\b/i },
 ]
 
 // Order matters: more-specific names ("Mario Kart") must beat shorter ones
