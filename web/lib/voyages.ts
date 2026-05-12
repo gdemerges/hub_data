@@ -13,8 +13,68 @@ export interface TravelStats {
   totalDays: number
   topPlaces: { name: string; visits: number; city?: string }[]
   topCities: { name: string; visits: number; country?: string }[]
-  topCountries: { name: string; visits: number }[]
+  topCountries: { name: string; visits: number; firstVisit?: string; lastVisit?: string }[]
   visitsByYear: { year: number; visits: number }[]
+  continents: { continent: string; countries: number; visits: number }[]
+  averageStayMinutes: number
+  longestStay: {
+    name: string
+    city?: string
+    country?: string
+    minutes: number
+    startTime: string
+  } | null
+  mostActiveYear: { year: number; visits: number } | null
+  recentCountries: { name: string; lastVisit: string }[]
+}
+
+const COUNTRY_TO_CONTINENT: Record<string, string> = {
+  // Europe
+  'France': 'Europe', 'Suisse': 'Europe', 'Royaume-Uni': 'Europe', 'Italie': 'Europe',
+  'Espagne': 'Europe', 'Allemagne': 'Europe', 'Belgique': 'Europe', 'Pays-Bas': 'Europe',
+  'Portugal': 'Europe', 'Autriche': 'Europe', 'Grèce': 'Europe', 'Pologne': 'Europe',
+  'République tchèque': 'Europe', 'Hongrie': 'Europe', 'Irlande': 'Europe', 'Danemark': 'Europe',
+  'Suède': 'Europe', 'Norvège': 'Europe', 'Finlande': 'Europe', 'Islande': 'Europe',
+  'Croatie': 'Europe', 'Slovénie': 'Europe', 'Slovaquie': 'Europe', 'Roumanie': 'Europe',
+  'Bulgarie': 'Europe', 'Luxembourg': 'Europe', 'Monaco': 'Europe', 'Vatican': 'Europe',
+  'Malte': 'Europe', 'Chypre': 'Europe', 'Estonie': 'Europe', 'Lettonie': 'Europe',
+  'Lituanie': 'Europe', 'Albanie': 'Europe', 'Serbie': 'Europe', 'Bosnie-Herzégovine': 'Europe',
+  'Macédoine du Nord': 'Europe', 'Monténégro': 'Europe', 'Kosovo': 'Europe', 'Ukraine': 'Europe',
+  'Moldavie': 'Europe', 'Biélorussie': 'Europe', 'Russie': 'Europe', 'Turquie': 'Europe',
+  'Andorre': 'Europe', 'Saint-Marin': 'Europe', 'Liechtenstein': 'Europe',
+  // Asie
+  'Japon': 'Asie', 'Chine': 'Asie', 'Thaïlande': 'Asie', 'Vietnam': 'Asie',
+  'Inde': 'Asie', 'Singapour': 'Asie', 'Corée du Sud': 'Asie', 'Corée du Nord': 'Asie',
+  'Indonésie': 'Asie', 'Cambodge': 'Asie', 'Laos': 'Asie', 'Malaisie': 'Asie',
+  'Philippines': 'Asie', 'Taïwan': 'Asie', 'Sri Lanka': 'Asie', 'Népal': 'Asie',
+  'Bhoutan': 'Asie', 'Birmanie': 'Asie', 'Myanmar': 'Asie', 'Bangladesh': 'Asie',
+  'Pakistan': 'Asie', 'Mongolie': 'Asie', 'Kazakhstan': 'Asie', 'Ouzbékistan': 'Asie',
+  'Hong Kong': 'Asie', 'Macao': 'Asie',
+  // Amérique du Nord
+  'États-Unis': 'Amérique du Nord', 'Canada': 'Amérique du Nord', 'Mexique': 'Amérique du Nord',
+  'Cuba': 'Amérique du Nord', 'Jamaïque': 'Amérique du Nord', 'Bahamas': 'Amérique du Nord',
+  'République dominicaine': 'Amérique du Nord', 'Haïti': 'Amérique du Nord',
+  'Costa Rica': 'Amérique du Nord', 'Panama': 'Amérique du Nord', 'Guatemala': 'Amérique du Nord',
+  // Amérique du Sud
+  'Brésil': 'Amérique du Sud', 'Argentine': 'Amérique du Sud', 'Chili': 'Amérique du Sud',
+  'Pérou': 'Amérique du Sud', 'Colombie': 'Amérique du Sud', 'Bolivie': 'Amérique du Sud',
+  'Équateur': 'Amérique du Sud', 'Uruguay': 'Amérique du Sud', 'Paraguay': 'Amérique du Sud',
+  'Venezuela': 'Amérique du Sud', 'Guyana': 'Amérique du Sud', 'Suriname': 'Amérique du Sud',
+  // Afrique
+  'Maroc': 'Afrique', 'Tunisie': 'Afrique', 'Algérie': 'Afrique', 'Égypte': 'Afrique',
+  'Afrique du Sud': 'Afrique', 'Kenya': 'Afrique', 'Tanzanie': 'Afrique', 'Sénégal': 'Afrique',
+  'Côte d\'Ivoire': 'Afrique', 'Ghana': 'Afrique', 'Nigeria': 'Afrique', 'Éthiopie': 'Afrique',
+  'Madagascar': 'Afrique', 'Maurice': 'Afrique', 'Île Maurice': 'Afrique', 'Réunion': 'Afrique',
+  'Cameroun': 'Afrique', 'Mali': 'Afrique', 'Burkina Faso': 'Afrique', 'Bénin': 'Afrique',
+  'Togo': 'Afrique', 'Rwanda': 'Afrique', 'Ouganda': 'Afrique', 'Namibie': 'Afrique',
+  'Botswana': 'Afrique', 'Zimbabwe': 'Afrique', 'Mozambique': 'Afrique', 'Angola': 'Afrique',
+  // Océanie
+  'Australie': 'Océanie', 'Nouvelle-Zélande': 'Océanie', 'Fidji': 'Océanie',
+  'Polynésie française': 'Océanie', 'Nouvelle-Calédonie': 'Océanie',
+}
+
+function continentOf(country: string): string {
+  return COUNTRY_TO_CONTINENT[country] ?? 'Autre'
 }
 
 interface PlaceVisit {
@@ -173,9 +233,13 @@ export async function loadVoyages(): Promise<TravelStats | null> {
 
     const placeCount = new Map<string, { visits: number; city?: string }>()
     const cityCount = new Map<string, { visits: number; country?: string }>()
-    const countryCount = new Map<string, number>()
+    const countryStats = new Map<string, { visits: number; firstVisit?: string; lastVisit?: string }>()
     const yearCount = new Map<number, number>()
     const uniqueDays = new Set<string>()
+
+    let totalDurationMinutes = 0
+    let durationVisitCount = 0
+    let longestStay: TravelStats['longestStay'] = null
 
     for (const visit of allVisits) {
       const existing = placeCount.get(visit.name)
@@ -187,18 +251,60 @@ export async function loadVoyages(): Promise<TravelStats | null> {
         else cityCount.set(visit.city, { visits: 1, country: visit.country })
       }
       if (visit.country && visit.country !== 'Unknown') {
-        countryCount.set(visit.country, (countryCount.get(visit.country) || 0) + 1)
+        const cs = countryStats.get(visit.country) ?? { visits: 0 }
+        cs.visits += 1
+        if (visit.startTime) {
+          if (!cs.firstVisit || visit.startTime < cs.firstVisit) cs.firstVisit = visit.startTime
+          if (!cs.lastVisit || visit.startTime > cs.lastVisit) cs.lastVisit = visit.startTime
+        }
+        countryStats.set(visit.country, cs)
       }
       if (visit.startTime) {
         const year = new Date(visit.startTime).getFullYear()
         yearCount.set(year, (yearCount.get(year) || 0) + 1)
         uniqueDays.add(visit.startTime.split('T')[0])
       }
+      if (visit.duration && visit.duration > 0) {
+        totalDurationMinutes += visit.duration
+        durationVisitCount += 1
+        if (!longestStay || visit.duration > longestStay.minutes) {
+          longestStay = {
+            name: visit.name,
+            city: visit.city,
+            country: visit.country,
+            minutes: visit.duration,
+            startTime: visit.startTime,
+          }
+        }
+      }
     }
+
+    const continentMap = new Map<string, { countries: Set<string>; visits: number }>()
+    for (const [country, cs] of countryStats) {
+      const cont = continentOf(country)
+      const entry = continentMap.get(cont) ?? { countries: new Set<string>(), visits: 0 }
+      entry.countries.add(country)
+      entry.visits += cs.visits
+      continentMap.set(cont, entry)
+    }
+    const continents = Array.from(continentMap.entries())
+      .map(([continent, e]) => ({ continent, countries: e.countries.size, visits: e.visits }))
+      .sort((a, b) => b.visits - a.visits)
+
+    const yearArr = Array.from(yearCount.entries()).map(([year, visits]) => ({ year, visits }))
+    const mostActiveYear = yearArr.length
+      ? yearArr.reduce((best, cur) => (cur.visits > best.visits ? cur : best))
+      : null
+
+    const recentCountries = Array.from(countryStats.entries())
+      .filter(([, cs]) => !!cs.lastVisit)
+      .map(([name, cs]) => ({ name, lastVisit: cs.lastVisit! }))
+      .sort((a, b) => b.lastVisit.localeCompare(a.lastVisit))
+      .slice(0, 6)
 
     const result: TravelStats = {
       totalPlaces: placeCount.size,
-      totalCountries: countryCount.size,
+      totalCountries: countryStats.size,
       totalCities: cityCount.size,
       totalDays: uniqueDays.size,
       topPlaces: Array.from(placeCount.entries())
@@ -209,13 +315,16 @@ export async function loadVoyages(): Promise<TravelStats | null> {
         .map(([name, d]) => ({ name, visits: d.visits, country: d.country }))
         .sort((a, b) => b.visits - a.visits)
         .slice(0, 20),
-      topCountries: Array.from(countryCount.entries())
-        .map(([name, visits]) => ({ name, visits }))
+      topCountries: Array.from(countryStats.entries())
+        .map(([name, cs]) => ({ name, visits: cs.visits, firstVisit: cs.firstVisit, lastVisit: cs.lastVisit }))
         .sort((a, b) => b.visits - a.visits)
         .slice(0, 20),
-      visitsByYear: Array.from(yearCount.entries())
-        .map(([year, visits]) => ({ year, visits }))
-        .sort((a, b) => a.year - b.year),
+      visitsByYear: yearArr.sort((a, b) => a.year - b.year),
+      continents,
+      averageStayMinutes: durationVisitCount ? totalDurationMinutes / durationVisitCount : 0,
+      longestStay,
+      mostActiveYear,
+      recentCountries,
     }
 
     await writeFileCache(VOYAGES_CACHE_FILE, result)
