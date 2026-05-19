@@ -2,17 +2,17 @@
 
 import useSWR from 'swr'
 import { ChartBar } from '@phosphor-icons/react'
-import { PageHeader } from '@/components'
+import { PageHeader, EmptyState } from '@/components'
 
 type YearStat = { year: number; games: number; films: number; series: number; books: number }
 
 const fetcher = (url: string) => fetch(url).then(r => r.json())
 
 const SECTIONS = [
-  { key: 'games', label: 'Jeux', color: '#5a7d4a' },
-  { key: 'films', label: 'Films', color: '#b86b3c' },
-  { key: 'series', label: 'Séries', color: '#d9a441' },
-  { key: 'books', label: 'Livres', color: '#3d5170' },
+  { key: 'games', label: 'Jeux', color: 'rgb(var(--dv-1))', glow: 'rgb(var(--dv-1) / 0.5)' },
+  { key: 'films', label: 'Films', color: 'rgb(var(--dv-2))', glow: 'rgb(var(--dv-2) / 0.5)' },
+  { key: 'series', label: 'Séries', color: 'rgb(var(--dv-3))', glow: 'rgb(var(--dv-3) / 0.5)' },
+  { key: 'books', label: 'Livres', color: 'rgb(var(--dv-4))', glow: 'rgb(var(--dv-4) / 0.5)' },
 ] as const
 
 export default function CorrelationsPage() {
@@ -37,7 +37,11 @@ export default function CorrelationsPage() {
       )}
 
       {!isLoading && stats.length === 0 && (
-        <div className="tech-card p-8 text-center text-text-muted">Aucune donnée.</div>
+        <EmptyState
+          variant="card"
+          icon={ChartBar}
+          description="Aucune activité agrégée à corréler pour le moment."
+        />
       )}
 
       {stats.length > 0 && (
@@ -65,7 +69,7 @@ export default function CorrelationsPage() {
                         <div className="flex-1 h-3 bg-bg-tertiary rounded overflow-hidden">
                           <div
                             className="h-full transition-all"
-                            style={{ width: `${w}%`, background: s.color, boxShadow: `0 0 8px ${s.color}80` }}
+                            style={{ width: `${w}%`, background: s.color, boxShadow: `0 0 8px ${s.glow}` }}
                           />
                         </div>
                         <span className="w-10 text-right font-mono text-xs text-text-secondary">{v}</span>

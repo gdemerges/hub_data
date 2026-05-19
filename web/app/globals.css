@@ -374,6 +374,47 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* === Motion partagée des charts ===
+   prefers-reduced-motion est neutralisé globalement (cf. @layer base). */
+
+@utility chart-bar-enter {
+  /* Barres : pousse depuis la base. --i = index pour le stagger. */
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: chartGrow 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+@utility chart-line-draw {
+  /* Lignes : tracé progressif. pathLength=1 posé sur l'élément. */
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: chartDraw 1.1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: calc(var(--i, 0) * 140ms);
+}
+
+@utility chart-pop {
+  /* Segments (pie) : éclosion depuis le centre. */
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: chartPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 55ms);
+}
+
+@utility chart-tooltip {
+  /* Tooltip primitive partagée — flottante, lisible, accent-aware. */
+  @apply pointer-events-none absolute z-20 px-2.5 py-1.5 rounded-lg text-xs font-medium num;
+  background: rgb(var(--bg-card));
+  color: rgb(var(--text-primary));
+  border: 1px solid rgb(var(--accent) / 0.35);
+  box-shadow:
+    0 4px 12px rgb(35 30 20 / 0.12),
+    0 1px 3px rgb(35 30 20 / 0.08);
+  transform: translate(-50%, -100%) translateY(-8px);
+  white-space: nowrap;
+  animation: chartTooltip 0.16s ease-out;
+}
+
 @utility scrollbar-thin {
   &::-webkit-scrollbar {
     height: 4px;
@@ -409,6 +450,19 @@
     --text-muted: 138 139 120;     /* sauge */
     --accent: 90 125 74;           /* mousse — accent global */
     --accent-warm: 184 107 60;     /* terracotta */
+
+    /* Échelle data-viz catégorielle — calibrée pour AA sur parchemin/crème.
+       Réutilisée par tous les charts custom via rgb(var(--dv-N)). */
+    --dv-1: 90 125 74;     /* moss       */
+    --dv-2: 184 107 60;    /* terracotta */
+    --dv-3: 201 137 63;    /* amber      */
+    --dv-4: 61 81 112;     /* indigo     */
+    --dv-5: 79 140 74;     /* leaf       */
+    --dv-6: 176 104 104;   /* clay       */
+    --dv-7: 142 58 58;     /* wine       */
+    --dv-8: 113 124 96;    /* slate-sage */
+    --dv-grid: 200 187 161;   /* lignes de grille */
+    --dv-axis: 138 139 120;   /* libellés d'axe   */
   }
 
   /* Dark = crépuscule chaleureux, pas du noir */
@@ -425,6 +479,19 @@
     --text-muted: 138 148 124;
     --accent: 138 178 116;
     --accent-warm: 209 139 90;
+
+    /* Data-viz — versions éclaircies/désaturées pour AA sur le crépuscule.
+       L'indigo notamment est fortement relevé (illisible en foncé sinon). */
+    --dv-1: 138 178 116;   /* moss       */
+    --dv-2: 209 139 90;    /* terracotta */
+    --dv-3: 230 188 100;   /* amber      */
+    --dv-4: 138 162 200;   /* indigo     */
+    --dv-5: 132 196 126;   /* leaf       */
+    --dv-6: 202 142 142;   /* clay       */
+    --dv-7: 206 122 122;   /* wine       */
+    --dv-8: 168 180 150;   /* slate-sage */
+    --dv-grid: 86 102 84;
+    --dv-axis: 138 148 124;
   }
 
   * {
@@ -542,6 +609,21 @@
     0%   { transform: translateX(-100%); }
     50%  { transform: translateX(-20%); }
     100% { transform: translateX(100%); }
+  }
+  @keyframes chartGrow {
+    from { transform: scaleY(0); opacity: 0; }
+    to   { transform: scaleY(1); opacity: 1; }
+  }
+  @keyframes chartDraw {
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes chartPop {
+    from { transform: scale(0.6); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+  @keyframes chartTooltip {
+    from { opacity: 0; transform: translate(-50%, -100%) translateY(-2px); }
+    to   { opacity: 1; transform: translate(-50%, -100%) translateY(-8px); }
   }
 }
 

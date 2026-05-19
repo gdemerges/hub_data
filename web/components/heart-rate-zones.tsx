@@ -1,6 +1,8 @@
 'use client'
 
 import { Heart, TrendingUp, Zap } from 'lucide-react'
+import { Pulse } from '@phosphor-icons/react/dist/ssr'
+import { EmptyState } from './empty-state'
 
 interface Activity {
   startDate: string
@@ -159,10 +161,11 @@ export function HeartRateZones({ activities, lthr }: HeartRateZonesProps) {
     return (
       <div className="tech-card p-6">
         <Header />
-        <p className="text-sm text-text-secondary">
-          Aucune donnée de fréquence cardiaque pour le moment. Assure-toi que ton capteur FC est bien connecté à
-          Strava — les calculs de TSS gagnent en précision avec ces données.
-        </p>
+        <EmptyState
+          icon={Pulse}
+          title="Aucune donnée de fréquence cardiaque"
+          description="Connecte ton capteur FC à Strava — les calculs de TSS gagnent en précision avec ces données."
+        />
       </div>
     )
   }

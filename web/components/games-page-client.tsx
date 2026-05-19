@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from 'react'
 import { GamesClient } from '@/components/games-client'
-import { PieChart } from '@/components'
+import { PieChart, EmptyState } from '@/components'
 import { SteamSection } from '@/components/steam-section'
 import { GameStats } from '@/components/games-stats'
 import { Trophy, Gamepad2, BarChart3, Activity } from 'lucide-react'
@@ -132,7 +132,7 @@ export function GamesPageClient({
                   )}
                 </div>
               ) : (
-                <p className="text-sm text-text-muted">Aucune donnée disponible</p>
+                <EmptyState description="Aucune heure de jeu enregistrée par plateforme." />
               )}
             </div>
 
@@ -159,7 +159,7 @@ export function GamesPageClient({
                   )}
                 </div>
               ) : (
-                <p className="text-sm text-text-muted">Aucune donnée disponible</p>
+                <EmptyState description="Aucune heure de jeu enregistrée par genre." />
               )}
             </div>
           </div>

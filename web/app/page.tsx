@@ -1,5 +1,5 @@
 import { Sun, ChartLineUp } from '@phosphor-icons/react/dist/ssr'
-import { YearFilter, OverviewSections, TemporalStats, YearComparison, PageHeader } from '@/components'
+import { YearFilter, OverviewSections, TemporalStats, YearComparison, PageHeader, OverviewHero } from '@/components'
 import { OverviewStats } from '@/components/overview-stats'
 import { getGamesData, getFilmsData, getSeriesData } from '@/lib/data'
 import { loadUnifiedActivity } from '@/lib/activity'
@@ -49,15 +49,17 @@ export default async function HomePage({
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
-      <PageHeader
-        title="Aperçu"
-        subtitle="Tableau de bord personnel · jeux, films, séries, lecture"
-        eyebrow={selectedYear ? `Année ${selectedYear}` : 'Vue d\'ensemble'}
-        dateline={new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
-        color="moss"
-        icon={Sun}
-        actions={<YearFilter />}
-      />
+      <OverviewHero>
+        <PageHeader
+          title="Aperçu"
+          subtitle="Tableau de bord personnel · jeux, films, séries, lecture"
+          eyebrow={selectedYear ? `Année ${selectedYear}` : 'Vue d\'ensemble'}
+          dateline={new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
+          color="moss"
+          icon={Sun}
+          actions={<YearFilter />}
+        />
+      </OverviewHero>
 
       {/* Stats */}
       <OverviewStats

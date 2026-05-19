@@ -3,6 +3,7 @@ import { HeartHalf } from '@phosphor-icons/react/dist/ssr'
 import { PieChart, PageHeader } from '@/components'
 import { NationalityMapLazy as NationalityMap } from '@/components/nationality-map-lazy'
 import { loadRencontres } from '@/lib/rencontres-loader'
+import { seriesColor } from '@/lib/chart'
 
 export const revalidate = 3600
 
@@ -35,18 +36,16 @@ export default async function RencontresPage() {
     )
   }
 
-  const villeColors = ['#5a7d4a', '#b86b3c', '#d9a441', '#7ba896', '#b06868', '#3d5170', '#a8552c', '#a3b598']
   const villeChartData = stats.villes.slice(0, 8).map((item, index) => ({
     label: item.ville,
     value: item.count,
-    color: villeColors[index % villeColors.length],
+    color: seriesColor(index),
   }))
 
-  const nationaliteColors = ['#3d5170', '#8e3a3a', '#4f8c4a', '#c8893f', '#a3b598', '#b86b3c', '#7ba896', '#a8552c']
   const nationaliteChartData = stats.nationalites.slice(0, 8).map((item, index) => ({
     label: item.nationalite,
     value: item.count,
-    color: nationaliteColors[index % nationaliteColors.length],
+    color: seriesColor(index + 3),
   }))
 
   const yearSpan = stats.parAnnee.length

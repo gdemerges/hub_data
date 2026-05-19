@@ -1,5 +1,8 @@
 'use client'
 
+import { themedColor } from '@/lib/chart'
+import { EmptyState } from './empty-state'
+
 interface PieChartData {
   label: string
   value: number
@@ -20,21 +23,20 @@ export function PieChart({ data, size = 200, onSliceClick, selectedLabel, unit =
   if (total === 0) {
     return (
       <div className="flex items-center justify-center" style={{ width: size, height: size }}>
-        <p className="text-sm text-text-muted">Aucune donnée</p>
+        <EmptyState />
       </div>
     )
   }
 
-  let currentAngle = -90 // Start from top
+  let currentAngle = -90 // départ en haut
 
-  const slices = data.map((item) => {
+  const slices = data.map((item, index) => {
     const percentage = (item.value / total) * 100
     const angle = (item.value / total) * 360
     const startAngle = currentAngle
     const endAngle = currentAngle + angle
     currentAngle = endAngle
 
-    // Calculate path for the pie slice
     const startRad = (startAngle * Math.PI) / 180
     const endRad = (endAngle * Math.PI) / 180
     const radius = size / 2 - 10
@@ -55,28 +57,31 @@ export function PieChart({ data, size = 200, onSliceClick, selectedLabel, unit =
       'Z',
     ].join(' ')
 
-    return {
-      ...item,
-      path,
-      percentage,
-    }
+    return { ...item, fill: themedColor(item.color, index), path, percentage }
   })
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Pie chart */}
       <svg width={size} height={size} className="mx-auto" role="img" aria-label="Graphique circulaire">
         {slices.map((slice, index) => {
           const isSelected = selectedLabel === slice.label
           const isOtherSelected = selectedLabel && selectedLabel !== slice.label
           return (
-            <g key={index} role="listitem" aria-label={`${slice.label}: ${slice.value}${unit} (${slice.percentage.toFixed(1)}%)`}>
+            <g
+              key={index}
+              role="listitem"
+              aria-label={`${slice.label}: ${slice.value}${unit} (${slice.percentage.toFixed(1)}%)`}
+            >
               <path
                 d={slice.path}
-                fill={slice.color}
-                className={`transition-all cursor-pointer ${
+                fill={slice.fill}
+                stroke="rgb(var(--bg-card))"
+                strokeWidth="1.5"
+                strokeLinejoin="round"
+                className={`chart-pop cursor-pointer transition-opacity duration-300 ${
                   isOtherSelected ? 'opacity-30' : isSelected ? 'opacity-100' : 'opacity-90 hover:opacity-100'
                 }`}
+                style={{ ['--i' as string]: index }}
                 onClick={() => onSliceClick?.(slice.label)}
               />
             </g>
@@ -84,12 +89,11 @@ export function PieChart({ data, size = 200, onSliceClick, selectedLabel, unit =
         })}
       </svg>
 
-      {/* Legend */}
       <div className="space-y-2">
-        {data.map((item, index) => {
-          const percentage = ((item.value / total) * 100).toFixed(1)
-          const isSelected = selectedLabel === item.label
-          const isOtherSelected = selectedLabel && selectedLabel !== item.label
+        {slices.map((slice, index) => {
+          const percentage = slice.percentage.toFixed(1)
+          const isSelected = selectedLabel === slice.label
+          const isOtherSelected = selectedLabel && selectedLabel !== slice.label
           return (
             <div
               key={index}
@@ -100,20 +104,27 @@ export function PieChart({ data, size = 200, onSliceClick, selectedLabel, unit =
                   ? 'opacity-40'
                   : 'hover:bg-bg-tertiary'
               }`}
-              onClick={() => onSliceClick?.(item.label)}
+              onClick={() => onSliceClick?.(slice.label)}
             >
-              <div className="flex items-center gap-2">
-                <div
+              <div className="flex items-center gap-2 min-w-0">
+                <span
                   className="w-3 h-3 rounded-sm flex-shrink-0"
-                  style={{ backgroundColor: item.color }}
+                  style={{ backgroundColor: slice.fill }}
                 />
-                <span className={`${isSelected ? 'text-text-primary font-semibold' : 'text-text-secondary'}`}>
-                  {item.label}
+                <span
+                  className={`truncate ${
+                    isSelected ? 'text-text-primary font-semibold' : 'text-text-secondary'
+                  }`}
+                >
+                  {slice.label}
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="text-text-primary font-semibold">{item.value}{unit}</span>
-                <span className="text-text-muted text-xs">({percentage}%)</span>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <span className="text-text-primary font-semibold num">
+                  {slice.value}
+                  {unit}
+                </span>
+                <span className="text-text-muted text-xs num">({percentage}%)</span>
               </div>
             </div>
           )

@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { getGamesData } from '@/lib/data'
 import { getMonthlyPlaytime, getCurrentMonth } from '@/lib/play-log'
+import { seriesColor } from '@/lib/chart'
 import { GameController } from '@phosphor-icons/react/dist/ssr'
 import { GamesPageClient, MonthlyPlaytime, PageHeader, SkeletonChart } from '@/components'
 
@@ -45,24 +46,10 @@ export default async function GamesPage() {
     .map(([platform, hours]) => ({ platform, hours }))
     .sort((a, b) => b.hours - a.hours)
 
-  // Palette earth/solarpunk pour les charts (10 stops construits sur la palette)
-  const colors = [
-    '#5a7d4a', // moss
-    '#b86b3c', // terracotta
-    '#7ba896', // fern
-    '#d9a441', // saffron
-    '#a8552c', // rust
-    '#3d5170', // indigo
-    '#a3b598', // sage
-    '#b06868', // clay
-    '#8ab274', // mossSoft
-    '#c8893f', // amber
-  ]
-
   const pieChartData = platformData.map((item, index) => ({
     label: item.platform,
     value: Math.round(item.hours),
-    color: colors[index % colors.length],
+    color: seriesColor(index),
   }))
 
   const totalHours = platformData.reduce((sum, item) => sum + item.hours, 0)
@@ -90,24 +77,11 @@ export default async function GamesPage() {
     .sort((a, b) => b.hours - a.hours)
     .slice(0, 10) // Top 10 genres
 
-  // Genre palette : décalage par rapport au platform pour distinguer visuellement
-  const genreColors = [
-    '#3d5170', // indigo
-    '#b86b3c', // terracotta
-    '#5a7d4a', // moss
-    '#d9a441', // saffron
-    '#a3b598', // sage
-    '#b06868', // clay
-    '#7ba896', // fern
-    '#a8552c', // rust
-    '#8ab274', // mossSoft
-    '#c8893f', // amber
-  ]
-
+  // Décalage de 3 stops pour distinguer visuellement des plateformes.
   const genreChartData = genreData.map((item, index) => ({
     label: item.genre,
     value: Math.round(item.hours),
-    color: genreColors[index % genreColors.length],
+    color: seriesColor(index + 3),
   }))
 
   return (
