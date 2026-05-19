@@ -1,11 +1,16 @@
 name: Update data from SerieBox
 
-# Full pipeline: SerieBox download → JSON generation
+# Full pipeline: SerieBox download (TS) → JSON generation.
 # After this commits, refresh-covers.yml auto-triggers to fetch missing covers.
 #
+# SerieBox login is gated by Google reCAPTCHA v3, so the session cookie CANNOT
+# be renewed automatically. The job uses a manually-pasted PHPSESSID and fails
+# loudly (opens a GitHub issue) when it expires so it can be refreshed.
+#
 # Required GitHub Secrets:
-#   SERIEBOX_USERNAME    — SerieBox login
-#   SERIEBOX_PASSWORD    — SerieBox password
+#   SERIEBOX_COOKIES     — PHPSESSID copied from browser DevTools
+#                          (Application → Cookies → seriebox.com → PHPSESSID).
+#                          Accepts the bare value or a full "k=v; k=v" header.
 #   IGDB_CLIENT_ID       — for game covers
 #   IGDB_CLIENT_SECRET   — for game covers
 #   TMDB_API_KEY         — for film/series posters
@@ -21,6 +26,10 @@ on:
         type: boolean
         default: false
 
+permissions:
+  contents: write
+  issues: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -28,35 +37,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: 'pip'
-
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
           cache-dependency-path: web/package-lock.json
 
-      - name: Install Python dependencies
-        # browser-cookie3 is not needed in CI (username/password fallback is used)
-        run: pip install requests pandas python-dotenv
-
       - name: Install Node dependencies
         run: npm ci
         working-directory: web
 
-      - name: Download from SerieBox + build JSON
-        run: |
-          if [ "${{ inputs.skip_seriebox }}" = "true" ]; then
-            python pipelines/update-data.py --skip-seriebox
-          else
-            python pipelines/update-data.py
-          fi
+      # Dedicated step: download-seriebox.ts exits non-zero when the cookie is
+      # expired, so the job goes red and the failure alert below fires. (The
+      # build step swallows download errors by design for local resilience.)
+      - name: Download from SerieBox
+        if: ${{ inputs.skip_seriebox != true }}
+        run: npx tsx scripts/download-seriebox.ts
+        working-directory: web
         env:
-          SERIEBOX_USERNAME: ${{ secrets.SERIEBOX_USERNAME }}
-          SERIEBOX_PASSWORD: ${{ secrets.SERIEBOX_PASSWORD }}
+          SERIEBOX_COOKIES: ${{ secrets.SERIEBOX_COOKIES }}
+
+      - name: Build JSON from CSVs
+        run: npx tsx scripts/build-data.ts --skip-download
+        working-directory: web
+        env:
           IGDB_CLIENT_ID: ${{ secrets.IGDB_CLIENT_ID }}
           IGDB_CLIENT_SECRET: ${{ secrets.IGDB_CLIENT_SECRET }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
@@ -69,3 +73,30 @@ jobs:
           git diff --cached --quiet && echo "No changes to commit" && exit 0
           git commit -m "chore: update data from SerieBox [skip ci]"
           git push
+
+      # Loud alert: scheduled-workflow failures already email the repo owner;
+      # additionally open (or reuse) an issue so the expired cookie is visible.
+      - name: Alert on failure (likely expired SerieBox cookie)
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          open=$(gh issue list --state open --search 'SerieBox cookie expiré in:title' --json number --jq 'length')
+          if [ "$open" != "0" ]; then
+            echo "An open SerieBox-cookie issue already exists, skipping."
+            exit 0
+          fi
+          gh issue create \
+            --title "SerieBox cookie expiré — refresh SERIEBOX_COOKIES" \
+            --body "Le job \`Update data from SerieBox\` a échoué.
+
+          Cause la plus probable : le **PHPSESSID** du secret \`SERIEBOX_COOKIES\` a expiré (le login SerieBox est protégé par reCAPTCHA v3, donc le cookie ne peut pas se renouveler tout seul).
+
+          **Pour réparer :**
+          1. Se connecter sur https://www.seriebox.com dans un navigateur
+          2. DevTools → Application → Cookies → \`seriebox.com\` → copier la valeur de \`PHPSESSID\`
+          3. Mettre à jour le secret repo \`SERIEBOX_COOKIES\` (Settings → Secrets and variables → Actions)
+          4. Relancer le workflow (Actions → Update data from SerieBox → Run workflow)
+
+          Run en échec : $RUN_URL"
