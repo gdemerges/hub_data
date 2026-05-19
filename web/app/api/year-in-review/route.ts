@@ -96,11 +96,15 @@ function buildReview(year: number, games: Game[], films: Film[], series: Series[
 }
 
 export async function GET(req: NextRequest) {
-  try {
-    const url = new URL(req.url)
-    const yearParam = url.searchParams.get('year')
-    const year = yearParam ? parseInt(yearParam, 10) : new Date().getFullYear()
+  const url = new URL(req.url)
+  const yearParam = url.searchParams.get('year')
+  const currentYear = new Date().getFullYear()
+  const parsedYear = yearParam ? parseInt(yearParam, 10) : currentYear
+  const year = Number.isNaN(parsedYear)
+    ? currentYear
+    : Math.max(1980, Math.min(currentYear + 1, parsedYear))
 
+  try {
     const [games, films, series, books] = await Promise.all([
       getGamesData(),
       getFilmsData(),
@@ -114,6 +118,8 @@ export async function GET(req: NextRequest) {
     )
   } catch (e) {
     logger.error('year-in-review build failed', e)
-    return NextResponse.json({ error: 'build failed' }, { status: 500 })
+    // Renvoie une rétrospective vide valide : le fetcher SWR client ne
+    // vérifie pas response.ok, donc une forme {error} ferait planter le rendu.
+    return NextResponse.json(buildReview(year, [], [], [], []), { status: 200 })
   }
 }

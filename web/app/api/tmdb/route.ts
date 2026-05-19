@@ -8,9 +8,11 @@ const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500'
 
 export async function POST(request: NextRequest) {
   try {
-    const { title, type } = await request.json()
+    const body = await request.json()
+    const title = body?.title
+    const type = body?.type
 
-    if (!title) {
+    if (typeof title !== 'string' || !title.trim()) {
       return NextResponse.json({ error: 'Title required' }, { status: 400 })
     }
 
