@@ -27,6 +27,9 @@ const serverEnvSchema = z.object({
   // SerieBox (pipeline)
   SERIEBOX_USERNAME: z.string().optional(),
   SERIEBOX_PASSWORD: z.string().optional(),
+
+  // Hevy (musculation)
+  HEVY_API_KEY: z.string().optional(),
 })
 
 const clientEnvSchema = z.object({
@@ -80,6 +83,7 @@ const FEATURE_GROUPS: Record<string, (keyof ServerEnv)[]> = {
   strava: ['STRAVA_CLIENT_ID', 'STRAVA_CLIENT_SECRET'],
   tmdb: ['TMDB_API_KEY'],
   igdb: ['IGDB_CLIENT_ID', 'IGDB_CLIENT_SECRET'],
+  hevy: ['HEVY_API_KEY'],
 }
 
 let _validated = false

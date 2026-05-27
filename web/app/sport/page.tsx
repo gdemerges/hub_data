@@ -7,7 +7,17 @@ import type { ActivityFilterKey } from '@/lib/sport'
 
 export const revalidate = 3600
 
-const VALID_FILTERS: ActivityFilterKey[] = ['all', 'Run', 'Ride', 'RPM']
+const VALID_FILTERS: ActivityFilterKey[] = ['all', 'Run', 'Ride', 'RPM', 'Musculation']
+
+function eyebrowFor(filter: ActivityFilterKey): string {
+  switch (filter) {
+    case 'all': return 'Toutes activités'
+    case 'Run': return 'Course'
+    case 'Ride': return 'Vélo'
+    case 'RPM': return 'RPM'
+    case 'Musculation': return 'Musculation'
+  }
+}
 
 export default async function SportPage({
   searchParams,
@@ -26,8 +36,8 @@ export default async function SportPage({
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
         title="Sport"
-        subtitle="Course, vélo, RPM · synchronisé via Strava"
-        eyebrow={filter === 'all' ? 'Toutes activités' : filter === 'Run' ? 'Course' : filter === 'Ride' ? 'Vélo' : 'RPM'}
+        subtitle={filter === 'Musculation' ? 'Musculation · synchronisé via Hevy' : 'Course, vélo, RPM · synchronisé via Strava'}
+        eyebrow={eyebrowFor(filter)}
         dateline={`Année ${year}`}
         color="rust"
         icon={PersonSimpleRun}

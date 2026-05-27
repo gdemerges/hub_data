@@ -10,7 +10,7 @@ export interface SportActivity {
   averageHeartrate?: number
 }
 
-export const ACTIVITY_FILTER_KEYS = ['all', 'Run', 'Ride', 'RPM'] as const
+export const ACTIVITY_FILTER_KEYS = ['all', 'Run', 'Ride', 'RPM', 'Musculation'] as const
 export type ActivityFilterKey = (typeof ACTIVITY_FILTER_KEYS)[number]
 
 export function filterActivity(
@@ -27,6 +27,7 @@ export function filterLabel(filter: string): string {
   if (filter === 'all') return 'Total'
   if (filter === 'Run') return 'Course'
   if (filter === 'RPM') return 'RPM'
+  if (filter === 'Musculation') return 'Musculation'
   return 'Vélo'
 }
 

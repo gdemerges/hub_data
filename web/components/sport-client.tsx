@@ -13,10 +13,12 @@ import {
   Bike,
   Footprints,
   Disc,
+  Dumbbell,
   Zap,
   MapPin,
   ArrowUpRight,
 } from 'lucide-react'
+import { MusculationSection } from '@/components/musculation-section'
 import {
   StatCard,
   SportTrainingAnalysis,
@@ -42,6 +44,7 @@ const ACTIVITY_FILTERS: { key: ActivityFilterKey; label: string; icon: typeof Ac
   { key: 'Run', label: 'Course', icon: Footprints },
   { key: 'Ride', label: 'Vélo', icon: Bike },
   { key: 'RPM', label: 'RPM', icon: Disc },
+  { key: 'Musculation', label: 'Musculation', icon: Dumbbell },
 ]
 
 function getActivityIcon(type: string) {
@@ -62,10 +65,26 @@ interface Props {
 }
 
 export function SportClient({ promise, filter, year }: Props) {
-  const data = use(promise)
   const [optimisticFilter, setOptimisticFilter] = useOptimistic(filter)
   const [optimisticYear, setOptimisticYear] = useOptimistic(year)
 
+  const buildHref = (key: ActivityFilterKey, y: number) => `/sport?filter=${key}&year=${y}`
+
+  if (filter === 'Musculation') {
+    return (
+      <>
+        <FilterBar
+          filters={ACTIVITY_FILTERS}
+          active={optimisticFilter}
+          onSelect={(k) => startTransition(() => setOptimisticFilter(k))}
+          buildHref={(k) => buildHref(k, year)}
+        />
+        <MusculationSection year={optimisticYear} />
+      </>
+    )
+  }
+
+  const data = use(promise)
   if (!data) return <ConnectPanel />
 
   const filtered = data.recentActivities.filter((a) => filterActivity(a, filter))
@@ -75,8 +94,6 @@ export function SportClient({ promise, filter, year }: Props) {
   const yearActivities = filtered.filter((a) => new Date(a.startDate).getFullYear() === year)
   const yearStats = aggregateStats(yearActivities)
   const label = filterLabel(filter)
-
-  const buildHref = (key: ActivityFilterKey, y: number) => `/sport?filter=${key}&year=${y}`
 
   return (
     <>
