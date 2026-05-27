@@ -9,8 +9,8 @@ export function OverviewHero({ children }: { children: React.ReactNode }) {
       className="gradient-mesh relative overflow-hidden rounded-3xl border border-border-subtle shadow-soft mb-12 px-6 sm:px-10 py-10 sm:py-12"
       style={
         {
-          '--mesh-a': '90 125 74',
-          '--mesh-b': '184 107 60',
+          '--mesh-a': '163 181 152',
+          '--mesh-b': '79 140 74',
           '--mesh-c': '123 168 150',
         } as React.CSSProperties
       }
