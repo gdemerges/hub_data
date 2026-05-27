@@ -1,8 +1,21 @@
+import 'server-only'
+import fs from 'fs/promises'
+import path from 'path'
 import { Game, Film, Series, Book } from './types'
-import gamesData from '@/data/games.json'
-import filmsData from '@/data/films.json'
-import seriesData from '@/data/series.json'
 import { logger } from './logger'
+
+const DATA_DIR = path.join(process.cwd(), 'data')
+
+async function readJsonFile<T>(filename: string): Promise<T[]> {
+  try {
+    const raw = await fs.readFile(path.join(DATA_DIR, filename), 'utf-8')
+    return JSON.parse(raw) as T[]
+  } catch (err) {
+    const code = (err as NodeJS.ErrnoException).code
+    if (code !== 'ENOENT') logger.error(`Failed to read ${filename}`, err)
+    return []
+  }
+}
 
 const GITHUB_USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'gdemerges'
 const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql'
@@ -37,7 +50,8 @@ function normalizePlatform(p: string): string {
 }
 
 export async function getGamesData(): Promise<Game[]> {
-  return (gamesData as Game[]).map(g => ({
+  const games = await readJsonFile<Game>('games.json')
+  return games.map(g => ({
     ...g,
     platform: g.platform ? normalizePlatform(g.platform) : g.platform,
     platforms: g.platforms?.map(p => ({ ...p, platform: normalizePlatform(p.platform) })),
@@ -45,11 +59,11 @@ export async function getGamesData(): Promise<Game[]> {
 }
 
 export async function getFilmsData(): Promise<Film[]> {
-  return filmsData as Film[]
+  return readJsonFile<Film>('films.json')
 }
 
 export async function getSeriesData(): Promise<Series[]> {
-  return seriesData as Series[]
+  return readJsonFile<Series>('series.json')
 }
 
 export async function getBooksData(): Promise<Book[]> {

@@ -15,9 +15,11 @@ export function SWRProvider({ children }: SWRProviderProps) {
       value={{
         fetcher,
         revalidateOnFocus: false,
+        revalidateOnReconnect: false,
         revalidateIfStale: false,
         dedupingInterval: 1800000, // 30 min default; server TTLs are 1-6h so no need to re-fetch sooner
-        errorRetryCount: 3,
+        errorRetryCount: 1,
+        errorRetryInterval: 5000,
       }}
     >
       {children}
