@@ -5,6 +5,7 @@ import {
   formatDuration,
   aggregateStats,
   yearlyStats,
+  monthlyTrend,
   computeTrainingAnalysis,
   SportActivity,
 } from './sport'
@@ -37,6 +38,33 @@ describe('filterActivity', () => {
   it('Run matches type', () => {
     expect(filterActivity({ type: 'Run', name: 'x' }, 'Run')).toBe(true)
     expect(filterActivity({ type: 'Ride', name: 'x' }, 'Run')).toBe(false)
+  })
+})
+
+describe('monthlyTrend', () => {
+  const now = new Date('2026-04-15T00:00:00Z')
+
+  it('buckets a metric into the last N months, chronological', () => {
+    const acts = [
+      mk({ startDate: '2026-04-10T08:00:00Z', distance: 10 }), // mois courant
+      mk({ startDate: '2026-04-20T08:00:00Z', distance: 5 }),  // mois courant
+      mk({ startDate: '2026-03-01T08:00:00Z', distance: 8 }),  // mois -1
+    ]
+    const trend = monthlyTrend(acts, 'distance', 3, now)
+    expect(trend).toHaveLength(3)
+    expect(trend[trend.length - 1]).toBe(15) // avril cumulé
+    expect(trend[trend.length - 2]).toBe(8)  // mars
+    expect(trend[0]).toBe(0)                 // février, vide
+  })
+
+  it('ignores activities outside the window', () => {
+    const acts = [mk({ startDate: '2025-01-01T08:00:00Z', distance: 99 })]
+    expect(monthlyTrend(acts, 'distance', 3, now)).toEqual([0, 0, 0])
+  })
+
+  it('converts time to hours', () => {
+    const acts = [mk({ startDate: '2026-04-10T08:00:00Z', movingTime: 120 })]
+    expect(monthlyTrend(acts, 'time', 1, now)).toEqual([2])
   })
 })
 

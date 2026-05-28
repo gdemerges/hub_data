@@ -54,14 +54,21 @@ export function FitnessChart({ data }: FitnessChartProps) {
   // Sample tous les 3 jours pour la lisibilité
   const sampledData = recentData.filter((_, i) => i % 3 === 0 || i === recentData.length - 1)
 
+  const coord = (key: 'ctl' | 'atl' | 'tsb', i: number) => ({
+    x: (i / (sampledData.length - 1)) * 100,
+    y: ((maxValue - sampledData[i][key]) / (maxValue * 2)) * 100 + 50,
+  })
+
   const linePoints = (key: 'ctl' | 'atl' | 'tsb') =>
-    sampledData
-      .map((d, i) => {
-        const x = (i / (sampledData.length - 1)) * 100
-        const y = ((maxValue - d[key]) / (maxValue * 2)) * 100 + 50
-        return `${x},${y}`
-      })
-      .join(' ')
+    sampledData.map((_, i) => { const p = coord(key, i); return `${p.x},${p.y}` }).join(' ')
+
+  // Annotations : pic de forme (CTL max) et creux de fraîcheur (TSB min).
+  const peakCtlIdx = sampledData.reduce((b, d, i) => (d.ctl > sampledData[b].ctl ? i : b), 0)
+  const lowTsbIdx = sampledData.reduce((b, d, i) => (d.tsb < sampledData[b].tsb ? i : b), 0)
+  const annotations = [
+    { ...coord('ctl', peakCtlIdx), color: C_CTL, label: `Pic ${sampledData[peakCtlIdx].ctl.toFixed(0)}` },
+    { ...coord('tsb', lowTsbIdx), color: 'rgb(var(--dv-7))', label: `Fatigue ${sampledData[lowTsbIdx].tsb.toFixed(0)}` },
+  ]
 
   return (
     <div className="tech-card p-6">
@@ -166,6 +173,33 @@ export function FitnessChart({ data }: FitnessChartProps) {
             strokeDasharray="4,4"
             vectorEffect="non-scaling-stroke"
           />
+
+          {/* Annotations : pic de forme & fatigue max — mêmes coordonnées que les courbes */}
+          {annotations.map((a, i) => (
+            <g key={i}>
+              <circle cx={a.x} cy={a.y} r={5} fill={a.color} opacity={0.18} />
+              <circle
+                cx={a.x}
+                cy={a.y}
+                r={2.5}
+                fill="rgb(var(--bg-card))"
+                stroke={a.color}
+                strokeWidth={2}
+                vectorEffect="non-scaling-stroke"
+              />
+              <text
+                x={a.x}
+                y={a.y - 6}
+                fill={a.color}
+                fontSize={7}
+                fontFamily="var(--font-mono)"
+                fontWeight={600}
+                textAnchor={a.x > 80 ? 'end' : a.x < 20 ? 'start' : 'middle'}
+              >
+                {a.label}
+              </text>
+            </g>
+          ))}
         </svg>
       </div>
 

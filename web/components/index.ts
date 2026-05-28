@@ -1,5 +1,6 @@
 export { MediaCard } from './media-card'
 export { StatCard } from './stat-card'
+export { Sparkline } from './sparkline'
 export { Navigation } from './navigation'
 export { MediaDetail } from './media-detail'
 export { MediaGrid } from './media-grid'

@@ -16,11 +16,13 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
   weight: ['400', '500', '600'],
 })
+// Police variable : on charge l'axe optique `opsz` (9→144) en plus du poids,
+// pour que les grands titres gagnent en contraste/élégance (optical sizing).
 const fraunces = Fraunces({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
+  axes: ['opsz'],
 })
 
 export const metadata: Metadata = {

@@ -168,10 +168,10 @@ export function SpotifyClient({ promise }: Props) {
 
       <FadeIn delay={0.1}>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <StatCard label="Titres favoris" value={data.stats.totalTracks} icon={Disc} color="green" />
-          <StatCard label="Artistes favoris" value={data.stats.totalArtists} icon={Mic2} color="green" />
-          <StatCard label="Genres" value={data.stats.totalGenres} icon={ListMusic} color="green" />
-          <StatCard label="Écoutes récentes" value={data.recentlyPlayed.length} icon={Clock} color="green" />
+          <StatCard label="Titres favoris" value={data.stats.totalTracks} icon={Disc} color="moss" />
+          <StatCard label="Artistes favoris" value={data.stats.totalArtists} icon={Mic2} color="moss" />
+          <StatCard label="Genres" value={data.stats.totalGenres} icon={ListMusic} color="moss" />
+          <StatCard label="Écoutes récentes" value={data.recentlyPlayed.length} icon={Clock} color="moss" />
         </div>
       </FadeIn>
 

@@ -234,25 +234,25 @@ export default function ActivityPage() {
           label="Distance"
           value={`${activity.distance.toFixed(2)} km`}
           icon={Route}
-          color="orange"
+          color="rust"
         />
         <StatCard
           label="Durée"
           value={formatDuration(activity.movingTime)}
           icon={Timer}
-          color="cyan"
+          color="fern"
         />
         <StatCard
           label="Allure moyenne"
           value={formatPace(activity.averageSpeed)}
           icon={Zap}
-          color="green"
+          color="moss"
         />
         <StatCard
           label="Dénivelé"
           value={`${Math.round(activity.totalElevationGain)} m`}
           icon={Mountain}
-          color="magenta"
+          color="terracotta"
         />
       </div>
 
@@ -263,7 +263,7 @@ export default function ActivityPage() {
             label="FC moyenne"
             value={`${Math.round(activity.averageHeartrate)} bpm`}
             icon={Heart}
-            color="red"
+            color="clay"
           />
         )}
         {activity.maxHeartrate && (
@@ -271,7 +271,7 @@ export default function ActivityPage() {
             label="FC max"
             value={`${Math.round(activity.maxHeartrate)} bpm`}
             icon={Heart}
-            color="red"
+            color="clay"
           />
         )}
         {activity.calories && (
@@ -279,14 +279,14 @@ export default function ActivityPage() {
             label="Calories"
             value={`${activity.calories} kcal`}
             icon={Flame}
-            color="yellow"
+            color="saffron"
           />
         )}
         <StatCard
           label="Vitesse max"
           value={`${activity.maxSpeed.toFixed(1)} km/h`}
           icon={TrendingUp}
-          color="purple"
+          color="sage"
         />
       </div>
 

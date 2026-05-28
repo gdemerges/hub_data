@@ -83,6 +83,28 @@ export function yearlyStats(activities: SportActivity[], mode: 'distance' | 'hou
     .sort((a, b) => a.year - b.year)
 }
 
+/**
+ * Total d'une métrique par mois sur les `months` derniers mois (ordre
+ * chronologique, le dernier élément = mois courant). Pour les sparklines.
+ * Distance en km, temps en heures — arrondis.
+ */
+export function monthlyTrend(
+  activities: SportActivity[],
+  metric: 'distance' | 'time',
+  months = 12,
+  now: Date = new Date()
+): number[] {
+  const buckets = new Array<number>(months).fill(0)
+  for (const a of activities) {
+    const d = new Date(a.startDate)
+    const diff = (now.getFullYear() - d.getFullYear()) * 12 + (now.getMonth() - d.getMonth())
+    if (diff < 0 || diff >= months) continue
+    const idx = months - 1 - diff
+    buckets[idx] += metric === 'time' ? a.movingTime / 60 : a.distance
+  }
+  return buckets.map((v) => Math.round(v))
+}
+
 export interface WeeklyData {
   distance: number
   runs: number

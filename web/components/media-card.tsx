@@ -2,17 +2,7 @@
 
 import Image from 'next/image'
 import { cn, getInitials } from '@/lib/utils'
-
-type Accent =
-  | 'moss'
-  | 'fern'
-  | 'terracotta'
-  | 'rust'
-  | 'saffron'
-  | 'clay'
-  | 'indigo'
-  | 'sage'
-  | 'leaf'
+import type { Accent } from '@/lib/accents'
 
 interface MediaCardProps {
   title: string

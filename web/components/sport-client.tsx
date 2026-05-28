@@ -36,6 +36,7 @@ import {
   aggregateStats,
   availableYears,
   yearlyStats,
+  monthlyTrend,
 } from '@/lib/sport'
 import type { StravaData, StravaAthlete } from '@/lib/strava'
 
@@ -94,6 +95,8 @@ export function SportClient({ promise, filter, year }: Props) {
   const yearActivities = filtered.filter((a) => new Date(a.startDate).getFullYear() === year)
   const yearStats = aggregateStats(yearActivities)
   const label = filterLabel(filter)
+  const distanceTrend = monthlyTrend(filtered, 'distance')
+  const timeTrend = monthlyTrend(filtered, 'time')
 
   return (
     <>
@@ -107,10 +110,10 @@ export function SportClient({ promise, filter, year }: Props) {
       />
 
       <div className="motion-stagger grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-        <StatCard label={`Distance · ${label}`} value={`${Math.round(stats.totalDistance)} km`} icon={Route} color="orange" />
-        <StatCard label="Temps total" value={`${Math.round(stats.totalTime)} h`} icon={Timer} color="cyan" />
-        <StatCard label="Dénivelé total" value={`${Math.round(stats.totalElevation)} m`} icon={Mountain} color="green" />
-        <StatCard label="Activités" value={stats.totalActivities} icon={Flame} color="magenta" />
+        <StatCard label={`Distance · ${label}`} value={`${Math.round(stats.totalDistance)} km`} icon={Route} color="rust" trend={distanceTrend} />
+        <StatCard label="Temps total" value={`${Math.round(stats.totalTime)} h`} icon={Timer} color="fern" trend={timeTrend} />
+        <StatCard label="Dénivelé total" value={`${Math.round(stats.totalElevation)} m`} icon={Mountain} color="moss" />
+        <StatCard label="Activités" value={stats.totalActivities} icon={Flame} color="terracotta" />
       </div>
 
       <YearFocus

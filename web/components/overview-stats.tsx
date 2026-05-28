@@ -3,6 +3,7 @@
 import useSWR from 'swr'
 import { Gamepad2, Film, Tv, Github, Footprints, Heart, Globe, BookOpen } from 'lucide-react'
 import { StatCard } from './stat-card'
+import type { Accent } from '@/lib/accents'
 
 interface OverviewStatsProps {
   gamesCount: number
@@ -37,32 +38,32 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, selectedYea
     label: string
     value: string | number
     icon: typeof Gamepad2
-    color: 'green' | 'magenta' | 'yellow' | 'blue' | 'cyan' | 'orange' | 'purple' | 'red'
+    color: Accent
     href: string
   }> = [
-    { label: 'Jeux joués', value: gamesCount, icon: Gamepad2, color: 'green', href: '/games' },
-    { label: 'Films vus', value: filmsCount, icon: Film, color: 'magenta', href: '/films' },
-    { label: 'Séries suivies', value: seriesCount, icon: Tv, color: 'yellow', href: '/series' },
+    { label: 'Jeux joués', value: gamesCount, icon: Gamepad2, color: 'moss', href: '/games' },
+    { label: 'Films vus', value: filmsCount, icon: Film, color: 'terracotta', href: '/films' },
+    { label: 'Séries suivies', value: seriesCount, icon: Tv, color: 'saffron', href: '/series' },
   ]
 
   if (booksRead !== null) {
-    stats.push({ label: 'Livres lus', value: booksRead, icon: BookOpen, color: 'blue', href: '/books' })
+    stats.push({ label: 'Livres lus', value: booksRead, icon: BookOpen, color: 'indigo', href: '/books' })
   }
 
   if (contributions !== null) {
-    stats.push({ label: 'Contributions', value: contributions, icon: Github, color: 'cyan', href: '/github' })
+    stats.push({ label: 'Contributions', value: contributions, icon: Github, color: 'fern', href: '/github' })
   }
 
   if (runDistance !== null) {
-    stats.push({ label: 'Km courus', value: `${runDistance} km`, icon: Footprints, color: 'orange', href: '/sport' })
+    stats.push({ label: 'Km courus', value: `${runDistance} km`, icon: Footprints, color: 'rust', href: '/sport' })
   }
 
   if (countriesCount !== null) {
-    stats.push({ label: 'Pays visités', value: countriesCount, icon: Globe, color: 'purple', href: '/voyages' })
+    stats.push({ label: 'Pays visités', value: countriesCount, icon: Globe, color: 'sage', href: '/voyages' })
   }
 
   if (partnersCount !== null) {
-    stats.push({ label: 'Partenaires', value: partnersCount, icon: Heart, color: 'red', href: '/rencontres' })
+    stats.push({ label: 'Partenaires', value: partnersCount, icon: Heart, color: 'clay', href: '/rencontres' })
   }
 
   return (

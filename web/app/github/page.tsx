@@ -95,15 +95,15 @@ export default async function DevPage({
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <StatCard label="Repositories" value={data.stats.totalRepos} icon={Code} color="magenta" />
+        <StatCard label="Repositories" value={data.stats.totalRepos} icon={Code} color="terracotta" />
         <StatCard
           label="Contributions totales"
           value={data.stats.totalContributions}
           icon={Star}
-          color="cyan"
+          color="fern"
         />
-        <StatCard label="Forks" value={data.stats.totalForks} icon={GitFork} color="yellow" />
-        <StatCard label="Followers" value={data.user.followers} icon={Users} color="green" />
+        <StatCard label="Forks" value={data.stats.totalForks} icon={GitFork} color="saffron" />
+        <StatCard label="Followers" value={data.user.followers} icon={Users} color="moss" />
       </div>
 
       <Suspense fallback={<GitHubContributionsSkeleton />}>

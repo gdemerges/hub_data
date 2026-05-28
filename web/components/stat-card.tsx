@@ -1,43 +1,24 @@
 import { cn } from '@/lib/utils'
 import { LucideIcon, ArrowUpRight } from 'lucide-react'
 import { MouseGlowCard } from './mouse-glow-card'
+import { ACCENTS, accentMeshVars, type Accent } from '@/lib/accents'
+import { Sparkline } from './sparkline'
 
 interface StatCardProps {
   label: string
   value: string | number
   icon?: LucideIcon
   className?: string
-  color?: 'cyan' | 'magenta' | 'green' | 'yellow' | 'orange' | 'red' | 'blue' | 'purple'
+  color?: Accent
   href?: string
+  /** Série de valeurs pour une mini-tendance sous le chiffre (optionnel). */
+  trend?: number[]
 }
 
-type ColorTokens = {
-  text: string
-  // Triplets RGB pour --accent / --mesh-* (gradient mesh + glow curseur)
-  accent: string
-  warm: string
-}
+export function StatCard({ label, value, icon: Icon, className, color = 'fern', href, trend }: StatCardProps) {
+  const tokens = ACCENTS[color]
 
-const colorTokens: Record<NonNullable<StatCardProps['color']>, ColorTokens> = {
-  cyan:    { text: 'text-earth-fern',       accent: '123 168 150', warm: '163 181 152' },
-  magenta: { text: 'text-earth-terracotta', accent: '184 107 60',  warm: '217 164 65'  },
-  green:   { text: 'text-earth-moss',       accent: '90 125 74',   warm: '138 178 116' },
-  yellow:  { text: 'text-earth-saffron',    accent: '217 164 65',  warm: '184 107 60'  },
-  orange:  { text: 'text-earth-rust',       accent: '168 85 44',   warm: '217 164 65'  },
-  red:     { text: 'text-earth-clay',       accent: '176 104 104', warm: '184 107 60'  },
-  blue:    { text: 'text-earth-indigo',     accent: '61 81 112',   warm: '123 168 150' },
-  purple:  { text: 'text-earth-sage',       accent: '163 181 152', warm: '90 125 74'   },
-}
-
-export function StatCard({ label, value, icon: Icon, className, color = 'cyan', href }: StatCardProps) {
-  const tokens = colorTokens[color]
-
-  const styleVars = {
-    ['--accent' as string]: tokens.accent,
-    ['--mesh-a' as string]: tokens.accent,
-    ['--mesh-b' as string]: tokens.warm,
-    ['--mesh-c' as string]: tokens.accent,
-  } as React.CSSProperties
+  const styleVars = accentMeshVars(color)
 
   const cardClasses = cn(
     'tech-card p-6 group block',
@@ -64,6 +45,12 @@ export function StatCard({ label, value, icon: Icon, className, color = 'cyan', 
       <div className={cn('font-display text-5xl font-medium tracking-tight num leading-none', tokens.text)}>
         {typeof value === 'number' ? value.toLocaleString('fr-FR') : value}
       </div>
+
+      {trend && trend.length > 1 && (
+        <div className="mt-4">
+          <Sparkline data={trend} accent={tokens.accent} />
+        </div>
+      )}
 
       <div className="mt-5 flex items-center gap-3">
         <span

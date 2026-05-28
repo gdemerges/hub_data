@@ -118,25 +118,25 @@ export function MusculationSection({ year }: Props) {
           label={`Volume · ${year}`}
           value={formatVolume(yearVolume)}
           icon={Flame}
-          color="orange"
+          color="rust"
         />
         <StatCard
           label="Séances"
           value={yearWorkouts}
           icon={Activity}
-          color="magenta"
+          color="terracotta"
         />
         <StatCard
           label="Temps total"
           value={`${Math.round(yearDuration / 60)} h`}
           icon={Timer}
-          color="cyan"
+          color="fern"
         />
         <StatCard
           label="Exercices uniques"
           value={stats.uniqueExercises}
           icon={Layers}
-          color="green"
+          color="moss"
         />
       </div>
 
