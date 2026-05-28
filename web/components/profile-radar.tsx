@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { ChevronLeft, ChevronRight, User } from 'lucide-react'
+import { useApiData } from '@/lib/use-api-data'
 
 interface RadarDataPoint {
   category: string
@@ -54,6 +55,7 @@ function SvgRadarChart({ data }: { data: RadarDataPoint[] }) {
         height={size}
         viewBox={`0 0 ${size} ${size}`}
         className="overflow-visible"
+        role="img"
         aria-label="Radar chart du profil"
       >
         {/* Concentric grid polygons */}
@@ -137,27 +139,11 @@ function SvgRadarChart({ data }: { data: RadarDataPoint[] }) {
 }
 
 export function ProfileRadar() {
-  const [data, setData] = useState<ProfileData | null>(null)
-  const [loading, setLoading] = useState(true)
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
-
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true)
-      try {
-        const response = await fetch(`/api/profile?year=${selectedYear}`)
-        if (response.ok) {
-          const result = await response.json()
-          setData(result)
-        }
-      } catch {
-        // profile fetch failure is non-critical; UI shows empty radar
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchData()
-  }, [selectedYear])
+  // profile fetch failure is non-critical; UI shows an empty radar
+  const { data, loading } = useApiData<ProfileData>(
+    `/api/profile?year=${selectedYear}`
+  )
 
   if (loading) {
     return (

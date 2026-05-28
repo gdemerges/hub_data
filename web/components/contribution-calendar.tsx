@@ -116,8 +116,15 @@ export function ContributionCalendar({
   const cellSize = `calc((100% - ${weeks.length - 1} * 0.25rem) / ${weeks.length})`
   const cellHeight = '0.75rem' // 12px
 
+  const totalContributions = contributions.reduce((sum, c) => sum + (c.count || 0), 0)
+  const calendarYear = year || new Date().getFullYear()
+
   return (
-    <div className="w-full">
+    <div
+      className="w-full"
+      role="img"
+      aria-label={`Calendrier de contributions ${calendarYear} : ${totalContributions} contributions au total`}
+    >
       <div className="w-full">
         {/* Month labels */}
         <div className="relative mb-2 ml-12 h-4">

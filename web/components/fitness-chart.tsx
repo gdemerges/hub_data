@@ -128,7 +128,16 @@ export function FitnessChart({ data }: FitnessChartProps) {
           style={{ top: '50%', borderColor: 'rgb(var(--dv-axis) / 0.5)' }}
         />
 
-        <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+        <svg
+          className="absolute inset-0 w-full h-full"
+          preserveAspectRatio="none"
+          role="img"
+          aria-label={`Courbe de forme sur 90 jours — CTL (forme) ${Math.round(
+            latestMetrics.ctl
+          )}, ATL (fatigue) ${Math.round(latestMetrics.atl)}, TSB (fraîcheur) ${Math.round(
+            latestMetrics.tsb
+          )}`}
+        >
           <polyline
             points={linePoints('ctl')}
             fill="none"

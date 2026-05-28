@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { useApiData } from '@/lib/use-api-data'
 import {
   Film,
   Tv,
@@ -51,28 +52,13 @@ const typeLabels: Record<string, string> = {
 }
 
 export function UnifiedTimeline() {
-  const [events, setEvents] = useState<TimelineEvent[]>([])
-  const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<string | null>(null)
   const [limit, setLimit] = useState(30)
-
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true)
-      try {
-        const response = await fetch(`/api/timeline?limit=${limit}`)
-        if (response.ok) {
-          const result = await response.json()
-          setEvents(result.events)
-        }
-      } catch {
-        // timeline fetch failure is non-critical; UI shows empty list
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchData()
-  }, [limit])
+  // timeline fetch failure is non-critical; UI falls back to an empty list
+  const { data, loading } = useApiData<{ events: TimelineEvent[] }>(
+    `/api/timeline?limit=${limit}`
+  )
+  const events = data?.events ?? []
 
   const filteredEvents = filter
     ? events.filter((e) => e.type === filter)

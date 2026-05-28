@@ -165,7 +165,11 @@ export function UnifiedActivityHeatmap({ data }: Props) {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
+      <div
+        className="overflow-x-auto"
+        role="img"
+        aria-label={`Heatmap d'activité sur 365 jours : ${total.toLocaleString('fr-FR')} ${meta.label.toLowerCase()} au total`}
+      >
         <div className="inline-flex flex-col gap-1 min-w-full">
           {/* Month labels */}
           <div className="flex pl-8 gap-[3px] relative h-3 text-[10px] font-mono text-text-muted">
