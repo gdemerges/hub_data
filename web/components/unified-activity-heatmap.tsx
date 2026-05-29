@@ -1,15 +1,20 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import useSWR from 'swr'
 import {
   Film,
   Gamepad2,
   Book,
+  Tv,
   Activity,
   Github,
   Sparkles,
+  X,
+  type LucideIcon,
 } from 'lucide-react'
 import type { ActivitySource, UnifiedActivity } from '@/lib/activity'
+import type { DayEvent, DayEventType } from '@/lib/day-detail'
 
 interface Props {
   data: UnifiedActivity
@@ -32,6 +37,13 @@ const SOURCES: SourceMeta[] = [
   { key: 'github', label: 'GitHub', icon: Github, text: 'text-earth-fern', hex: '#7ba896' },
   { key: 'claude', label: 'Claude', icon: Sparkles, text: 'text-earth-leaf', hex: '#4f8c4a' },
 ]
+
+const DAY_EVENT_META: Record<DayEventType, { icon: LucideIcon; text: string }> = {
+  film: { icon: Film, text: 'text-earth-terracotta' },
+  series: { icon: Tv, text: 'text-earth-saffron' },
+  game: { icon: Gamepad2, text: 'text-earth-moss' },
+  book: { icon: Book, text: 'text-earth-indigo' },
+}
 
 function buildDateGrid(startDate: string, endDate: string): string[] {
   const dates: string[] = []
@@ -70,6 +82,20 @@ const DAY_LABELS = ['Lun', '', 'Mer', '', 'Ven', '', '']
 
 export function UnifiedActivityHeatmap({ data }: Props) {
   const [active, setActive] = useState<ActivitySource>('films')
+  const [selectedDate, setSelectedDate] = useState<string | null>(null)
+
+  // Named events (films/séries/jeux/livres) for the clicked day — fetched on
+  // demand. Quantitative sources (sport/GitHub/Claude) are read from `data`.
+  const { data: dayData, isLoading: dayLoading } = useSWR<{ events: DayEvent[] }>(
+    selectedDate ? `/api/day?date=${selectedDate}` : null
+  )
+  const dayEvents = dayData?.events ?? []
+  const dayCounts = selectedDate
+    ? SOURCES.map(s => ({
+        ...s,
+        count: data.sources.find(d => d.source === s.key)?.byDate[selectedDate] ?? 0,
+      })).filter(s => s.count > 0)
+    : []
 
   const meta = SOURCES.find(s => s.key === active)!
   const source = data.sources.find(s => s.source === active)
@@ -218,11 +244,19 @@ export function UnifiedActivityHeatmap({ data }: Props) {
                     v === 0
                       ? `${formatLongDate(date)} · aucune`
                       : `${formatLongDate(date)} · ${v} ${meta.label.toLowerCase()}`
+                  const isSelected = date === selectedDate
                   return (
-                    <div
+                    <button
                       key={j}
+                      type="button"
                       title={tooltip}
-                      className="w-[11px] h-[11px] rounded-sm border border-border-subtle/40"
+                      aria-label={tooltip}
+                      onClick={() => setSelectedDate(isSelected ? null : date)}
+                      className={`w-[11px] h-[11px] rounded-sm border transition-shadow cursor-pointer hover:ring-1 hover:ring-text-muted ${
+                        isSelected
+                          ? 'ring-2 ring-offset-1 ring-offset-bg-card ring-text-primary border-transparent'
+                          : 'border-border-subtle/40'
+                      }`}
                       style={{
                         background:
                           v === 0
@@ -254,6 +288,63 @@ export function UnifiedActivityHeatmap({ data }: Props) {
           </div>
         </div>
       </div>
+
+      {selectedDate && (
+        <div className="mt-5 pt-5 border-t border-border-subtle">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-sm font-medium text-text-primary capitalize">
+                {formatLongDate(selectedDate)}
+              </span>
+              {dayCounts.map(s => {
+                const SIcon = s.icon
+                return (
+                  <span
+                    key={s.key}
+                    className={`inline-flex items-center gap-1 text-[11px] font-mono ${s.text}`}
+                    title={`${s.label} · ${s.count}`}
+                  >
+                    <SIcon className="w-3 h-3" />
+                    {s.count}
+                  </span>
+                )
+              })}
+            </div>
+            <button
+              type="button"
+              onClick={() => setSelectedDate(null)}
+              aria-label="Fermer le détail du jour"
+              className="text-text-muted hover:text-text-primary transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          {dayLoading ? (
+            <p className="text-xs font-mono text-text-muted animate-pulse">Chargement…</p>
+          ) : dayEvents.length === 0 && dayCounts.length === 0 ? (
+            <p className="text-xs text-text-muted">Rien d&apos;enregistré ce jour-là.</p>
+          ) : (
+            <ul className="flex flex-wrap gap-2">
+              {dayEvents.map((e, i) => {
+                const EIcon = DAY_EVENT_META[e.type].icon
+                return (
+                  <li
+                    key={`${e.type}-${e.title}-${i}`}
+                    className="flex items-center gap-2 rounded-full border border-border-subtle bg-bg-primary pl-2 pr-3 py-1.5"
+                    title={e.subtitle ? `${e.title} — ${e.subtitle}` : e.title}
+                  >
+                    <EIcon className={`w-3.5 h-3.5 shrink-0 ${DAY_EVENT_META[e.type].text}`} />
+                    <span className="text-xs text-text-secondary max-w-[200px] truncate">
+                      {e.title}
+                    </span>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   )
 }
