@@ -72,7 +72,7 @@ export function SpotifyClient({ promise }: Props) {
     })
   }
 
-  if (!data || !data.user) {
+  if (!data?.user) {
     return (
       <>
         <PageHeader title="Musique" subtitle="Statistiques d'écoute" color="leaf" icon={MusicNotes} />

@@ -1,6 +1,6 @@
-import fs from 'fs'
-import { promises as fsp } from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import { promises as fsp } from 'node:fs'
+import path from 'node:path'
 import { logger } from './logger'
 
 export interface Partner {
@@ -81,9 +81,9 @@ export async function loadRencontres(): Promise<{
           ville: columns[1]?.trim() || '',
           genre: columns[2]?.trim() || '',
           nationalite: columns[3]?.trim() || '',
-          annee: parseInt(columns[4]?.trim()) || 0,
+          annee: parseInt(columns[4]?.trim(), 10) || 0,
           penetration: columns[5]?.trim() || '',
-          anneeNaissance: parseInt(columns[6]?.trim()) || 0,
+          anneeNaissance: parseInt(columns[6]?.trim(), 10) || 0,
         })
       }
     }

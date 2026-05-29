@@ -6,7 +6,7 @@ import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
 import { MediaTopPicks, type TopPick } from '@/components/media-top-picks'
 import { Search, SlidersHorizontal, Gamepad2, Clock, Calendar, Star } from 'lucide-react'
-import { Game } from '@/lib/types'
+import type { Game } from '@/lib/types'
 
 interface GamesClientProps {
   games: Game[]

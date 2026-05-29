@@ -1,7 +1,7 @@
 'use client'
 
-import { PerformanceAnalysis } from '@/lib/types'
-import { TrendingUp, Calendar, Clock, Coffee, Lightbulb, BarChart3 } from 'lucide-react'
+import type { PerformanceAnalysis } from '@/lib/types'
+import { Calendar, Clock, Coffee, Lightbulb, BarChart3 } from 'lucide-react'
 
 interface PerformanceFactorsProps {
   analysis: PerformanceAnalysis
@@ -38,9 +38,9 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
     const restImprovement = Math.round(bestRestDays.improvement)
 
     const improvements = [
-      { factor: 'le ' + bestDayOfWeek.label, value: dayImprovement },
+      { factor: `le ${bestDayOfWeek.label}`, value: dayImprovement },
       { factor: bestTimeOfDay.label.toLowerCase(), value: timeImprovement },
-      { factor: 'après ' + bestRestDays.label + ' de repos', value: restImprovement },
+      { factor: `après ${bestRestDays.label} de repos`, value: restImprovement },
     ].sort((a, b) => b.value - a.value)
 
     if (improvements[0].value >= 5 && improvements[1].value >= 5) {

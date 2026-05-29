@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs'
-import { promises as fsp } from 'fs'
-import path from 'path'
+import { type NextRequest, NextResponse } from 'next/server'
+import fs from 'node:fs'
+import { promises as fsp } from 'node:fs'
+import path from 'node:path'
 import { getFilmsData, getSeriesData, getGamesData } from '@/lib/data'
 import { logger } from '@/lib/logger'
 
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
   try {
     const limitParam = request.nextUrl.searchParams.get('limit')
     const parsedLimit = limitParam ? parseInt(limitParam, 10) : 50
-    const limit = isNaN(parsedLimit) ? 50 : Math.max(1, Math.min(500, parsedLimit))
+    const limit = Number.isNaN(parsedLimit) ? 50 : Math.max(1, Math.min(500, parsedLimit))
 
     const events: TimelineEvent[] = []
 
@@ -154,7 +154,7 @@ export async function GET(request: NextRequest) {
 
               if (cached?.city && !cached.city.startsWith('Location')) {
                 const date = item.startTime.split('T')[0]
-                const monthKey = date.substring(0, 7) + '-' + cached.city
+                const monthKey = `${date.substring(0, 7)}-${cached.city}`
 
                 if (!cityByMonth.has(monthKey)) {
                   cityByMonth.set(monthKey, {

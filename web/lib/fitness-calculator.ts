@@ -1,4 +1,4 @@
-import { FitnessMetrics, RacePrediction, RecoveryAdvice, PerformanceAnalysis, PerformanceInsight } from './types'
+import type { FitnessMetrics, RacePrediction, RecoveryAdvice, PerformanceAnalysis, PerformanceInsight } from './types'
 import { logger } from './logger'
 
 // Fitness algorithm constants — edit here to adjust all calculations
@@ -88,7 +88,7 @@ export function calculateTSS(activity: Activity, thresholdPace: number = FITNESS
     intensityFactor = Math.max(FITNESS_CONSTANTS.MIN_INTENSITY_FACTOR, Math.min(FITNESS_CONSTANTS.MAX_INTENSITY_FACTOR, intensityFactor))
 
     // TSS = durée (h) × IF² × 100
-    const tss = durationHours * Math.pow(intensityFactor, 2) * 100
+    const tss = durationHours * intensityFactor ** 2 * 100
 
     // Ajustement pour le dénivelé (chaque 100m = +3% TSS avec FC)
     const elevationMultiplier = 1 + (activity.totalElevationGain / 1000) * 0.03
@@ -104,7 +104,7 @@ export function calculateTSS(activity: Activity, thresholdPace: number = FITNESS
   intensityFactor = Math.min(thresholdPace / pace, FITNESS_CONSTANTS.MAX_INTENSITY_FACTOR)
 
   // TSS = durée (h) × IF² × 100
-  const tss = durationHours * Math.pow(intensityFactor, 2) * 100
+  const tss = durationHours * intensityFactor ** 2 * 100
 
   // Ajustement pour le dénivelé (chaque 100m = +5 TSS)
   const elevationBonus = (activity.totalElevationGain / 100) * 5
@@ -140,7 +140,7 @@ export function calculateFitnessMetrics(activities: Activity[]): FitnessMetrics[
     const recentPaces = recentActivities
       .slice(-10)
       .map(a => a.movingTime / a.distance)
-      .filter(pace => !isNaN(pace) && pace > 0)
+      .filter(pace => !Number.isNaN(pace) && pace > 0)
       .sort((a, b) => a - b)
     const thresholdPace = recentPaces[Math.floor(recentPaces.length / 2)] || FITNESS_CONSTANTS.DEFAULT_THRESHOLD_PACE
 
@@ -149,7 +149,7 @@ export function calculateFitnessMetrics(activities: Activity[]): FitnessMetrics[
     for (const activity of recentActivities) {
       const date = activity.startDate.split('T')[0]
       const tss = calculateTSS(activity, thresholdPace, lthr)
-      if (!isNaN(tss) && tss > 0) {
+      if (!Number.isNaN(tss) && tss > 0) {
         dailyTSS.set(date, (dailyTSS.get(date) || 0) + tss)
       }
     }
@@ -240,7 +240,7 @@ export function predictRaceTimes(activities: Activity[]): RacePrediction[] {
   const predictions: RacePrediction[] = [
     {
       distance: 5,
-      predictedTime: reference10kTime * Math.pow(5 / 10, 1.06),
+      predictedTime: reference10kTime * (5 / 10) ** 1.06,
       currentPace,
       confidence: recentRuns.length >= 10 ? 85 : 70,
     },
@@ -252,13 +252,13 @@ export function predictRaceTimes(activities: Activity[]): RacePrediction[] {
     },
     {
       distance: 21.1,
-      predictedTime: reference10kTime * Math.pow(21.1 / 10, 1.06),
+      predictedTime: reference10kTime * (21.1 / 10) ** 1.06,
       currentPace,
       confidence: recentRuns.length >= 15 ? 75 : 60,
     },
     {
       distance: 42.2,
-      predictedTime: reference10kTime * Math.pow(42.2 / 10, 1.08), // Plus conservateur
+      predictedTime: reference10kTime * (42.2 / 10) ** 1.08, // Plus conservateur
       currentPace,
       confidence: recentRuns.length >= 20 ? 70 : 50,
     },
@@ -357,7 +357,7 @@ export function analyzeRecovery(activities: Activity[]): RecoveryAdvice {
 
   // Calcul du risque
   let riskScore = 0
-  let reasons: string[] = []
+  const reasons: string[] = []
 
   // Risque 1: Augmentation brutale de charge (>20%)
   if (previousWeekLoad > 0) {

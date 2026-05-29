@@ -8,7 +8,7 @@ import { MediaTopPicks, type TopPick } from '@/components/media-top-picks'
 import { Recommendations } from '@/components/recommendations'
 import { StaggerContainer, StaggerItem } from '@/components/page-transition'
 import { Search, Calendar, Star, Clock, ArrowUpDown } from 'lucide-react'
-import { Film } from '@/lib/types'
+import type { Film } from '@/lib/types'
 
 type SortOption = 'recent' | 'oldest' | 'rating' | 'title'
 

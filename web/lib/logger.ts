@@ -34,7 +34,7 @@ function format(level: Level, scope: string | undefined, args: unknown[]): strin
     const colors: Record<Level, string> = { debug: '\x1b[90m', info: '\x1b[36m', warn: '\x1b[33m', error: '\x1b[31m' }
     const reset = '\x1b[0m'
     const tag = scope ? `[${scope}] ` : ''
-    const extra = Object.keys(data).length ? ' ' + JSON.stringify(data) : ''
+    const extra = Object.keys(data).length ? ` ${JSON.stringify(data)}` : ''
     return `${colors[level]}${level.toUpperCase()}${reset} ${tag}${msg}${extra}`
   }
   return JSON.stringify(record)

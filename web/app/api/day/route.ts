@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { getFilmsData, getSeriesData, getGamesData, getBooksData } from '@/lib/data'
 import { eventsOnDate } from '@/lib/day-detail'
 import { logger } from '@/lib/logger'

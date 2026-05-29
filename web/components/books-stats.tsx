@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { Book } from '@/lib/types'
+import type { Book } from '@/lib/types'
 import {
   BookOpen,
   Star,
@@ -57,7 +57,7 @@ function parseFrenchDateTime(s?: string): Date | null {
   if (!s) return null
   const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})/)
   if (!m) return null
-  return new Date(parseInt(m[3]), parseInt(m[2]) - 1, parseInt(m[1]))
+  return new Date(parseInt(m[3], 10), parseInt(m[2], 10) - 1, parseInt(m[1], 10))
 }
 
 export function BooksStats({ books }: BooksStatsProps) {

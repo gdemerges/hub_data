@@ -9,8 +9,8 @@
  *   npx tsx scripts/refresh-book-covers.ts --force    # repart de zéro
  */
 
-import { readFileSync, writeFileSync, existsSync } from 'fs'
-import { resolve } from 'path'
+import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import { resolve } from 'node:path'
 import * as XLSX from 'xlsx'
 
 const DATA_DIR = resolve(__dirname, '../../data')
@@ -111,7 +111,7 @@ function scoreMatch(
   const et = normalize(expectedTitle)
   let s = 0
   if (ct === et) s += 1000
-  else if (ct.startsWith(et + ' ')) s += 500
+  else if (ct.startsWith(`${et} `)) s += 500
   else if (ct.startsWith(et)) s += 350
   else if (ct.includes(et)) s += 150
   // shared word ratio

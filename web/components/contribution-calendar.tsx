@@ -41,7 +41,7 @@ export function ContributionCalendar({
     // Build weeks array (each week has 7 days)
     const weeks: ContributionDay[][] = []
     let currentWeek: ContributionDay[] = []
-    let currentDate = new Date(startDate)
+    const currentDate = new Date(startDate)
 
     // Track months for labels - only at the start of each month
     const monthsArray: { name: string; weekIndex: number }[] = []

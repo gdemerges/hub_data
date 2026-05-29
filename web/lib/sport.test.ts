@@ -7,7 +7,7 @@ import {
   yearlyStats,
   monthlyTrend,
   computeTrainingAnalysis,
-  SportActivity,
+  type SportActivity,
 } from './sport'
 
 const mk = (over: Partial<SportActivity> = {}): SportActivity => ({

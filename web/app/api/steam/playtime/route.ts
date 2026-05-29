@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { loadPlaytime } from '@/lib/steam-playtime'
 import { logger } from '@/lib/logger'
 
@@ -12,7 +12,7 @@ const HEADERS = { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidat
 export async function GET(request: NextRequest) {
   try {
     const yearParam = request.nextUrl.searchParams.get('year')
-    const year = yearParam ? parseInt(yearParam) : new Date().getFullYear()
+    const year = yearParam ? parseInt(yearParam, 10) : new Date().getFullYear()
     return NextResponse.json(await loadPlaytime(year), { headers: HEADERS })
   } catch (error) {
     logger.error('Steam playtime API error:', error)

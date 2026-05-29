@@ -1,5 +1,5 @@
 import { Clock } from '@phosphor-icons/react/dist/ssr'
-import { MonthlyGamePlaytime } from '@/lib/play-log'
+import type { MonthlyGamePlaytime } from '@/lib/play-log'
 
 interface MonthlyPlaytimeProps {
   month: string
@@ -13,7 +13,7 @@ const MONTH_LABELS_FR = [
 
 function formatMonth(month: string): string {
   const [y, m] = month.split('-')
-  return `${MONTH_LABELS_FR[parseInt(m) - 1]} ${y}`
+  return `${MONTH_LABELS_FR[parseInt(m, 10) - 1]} ${y}`
 }
 
 function formatHours(h: number): string {

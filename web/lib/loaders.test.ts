@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { promises as fsp } from 'fs'
-import os from 'os'
-import path from 'path'
+import { promises as fsp } from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
 import { loadRencontres } from './rencontres-loader'
 import { loadBooks } from './books-loader'
 

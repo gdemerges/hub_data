@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode, CSSProperties } from 'react'
+import type { ReactNode, CSSProperties } from 'react'
 
 interface PageTransitionProps {
   children: ReactNode

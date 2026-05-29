@@ -1,5 +1,5 @@
-import { readdirSync, readFileSync, existsSync } from 'fs'
-import { resolve } from 'path'
+import { readdirSync, readFileSync, existsSync } from 'node:fs'
+import { resolve } from 'node:path'
 
 const PLAY_LOG_DIR = resolve(process.cwd(), '../data/play-log')
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { RecoveryAdvice } from '@/lib/types'
+import type { RecoveryAdvice } from '@/lib/types'
 import { Shield, AlertTriangle, CheckCircle, Clock } from 'lucide-react'
 
 interface RecoveryAdvisorProps {

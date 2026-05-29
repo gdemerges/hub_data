@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { GitCompare, ArrowUp, ArrowDown, Minus, Film as FilmIcon, Tv, Gamepad2, Clock } from 'lucide-react'
-import { Film, Series, Game } from '@/lib/types'
+import type { Film, Series, Game } from '@/lib/types'
 
 interface YearComparisonProps {
   films: Film[]

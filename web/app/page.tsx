@@ -18,7 +18,7 @@ export default async function HomePage({
   searchParams: Promise<{ year?: string }>
 }) {
   const { year } = await searchParams
-  const selectedYear = year ? parseInt(year) : null
+  const selectedYear = year ? parseInt(year, 10) : null
 
   const goalsYear = selectedYear ?? new Date().getFullYear()
 

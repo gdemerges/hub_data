@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { TokenCache } from '@/lib/token-cache'
 import { logger } from '@/lib/logger'
 import { safeParse, igdbSearchResponseSchema, igdbTokenSchema } from '@/lib/api-schemas'

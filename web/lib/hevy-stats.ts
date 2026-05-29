@@ -67,7 +67,7 @@ function setVolume(weight: number | null, reps: number | null): number {
 function durationMin(w: HevyWorkout): number {
   const start = new Date(w.start_time).getTime()
   const end = new Date(w.end_time).getTime()
-  if (!isFinite(start) || !isFinite(end) || end <= start) return 0
+  if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start) return 0
   return (end - start) / 60_000
 }
 
@@ -140,7 +140,7 @@ export function computeWeeklyVolume(workouts: HevyWorkout[], weeks = 26): Volume
   const map = new Map<string, VolumePoint>()
   for (const w of workouts) {
     const start = new Date(w.start_time)
-    if (isNaN(start.getTime())) continue
+    if (Number.isNaN(start.getTime())) continue
     const monday = isoDate(mondayOf(start))
     const { volumeKg, sets } = workoutVolume(w)
     const existing = map.get(monday) ?? {
@@ -163,7 +163,7 @@ export function computeMonthlyVolume(workouts: HevyWorkout[]): MonthlyVolumePoin
   const map = new Map<string, MonthlyVolumePoint>()
   for (const w of workouts) {
     const d = new Date(w.start_time)
-    if (isNaN(d.getTime())) continue
+    if (Number.isNaN(d.getTime())) continue
     const month = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
     const { volumeKg } = workoutVolume(w)
     const existing = map.get(month) ?? { month, volumeKg: 0, workouts: 0, durationMin: 0 }

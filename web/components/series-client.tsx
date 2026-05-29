@@ -8,7 +8,7 @@ import { MediaTopPicks, type TopPick } from '@/components/media-top-picks'
 import { Recommendations } from '@/components/recommendations'
 import { StaggerContainer, StaggerItem } from '@/components/page-transition'
 import { Search, Calendar, Star, ListOrdered } from 'lucide-react'
-import { Series } from '@/lib/types'
+import type { Series } from '@/lib/types'
 
 interface SeriesClientProps {
   series: Series[]

@@ -12,8 +12,8 @@
  *   TMDB_API_KEY                        — for film/series posters
  */
 
-import { readFileSync, writeFileSync, existsSync } from 'fs'
-import { resolve } from 'path'
+import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { config } from 'dotenv'
 
 config({ path: resolve(__dirname, '../.env') })

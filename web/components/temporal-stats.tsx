@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { TrendingUp, Calendar, Film as FilmIcon, Tv, Gamepad2 } from 'lucide-react'
-import { Film, Series, Game } from '@/lib/types'
+import type { Film, Series, Game } from '@/lib/types'
 
 interface TemporalStatsProps {
   films: Film[]

@@ -80,7 +80,7 @@ describe('calculateTSS', () => {
   it('clamps intensity factor to MAX', () => {
     // Crazy fast HR (ratio > MAX)
     const tss = calculateTSS(mkRun({ movingTime: 60, averageHeartrate: 300 }), 5.5, 100)
-    const maxTss = 60 / 60 * Math.pow(FITNESS_CONSTANTS.MAX_INTENSITY_FACTOR, 2) * 100
+    const maxTss = 60 / 60 * FITNESS_CONSTANTS.MAX_INTENSITY_FACTOR ** 2 * 100
     // elevation multiplier = 1 (no elevation), so ceiling is maxTss
     expect(tss).toBeLessThanOrEqual(Math.round(maxTss) + 1)
   })

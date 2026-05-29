@@ -34,7 +34,7 @@ export default async function DevPage({
   searchParams: Promise<{ year?: string }>
 }) {
   const { year: yearParam } = await searchParams
-  const year = yearParam ? parseInt(yearParam) : new Date().getFullYear()
+  const year = yearParam ? parseInt(yearParam, 10) : new Date().getFullYear()
 
   const contributionsPromise = loadGitHubContributions(GITHUB_USERNAME, year)
   const yearlyPromise = loadGitHubYearly(GITHUB_USERNAME)

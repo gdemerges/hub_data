@@ -61,6 +61,7 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning>
       <head>
         <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: script inline anti-flash de thème, exécuté avant l'hydratation pour éviter le FOUC clair/sombre
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var s=localStorage.getItem('hub-theme');var t=s||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.classList.toggle('light',t==='light');document.documentElement.classList.toggle('dark',t==='dark');}catch(e){}})();`,
           }}

@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs'
-import { promises as fsp } from 'fs'
-import path from 'path'
+import { type NextRequest, NextResponse } from 'next/server'
+import fs from 'node:fs'
+import { promises as fsp } from 'node:fs'
+import path from 'node:path'
 import { logger } from '@/lib/logger'
 
 export async function GET(request: NextRequest) {
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
     // Filter by year - parse CSV and check "Année" column (index 4)
     const parsedYear = parseInt(year, 10)
-    if (isNaN(parsedYear) || parsedYear < 1900 || parsedYear > new Date().getFullYear() + 1) {
+    if (Number.isNaN(parsedYear) || parsedYear < 1900 || parsedYear > new Date().getFullYear() + 1) {
       return NextResponse.json({ count: 0, hasData: false })
     }
     const targetYear = parsedYear
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
       const columns = line.split(';')
       const yearColumn = columns[4]?.trim() // "Année" column
 
-      if (yearColumn && parseInt(yearColumn) === targetYear) {
+      if (yearColumn && parseInt(yearColumn, 10) === targetYear) {
         count++
       }
     }

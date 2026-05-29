@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs'
-import { promises as fsp } from 'fs'
-import path from 'path'
+import { type NextRequest, NextResponse } from 'next/server'
+import fs from 'node:fs'
+import { promises as fsp } from 'node:fs'
+import path from 'node:path'
 import { getGamesData, getFilmsData, getSeriesData, getGitHubContributions } from '@/lib/data'
 import { logger } from '@/lib/logger'
 
@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     const yearParam = request.nextUrl.searchParams.get('year')
     const currentYear = new Date().getFullYear()
     const parsedYear = yearParam ? parseInt(yearParam, 10) : currentYear
-    const year = isNaN(parsedYear) ? currentYear : Math.max(1900, Math.min(currentYear + 1, parsedYear))
+    const year = Number.isNaN(parsedYear) ? currentYear : Math.max(1900, Math.min(currentYear + 1, parsedYear))
 
     // Fetch all data
     const [allGames, allFilms, allSeries, contributions] = await Promise.all([
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
         for (let i = 1; i < lines.length; i++) {
           const columns = lines[i].split(';')
           const partnerYear = columns[4]?.trim()
-          if (partnerYear && parseInt(partnerYear) === year) {
+          if (partnerYear && parseInt(partnerYear, 10) === year) {
             partnersCount++
           }
         }

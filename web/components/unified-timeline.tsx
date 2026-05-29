@@ -84,7 +84,7 @@ export function UnifiedTimeline() {
 
   const formatMonthYear = (yearMonth: string) => {
     const [year, month] = yearMonth.split('-')
-    const date = new Date(parseInt(year), parseInt(month) - 1)
+    const date = new Date(parseInt(year, 10), parseInt(month, 10) - 1)
     return date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
   }
 

@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { tmdbFetch } from '@/lib/rate-limiter'
 import { logger } from '@/lib/logger'
 import { safeParse, tmdbSearchResponseSchema, tmdbDetailsSchema } from '@/lib/api-schemas'

@@ -28,7 +28,7 @@ export default async function SportPage({
   const filter = VALID_FILTERS.includes(filterParam as ActivityFilterKey)
     ? (filterParam as ActivityFilterKey)
     : 'Run'
-  const year = yearParam ? parseInt(yearParam) : new Date().getFullYear()
+  const year = yearParam ? parseInt(yearParam, 10) : new Date().getFullYear()
 
   const promise = loadStrava()
 

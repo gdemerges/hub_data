@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import Image from 'next/image'
-import { Game } from '@/lib/types'
+import type { Game } from '@/lib/types'
 import {
   Trophy,
   Star,

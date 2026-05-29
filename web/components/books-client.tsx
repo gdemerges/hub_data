@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { Book } from '@/lib/types'
+import type { Book } from '@/lib/types'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
 import { BooksStats, DeltaIndicator, ReadingDelay } from '@/components/books-stats'
@@ -34,7 +34,7 @@ function parseFrenchDateTime(s?: string): number {
   if (!s) return 0
   const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})/)
   if (!m) return 0
-  return new Date(parseInt(m[3]), parseInt(m[2]) - 1, parseInt(m[1])).getTime()
+  return new Date(parseInt(m[3], 10), parseInt(m[2], 10) - 1, parseInt(m[1], 10)).getTime()
 }
 
 interface BooksClientProps {
@@ -87,8 +87,8 @@ export function BooksClient({ books }: BooksClientProps) {
     if (format) result = result.filter(b => b.format === format)
     if (genre) result = result.filter(b => b.genre1 === genre || b.genre2 === genre)
     if (lectorat) result = result.filter(b => b.lectorat === lectorat)
-    if (readStatus === 'read') result = result.filter(b => b.dateRead && b.dateRead.trim())
-    if (readStatus === 'unread') result = result.filter(b => !b.dateRead || !b.dateRead.trim())
+    if (readStatus === 'read') result = result.filter(b => b.dateRead?.trim())
+    if (readStatus === 'unread') result = result.filter(b => !b.dateRead?.trim())
 
     const sorted = [...result]
     switch (sortBy) {

@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { LucideIcon, ArrowUpRight } from 'lucide-react'
+import { type LucideIcon, ArrowUpRight } from 'lucide-react'
 import { MouseGlowCard } from './mouse-glow-card'
 import { ACCENTS, accentMeshVars, type Accent } from '@/lib/accents'
 import { Sparkline } from './sparkline'

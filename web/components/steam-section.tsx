@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { StatCard, ContributionCalendar } from '@/components'
-import { Gamepad2, Clock, Trophy, RefreshCw, ChevronLeft, ChevronRight, Terminal, Zap } from 'lucide-react'
+import { Gamepad2, Clock, Trophy, RefreshCw, ChevronLeft, ChevronRight, Zap } from 'lucide-react'
 
 interface SteamData {
   user: {

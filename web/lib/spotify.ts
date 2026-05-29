@@ -1,7 +1,7 @@
 import 'server-only'
-import fs from 'fs'
-import path from 'path'
-import { z } from 'zod'
+import fs from 'node:fs'
+import path from 'node:path'
+import type { z } from 'zod'
 
 import { readFileCache, writeFileCache, isCacheFresh } from './file-cache'
 import { TokenCache } from './token-cache'

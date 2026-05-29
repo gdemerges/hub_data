@@ -6,7 +6,7 @@ import { PieChart, EmptyState } from '@/components'
 import { SteamSection } from '@/components/steam-section'
 import { GameStats } from '@/components/games-stats'
 import { Trophy, Gamepad2, BarChart3, Activity } from 'lucide-react'
-import { Game } from '@/lib/types'
+import type { Game } from '@/lib/types'
 
 interface GamesPageClientProps {
   games: Game[]

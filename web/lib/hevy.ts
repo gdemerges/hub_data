@@ -1,5 +1,5 @@
 import 'server-only'
-import path from 'path'
+import path from 'node:path'
 import { readFileCache, writeFileCache, isCacheFresh } from './file-cache'
 import { logger } from './logger'
 import { getServerEnv } from './env'

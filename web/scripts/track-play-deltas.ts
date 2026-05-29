@@ -1,5 +1,5 @@
-import { readFileSync, writeFileSync, mkdirSync, existsSync, copyFileSync, readdirSync } from 'fs'
-import { resolve } from 'path'
+import { readFileSync, writeFileSync, mkdirSync, existsSync, copyFileSync, readdirSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { parse } from 'csv-parse/sync'
 
 const ROOT = resolve(__dirname, '../..')

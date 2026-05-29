@@ -1,8 +1,8 @@
-import fs from 'fs'
-import { promises as fsp } from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import { promises as fsp } from 'node:fs'
+import path from 'node:path'
 import * as XLSX from 'xlsx'
-import { Book } from './types'
+import type { Book } from './types'
 import { logger } from './logger'
 
 interface BooksCache {
@@ -76,21 +76,21 @@ function mapRawToBooks(
         title,
         titleVO: row['Titre VO'] ? String(row['Titre VO']) : undefined,
         author: row['Auteur(s)'] ? String(row['Auteur(s)']) : undefined,
-        format: row['Format'] ? String(row['Format']) : undefined,
-        lectorat: row['Lectorat'] ? String(row['Lectorat']) : undefined,
+        format: row.Format ? String(row.Format) : undefined,
+        lectorat: row.Lectorat ? String(row.Lectorat) : undefined,
         genre1: row['Genre 1'] ? String(row['Genre 1']) : undefined,
         genre2: row['Genre 2'] ? String(row['Genre 2']) : undefined,
-        editeur: row['Editeur'] ? String(row['Editeur']) : undefined,
-        collection: row['Collection'] ? String(row['Collection']) : undefined,
-        year: row['Année'] ? Number(row['Année']) : undefined,
+        editeur: row.Editeur ? String(row.Editeur) : undefined,
+        collection: row.Collection ? String(row.Collection) : undefined,
+        year: row.Année ? Number(row.Année) : undefined,
         pages: row['Nombre de pages'] ? Number(row['Nombre de pages']) : undefined,
-        langue: row['Langue'] ? String(row['Langue']) : undefined,
+        langue: row.Langue ? String(row.Langue) : undefined,
         rating: row['Note personnelle (/20)'] ? Number(row['Note personnelle (/20)']) : undefined,
         avgRating: row['Moyenne (/20)'] ? Number(row['Moyenne (/20)']) : undefined,
         dateRead: row['Date de lecture'] ? String(row['Date de lecture']) : undefined,
         datePurchase: row["Date d'achat"] ? String(row["Date d'achat"]) : undefined,
         type: row['Type de livre'] ? String(row['Type de livre']) : undefined,
-        isbn: row['ISBN'] ? String(row['ISBN']) : undefined,
+        isbn: row.ISBN ? String(row.ISBN) : undefined,
         coverUrl,
       }
     })

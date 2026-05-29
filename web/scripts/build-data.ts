@@ -1,6 +1,6 @@
 import { parse } from 'csv-parse/sync'
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
-import { resolve } from 'path'
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { config } from 'dotenv'
 import { downloadFromSeriebox } from './download-seriebox'
 
@@ -86,13 +86,13 @@ const GAME_NAME_MAP: Record<string, string> = {
 function parseNumber(value: string): number | undefined {
   if (!value || value === '') return undefined
   const parsed = parseFloat(value.replace(',', '.'))
-  return isNaN(parsed) ? undefined : parsed
+  return Number.isNaN(parsed) ? undefined : parsed
 }
 
 function parseYear(dateStr: string): number | undefined {
   if (!dateStr) return undefined
   const match = dateStr.match(/\d{4}/)
-  return match ? parseInt(match[0]) : undefined
+  return match ? parseInt(match[0], 10) : undefined
 }
 
 function sleep(ms: number): Promise<void> {
@@ -107,7 +107,7 @@ function normalizeGameTitle(title: string): string {
   }
   
   // Remove problematic characters and normalize
-  let normalized = title
+  const normalized = title
     .replace(/[?����]/g, '') // Remove question marks and replacement chars
     .replace(/\s+/g, ' ') // Normalize whitespace
     .trim()
@@ -226,7 +226,7 @@ function pickBestCandidate(candidates: IgdbGame[], searchTerm: string): IgdbGame
     const n = normalizeForCompare(c.name)
     let s = 0
     if (n === target) s += 1000 // exact match wins
-    else if (n.startsWith(target + ' ')) s += 400
+    else if (n.startsWith(`${target} `)) s += 400
     else if (n.startsWith(target)) s += 200
     else if (n.includes(target)) s += 50
     if (GOOD_CATEGORIES.has(c.category ?? 0)) s += 100

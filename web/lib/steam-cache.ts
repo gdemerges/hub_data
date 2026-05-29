@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import { createFileCache } from './cache-store'
 
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000

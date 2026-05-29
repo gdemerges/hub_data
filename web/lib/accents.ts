@@ -50,9 +50,9 @@ export const ACCENTS: Record<Accent, AccentTokens> = {
 export function accentMeshVars(accent: Accent): CSSProperties {
   const t = ACCENTS[accent]
   return {
-    ['--accent']: t.accent,
-    ['--mesh-a']: t.accent,
-    ['--mesh-b']: t.warm,
-    ['--mesh-c']: t.accent,
+    '--accent': t.accent,
+    '--mesh-a': t.accent,
+    '--mesh-b': t.warm,
+    '--mesh-c': t.accent,
   } as CSSProperties
 }

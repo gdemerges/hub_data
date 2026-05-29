@@ -3,9 +3,8 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import {
-  Terminal, ArrowLeft, Route, Timer, Mountain, Heart,
-  Flame, TrendingUp, Clock, Zap, Activity, MapPin
+import {ArrowLeft, Route, Timer, Mountain, Heart,
+  Flame, TrendingUp, Clock, Zap, Activity, 
 } from 'lucide-react'
 import { StatCard } from '@/components'
 
@@ -64,7 +63,7 @@ function decodePolyline(encoded: string): [number, number][] {
   let index = 0, lat = 0, lng = 0
 
   while (index < encoded.length) {
-    let b, shift = 0, result = 0
+    let b = 0, shift = 0, result = 0
     do {
       b = encoded.charCodeAt(index++) - 63
       result |= (b & 0x1f) << shift

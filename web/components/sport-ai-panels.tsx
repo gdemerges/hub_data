@@ -17,7 +17,7 @@ import {
   calculateLTHR,
   analyzePerformanceFactors,
 } from '@/lib/fitness-calculator'
-import { SportActivity } from '@/lib/sport'
+import type { SportActivity } from '@/lib/sport'
 
 interface Props {
   activities: SportActivity[]

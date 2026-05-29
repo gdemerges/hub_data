@@ -1,6 +1,6 @@
 'use client'
 
-import { FitnessMetrics } from '@/lib/types'
+import type { FitnessMetrics } from '@/lib/types'
 import { TrendingUp, Activity, Zap } from 'lucide-react'
 import { EmptyState } from './empty-state'
 

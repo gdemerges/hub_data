@@ -15,7 +15,7 @@ export default async function SteamPage({
   searchParams: Promise<{ year?: string }>
 }) {
   const { year: yearParam } = await searchParams
-  const year = yearParam ? parseInt(yearParam) : new Date().getFullYear()
+  const year = yearParam ? parseInt(yearParam, 10) : new Date().getFullYear()
   const playtimePromise = loadPlaytime(year)
   const data = await loadSteam()
 

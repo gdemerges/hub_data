@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 
 import { getValidStravaToken } from '@/lib/strava-token'
 import { logger } from '@/lib/logger'
@@ -29,11 +29,11 @@ async function fetchStravaData(accessToken: string, year: string | null) {
   let yearRunDistance = 0
 
   // If year is current year or not specified, use ytd stats
-  if (!year || parseInt(year) === currentYear) {
+  if (!year || parseInt(year, 10) === currentYear) {
     yearRunDistance = (statsData.ytd_run_totals?.distance || 0) / 1000
   } else {
     // For other years, fetch activities and calculate
-    const targetYear = parseInt(year)
+    const targetYear = parseInt(year, 10)
     const after = Math.floor(new Date(targetYear, 0, 1).getTime() / 1000)
     const before = Math.floor(new Date(targetYear, 11, 31, 23, 59, 59).getTime() / 1000)
 
@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
     let year: string | null = null
     if (yearParam !== null) {
       const parsedYear = parseInt(yearParam, 10)
-      if (!isNaN(parsedYear) && parsedYear >= 1900 && parsedYear <= currentYear + 1) {
+      if (!Number.isNaN(parsedYear) && parsedYear >= 1900 && parsedYear <= currentYear + 1) {
         year = String(parsedYear)
       }
     }

@@ -1,7 +1,7 @@
 import 'server-only'
-import fs from 'fs'
-import { promises as fsp } from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import { promises as fsp } from 'node:fs'
+import path from 'node:path'
 import { nominatimFetch } from './rate-limiter'
 import { readFileCache, writeFileCache, isCacheFresh } from './file-cache'
 import { logger } from './logger'
@@ -115,12 +115,12 @@ function extractCityCountry(address: string): { city?: string; country?: string 
 }
 
 function parseGeoLocation(geoStr: string): { lat: number; lng: number } | null {
-  if (!geoStr || !geoStr.startsWith('geo:')) return null
+  if (!geoStr?.startsWith('geo:')) return null
   const coords = geoStr.replace('geo:', '').split(',')
   if (coords.length !== 2) return null
   const lat = parseFloat(coords[0])
   const lng = parseFloat(coords[1])
-  if (isNaN(lat) || isNaN(lng)) return null
+  if (Number.isNaN(lat) || Number.isNaN(lng)) return null
   return { lat, lng }
 }
 

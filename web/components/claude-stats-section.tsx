@@ -33,6 +33,15 @@ function daysSince(iso?: string): number {
 }
 
 export function ClaudeStatsSection({ stats }: { stats: ClaudeStats }) {
+  // Hooks déclarés avant tout return conditionnel (règles des hooks).
+  const [range, setRange] = useState<ActivityRange>('30d')
+  const lastDays = useMemo(() => {
+    const all = stats.dailyActivity ?? []
+    if (range === 'all') return all
+    const days = range === '30d' ? 30 : 90
+    return all.slice(-days)
+  }, [stats.dailyActivity, range])
+
   if (!stats.available) {
     return (
       <div className="tech-card p-6 mb-8">
@@ -51,13 +60,6 @@ export function ClaudeStatsSection({ stats }: { stats: ClaudeStats }) {
     )
   }
 
-  const [range, setRange] = useState<ActivityRange>('30d')
-  const lastDays = useMemo(() => {
-    const all = stats.dailyActivity
-    if (range === 'all') return all
-    const days = range === '30d' ? 30 : 90
-    return all.slice(-days)
-  }, [stats.dailyActivity, range])
   const dailyMax = Math.max(...lastDays.map(d => d.messageCount), 1)
   const hourMax = Math.max(...stats.hourCounts, 1)
   const since = daysSince(stats.firstSessionDate)

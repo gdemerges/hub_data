@@ -15,12 +15,12 @@
  * and prints the refresh token to copy into .env as SPOTIFY_REFRESH_TOKEN.
  */
 
-import { createServer } from 'http'
-import { exec } from 'child_process'
-import { resolve } from 'path'
-import { readFileSync, writeFileSync, existsSync } from 'fs'
+import { createServer } from 'node:http'
+import { exec } from 'node:child_process'
+import { resolve } from 'node:path'
+import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { config } from 'dotenv'
-import crypto from 'crypto'
+import crypto from 'node:crypto'
 
 config({ path: resolve(__dirname, '../.env') })
 
@@ -111,7 +111,7 @@ async function main() {
     method: 'POST',
     headers: {
       Authorization:
-        'Basic ' + Buffer.from(`${clientId}:${clientSecret}`).toString('base64'),
+        `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`,
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: new URLSearchParams({
@@ -139,7 +139,7 @@ async function main() {
   //    (re-read from disk to handle token rotation reliably).
   // 2) web/.env — kept in sync as a fallback / for clarity.
   const tokenFile = resolve(__dirname, '../../data/spotify-refresh-token.txt')
-  const fs = await import('fs')
+  const fs = await import('node:fs')
   fs.mkdirSync(resolve(__dirname, '../../data'), { recursive: true })
   fs.writeFileSync(tokenFile, data.refresh_token, { mode: 0o600 })
 
@@ -159,7 +159,7 @@ async function main() {
     if (!found) updated.push(line)
     writeFileSync(envPath, updated.join('\n'))
   } else {
-    writeFileSync(envPath, line + '\n')
+    writeFileSync(envPath, `${line}\n`)
   }
 
   console.log('\n✅ Refresh token sauvegardé :')

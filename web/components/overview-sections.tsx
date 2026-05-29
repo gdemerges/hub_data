@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
 import Link from 'next/link'
-import { Game, Film, Series } from '@/lib/types'
+import type { Game, Film, Series } from '@/lib/types'
 import { Calendar, Clock, Star, Gamepad2, Film as FilmIcon, Tv, ChevronRight } from 'lucide-react'
 
 const sectionColors = {

@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs'
-import { promises as fsp } from 'fs'
-import path from 'path'
+import { type NextRequest, NextResponse } from 'next/server'
+import fs from 'node:fs'
+import { promises as fsp } from 'node:fs'
+import path from 'node:path'
 import { logger } from '@/lib/logger'
 
 export async function GET(request: NextRequest) {

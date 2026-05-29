@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import { FileCacheStore } from './cache-store'
 
 export async function readFileCache<T>(filePath: string): Promise<{ data: T; cachedAt: number } | null> {

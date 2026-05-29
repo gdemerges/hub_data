@@ -2,7 +2,7 @@
 
 import { AlertTriangle, CheckCircle, TrendingDown, TrendingUp, Target, Zap } from 'lucide-react'
 import { ExpandableSection } from '@/components'
-import { computeTrainingAnalysis, SportActivity } from '@/lib/sport'
+import { computeTrainingAnalysis, type SportActivity } from '@/lib/sport'
 
 interface Props {
   runs: SportActivity[]

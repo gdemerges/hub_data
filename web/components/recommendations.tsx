@@ -3,7 +3,7 @@
 import { useMemo } from 'react'
 import { MediaCard } from './media-card'
 import { Sparkles } from 'lucide-react'
-import { Film, Series, Game } from '@/lib/types'
+import type { Film, Series, Game } from '@/lib/types'
 
 interface RecommendationsProps {
   type: 'films' | 'series' | 'games'

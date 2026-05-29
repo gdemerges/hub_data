@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { getBaseUrl, verifyCronSecret } from '@/lib/cron-utils'
 import { logger } from '@/lib/logger'
 

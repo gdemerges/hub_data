@@ -47,8 +47,8 @@ const DAY_EVENT_META: Record<DayEventType, { icon: LucideIcon; text: string }> =
 
 function buildDateGrid(startDate: string, endDate: string): string[] {
   const dates: string[] = []
-  const start = new Date(startDate + 'T00:00:00')
-  const end = new Date(endDate + 'T00:00:00')
+  const start = new Date(`${startDate}T00:00:00`)
+  const end = new Date(`${endDate}T00:00:00`)
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
     dates.push(d.toISOString().slice(0, 10))
   }
@@ -67,7 +67,7 @@ function intensity(value: number, max: number): number {
 }
 
 function formatLongDate(iso: string): string {
-  return new Date(iso + 'T00:00:00').toLocaleDateString('fr-FR', {
+  return new Date(`${iso}T00:00:00`).toLocaleDateString('fr-FR', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
@@ -114,7 +114,7 @@ export function UnifiedActivityHeatmap({ data }: Props) {
     let current: (string | null)[] = []
 
     // Start: pad to align on Monday for first week
-    const firstDow = dowMonFirst(new Date(dates[0] + 'T00:00:00'))
+    const firstDow = dowMonFirst(new Date(`${dates[0]}T00:00:00`))
     for (let i = 0; i < firstDow; i++) current.push(null)
 
     for (const d of dates) {

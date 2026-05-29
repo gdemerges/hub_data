@@ -1,6 +1,6 @@
-import fs from 'fs'
-import { promises as fsp } from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import { promises as fsp } from 'node:fs'
+import path from 'node:path'
 import { logger } from './logger'
 
 const TOKEN_FILE = path.join(process.cwd(), 'data', 'strava-tokens.json')

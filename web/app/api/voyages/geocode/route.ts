@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
-import fs from 'fs'
-import { promises as fsp } from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import { promises as fsp } from 'node:fs'
+import path from 'node:path'
 import { nominatimFetch } from '@/lib/rate-limiter'
 import { logger } from '@/lib/logger'
 
@@ -50,7 +50,7 @@ function parseGeoLocation(coordStr: string): { lat: number; lng: number } | null
   const lat = parseFloat(parts[0])
   const lng = parseFloat(parts[1])
 
-  if (isNaN(lat) || isNaN(lng)) return null
+  if (Number.isNaN(lat) || Number.isNaN(lng)) return null
 
   return { lat, lng }
 }

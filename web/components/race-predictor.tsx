@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { RacePrediction, TrainingGoal } from '@/lib/types'
+import type { RacePrediction, TrainingGoal } from '@/lib/types'
 import { Target, Award, TrendingUp, Edit2, Check, X } from 'lucide-react'
 
 interface RacePredictorProps {
@@ -52,7 +52,7 @@ export function RacePredictor({ predictions, onSetGoal }: RacePredictorProps) {
 
   const handleSaveGoal = (distance: number) => {
     // Parse input HH:MM:SS or MM:SS
-    const parts = targetInput.split(':').map(p => parseInt(p))
+    const parts = targetInput.split(':').map(p => parseInt(p, 10))
     let targetMinutes = 0
 
     if (parts.length === 3) {

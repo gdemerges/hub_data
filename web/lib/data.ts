@@ -1,7 +1,7 @@
 import 'server-only'
-import fs from 'fs/promises'
-import path from 'path'
-import { Game, Film, Series, Book } from './types'
+import fs from 'node:fs/promises'
+import path from 'node:path'
+import type { Game, Film, Series, Book } from './types'
 import { logger } from './logger'
 
 const DATA_DIR = path.join(process.cwd(), 'data')
