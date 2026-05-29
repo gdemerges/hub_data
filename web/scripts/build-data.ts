@@ -1,6 +1,6 @@
-import { parse } from 'csv-parse/sync'
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { parse } from 'csv-parse/sync'
 import { config } from 'dotenv'
 import { downloadFromSeriebox } from './download-seriebox'
 
@@ -11,7 +11,8 @@ const DATA_DIR = resolve(__dirname, '../../data/seriebox')
 const OUTPUT_DIR = resolve(__dirname, '../data')
 const COVERS_CACHE_FILE = resolve(__dirname, '../../data/media-covers-cache.json')
 
-const SKIP_DOWNLOAD = process.argv.includes('--skip-download') || process.env.BUILD_DATA_SKIP_DOWNLOAD === '1'
+const SKIP_DOWNLOAD =
+  process.argv.includes('--skip-download') || process.env.BUILD_DATA_SKIP_DOWNLOAD === '1'
 
 // Ensure output directory exists
 if (!existsSync(OUTPUT_DIR)) {
@@ -20,10 +21,15 @@ if (!existsSync(OUTPUT_DIR)) {
 
 // ============ COVERS CACHE ============
 
+interface CoverEntry {
+  poster: string | null
+  backdrop: string | null
+}
+
 interface CoversCache {
   games: Record<string, string | null>
-  films: Record<string, string | null>
-  series: Record<string, string | null>
+  films: Record<string, CoverEntry | string | null>
+  series: Record<string, CoverEntry | string | null>
 }
 
 function loadCoversCache(): CoversCache {
@@ -52,14 +58,14 @@ const GAME_NAME_MAP: Record<string, string> = {
   // Polish/other language titles
   'Wiedźmin 3: Dziki Gon': 'The Witcher 3: Wild Hunt',
   'Wiedźmin 2: Zabójcy Królów': 'The Witcher 2: Assassins of Kings',
-  'Wiedźmin': 'The Witcher',
-  
+  Wiedźmin: 'The Witcher',
+
   // Japanese titles
   'Fainaru Fantajī Surī': 'Final Fantasy III',
   'Fainaru Fantajī': 'Final Fantasy',
   'Doragon Kuesuto IX: Hoshizora no Mamoribito': 'Dragon Quest IX: Sentinels of the Starry Skies',
   'Dragon Quest IX: Hoshizora no Mamoribito': 'Dragon Quest IX: Sentinels of the Starry Skies',
-  
+
   // Pokémon games
   // Use the IGDB canonical names ("Pokémon X Version") so the exact-match score wins.
   'Pocket Monsters Ruby': 'Pokémon Ruby Version',
@@ -96,7 +102,7 @@ function parseYear(dateStr: string): number | undefined {
 }
 
 function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms))
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 // Normalize game title for better search
@@ -105,19 +111,19 @@ function normalizeGameTitle(title: string): string {
   if (GAME_NAME_MAP[title]) {
     return GAME_NAME_MAP[title]
   }
-  
+
   // Remove problematic characters and normalize
   const normalized = title
     .replace(/[?����]/g, '') // Remove question marks and replacement chars
     .replace(/\s+/g, ' ') // Normalize whitespace
     .trim()
-  
+
   // Try to extract English title from parentheses if present
   const englishMatch = normalized.match(/\(([^)]+)\)/)
   if (englishMatch) {
     return englishMatch[1].trim()
   }
-  
+
   return normalized
 }
 
@@ -218,14 +224,15 @@ async function lookupByName(name: string): Promise<IgdbGame[]> {
 }
 
 function pickBestCandidate(candidates: IgdbGame[], searchTerm: string): IgdbGame | undefined {
-  const withCover = candidates.filter(c => c.cover?.image_id)
+  const withCover = candidates.filter((c) => c.cover?.image_id)
   if (!withCover.length) return undefined
 
   const target = normalizeForCompare(searchTerm)
   const score = (c: IgdbGame): number => {
     const n = normalizeForCompare(c.name)
     let s = 0
-    if (n === target) s += 1000 // exact match wins
+    if (n === target)
+      s += 1000 // exact match wins
     else if (n.startsWith(`${target} `)) s += 400
     else if (n.startsWith(target)) s += 200
     else if (n.includes(target)) s += 50
@@ -240,7 +247,7 @@ function pickBestCandidate(candidates: IgdbGame[], searchTerm: string): IgdbGame
 async function fetchGameCoverFor(
   cacheKey: string,
   primaryName: string,
-  fallbackName?: string
+  fallbackName?: string,
 ): Promise<string | undefined> {
   if (cacheKey in coversCache.games) {
     return coversCache.games[cacheKey] ?? undefined
@@ -251,9 +258,7 @@ async function fetchGameCoverFor(
     // If the primary name came from an explicit override, treat it as canonical
     // and ask IGDB by name (bypasses fuzzy search picking the wrong title).
     const isOverride = primaryName in GAME_NAME_MAP
-    let candidates = isOverride
-      ? await lookupByName(primary)
-      : await searchIgdb(primary)
+    let candidates = isOverride ? await lookupByName(primary) : await searchIgdb(primary)
     let picked = pickBestCandidate(candidates, primary)
 
     // If override lookup returned nothing usable, also try a fuzzy search.
@@ -294,42 +299,66 @@ void fetchGameCover
 
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500'
+const TMDB_BACKDROP_BASE = 'https://image.tmdb.org/t/p/w1280'
 
-async function fetchTMDBPoster(title: string, type: 'movie' | 'tv', year?: number): Promise<string | undefined> {
+interface TMDBImages {
+  posterUrl?: string
+  backdropUrl?: string
+}
+
+async function fetchTMDBImages(
+  title: string,
+  type: 'movie' | 'tv',
+  year?: number,
+): Promise<TMDBImages> {
   const cacheKey = `${title}|${type}|${year ?? ''}`
-
-  // Check cache first
-  if (cacheKey in coversCache[type === 'movie' ? 'films' : 'series']) {
-    return coversCache[type === 'movie' ? 'films' : 'series'][cacheKey] ?? undefined
-  }
-
   const cacheSection = type === 'movie' ? coversCache.films : coversCache.series
+  const cached = cacheSection[cacheKey]
+
+  // Entrée complète (objet) -> hit. Null explicite -> connu introuvable.
+  if (cached && typeof cached === 'object') {
+    return { posterUrl: cached.poster ?? undefined, backdropUrl: cached.backdrop ?? undefined }
+  }
+  if (cached === null) {
+    return {}
+  }
+  // cached === undefined (nouveau) ou string (ancien format poster-only) :
+  // on (re)fetch pour obtenir le backdrop, en gardant l'ancien poster en secours.
+  const legacyPoster = typeof cached === 'string' ? cached : undefined
 
   try {
     const apiKey = process.env.TMDB_API_KEY
-    if (!apiKey) return undefined
+    if (!apiKey) return { posterUrl: legacyPoster }
 
     let url = `${TMDB_BASE_URL}/search/${type}?api_key=${apiKey}&query=${encodeURIComponent(title)}&language=fr-FR`
     if (year) url += `&year=${year}`
 
     const response = await fetch(url)
     if (!response.ok) {
+      if (legacyPoster) return { posterUrl: legacyPoster }
       cacheSection[cacheKey] = null
-      return undefined
+      return {}
     }
 
     const data = await response.json()
-    if (data.results.length === 0 || !data.results[0].poster_path) {
+    const result = data.results?.[0]
+    if (!result) {
+      if (legacyPoster) return { posterUrl: legacyPoster }
       cacheSection[cacheKey] = null
-      return undefined
+      return {}
     }
 
-    const posterUrl = `${TMDB_IMAGE_BASE}${data.results[0].poster_path}`
-    cacheSection[cacheKey] = posterUrl
-    return posterUrl
+    const posterUrl = result.poster_path ? `${TMDB_IMAGE_BASE}${result.poster_path}` : legacyPoster
+    const backdropUrl = result.backdrop_path
+      ? `${TMDB_BACKDROP_BASE}${result.backdrop_path}`
+      : undefined
+
+    cacheSection[cacheKey] = { poster: posterUrl ?? null, backdrop: backdropUrl ?? null }
+    return { posterUrl, backdropUrl }
   } catch {
+    if (legacyPoster) return { posterUrl: legacyPoster }
     cacheSection[cacheKey] = null
-    return undefined
+    return {}
   }
 }
 
@@ -382,7 +411,7 @@ async function processGames() {
 
   // First pass: group games by title
   const gamesByTitle = new Map<string, RawGame[]>()
-  
+
   for (const row of records) {
     const title = row.Titre || row['Titre VO']
     if (!gamesByTitle.has(title)) {
@@ -398,7 +427,7 @@ async function processGames() {
   for (let i = 0; i < uniqueTitles.length; i++) {
     const title = uniqueTitles[i]
     const entries = gamesByTitle.get(title)!
-    
+
     process.stdout.write(`\r   [${i + 1}/${total}] ${title.substring(0, 40).padEnd(40)}`)
 
     // IGDB matches better against the original/VO name than the French/marketing
@@ -411,14 +440,14 @@ async function processGames() {
     const searchFallback = baseEntry['Titre VF'] || title
     const coverUrl = await fetchGameCoverFor(title, searchPrimary, searchFallback)
     await sleep(100) // Rate limiting
-    
+
     // If multiple platforms, merge them
-    let platforms: Array<{platform: string, status?: string, hoursPlayed?: number}> | undefined
+    let platforms: Array<{ platform: string; status?: string; hoursPlayed?: number }> | undefined
     let totalHours = 0
-    
+
     if (entries.length > 1) {
       // Multiple platforms: create platforms array
-      platforms = entries.map(e => ({
+      platforms = entries.map((e) => ({
         platform: e.Support || 'Unknown',
         status: e.Etat || undefined,
         hoursPlayed: parseNumber(e['Heures de jeu']) || 0,
@@ -432,14 +461,22 @@ async function processGames() {
     const displayTitle = baseEntry['Titre VF'] || baseEntry.Titre || baseEntry['Titre VO']
 
     // Pick the most precise date across all platform entries
-    const dateStarted = entries.map(e => parseGameDate(e['Date de début'])).filter(Boolean).sort().pop()
-    const dateFinished = entries.map(e => parseGameDate(e['Date de fin'])).filter(Boolean).sort().pop()
+    const dateStarted = entries
+      .map((e) => parseGameDate(e['Date de début']))
+      .filter(Boolean)
+      .sort()
+      .pop()
+    const dateFinished = entries
+      .map((e) => parseGameDate(e['Date de fin']))
+      .filter(Boolean)
+      .sort()
+      .pop()
 
     games.push({
       title: displayTitle,
-      platform: platforms ? undefined : (baseEntry.Support || undefined),
+      platform: platforms ? undefined : baseEntry.Support || undefined,
       platforms,
-      status: platforms ? undefined : (baseEntry.Etat || undefined),
+      status: platforms ? undefined : baseEntry.Etat || undefined,
       hoursPlayed: totalHours,
       genres: [baseEntry['Genre 1'], baseEntry['Genre 2']].filter(Boolean),
       rating: parseNumber(baseEntry['Note perso']),
@@ -453,10 +490,12 @@ async function processGames() {
 
   writeFileSync(resolve(OUTPUT_DIR, 'games.json'), JSON.stringify(games, null, 2))
   saveCoversCache(coversCache)
-  const withCovers = games.filter(g => g.coverUrl).length
-  const withMultiplePlatforms = games.filter(g => g.platforms && g.platforms.length > 1).length
+  const withCovers = games.filter((g) => g.coverUrl).length
+  const withMultiplePlatforms = games.filter((g) => g.platforms && g.platforms.length > 1).length
   const cached = Object.keys(coversCache.games).length
-  console.log(`\n   ✅ ${games.length} unique games (${withCovers} with covers, ${withMultiplePlatforms} on multiple platforms, ${cached} cached)`)
+  console.log(
+    `\n   ✅ ${games.length} unique games (${withCovers} with covers, ${withMultiplePlatforms} on multiple platforms, ${cached} cached)`,
+  )
 }
 
 // ============ PROCESS FILMS ============
@@ -494,7 +533,7 @@ async function processFilms() {
 
     process.stdout.write(`\r   [${i + 1}/${total}] ${title.substring(0, 40).padEnd(40)}`)
 
-    const posterUrl = await fetchTMDBPoster(title, 'movie', year)
+    const { posterUrl, backdropUrl } = await fetchTMDBImages(title, 'movie', year)
     await sleep(50) // Rate limiting
 
     films.push({
@@ -507,12 +546,13 @@ async function processFilms() {
       genres: [row['Genre 1'], row['Genre 2']].filter(Boolean),
       dateWatched: parseFrenchDate(row['Date de visionnage']),
       posterUrl,
+      backdropUrl,
     })
   }
 
   writeFileSync(resolve(OUTPUT_DIR, 'films.json'), JSON.stringify(films, null, 2))
   saveCoversCache(coversCache)
-  const withPosters = films.filter(f => f.posterUrl).length
+  const withPosters = films.filter((f) => f.posterUrl).length
   const cached = Object.keys(coversCache.films).length
   console.log(`\n   ✅ ${films.length} films (${withPosters} with posters, ${cached} cached)`)
 }
@@ -552,7 +592,7 @@ async function processSeries() {
 
     process.stdout.write(`\r   [${i + 1}/${total}] ${title.substring(0, 40).padEnd(40)}`)
 
-    const posterUrl = await fetchTMDBPoster(title, 'tv', year)
+    const { posterUrl, backdropUrl } = await fetchTMDBImages(title, 'tv', year)
     await sleep(50) // Rate limiting
 
     series.push({
@@ -567,12 +607,13 @@ async function processSeries() {
       airingStatus: row['Statut diffusion'] || undefined,
       genres: [row['Genre 1'], row['Genre 2']].filter(Boolean),
       posterUrl,
+      backdropUrl,
     })
   }
 
   writeFileSync(resolve(OUTPUT_DIR, 'series.json'), JSON.stringify(series, null, 2))
   saveCoversCache(coversCache)
-  const withPosters = series.filter(s => s.posterUrl).length
+  const withPosters = series.filter((s) => s.posterUrl).length
   const cached = Object.keys(coversCache.series).length
   console.log(`\n   ✅ ${series.length} series (${withPosters} with posters, ${cached} cached)`)
 }
@@ -596,7 +637,7 @@ async function main() {
     await processGames()
     await processFilms()
     await processSeries()
-    
+
     const duration = ((Date.now() - startTime) / 1000).toFixed(1)
     console.log(`\n✨ Build complete in ${duration}s`)
   } catch (error) {
