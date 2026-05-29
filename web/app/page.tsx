@@ -1,8 +1,10 @@
 import { Sun, ChartLineUp } from '@phosphor-icons/react/dist/ssr'
-import { YearFilter, OverviewSections, TemporalStats, YearComparison, PageHeader, OverviewHero } from '@/components'
+import { YearFilter, OverviewSections, TemporalStats, YearComparison, PageHeader, OverviewHero, GoalsSection, StreaksSection } from '@/components'
 import { OverviewStats } from '@/components/overview-stats'
-import { getGamesData, getFilmsData, getSeriesData } from '@/lib/data'
+import { getGamesData, getFilmsData, getSeriesData, getBooksData, getGitHubContributions } from '@/lib/data'
 import { loadUnifiedActivity } from '@/lib/activity'
+import { computeStreaks } from '@/lib/streaks'
+import { computeGoals } from '@/lib/goals'
 import { UnifiedActivityHeatmap } from '@/components/unified-activity-heatmap'
 
 const GITHUB_USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'gdemerges'
@@ -17,13 +19,28 @@ export default async function HomePage({
   const { year } = await searchParams
   const selectedYear = year ? parseInt(year) : null
 
-  // GitHub contributions fetched client-side in OverviewStats (non-blocking)
-  const [allGames, allFilms, allSeries, activity] = await Promise.all([
+  const goalsYear = selectedYear ?? new Date().getFullYear()
+
+  // GitHub contributions fetched client-side in OverviewStats (non-blocking);
+  // a separate cached call here feeds the annual goals (server-side).
+  const [allGames, allFilms, allSeries, allBooks, activity, githubContributions] = await Promise.all([
     getGamesData(),
     getFilmsData(),
     getSeriesData(),
+    getBooksData(),
     loadUnifiedActivity(GITHUB_USERNAME),
+    getGitHubContributions(goalsYear),
   ])
+
+  const streaks = computeStreaks(activity)
+  const goals = computeGoals({
+    films: allFilms,
+    series: allSeries,
+    games: allGames,
+    books: allBooks,
+    githubContributions,
+    year: goalsYear,
+  })
 
   // Filter by year if selected
   const games = selectedYear
@@ -72,6 +89,12 @@ export default async function HomePage({
       {/* Unified activity heatmap */}
       <div className="mb-8">
         <UnifiedActivityHeatmap data={activity} />
+      </div>
+
+      {/* Goals & streaks */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 items-start">
+        <GoalsSection goals={goals} year={goalsYear} />
+        <StreaksSection streaks={streaks} />
       </div>
 
       {/* Sections */}
