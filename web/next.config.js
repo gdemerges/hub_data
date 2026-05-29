@@ -64,6 +64,11 @@ const securityHeaders = [
 ]
 
 const nextConfig = {
+  // Permet d'isoler un build de vérification (NEXT_BUILD_DIR=.next-verify
+  // next build) du `.next` utilisé par `next dev` : sinon le build écrase les
+  // manifests du serveur dev en cours et provoque des ENOENT. Sans la var, le
+  // comportement par défaut (`.next`) reste inchangé pour dev/build/Vercel.
+  ...(process.env.NEXT_BUILD_DIR ? { distDir: process.env.NEXT_BUILD_DIR } : {}),
   images: {
     remotePatterns: [
       ...IMG_HOSTS.map((hostname) => ({ protocol: 'https', hostname })),

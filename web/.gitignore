@@ -3,6 +3,7 @@ node_modules/
 
 # Fichiers de build
 .next/
+.next-verify/
 out/
 dist/
 
