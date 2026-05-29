@@ -3,9 +3,9 @@ import type { HeroBackdrop } from '@/lib/hero-backdrop'
 
 /**
  * Bandeau atmosphérique de l'aperçu.
- * - Avec `backdrop` : image TMDB en fond + voile chaud (basé sur --bg-primary,
- *   donc adaptatif clair/sombre) pour garder le texte éditorial sombre lisible,
- *   plus un crédit discret du titre.
+ * - Avec `backdrop` : image TMDB en fond, mode « cinéma » — l'image reste vive,
+ *   légèrement assombrie par un dégradé chaud-sombre pour faire ressortir le
+ *   texte clair (le header passe en `overlay`), plus un crédit discret du titre.
  * - Sans `backdrop` : gradient-mesh solarpunk + orbes flottants (fallback).
  * Le contenu (PageHeader…) passe en children, au-dessus du décor (z-[2]).
  */
@@ -25,29 +25,28 @@ export function OverviewHero({
           fill
           priority
           sizes="(min-width: 1280px) 1280px, 100vw"
-          className="object-cover saturate-[0.9] scale-105"
+          className="object-cover scale-105"
         />
-        {/* Voile chaud : dense côté titre (bas-gauche), fondant vers l'image. */}
+        {/* Assombrissement cinéma : tons chaud-sombres, dense en bas (zone texte),
+            l'image reste vive vers le haut/droite. */}
         <div
           aria-hidden
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(105deg, rgb(var(--bg-primary) / 0.94) 0%, rgb(var(--bg-primary) / 0.78) 38%, rgb(var(--bg-primary) / 0.4) 70%, rgb(var(--bg-primary) / 0.25) 100%)',
+              'linear-gradient(to top, rgb(20 16 12 / 0.82) 0%, rgb(20 16 12 / 0.4) 45%, rgb(20 16 12 / 0.12) 100%)',
           }}
         />
-        {/* Voile haut localisé : protège la ligne surtitre/dateline sans assombrir l'image. */}
+        {/* Léger renfort haut pour la ligne surtitre/dateline. */}
         <div
           aria-hidden
-          className="absolute inset-x-0 top-0 h-24"
-          style={{
-            background: 'linear-gradient(to bottom, rgb(var(--bg-primary) / 0.75), transparent)',
-          }}
+          className="absolute inset-x-0 top-0 h-28"
+          style={{ background: 'linear-gradient(to bottom, rgb(20 16 12 / 0.5), transparent)' }}
         />
-        <div className="relative z-[2]">{children}</div>
+        <div className="relative z-[2] [text-shadow:0_1px_12px_rgb(0_0_0_/_0.55)]">{children}</div>
         <span
-          className="absolute bottom-3 right-5 z-[2] rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-text-secondary backdrop-blur-sm"
-          style={{ backgroundColor: 'rgb(var(--bg-primary) / 0.55)' }}
+          className="absolute bottom-3 right-5 z-[2] rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-white/85 backdrop-blur-sm"
+          style={{ backgroundColor: 'rgb(0 0 0 / 0.4)' }}
         >
           {backdrop.title}
         </span>
