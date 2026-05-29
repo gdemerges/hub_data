@@ -3,7 +3,9 @@ import { getGamesData, getFilmsData, getSeriesData, getBooksData } from '@/lib/d
 import { logger } from '@/lib/logger'
 import type { Film, Series, Game, Book } from '@/lib/types'
 
-export const revalidate = 3600
+// Dynamique : la réponse varie selon ?year= (lecture de searchParams).
+// Le cache CDN passe par l'en-tête Cache-Control de la réponse.
+export const dynamic = 'force-dynamic'
 
 type TopItem = { title: string; rating?: number; subtitle?: string }
 

@@ -2,7 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { loadPlaytime } from '@/lib/steam-playtime'
 import { logger } from '@/lib/logger'
 
-export const revalidate = 3600
+// Dynamique : la réponse varie selon ?year=. Le cache est assuré côté CDN
+// par l'en-tête Cache-Control ci-dessous, pas par l'ISR (revalidate), qui
+// entrerait en conflit avec la lecture de searchParams au build.
+export const dynamic = 'force-dynamic'
 
 const HEADERS = { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=600' }
 
