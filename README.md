@@ -41,8 +41,8 @@ Un dashboard personnel au thème **solarpunk** (parchemin chaud, mousse, terraco
 
 ### Prérequis
 
-- Node.js 18+
-- npm ou yarn
+- Node.js 22+ (voir `web/.nvmrc`)
+- npm
 
 ### Installation des dépendances
 
@@ -133,6 +133,14 @@ L'application sera accessible sur `http://localhost:3001`
 cd web
 npm run build
 npm start
+```
+
+### Qualité
+
+```bash
+npm run lint     # Biome (lint)
+npm run format   # Biome (format --write)
+npm test         # Vitest (run)
 ```
 
 ## 🔄 Mise à jour des données (Pipelines)
@@ -228,13 +236,19 @@ hub_data/
 
 ## 🔧 Technologies
 
-- **Next.js 15** - Framework React avec App Router
+- **Next.js 16** - Framework React (App Router, Turbopack)
+- **React 19** + **React Compiler** (mémoïsation automatique)
 - **TypeScript** - Typage statique
-- **Tailwind CSS v4** - Styling avec thème solarpunk (palette `earth.*` définie en CSS dans `app/globals.css`)
-- **Recharts** - Graphiques (radar, bar charts)
-- **react-simple-maps** - Cartes géographiques
-- **xlsx** - Lecture de fichiers Excel
-- **Lucide Icons** - Icônes
+- **Tailwind CSS v4** - Styling solarpunk (palette `earth.*` en CSS dans `app/globals.css`)
+- **SWR** - Data fetching client (GitHub, Spotify)
+- **Zod** - Validation des schémas d'API
+- **react-simple-maps** - Cartes géographiques (voyages, rencontres)
+- **xlsx (SheetJS)** - Lecture des sources livres Excel/CSV
+- **Lucide** + **Phosphor** - Icônes
+- **Biome** - Lint + format
+- **Vitest** - Tests unitaires
+
+> Les graphiques (radar, barres, sparklines, heatmaps) sont faits maison — pas de lib de charting.
 
 ## 📝 Notes
 
