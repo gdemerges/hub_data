@@ -1,9 +1,49 @@
+import Image from 'next/image'
+import type { HeroBackdrop } from '@/lib/hero-backdrop'
+
 /**
- * Bandeau atmosphérique de l'aperçu : gradient-mesh solarpunk + orbes
- * flottants très discrets pour donner de la profondeur sans bruit visuel.
- * Le contenu (PageHeader…) passe en children, au-dessus du décor.
+ * Bandeau atmosphérique de l'aperçu.
+ * - Avec `backdrop` : image TMDB en fond + voile chaud (basé sur --bg-primary,
+ *   donc adaptatif clair/sombre) pour garder le texte éditorial sombre lisible,
+ *   plus un crédit discret du titre.
+ * - Sans `backdrop` : gradient-mesh solarpunk + orbes flottants (fallback).
+ * Le contenu (PageHeader…) passe en children, au-dessus du décor (z-[2]).
  */
-export function OverviewHero({ children }: { children: React.ReactNode }) {
+export function OverviewHero({
+  children,
+  backdrop,
+}: {
+  children: React.ReactNode
+  backdrop?: HeroBackdrop
+}) {
+  if (backdrop) {
+    return (
+      <section className="relative overflow-hidden rounded-3xl border border-border-subtle shadow-soft mb-12 px-6 sm:px-10 py-10 sm:py-12">
+        <Image
+          src={backdrop.url}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover saturate-[0.9] scale-105"
+        />
+        {/* Voile chaud : dense côté titre (bas-gauche), fondant vers l'image. */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(105deg, rgb(var(--bg-primary) / 0.94) 0%, rgb(var(--bg-primary) / 0.78) 38%, rgb(var(--bg-primary) / 0.4) 70%, rgb(var(--bg-primary) / 0.25) 100%)',
+          }}
+        />
+        <div className="relative z-[2]">{children}</div>
+        <span className="absolute bottom-3 right-5 z-[2] font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted">
+          {backdrop.title}
+        </span>
+      </section>
+    )
+  }
+
   return (
     <section
       className="gradient-mesh relative overflow-hidden rounded-3xl border border-border-subtle shadow-soft mb-12 px-6 sm:px-10 py-10 sm:py-12"
