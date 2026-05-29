@@ -53,6 +53,7 @@ export interface Film {
   runtime?: number
   genres?: string[]
   posterUrl?: string
+  backdropUrl?: string
   watchStatus?: WatchStatus
   dateAdded?: string
   dateWatched?: string
@@ -74,6 +75,7 @@ export interface Series {
   airingStatus?: string
   genres?: string[]
   posterUrl?: string
+  backdropUrl?: string
   watchStatus?: WatchStatus
   dateAdded?: string
   dateCompleted?: string
