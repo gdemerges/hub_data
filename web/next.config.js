@@ -78,9 +78,10 @@ const nextConfig = {
     deviceSizes: [360, 640, 750, 828, 1080, 1200],
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
   },
+  // reactCompiler a quitté `experimental` en Next 16 (option stable racine).
+  reactCompiler: true,
   experimental: {
     optimizePackageImports: ['lucide-react', '@phosphor-icons/react', 'react-simple-maps'],
-    reactCompiler: true,
     staleTimes: { dynamic: 30, static: 180 },
   },
   turbopack: {
