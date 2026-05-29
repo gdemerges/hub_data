@@ -1,6 +1,6 @@
 # HUB LIFE - Personal Data Dashboard
 
-Un dashboard personnel cyberpunk pour visualiser et analyser toutes vos données : jeux, films, séries, livres, activités sportives, voyages, rencontres et plus encore.
+Un dashboard personnel au thème **solarpunk** (parchemin chaud, mousse, terracotta) pour visualiser et analyser toutes vos données : jeux, films, séries, livres, activités sportives, voyages, rencontres et plus encore.
 
 ## 🎮 Fonctionnalités
 
@@ -31,11 +31,11 @@ Un dashboard personnel cyberpunk pour visualiser et analyser toutes vos données
 
 ### 🎨 Design
 
-- **Style Cyberpunk** avec effets néon et animations
-- **Thème sombre** optimisé pour la lecture
+- **Style Solarpunk** : parchemin chaud en clair, crépuscule chaleureux en sombre, grain papier global
+- **Thème clair / sombre** avec bascule (`ThemeToggle`)
 - **Interface responsive** adaptée mobile et desktop
-- **Typographie monospace** pour un look terminal
-- **Couleurs thématiques** par section
+- **Typographie éditoriale** : Fraunces (titres), Inter (texte), JetBrains Mono (chiffres/labels)
+- **Accents `earth.*` par section** (mousse, terracotta, saffron, indigo, …)
 
 ## 🚀 Installation
 
@@ -230,7 +230,7 @@ hub_data/
 
 - **Next.js 15** - Framework React avec App Router
 - **TypeScript** - Typage statique
-- **Tailwind CSS** - Styling avec thème cyberpunk personnalisé
+- **Tailwind CSS v4** - Styling avec thème solarpunk (palette `earth.*` définie en CSS dans `app/globals.css`)
 - **Recharts** - Graphiques (radar, bar charts)
 - **react-simple-maps** - Cartes géographiques
 - **xlsx** - Lecture de fichiers Excel
@@ -247,23 +247,19 @@ hub_data/
 
 ### Couleurs des onglets
 
-Chaque onglet a sa propre couleur thématique définie dans `components/navigation.tsx` :
+Chaque section a son accent `earth.*`, défini dans `lib/accents.ts` (source unique) :
 
-- Aperçu : cyan
-- Insights : magenta
-- Jeux : green
-- Films : magenta
-- Séries : yellow
-- Livres : blue
-- Rencontres : red
-- GitHub : cyan
-- Spotify : green
-- Sport : orange
-- Voyages : purple
+| Section    | Accent       | Section   | Accent     |
+|------------|--------------|-----------|------------|
+| Jeux       | `moss`       | GitHub    | `fern`     |
+| Films      | `terracotta` | Spotify   | `leaf`     |
+| Séries     | `saffron`    | Sport     | `rust`     |
+| Livres     | `indigo`     | Voyages   | `sage`     |
+| Rencontres | `clay`       | Steam     | `mossDeep` |
 
 ### Thème
 
-Le thème cyberpunk est défini dans `tailwind.config.js` avec des couleurs néon personnalisées.
+Le thème solarpunk est défini en CSS (Tailwind v4) dans `app/globals.css` : variables `--color-earth-*` pour les modes clair et sombre. **Ne pas** réintroduire les anciennes classes `neon-*`.
 
 ## 📄 Licence
 
