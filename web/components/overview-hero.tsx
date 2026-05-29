@@ -24,7 +24,7 @@ export function OverviewHero({
           alt=""
           fill
           priority
-          sizes="100vw"
+          sizes="(min-width: 1280px) 1280px, 100vw"
           className="object-cover saturate-[0.9] scale-105"
         />
         {/* Voile chaud : dense côté titre (bas-gauche), fondant vers l'image. */}
@@ -36,8 +36,19 @@ export function OverviewHero({
               'linear-gradient(105deg, rgb(var(--bg-primary) / 0.94) 0%, rgb(var(--bg-primary) / 0.78) 38%, rgb(var(--bg-primary) / 0.4) 70%, rgb(var(--bg-primary) / 0.25) 100%)',
           }}
         />
+        {/* Voile haut localisé : protège la ligne surtitre/dateline sans assombrir l'image. */}
+        <div
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-24"
+          style={{
+            background: 'linear-gradient(to bottom, rgb(var(--bg-primary) / 0.75), transparent)',
+          }}
+        />
         <div className="relative z-[2]">{children}</div>
-        <span className="absolute bottom-3 right-5 z-[2] font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted">
+        <span
+          className="absolute bottom-3 right-5 z-[2] rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-text-secondary backdrop-blur-sm"
+          style={{ backgroundColor: 'rgb(var(--bg-primary) / 0.55)' }}
+        >
           {backdrop.title}
         </span>
       </section>
