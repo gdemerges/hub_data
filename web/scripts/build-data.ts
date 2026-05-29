@@ -343,9 +343,10 @@ async function fetchTMDBImages(
     const data = await response.json()
     const result = data.results?.[0]
     if (!result) {
-      if (legacyPoster) return { posterUrl: legacyPoster }
-      cacheSection[cacheKey] = null
-      return {}
+      // TMDB a répondu sans correspondance : on scelle l'entrée pour éviter de
+      // re-fetcher à chaque build. On conserve l'éventuel poster legacy.
+      cacheSection[cacheKey] = { poster: legacyPoster ?? null, backdrop: null }
+      return { posterUrl: legacyPoster }
     }
 
     const posterUrl = result.poster_path ? `${TMDB_IMAGE_BASE}${result.poster_path}` : legacyPoster
