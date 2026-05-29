@@ -1,6 +1,6 @@
 import type { Icon } from '@phosphor-icons/react'
-import { cn } from '@/lib/utils'
 import { ACCENTS, type Accent } from '@/lib/accents'
+import { cn } from '@/lib/utils'
 
 interface PageHeaderProps {
   title: string
@@ -16,6 +16,8 @@ interface PageHeaderProps {
   color: Accent
   icon?: Icon
   actions?: React.ReactNode
+  /** Mode « cinéma » : texte clair par-dessus une image de fond assombrie. */
+  overlay?: boolean
 }
 
 export function PageHeader({
@@ -28,6 +30,7 @@ export function PageHeader({
   color,
   icon: IconComponent,
   actions,
+  overlay = false,
 }: PageHeaderProps) {
   const c = ACCENTS[color] ?? ACCENTS.moss
   const sub = subtitle ?? loadingMessage
@@ -41,9 +44,16 @@ export function PageHeader({
   return (
     <header className="mb-12">
       {/* Surtitre éditorial : eyebrow (optionnel) + dateline (toujours présente). */}
-      <div className="flex items-center justify-between mb-6 text-[10px] uppercase tracking-[0.22em] text-text-muted font-mono">
+      <div
+        className={cn(
+          'flex items-center justify-between mb-6 text-[10px] uppercase tracking-[0.22em] font-mono',
+          overlay ? 'text-white/75' : 'text-text-muted',
+        )}
+      >
         {eyebrow ? (
-          <span className={cn('inline-flex items-center gap-2', c.text)}>
+          <span
+            className={cn('inline-flex items-center gap-2', overlay ? 'text-white/90' : c.text)}
+          >
             <span className={`inline-block w-6 h-px ${c.ring}`} aria-hidden />
             {eyebrow}
           </span>
@@ -58,28 +68,42 @@ export function PageHeader({
           {IconComponent && (
             <div
               className={`gradient-mesh p-3.5 rounded-2xl ${c.border} border shadow-soft mt-1`}
-              style={{
-                ['--mesh-a' as string]: c.accent,
-                ['--mesh-b' as string]: c.warm,
-                ['--mesh-c' as string]: c.accent,
-              } as React.CSSProperties}
+              style={
+                {
+                  ['--mesh-a' as string]: c.accent,
+                  ['--mesh-b' as string]: c.warm,
+                  ['--mesh-c' as string]: c.accent,
+                } as React.CSSProperties
+              }
             >
               <IconComponent size={28} weight="duotone" className={c.text} />
             </div>
           )}
           <div>
-            <h1 className="font-display text-4xl sm:text-5xl font-medium tracking-tight text-text-primary leading-[0.95] [font-optical-sizing:auto]">
+            <h1
+              className={cn(
+                'font-display text-4xl sm:text-5xl font-medium tracking-tight leading-[0.95] [font-optical-sizing:auto]',
+                overlay ? 'text-white' : 'text-text-primary',
+              )}
+            >
               {displayTitle}
             </h1>
             {(sub || status) && (
-              <p className="text-sm text-text-secondary mt-3 flex items-center gap-2 flex-wrap">
+              <p
+                className={cn(
+                  'text-sm mt-3 flex items-center gap-2 flex-wrap',
+                  overlay ? 'text-white/85' : 'text-text-secondary',
+                )}
+              >
                 {status && (
                   <span className="inline-flex items-center gap-1.5">
                     <span className={`w-1.5 h-1.5 rounded-full ${c.ring}`} aria-hidden />
                     {status}
                   </span>
                 )}
-                {status && sub && <span className="text-text-muted">·</span>}
+                {status && sub && (
+                  <span className={overlay ? 'text-white/55' : 'text-text-muted'}>·</span>
+                )}
                 {sub && <span>{sub}</span>}
               </p>
             )}
@@ -90,4 +114,3 @@ export function PageHeader({
     </header>
   )
 }
-

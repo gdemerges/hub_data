@@ -57,6 +57,9 @@ export default async function HomePage({
   )
 
   const heroBackdrop = pickDailyBackdrop(allFilms, allSeries, new Date())
+  // En présence d'un backdrop, le header bascule en mode « cinéma » : texte clair
+  // par-dessus l'image assombrie (sinon thème parchemin classique).
+  const onImage = Boolean(heroBackdrop)
 
   const streaks = computeStreaks(activity)
   const goals = computeGoals({
@@ -92,7 +95,8 @@ export default async function HomePage({
           dateline={new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
           color="moss"
           icon={Sun}
-          actions={<YearFilter />}
+          overlay={onImage}
+          actions={<YearFilter overlay={onImage} />}
         />
       </OverviewHero>
 
