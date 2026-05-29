@@ -256,13 +256,21 @@ export function Navigation() {
 
           <div className="flex items-center gap-2">
             <button
-              onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
+              onClick={() => window.dispatchEvent(new CustomEvent('command-palette:open'))}
               className="hidden sm:flex items-center gap-2 px-3 py-1.5 text-sm text-text-secondary border border-border-subtle hover:border-earth-moss/40 hover:text-text-primary rounded-full transition-colors"
               aria-label="Recherche globale"
             >
               <MagnifyingGlass size={16} />
               <span>Rechercher</span>
               <kbd className="ml-1 px-1.5 py-0.5 bg-bg-card rounded text-[10px] border border-border-subtle font-mono">⌘K</kbd>
+            </button>
+
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('command-palette:open'))}
+              className="sm:hidden p-2 text-text-secondary border border-border-subtle rounded-full hover:bg-bg-hover transition-colors"
+              aria-label="Recherche globale"
+            >
+              <MagnifyingGlass size={20} />
             </button>
 
             <ThemeToggle />

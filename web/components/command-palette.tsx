@@ -5,28 +5,57 @@ import { useRouter } from 'next/navigation'
 import { MagnifyingGlass, X } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
 
+type Kind = 'nav' | 'games' | 'films' | 'series' | 'books'
+
 type SearchItem = {
   id: string
   title: string
-  section: 'games' | 'films' | 'series' | 'books'
+  section: Exclude<Kind, 'nav'>
   href: string
   subtitle?: string
   year?: number
 }
 
-const SECTION_COLORS: Record<SearchItem['section'], string> = {
+type Result = {
+  id: string
+  title: string
+  kind: Kind
+  href: string
+  subtitle?: string
+  year?: number
+}
+
+const KIND_COLORS: Record<Kind, string> = {
+  nav: 'text-earth-fern',
   games: 'text-earth-moss',
   films: 'text-earth-terracotta',
   series: 'text-earth-saffron',
   books: 'text-earth-indigo',
 }
 
-const SECTION_LABELS: Record<SearchItem['section'], string> = {
+const KIND_LABELS: Record<Kind, string> = {
+  nav: 'Aller à',
   games: 'Jeux',
   films: 'Films',
   series: 'Séries',
   books: 'Livres',
 }
+
+/** Commandes de navigation — la palette devient un navigateur d'application. */
+const NAV_COMMANDS: Result[] = [
+  { id: 'nav-overview', title: 'Aperçu', kind: 'nav', href: '/' },
+  { id: 'nav-insights', title: 'Insights', kind: 'nav', href: '/insights' },
+  { id: 'nav-games', title: 'Jeux', kind: 'nav', href: '/games' },
+  { id: 'nav-films', title: 'Films', kind: 'nav', href: '/films' },
+  { id: 'nav-series', title: 'Séries', kind: 'nav', href: '/series' },
+  { id: 'nav-books', title: 'Lecture', kind: 'nav', href: '/books' },
+  { id: 'nav-spotify', title: 'Musique', kind: 'nav', href: '/spotify' },
+  { id: 'nav-sport', title: 'Sport', kind: 'nav', href: '/sport' },
+  { id: 'nav-voyages', title: 'Voyages', kind: 'nav', href: '/voyages' },
+  { id: 'nav-rencontres', title: 'Rencontres', kind: 'nav', href: '/rencontres' },
+  { id: 'nav-github', title: 'Dev / GitHub', kind: 'nav', href: '/github' },
+  { id: 'nav-steam', title: 'Steam', kind: 'nav', href: '/steam' },
+]
 
 function fuzzyScore(query: string, title: string): number {
   const q = query.toLowerCase()
@@ -63,8 +92,14 @@ export function CommandPalette() {
         setOpen(false)
       }
     }
+    // Déclencheur explicite (boutons nav, y compris mobile) sans simuler ⌘K.
+    const onOpen = () => setOpen(true)
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    window.addEventListener('command-palette:open', onOpen)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      window.removeEventListener('command-palette:open', onOpen)
+    }
   }, [])
 
   useEffect(() => {
@@ -83,9 +118,18 @@ export function CommandPalette() {
     }
   }, [open])
 
-  const results = useMemo(() => {
-    if (!query.trim()) return items.slice(0, 30)
-    return items
+  const results = useMemo<Result[]>(() => {
+    const media: Result[] = items.map(it => ({
+      id: it.id,
+      title: it.title,
+      kind: it.section,
+      href: it.href,
+      subtitle: it.subtitle,
+      year: it.year,
+    }))
+    // Requête vide : la palette agit comme un navigateur (sections d'abord).
+    if (!query.trim()) return NAV_COMMANDS
+    return [...NAV_COMMANDS, ...media]
       .map(item => ({ item, score: fuzzyScore(query, item.title) }))
       .filter(x => x.score > 0)
       .sort((a, b) => b.score - a.score)
@@ -96,6 +140,12 @@ export function CommandPalette() {
   useEffect(() => {
     setSelected(0)
   }, [query])
+
+  // Garde l'élément sélectionné visible pendant la navigation clavier.
+  useEffect(() => {
+    const el = listRef.current?.querySelector<HTMLElement>(`[data-idx="${selected}"]`)
+    el?.scrollIntoView({ block: 'nearest' })
+  }, [selected])
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
@@ -134,7 +184,7 @@ export function CommandPalette() {
             value={query}
             onChange={e => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
-            placeholder="Rechercher jeux, films, séries, livres…"
+            placeholder="Aller à une section, rechercher jeux, films, séries, livres…"
             className="flex-1 bg-transparent text-text-primary placeholder:text-text-muted outline-none text-sm"
             aria-label="Requête de recherche"
           />
@@ -155,6 +205,7 @@ export function CommandPalette() {
             results.map((item, i) => (
               <button
                 key={item.id}
+                data-idx={i}
                 onClick={() => {
                   router.push(item.href)
                   setOpen(false)
@@ -166,8 +217,8 @@ export function CommandPalette() {
                   i === selected ? 'bg-bg-hover' : 'hover:bg-bg-hover/60'
                 )}
               >
-                <span className={cn('text-xs font-medium w-16 shrink-0', SECTION_COLORS[item.section])}>
-                  {SECTION_LABELS[item.section]}
+                <span className={cn('text-xs font-medium w-16 shrink-0', KIND_COLORS[item.kind])}>
+                  {KIND_LABELS[item.kind]}
                 </span>
                 <span className="flex-1 text-sm text-text-primary truncate">{item.title}</span>
                 {item.subtitle && (
