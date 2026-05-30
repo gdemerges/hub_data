@@ -1,16 +1,14 @@
 'use client'
 
-import { BookOpen, Clock, Film, Footprints, Gamepad2, Github, Globe, Heart, Tv } from 'lucide-react'
+import { BookOpen, Film, Footprints, Gamepad2, Github, Globe, Heart, Tv } from 'lucide-react'
 import useSWR from 'swr'
 import type { Accent } from '@/lib/accents'
-import { formatWatchHours } from '@/lib/series-time'
 import { StatCard } from './stat-card'
 
 interface OverviewStatsProps {
   gamesCount: number
   filmsCount: number
   seriesCount: number
-  seriesMinutes: number
   selectedYear: number | null
 }
 
@@ -18,7 +16,6 @@ export function OverviewStats({
   gamesCount,
   filmsCount,
   seriesCount,
-  seriesMinutes,
   selectedYear,
 }: OverviewStatsProps) {
   const stravaKey = selectedYear ? `/api/strava/stats?year=${selectedYear}` : '/api/strava/stats'
@@ -55,16 +52,6 @@ export function OverviewStats({
     { label: 'Films vus', value: filmsCount, icon: Film, color: 'terracotta', href: '/films' },
     { label: 'Séries suivies', value: seriesCount, icon: Tv, color: 'saffron', href: '/series' },
   ]
-
-  if (seriesMinutes > 0) {
-    stats.push({
-      label: 'Heures séries',
-      value: formatWatchHours(seriesMinutes),
-      icon: Clock,
-      color: 'saffron',
-      href: '/series',
-    })
-  }
 
   if (booksRead !== null) {
     stats.push({

@@ -23,7 +23,6 @@ import {
 import { computeGoals } from '@/lib/goals'
 import { pickDailyBackdrop } from '@/lib/hero-backdrop'
 import { eventsOnThisDay } from '@/lib/on-this-day'
-import { totalSeriesMinutes } from '@/lib/series-time'
 import { computeStreaks } from '@/lib/streaks'
 
 const GITHUB_USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'gdemerges'
@@ -106,7 +105,6 @@ export default async function HomePage({
         gamesCount={games.length}
         filmsCount={films.length}
         seriesCount={series.length}
-        seriesMinutes={totalSeriesMinutes(series)}
         selectedYear={selectedYear}
       />
 
