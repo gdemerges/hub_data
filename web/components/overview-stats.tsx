@@ -1,9 +1,9 @@
 'use client'
 
+import { BookOpen, Film, Footprints, Gamepad2, Github, Globe, Heart, Tv } from 'lucide-react'
 import useSWR from 'swr'
-import { Gamepad2, Film, Tv, Github, Footprints, Heart, Globe, BookOpen } from 'lucide-react'
-import { StatCard } from './stat-card'
 import type { Accent } from '@/lib/accents'
+import { StatCard } from './stat-card'
 
 interface OverviewStatsProps {
   gamesCount: number
@@ -12,7 +12,12 @@ interface OverviewStatsProps {
   selectedYear: number | null
 }
 
-export function OverviewStats({ gamesCount, filmsCount, seriesCount, selectedYear }: OverviewStatsProps) {
+export function OverviewStats({
+  gamesCount,
+  filmsCount,
+  seriesCount,
+  selectedYear,
+}: OverviewStatsProps) {
   const stravaKey = selectedYear ? `/api/strava/stats?year=${selectedYear}` : '/api/strava/stats'
   const partnersKey = selectedYear ? `/api/partners?year=${selectedYear}` : '/api/partners'
   const githubYear = selectedYear ?? new Date().getFullYear()
@@ -22,7 +27,9 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, selectedYea
   const { data: partnersData } = useSWR(partnersKey)
   const { data: voyagesData } = useSWR('/api/voyages')
   const { data: booksData } = useSWR('/api/books')
-  const { data: githubData } = useSWR(`/api/github/contributions?username=${githubUsername}&year=${githubYear}`)
+  const { data: githubData } = useSWR(
+    `/api/github/contributions?username=${githubUsername}&year=${githubYear}`,
+  )
 
   const runDistance = stravaData
     ? Math.round(selectedYear ? stravaData.yearRunDistance : stravaData.totalRunDistance)
@@ -47,23 +54,53 @@ export function OverviewStats({ gamesCount, filmsCount, seriesCount, selectedYea
   ]
 
   if (booksRead !== null) {
-    stats.push({ label: 'Livres lus', value: booksRead, icon: BookOpen, color: 'indigo', href: '/books' })
+    stats.push({
+      label: 'Livres lus',
+      value: booksRead,
+      icon: BookOpen,
+      color: 'indigo',
+      href: '/books',
+    })
   }
 
   if (contributions !== null) {
-    stats.push({ label: 'Contributions', value: contributions, icon: Github, color: 'fern', href: '/github' })
+    stats.push({
+      label: 'Contributions',
+      value: contributions,
+      icon: Github,
+      color: 'fern',
+      href: '/github',
+    })
   }
 
   if (runDistance !== null) {
-    stats.push({ label: 'Km courus', value: `${runDistance} km`, icon: Footprints, color: 'rust', href: '/sport' })
+    stats.push({
+      label: 'Km courus',
+      value: `${runDistance} km`,
+      icon: Footprints,
+      color: 'rust',
+      href: '/sport',
+    })
   }
 
   if (countriesCount !== null) {
-    stats.push({ label: 'Pays visités', value: countriesCount, icon: Globe, color: 'sage', href: '/voyages' })
+    stats.push({
+      label: 'Pays visités',
+      value: countriesCount,
+      icon: Globe,
+      color: 'sage',
+      href: '/voyages',
+    })
   }
 
   if (partnersCount !== null) {
-    stats.push({ label: 'Partenaires', value: partnersCount, icon: Heart, color: 'clay', href: '/rencontres' })
+    stats.push({
+      label: 'Partenaires',
+      value: partnersCount,
+      icon: Heart,
+      color: 'clay',
+      href: '/rencontres',
+    })
   }
 
   return (

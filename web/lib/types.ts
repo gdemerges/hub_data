@@ -4,7 +4,6 @@ export type ApiResponse<T> =
   | { success: true; data: T; hasData: true }
   | { success: false; data: never[]; hasData: false; error?: string }
 
-
 // User Profile
 export interface Profile {
   id: string
@@ -71,9 +70,11 @@ export interface Series {
   avgRating?: number
   episodesWatched?: number
   episodes?: number
+  watchMinutes?: number
   releaseYear?: number
   airingStatus?: string
   genres?: string[]
+  channel?: string
   posterUrl?: string
   backdropUrl?: string
   watchStatus?: WatchStatus

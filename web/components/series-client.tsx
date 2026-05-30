@@ -1,17 +1,34 @@
 'use client'
 
-import { useState, useMemo, useEffect, useDeferredValue } from 'react'
-import { useSearchParams, useRouter, usePathname } from 'next/navigation'
+import { ArrowUpDown, Calendar, ChevronDown, Clock, ListOrdered, Search, Star } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
 import { MediaTopPicks, type TopPick } from '@/components/media-top-picks'
-import { Recommendations } from '@/components/recommendations'
 import { StaggerContainer, StaggerItem } from '@/components/page-transition'
-import { Search, Calendar, Star, ListOrdered } from 'lucide-react'
+import { Recommendations } from '@/components/recommendations'
+import { formatWatchHours } from '@/lib/series-time'
 import type { Series } from '@/lib/types'
 
 interface SeriesClientProps {
   series: Series[]
+}
+
+type SortKey = 'hours' | 'rating' | 'alpha' | 'episodes'
+
+const SORT_OPTIONS: { value: SortKey; label: string }[] = [
+  { value: 'hours', label: 'Plus vues (heures)' },
+  { value: 'rating', label: 'Mieux notées' },
+  { value: 'alpha', label: 'A – Z' },
+  { value: 'episodes', label: "Plus d'épisodes vus" },
+]
+
+const SORT_COMPARATORS: Record<SortKey, (a: Series, b: Series) => number> = {
+  hours: (a, b) => (b.watchMinutes ?? 0) - (a.watchMinutes ?? 0),
+  rating: (a, b) => (b.rating ?? 0) - (a.rating ?? 0),
+  alpha: (a, b) => a.title.localeCompare(b.title, 'fr'),
+  episodes: (a, b) => (b.episodesWatched ?? 0) - (a.episodesWatched ?? 0),
 }
 
 export function SeriesClient({ series }: SeriesClientProps) {
@@ -19,13 +36,14 @@ export function SeriesClient({ series }: SeriesClientProps) {
   const router = useRouter()
   const pathname = usePathname()
   const [search, setSearch] = useState(() => searchParams.get('q') ?? '')
+  const [sortBy, setSortBy] = useState<SortKey>('hours')
   const [selectedItem, setSelectedItem] = useState<Series | null>(null)
   const deferredSearch = useDeferredValue(search)
 
   useEffect(() => {
     const open = searchParams.get('open')
     if (!open) return
-    const match = series.find(s => s.title === open)
+    const match = series.find((s) => s.title === open)
     if (match) setSelectedItem(match)
     router.replace(pathname, { scroll: false })
   }, [searchParams, series, pathname, router])
@@ -41,19 +59,24 @@ export function SeriesClient({ series }: SeriesClientProps) {
     return series.map((s) => ({
       ...s,
       imageUrl: s.posterUrl,
-      subtitle: s.status || undefined,
+      subtitle:
+        [s.status, s.watchMinutes ? formatWatchHours(s.watchMinutes) : undefined]
+          .filter(Boolean)
+          .join(' · ') || undefined,
       badge: s.rating ? `${s.rating}/20` : undefined,
-      progressBadge: s.episodes && s.episodesWatched !== undefined
-        ? `${s.episodesWatched}/${s.episodes} ep.`
-        : undefined,
+      progressBadge:
+        s.episodes && s.episodesWatched !== undefined
+          ? `${s.episodesWatched}/${s.episodes} ep.`
+          : undefined,
     }))
   }, [series])
 
   const filteredItems = useMemo(() => {
-    if (!deferredSearch) return items
-    const searchLower = deferredSearch.toLowerCase()
-    return items.filter((item) => item.title.toLowerCase().includes(searchLower))
-  }, [items, deferredSearch])
+    const base = !deferredSearch
+      ? items
+      : items.filter((item) => item.title.toLowerCase().includes(deferredSearch.toLowerCase()))
+    return [...base].sort(SORT_COMPARATORS[sortBy])
+  }, [items, deferredSearch, sortBy])
 
   const topPicks: TopPick[] = useMemo(() => {
     return [...series]
@@ -73,18 +96,48 @@ export function SeriesClient({ series }: SeriesClientProps) {
   return (
     <>
       {!deferredSearch && topPicks.length > 0 && (
-        <MediaTopPicks picks={topPicks} accent="saffron" title="Tes séries préférées" eyebrow="Top 3" />
+        <MediaTopPicks
+          picks={topPicks}
+          accent="saffron"
+          title="Tes séries préférées"
+          eyebrow="Top 3"
+        />
       )}
 
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" strokeWidth={1.75} />
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted"
+            strokeWidth={1.75}
+          />
           <input
             type="text"
             placeholder="Rechercher une série…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-primary placeholder:text-text-muted focus:outline-none focus:border-earth-saffron/50 focus:ring-2 focus:ring-earth-saffron/15 transition-all"
+          />
+        </div>
+        <div className="relative">
+          <ArrowUpDown
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none"
+            strokeWidth={1.75}
+          />
+          <select
+            aria-label="Trier les séries"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as SortKey)}
+            className="appearance-none w-full sm:w-auto pl-10 pr-9 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-primary focus:outline-none focus:border-earth-saffron/50 focus:ring-2 focus:ring-earth-saffron/15 transition-all cursor-pointer"
+          >
+            {SORT_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+          <ChevronDown
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none"
+            strokeWidth={1.75}
           />
         </div>
       </div>
@@ -153,9 +206,17 @@ function SeriesDetail({ series }: { series: Series }) {
         {series.episodes && (
           <div className="flex items-center gap-2">
             <ListOrdered className="w-4 h-4" />
-            <span>{series.episodesWatched || 0}/{series.episodes} épisodes</span>
+            <span>
+              {series.episodesWatched || 0}/{series.episodes} épisodes
+            </span>
           </div>
         )}
+        {series.watchMinutes ? (
+          <div className="flex items-center gap-2">
+            <Clock className="w-4 h-4 text-earth-saffron" />
+            <span>{formatWatchHours(series.watchMinutes)} de visionnage</span>
+          </div>
+        ) : null}
         {series.rating && (
           <div className="flex items-center gap-2">
             <Star className="w-4 h-4 text-earth-saffron" />
@@ -167,13 +228,19 @@ function SeriesDetail({ series }: { series: Series }) {
       {/* Status */}
       {series.status && (
         <div className="flex items-center gap-2">
-          <span className={`px-2 py-0.5 rounded text-xs ${
-            series.status === 'Terminée' ? 'bg-earth-moss/20 text-earth-mossSoft' :
-            series.status === 'A jour' ? 'bg-earth-indigo/20 text-earth-indigo' :
-            series.status === 'En cours' ? 'bg-earth-saffron/20 text-earth-saffron' :
-            series.status === 'Abandonnée' ? 'bg-earth-clay/20 text-earth-clay' :
-            'bg-gray-500/20 text-gray-400'
-          }`}>
+          <span
+            className={`px-2 py-0.5 rounded text-xs ${
+              series.status === 'Terminée'
+                ? 'bg-earth-moss/20 text-earth-mossSoft'
+                : series.status === 'A jour'
+                  ? 'bg-earth-indigo/20 text-earth-indigo'
+                  : series.status === 'En cours'
+                    ? 'bg-earth-saffron/20 text-earth-saffron'
+                    : series.status === 'Abandonnée'
+                      ? 'bg-earth-clay/20 text-earth-clay'
+                      : 'bg-gray-500/20 text-gray-400'
+            }`}
+          >
             {series.status}
           </span>
           {series.airingStatus && (
