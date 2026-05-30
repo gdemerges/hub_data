@@ -1,7 +1,6 @@
 import { Television } from '@phosphor-icons/react/dist/ssr'
-import { Suspense } from 'react'
 import { PageHeader } from '@/components'
-import { SeriesClient } from '@/components/series-client'
+import { SeriesPageClient } from '@/components/series-page-client'
 import { getSeriesData } from '@/lib/data'
 import { formatWatchHours, totalSeriesMinutes } from '@/lib/series-time'
 
@@ -25,9 +24,7 @@ export default async function SeriesPage() {
         color="saffron"
         icon={Television}
       />
-      <Suspense>
-        <SeriesClient series={series} />
-      </Suspense>
+      <SeriesPageClient series={series} />
     </div>
   )
 }
