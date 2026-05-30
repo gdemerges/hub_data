@@ -1,6 +1,6 @@
 'use client'
 
-import { Calendar, Clock, ListOrdered, Search, Star } from 'lucide-react'
+import { ArrowUpDown, Calendar, ChevronDown, Clock, ListOrdered, Search, Star } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import { MediaCard } from '@/components/media-card'
@@ -15,11 +15,28 @@ interface SeriesClientProps {
   series: Series[]
 }
 
+type SortKey = 'hours' | 'rating' | 'alpha' | 'episodes'
+
+const SORT_OPTIONS: { value: SortKey; label: string }[] = [
+  { value: 'hours', label: 'Plus vues (heures)' },
+  { value: 'rating', label: 'Mieux notées' },
+  { value: 'alpha', label: 'A – Z' },
+  { value: 'episodes', label: "Plus d'épisodes vus" },
+]
+
+const SORT_COMPARATORS: Record<SortKey, (a: Series, b: Series) => number> = {
+  hours: (a, b) => (b.watchMinutes ?? 0) - (a.watchMinutes ?? 0),
+  rating: (a, b) => (b.rating ?? 0) - (a.rating ?? 0),
+  alpha: (a, b) => a.title.localeCompare(b.title, 'fr'),
+  episodes: (a, b) => (b.episodesWatched ?? 0) - (a.episodesWatched ?? 0),
+}
+
 export function SeriesClient({ series }: SeriesClientProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
   const [search, setSearch] = useState(() => searchParams.get('q') ?? '')
+  const [sortBy, setSortBy] = useState<SortKey>('hours')
   const [selectedItem, setSelectedItem] = useState<Series | null>(null)
   const deferredSearch = useDeferredValue(search)
 
@@ -55,10 +72,11 @@ export function SeriesClient({ series }: SeriesClientProps) {
   }, [series])
 
   const filteredItems = useMemo(() => {
-    if (!deferredSearch) return items
-    const searchLower = deferredSearch.toLowerCase()
-    return items.filter((item) => item.title.toLowerCase().includes(searchLower))
-  }, [items, deferredSearch])
+    const base = !deferredSearch
+      ? items
+      : items.filter((item) => item.title.toLowerCase().includes(deferredSearch.toLowerCase()))
+    return [...base].sort(SORT_COMPARATORS[sortBy])
+  }, [items, deferredSearch, sortBy])
 
   const topPicks: TopPick[] = useMemo(() => {
     return [...series]
@@ -98,6 +116,28 @@ export function SeriesClient({ series }: SeriesClientProps) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-primary placeholder:text-text-muted focus:outline-none focus:border-earth-saffron/50 focus:ring-2 focus:ring-earth-saffron/15 transition-all"
+          />
+        </div>
+        <div className="relative">
+          <ArrowUpDown
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none"
+            strokeWidth={1.75}
+          />
+          <select
+            aria-label="Trier les séries"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as SortKey)}
+            className="appearance-none w-full sm:w-auto pl-10 pr-9 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-primary focus:outline-none focus:border-earth-saffron/50 focus:ring-2 focus:ring-earth-saffron/15 transition-all cursor-pointer"
+          >
+            {SORT_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+          <ChevronDown
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none"
+            strokeWidth={1.75}
           />
         </div>
       </div>
