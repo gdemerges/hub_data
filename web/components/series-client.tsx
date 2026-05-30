@@ -1,13 +1,14 @@
 'use client'
 
-import { useState, useMemo, useEffect, useDeferredValue } from 'react'
-import { useSearchParams, useRouter, usePathname } from 'next/navigation'
+import { Calendar, Clock, ListOrdered, Search, Star } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
 import { MediaTopPicks, type TopPick } from '@/components/media-top-picks'
-import { Recommendations } from '@/components/recommendations'
 import { StaggerContainer, StaggerItem } from '@/components/page-transition'
-import { Search, Calendar, Star, ListOrdered } from 'lucide-react'
+import { Recommendations } from '@/components/recommendations'
+import { formatWatchHours } from '@/lib/series-time'
 import type { Series } from '@/lib/types'
 
 interface SeriesClientProps {
@@ -25,7 +26,7 @@ export function SeriesClient({ series }: SeriesClientProps) {
   useEffect(() => {
     const open = searchParams.get('open')
     if (!open) return
-    const match = series.find(s => s.title === open)
+    const match = series.find((s) => s.title === open)
     if (match) setSelectedItem(match)
     router.replace(pathname, { scroll: false })
   }, [searchParams, series, pathname, router])
@@ -41,11 +42,15 @@ export function SeriesClient({ series }: SeriesClientProps) {
     return series.map((s) => ({
       ...s,
       imageUrl: s.posterUrl,
-      subtitle: s.status || undefined,
+      subtitle:
+        [s.status, s.watchMinutes ? formatWatchHours(s.watchMinutes) : undefined]
+          .filter(Boolean)
+          .join(' · ') || undefined,
       badge: s.rating ? `${s.rating}/20` : undefined,
-      progressBadge: s.episodes && s.episodesWatched !== undefined
-        ? `${s.episodesWatched}/${s.episodes} ep.`
-        : undefined,
+      progressBadge:
+        s.episodes && s.episodesWatched !== undefined
+          ? `${s.episodesWatched}/${s.episodes} ep.`
+          : undefined,
     }))
   }, [series])
 
@@ -73,12 +78,20 @@ export function SeriesClient({ series }: SeriesClientProps) {
   return (
     <>
       {!deferredSearch && topPicks.length > 0 && (
-        <MediaTopPicks picks={topPicks} accent="saffron" title="Tes séries préférées" eyebrow="Top 3" />
+        <MediaTopPicks
+          picks={topPicks}
+          accent="saffron"
+          title="Tes séries préférées"
+          eyebrow="Top 3"
+        />
       )}
 
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" strokeWidth={1.75} />
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted"
+            strokeWidth={1.75}
+          />
           <input
             type="text"
             placeholder="Rechercher une série…"
@@ -153,9 +166,17 @@ function SeriesDetail({ series }: { series: Series }) {
         {series.episodes && (
           <div className="flex items-center gap-2">
             <ListOrdered className="w-4 h-4" />
-            <span>{series.episodesWatched || 0}/{series.episodes} épisodes</span>
+            <span>
+              {series.episodesWatched || 0}/{series.episodes} épisodes
+            </span>
           </div>
         )}
+        {series.watchMinutes ? (
+          <div className="flex items-center gap-2">
+            <Clock className="w-4 h-4 text-earth-saffron" />
+            <span>{formatWatchHours(series.watchMinutes)} de visionnage</span>
+          </div>
+        ) : null}
         {series.rating && (
           <div className="flex items-center gap-2">
             <Star className="w-4 h-4 text-earth-saffron" />
@@ -167,13 +188,19 @@ function SeriesDetail({ series }: { series: Series }) {
       {/* Status */}
       {series.status && (
         <div className="flex items-center gap-2">
-          <span className={`px-2 py-0.5 rounded text-xs ${
-            series.status === 'Terminée' ? 'bg-earth-moss/20 text-earth-mossSoft' :
-            series.status === 'A jour' ? 'bg-earth-indigo/20 text-earth-indigo' :
-            series.status === 'En cours' ? 'bg-earth-saffron/20 text-earth-saffron' :
-            series.status === 'Abandonnée' ? 'bg-earth-clay/20 text-earth-clay' :
-            'bg-gray-500/20 text-gray-400'
-          }`}>
+          <span
+            className={`px-2 py-0.5 rounded text-xs ${
+              series.status === 'Terminée'
+                ? 'bg-earth-moss/20 text-earth-mossSoft'
+                : series.status === 'A jour'
+                  ? 'bg-earth-indigo/20 text-earth-indigo'
+                  : series.status === 'En cours'
+                    ? 'bg-earth-saffron/20 text-earth-saffron'
+                    : series.status === 'Abandonnée'
+                      ? 'bg-earth-clay/20 text-earth-clay'
+                      : 'bg-gray-500/20 text-gray-400'
+            }`}
+          >
             {series.status}
           </span>
           {series.airingStatus && (

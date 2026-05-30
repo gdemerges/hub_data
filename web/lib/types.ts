@@ -71,6 +71,7 @@ export interface Series {
   avgRating?: number
   episodesWatched?: number
   episodes?: number
+  watchMinutes?: number
   releaseYear?: number
   airingStatus?: string
   genres?: string[]
