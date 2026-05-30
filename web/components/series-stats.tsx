@@ -81,9 +81,9 @@ export function SeriesStats({ series }: SeriesStatsProps) {
     })
     const channelData = [...channelStats.entries()]
       .map(([name, v]) => ({ name, ...v }))
-      .sort((a, b) => b.minutes - a.minutes || b.count - a.count)
+      .sort((a, b) => b.count - a.count || b.minutes - a.minutes)
       .slice(0, 8)
-    const channelMax = Math.max(...channelData.map((c) => c.minutes), 1)
+    const channelMax = Math.max(...channelData.map((c) => c.count), 1)
 
     return {
       totalSeries,
@@ -232,8 +232,8 @@ export function SeriesStats({ series }: SeriesStatsProps) {
               <BarRow
                 key={c.name}
                 label={c.name}
-                value={`${formatWatchHours(c.minutes)} · ${c.count} série${c.count > 1 ? 's' : ''}`}
-                ratio={c.minutes / stats.channelMax}
+                value={`${c.count} série${c.count > 1 ? 's' : ''}`}
+                ratio={c.count / stats.channelMax}
                 color="rgb(var(--dv-5))"
               />
             ))}
