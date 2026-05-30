@@ -573,6 +573,7 @@ interface RawSeries {
   'Statut diffusion': string
   'Genre 1': string
   'Genre 2': string
+  'Chaine 1': string
 }
 
 async function processSeries() {
@@ -609,6 +610,7 @@ async function processSeries() {
       releaseYear: year,
       airingStatus: row['Statut diffusion'] || undefined,
       genres: [row['Genre 1'], row['Genre 2']].filter(Boolean),
+      channel: row['Chaine 1'] || undefined,
       posterUrl,
       backdropUrl,
     })

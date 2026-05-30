@@ -1,6 +1,6 @@
 'use client'
 
-import { BarChart3, Clock, Film, ListChecks, Star, Tv } from 'lucide-react'
+import { BarChart3, Clock, Film, ListChecks, Radio, Star, Tv } from 'lucide-react'
 import Image from 'next/image'
 import { useMemo } from 'react'
 import { EmptyState } from '@/components/empty-state'
@@ -70,6 +70,21 @@ export function SeriesStats({ series }: SeriesStatsProps) {
     const decadeData = [...decadeMinutes.entries()].sort((a, b) => a[0] - b[0])
     const decadeMax = Math.max(...decadeData.map(([, v]) => v), 1)
 
+    // Top chaînes / plateformes : heures + nombre de séries
+    const channelStats = new Map<string, { minutes: number; count: number }>()
+    series.forEach((s) => {
+      if (!s.channel) return
+      const entry = channelStats.get(s.channel) ?? { minutes: 0, count: 0 }
+      entry.minutes += s.watchMinutes ?? 0
+      entry.count += 1
+      channelStats.set(s.channel, entry)
+    })
+    const channelData = [...channelStats.entries()]
+      .map(([name, v]) => ({ name, ...v }))
+      .sort((a, b) => b.minutes - a.minutes || b.count - a.count)
+      .slice(0, 8)
+    const channelMax = Math.max(...channelData.map((c) => c.minutes), 1)
+
     return {
       totalSeries,
       totalMinutes,
@@ -82,6 +97,8 @@ export function SeriesStats({ series }: SeriesStatsProps) {
       statusTotal,
       decadeData,
       decadeMax,
+      channelData,
+      channelMax,
     }
   }, [series])
 
@@ -203,6 +220,28 @@ export function SeriesStats({ series }: SeriesStatsProps) {
           )}
         </Card>
       </div>
+
+      {/* Top chaînes / plateformes */}
+      <Card
+        icon={<Radio className="w-5 h-5 text-earth-saffron" />}
+        title="Top chaînes / plateformes"
+      >
+        {stats.channelData.length > 0 ? (
+          <div className="space-y-3">
+            {stats.channelData.map((c) => (
+              <BarRow
+                key={c.name}
+                label={c.name}
+                value={`${formatWatchHours(c.minutes)} · ${c.count} série${c.count > 1 ? 's' : ''}`}
+                ratio={c.minutes / stats.channelMax}
+                color="rgb(var(--dv-5))"
+              />
+            ))}
+          </div>
+        ) : (
+          <EmptyState description="Aucune chaîne renseignée." />
+        )}
+      </Card>
     </div>
   )
 }
