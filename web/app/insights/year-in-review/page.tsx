@@ -3,19 +3,22 @@
 import { useState } from 'react'
 import useSWR from 'swr'
 import { PageHeader } from '@/components'
-import { Film as FilmIcon, Tv, Gamepad2, BookOpen, Sparkles } from 'lucide-react'
+import { Film as FilmIcon, Tv, Gamepad2, BookOpen, Sparkles, ChevronDown } from 'lucide-react'
 import { CalendarBlank } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
 
 type TopItem = { title: string; rating?: number; subtitle?: string }
 type Review = {
   year: number
-  films: { total: number; hoursWatched: number; topRated: TopItem[]; topGenres: { name: string; count: number }[] }
-  series: { total: number; episodes: number; topRated: TopItem[]; topGenres: { name: string; count: number }[] }
-  games: { total: number; hoursPlayed: number; topRated: TopItem[]; topPlatforms: { name: string; hours: number }[] }
-  books: { total: number; pages: number; topRated: TopItem[]; topAuthors: { name: string; count: number }[] }
+  films: { total: number; hoursWatched: number; items: TopItem[]; topGenres: { name: string; count: number }[] }
+  series: { total: number; episodes: number; items: TopItem[]; topGenres: { name: string; count: number }[] }
+  games: { total: number; hoursPlayed: number; items: TopItem[]; topPlatforms: { name: string; hours: number }[] }
+  books: { total: number; pages: number; items: TopItem[]; topAuthors: { name: string; count: number }[] }
   highlights: string[]
 }
+
+// Nombre d'items affichés avant de devoir dérouler la liste.
+const VISIBLE_COUNT = 5
 
 const fetcher = (url: string) => fetch(url).then(r => r.json())
 
@@ -27,16 +30,20 @@ function Section({
   title,
   color,
   stats,
-  topRated,
+  items,
   extra,
 }: {
   icon: typeof FilmIcon
   title: string
   color: string
   stats: string[]
-  topRated: TopItem[]
+  items: TopItem[]
   extra?: React.ReactNode
 }) {
+  const [expanded, setExpanded] = useState(false)
+  const visible = expanded ? items : items.slice(0, VISIBLE_COUNT)
+  const hiddenCount = items.length - VISIBLE_COUNT
+
   return (
     <div className="tech-card p-5 space-y-4">
       <div className="flex items-center gap-3">
@@ -50,18 +57,33 @@ function Section({
           </div>
         ))}
       </div>
-      {topRated.length > 0 && (
+      {items.length > 0 && (
         <div className="space-y-1">
-          <div className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted">Top notes</div>
-          {topRated.map((item, i) => (
+          <div className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted">Détail</div>
+          {visible.map((item, i) => (
             <div key={i} className="flex items-center justify-between text-sm font-mono">
               <span className="text-text-primary truncate flex-1">
                 <span className="text-text-muted mr-2">{i + 1}.</span>
                 {item.title}
               </span>
-              {item.rating && <span className="text-earth-saffron ml-2">{item.rating}</span>}
+              {item.rating ? (
+                <span className={cn('ml-2', color)}>{item.rating}</span>
+              ) : (
+                <span className="ml-2 text-text-muted">—</span>
+              )}
             </div>
           ))}
+          {hiddenCount > 0 && (
+            <button
+              type="button"
+              onClick={() => setExpanded(v => !v)}
+              aria-expanded={expanded}
+              className="mt-1 flex items-center gap-1.5 text-xs font-mono text-text-secondary hover:text-text-primary transition-colors"
+            >
+              <ChevronDown className={cn('w-3.5 h-3.5 transition-transform', expanded && 'rotate-180')} />
+              {expanded ? 'Réduire' : `Voir les ${hiddenCount} autre${hiddenCount > 1 ? 's' : ''}`}
+            </button>
+          )}
         </div>
       )}
       {extra}
@@ -130,7 +152,7 @@ export default function YearInReviewPage() {
               title="Films"
               color="text-earth-terracotta"
               stats={[`${data.films.total} films`, `~${data.films.hoursWatched}h`]}
-              topRated={data.films.topRated}
+              items={data.films.items}
               extra={
                 data.films.topGenres.length > 0 ? (
                   <div className="text-xs font-mono text-text-secondary">
@@ -144,7 +166,7 @@ export default function YearInReviewPage() {
               title="Séries"
               color="text-earth-saffron"
               stats={[`${data.series.total} terminées`, `${data.series.episodes} épisodes`]}
-              topRated={data.series.topRated}
+              items={data.series.items}
               extra={
                 data.series.topGenres.length > 0 ? (
                   <div className="text-xs font-mono text-text-secondary">
@@ -158,7 +180,7 @@ export default function YearInReviewPage() {
               title="Jeux"
               color="text-earth-moss"
               stats={[`${data.games.total} jeux`, `${data.games.hoursPlayed}h`]}
-              topRated={data.games.topRated}
+              items={data.games.items}
               extra={
                 data.games.topPlatforms.length > 0 ? (
                   <div className="text-xs font-mono text-text-secondary">
@@ -172,7 +194,7 @@ export default function YearInReviewPage() {
               title="Livres"
               color="text-earth-indigo"
               stats={[`${data.books.total} livres`, `${data.books.pages.toLocaleString('fr-FR')} pages`]}
-              topRated={data.books.topRated}
+              items={data.books.items}
               extra={
                 data.books.topAuthors.length > 0 ? (
                   <div className="text-xs font-mono text-text-secondary">

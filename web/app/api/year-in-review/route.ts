@@ -11,11 +11,20 @@ type TopItem = { title: string; rating?: number; subtitle?: string }
 
 type YearReview = {
   year: number
-  films: { total: number; hoursWatched: number; topRated: TopItem[]; topGenres: { name: string; count: number }[] }
-  series: { total: number; episodes: number; topRated: TopItem[]; topGenres: { name: string; count: number }[] }
-  games: { total: number; hoursPlayed: number; topRated: TopItem[]; topPlatforms: { name: string; hours: number }[] }
-  books: { total: number; pages: number; topRated: TopItem[]; topAuthors: { name: string; count: number }[] }
+  films: { total: number; hoursWatched: number; items: TopItem[]; topGenres: { name: string; count: number }[] }
+  series: { total: number; episodes: number; items: TopItem[]; topGenres: { name: string; count: number }[] }
+  games: { total: number; hoursPlayed: number; items: TopItem[]; topPlatforms: { name: string; hours: number }[] }
+  books: { total: number; pages: number; items: TopItem[]; topAuthors: { name: string; count: number }[] }
   highlights: string[]
+}
+
+// Tri d'affichage : les items notés d'abord (note décroissante), puis les
+// non notés par ordre alphabétique. On liste TOUT (pas seulement le top noté)
+// pour que rien ne disparaisse de la rétrospective.
+function sortItems(items: TopItem[]): TopItem[] {
+  return [...items].sort(
+    (a, b) => (b.rating ?? -1) - (a.rating ?? -1) || a.title.localeCompare(b.title, 'fr')
+  )
 }
 
 function yearOf(d?: string): number | null {
@@ -39,7 +48,9 @@ function topBy<T>(items: T[], key: (x: T) => string | undefined, n = 3): { name:
 function buildReview(year: number, games: Game[], films: Film[], series: Series[], books: Book[]): YearReview {
   const filmsY = films.filter(f => yearOf(f.dateWatched) === year)
   const seriesY = series.filter(s => yearOf(s.dateCompleted) === year)
-  const gamesY = games.filter(g => g.releaseYear === year)
+  // Jeux « de l'année » = joués pendant l'année (commencés ou terminés), pas
+  // sortis cette année-là. On exclut donc le backlog/wishlist non touché.
+  const gamesY = games.filter(g => yearOf(g.dateStarted) === year || yearOf(g.dateFinished) === year)
   const booksY = books.filter(b => b.year === year)
 
   const genres = (items: { genres?: string[] }[], n = 3) => {
@@ -72,25 +83,25 @@ function buildReview(year: number, games: Game[], films: Film[], series: Series[
     films: {
       total: filmsY.length,
       hoursWatched: Math.round(totalFilmHours),
-      topRated: [...filmsY].filter(f => f.rating).sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0)).slice(0, 3).map(f => ({ title: f.title, rating: f.rating, subtitle: f.genres?.[0] })),
+      items: sortItems(filmsY.map(f => ({ title: f.title, rating: f.rating, subtitle: f.genres?.[0] }))),
       topGenres: genres(filmsY),
     },
     series: {
       total: seriesY.length,
       episodes: totalEpisodes,
-      topRated: [...seriesY].filter(s => s.rating).sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0)).slice(0, 3).map(s => ({ title: s.title, rating: s.rating, subtitle: s.genres?.[0] })),
+      items: sortItems(seriesY.map(s => ({ title: s.title, rating: s.rating, subtitle: s.genres?.[0] }))),
       topGenres: genres(seriesY),
     },
     games: {
       total: gamesY.length,
       hoursPlayed: Math.round(totalGameHours),
-      topRated: [...gamesY].filter(g => g.rating).sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0)).slice(0, 3).map(g => ({ title: g.title, rating: g.rating, subtitle: g.platform ?? g.platforms?.[0]?.platform })),
+      items: sortItems(gamesY.map(g => ({ title: g.title, rating: g.rating, subtitle: g.platform ?? g.platforms?.[0]?.platform }))),
       topPlatforms: Array.from(platformHours.entries()).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([name, hours]) => ({ name, hours: Math.round(hours) })),
     },
     books: {
       total: booksY.length,
       pages: totalPages,
-      topRated: [...booksY].filter(b => b.rating).sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0)).slice(0, 3).map(b => ({ title: b.title, rating: b.rating, subtitle: b.author })),
+      items: sortItems(booksY.map(b => ({ title: b.title, rating: b.rating, subtitle: b.author }))),
       topAuthors: topBy(booksY, b => b.author),
     },
     highlights,
