@@ -251,7 +251,7 @@ export function GameStats({ games }: GameStatsProps) {
         }
       })
       .sort((a, b) => b.hours - a.hours)
-      .slice(0, 12)
+      .slice(0, 20)
 
     return {
       totalGames,

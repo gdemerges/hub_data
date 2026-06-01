@@ -169,7 +169,7 @@ export function BooksStats({ books }: BooksStatsProps) {
         }
       })
       .sort((a, b) => b.pages - a.pages)
-      .slice(0, 12)
+      .slice(0, 20)
 
     return {
       total,
