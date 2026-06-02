@@ -9,6 +9,7 @@ interface Activity {
   distance: number
   movingTime: number
   averageHeartrate?: number
+  maxHeartrate?: number
   type: string
 }
 
@@ -21,8 +22,6 @@ const HR_ZONES = [
   {
     zone: 1,
     name: 'Récupération',
-    minPercent: 50,
-    maxPercent: 60,
     rgb: '61 81 112', // earth.indigo
     text: 'text-earth-indigo',
     bg: 'bg-earth-indigo/10',
@@ -32,8 +31,6 @@ const HR_ZONES = [
   {
     zone: 2,
     name: 'Endurance',
-    minPercent: 60,
-    maxPercent: 70,
     rgb: '138 178 116', // earth.mossSoft
     text: 'text-earth-mossSoft',
     bg: 'bg-earth-mossSoft/10',
@@ -43,8 +40,6 @@ const HR_ZONES = [
   {
     zone: 3,
     name: 'Tempo',
-    minPercent: 70,
-    maxPercent: 80,
     rgb: '217 164 65', // earth.saffron
     text: 'text-earth-saffron',
     bg: 'bg-earth-saffron/10',
@@ -54,8 +49,6 @@ const HR_ZONES = [
   {
     zone: 4,
     name: 'Seuil',
-    minPercent: 80,
-    maxPercent: 90,
     rgb: '168 85 44', // earth.rust
     text: 'text-earth-rust',
     bg: 'bg-earth-rust/10',
@@ -65,8 +58,6 @@ const HR_ZONES = [
   {
     zone: 5,
     name: 'VO2 Max',
-    minPercent: 90,
-    maxPercent: 100,
     rgb: '176 104 104', // earth.clay
     text: 'text-earth-clay',
     bg: 'bg-earth-clay/10',
@@ -75,7 +66,30 @@ const HR_ZONES = [
   },
 ]
 
-function calculateZoneDistribution(activities: Activity[], lthr: number) {
+/**
+ * Bornes hautes (bpm) des zones Z1..Z4 — calées sur les zones FC réelles du
+ * coureur (pas une estimation % FC max, trop imprécise). Z5 = au-delà de la
+ * dernière borne. Ajuster ces 4 valeurs pour réétalonner toutes les zones.
+ *   Z1 ≤ 129 · Z2 130–143 · Z3 144–156 · Z4 157–170 · Z5 > 170
+ */
+const HR_ZONE_UPPER_BPM = [129, 143, 156, 170] as const
+
+/** Index de zone (0..4) pour une FC donnée. */
+function zoneIndexForHr(hr: number): number {
+  for (let i = 0; i < HR_ZONE_UPPER_BPM.length; i++) {
+    if (hr <= HR_ZONE_UPPER_BPM[i]) return i
+  }
+  return HR_ZONES.length - 1 // Z5
+}
+
+/** Libellé de la plage bpm d'une zone, ex. "< 130", "144–156", "> 170". */
+function zoneRange(i: number): string {
+  if (i === 0) return `< ${HR_ZONE_UPPER_BPM[0] + 1}`
+  if (i === HR_ZONES.length - 1) return `> ${HR_ZONE_UPPER_BPM[HR_ZONE_UPPER_BPM.length - 1]}`
+  return `${HR_ZONE_UPPER_BPM[i - 1] + 1}–${HR_ZONE_UPPER_BPM[i]}`
+}
+
+function calculateZoneDistribution(activities: Activity[]) {
   const activitiesWithHR = activities.filter((a) => a.averageHeartrate && a.averageHeartrate > 0)
 
   if (activitiesWithHR.length === 0) {
@@ -86,25 +100,9 @@ function calculateZoneDistribution(activities: Activity[], lthr: number) {
   let totalMinutes = 0
 
   for (const activity of activitiesWithHR) {
-    const hr = activity.averageHeartrate!
-    const minutes = activity.movingTime
-
-    for (let i = 0; i < HR_ZONES.length; i++) {
-      const zone = HR_ZONES[i]
-      const minHR = lthr * (zone.minPercent / 100)
-      const maxHR = lthr * (zone.maxPercent / 100)
-
-      if (hr >= minHR && hr < maxHR) {
-        zoneMinutes[i] += minutes
-        totalMinutes += minutes
-        break
-      }
-    }
-
-    if (hr >= lthr) {
-      zoneMinutes[4] += minutes
-      totalMinutes += minutes
-    }
+    const idx = zoneIndexForHr(activity.averageHeartrate!)
+    zoneMinutes[idx] += activity.movingTime
+    totalMinutes += activity.movingTime
   }
 
   return HR_ZONES.map((zone, i) => ({
@@ -125,8 +123,8 @@ function formatMinutes(minutes: number): string {
 
 export function HeartRateZones({ activities, lthr }: HeartRateZonesProps) {
   const activitiesWithHR = activities.filter((a) => a.averageHeartrate && a.averageHeartrate > 0)
-  const zones = calculateZoneDistribution(activities, lthr)
-  const estimatedMaxHR = Math.round(lthr / 0.9)
+  const observedMaxHR = Math.max(0, ...activities.map((a) => a.maxHeartrate ?? 0))
+  const zones = calculateZoneDistribution(activities)
   const dominantZone = zones.reduce((max, zone) => (zone.minutes > max.minutes ? zone : max), zones[0])
   const avgHR =
     activitiesWithHR.length > 0
@@ -177,7 +175,11 @@ export function HeartRateZones({ activities, lthr }: HeartRateZonesProps) {
       {/* Key Metrics */}
       <div className="grid grid-cols-3 gap-3 mb-6">
         <KeyMetric label="LTHR" value={lthr} sub="bpm (seuil lactique)" tone="clay" icon={Heart} />
-        <KeyMetric label="FC max estimée" value={estimatedMaxHR} sub="bpm" />
+        <KeyMetric
+          label="FC max"
+          value={observedMaxHR >= 120 ? observedMaxHR : 0}
+          sub={observedMaxHR >= 120 ? 'bpm (pic observé)' : 'bpm (n/d)'}
+        />
         <KeyMetric label="FC moyenne" value={avgHR} sub="bpm récent" />
       </div>
 
@@ -198,9 +200,7 @@ export function HeartRateZones({ activities, lthr }: HeartRateZonesProps) {
                     Z{zone.zone}
                   </span>
                   <span className="text-text-primary font-medium">{zone.name}</span>
-                  <span className="text-text-muted num hidden sm:inline">
-                    {Math.round((lthr * zone.minPercent) / 100)}–{Math.round((lthr * zone.maxPercent) / 100)} bpm
-                  </span>
+                  <span className="text-text-muted num hidden sm:inline">{zoneRange(zone.zone - 1)} bpm</span>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
                   <span className="text-text-muted num">{formatMinutes(zone.minutes)}</span>

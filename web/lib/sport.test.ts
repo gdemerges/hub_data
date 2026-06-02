@@ -10,6 +10,9 @@ import {
   monthlyTrend,
   computeTrainingAnalysis,
   computePersonalRecords,
+  paceProgression,
+  runCalendar,
+  paceDistribution,
   type SportActivity,
 } from './sport'
 
@@ -190,6 +193,80 @@ describe('computePersonalRecords', () => {
     // best 10k estimated from the 12 km run, so flagged as estimated
     expect(tenK.estimated).toBe(true)
     expect(tenK.estimatedTime).toBeLessThan(60)
+  })
+})
+
+describe('paceProgression', () => {
+  const now = new Date('2026-04-15T00:00:00Z')
+
+  it('normalises each run to a 10k-equivalent pace, chronological', () => {
+    // 5 km en 25 min (5'00"/km) → équivalent 10k plus lent (Riegel)
+    const pts = paceProgression([mk({ distance: 5, movingTime: 25, startDate: '2026-04-10T08:00:00Z' })], 3, now)
+    expect(pts).toHaveLength(3)
+    expect(pts[0].equivPace).toBeNull() // février, vide
+    expect(pts[pts.length - 1].equivPace).toBeCloseTo(5.21, 1)
+    expect(pts[pts.length - 1].runs).toBe(1)
+  })
+
+  it('ignores runs under 2 km and outside the window', () => {
+    const pts = paceProgression(
+      [
+        mk({ distance: 1, movingTime: 6, startDate: '2026-04-10T08:00:00Z' }),
+        mk({ distance: 10, movingTime: 60, startDate: '2024-01-01T08:00:00Z' }),
+      ],
+      3,
+      now
+    )
+    expect(pts.every((p) => p.equivPace === null)).toBe(true)
+  })
+})
+
+describe('runCalendar', () => {
+  it('keeps only the requested year and grades level by daily distance', () => {
+    const days = runCalendar(
+      [
+        mk({ distance: 12, startDate: '2026-03-01T08:00:00' }),
+        mk({ distance: 4, startDate: '2026-06-01T08:00:00' }),
+        mk({ distance: 20, startDate: '2025-01-01T08:00:00' }),
+      ],
+      2026
+    )
+    expect(days).toHaveLength(2)
+    expect(days.find((d) => d.count === 12)?.level).toBe(3)
+    expect(days.find((d) => d.count === 4)?.level).toBe(1)
+  })
+
+  it('sums multiple runs on the same day', () => {
+    const days = runCalendar(
+      [
+        mk({ distance: 6, startDate: '2026-05-04T08:00:00' }),
+        mk({ distance: 6, startDate: '2026-05-04T18:00:00' }),
+      ],
+      2026
+    )
+    expect(days).toHaveLength(1)
+    expect(days[0].count).toBe(12)
+    expect(days[0].level).toBe(3)
+  })
+})
+
+describe('paceDistribution', () => {
+  it('returns zeros for no runs', () => {
+    expect(paceDistribution([])).toEqual({ easy: 0, tempo: 0, hard: 0, thresholdPace: 0 })
+  })
+
+  it('splits volume into easy/tempo/hard around the threshold pace', () => {
+    const runs = [
+      mk({ distance: 10, movingTime: 50 }), // 5'/km → hard
+      mk({ distance: 10, movingTime: 60 }), // 6'/km → seuil/tempo
+      mk({ distance: 10, movingTime: 70 }), // 7'/km → easy
+      mk({ distance: 10, movingTime: 80 }), // 8'/km → easy
+    ]
+    const d = paceDistribution(runs)
+    expect(d.thresholdPace).toBeCloseTo(6, 5)
+    expect(d.hard).toBeCloseTo(10, 5)
+    expect(d.tempo).toBeCloseTo(10, 5)
+    expect(d.easy).toBeCloseTo(20, 5)
   })
 })
 

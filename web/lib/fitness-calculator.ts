@@ -287,6 +287,39 @@ export function predictRaceTimes(activities: Activity[]): RacePrediction[] {
 }
 
 /**
+ * Estime l'indice de forme VDOT (Jack Daniels) à partir du meilleur effort
+ * récent, toutes distances ramenées à un équivalent 10 km (Riegel). Le VDOT
+ * approxime la VO2max et résume la forme aérobie en un seul nombre.
+ * Retourne null si aucune course récente exploitable.
+ */
+export function estimateVdot(activities: Activity[]): number | null {
+  const runs = activities.filter((a) => a.type === 'Run')
+  if (runs.length === 0) return null
+
+  const threeMonthsAgo = Date.now() - 90 * 24 * 60 * 60 * 1000
+  const recent = runs.filter(
+    (a) => new Date(a.startDate).getTime() > threeMonthsAgo && a.distance >= 2 && a.movingTime > 0
+  )
+  if (recent.length === 0) return null
+
+  // Meilleur temps équivalent 10 km (minutes).
+  const best10kTime = recent.reduce(
+    (best, run) => Math.min(best, run.movingTime * (10 / run.distance) ** 1.06),
+    Infinity
+  )
+  if (!Number.isFinite(best10kTime) || best10kTime <= 0) return null
+
+  const t = best10kTime // minutes
+  const v = 10000 / t // vitesse en m/min
+  const vo2 = -4.6 + 0.182258 * v + 0.000104 * v * v
+  const pctMax = 0.8 + 0.1894393 * Math.exp(-0.012778 * t) + 0.2989558 * Math.exp(-0.1932605 * t)
+  const vdot = vo2 / pctMax
+
+  if (!Number.isFinite(vdot) || vdot <= 0) return null
+  return Math.round(vdot)
+}
+
+/**
  * Calcule le temps estimé pour atteindre un objectif (en jours)
  */
 export function calculateTimeToTarget(

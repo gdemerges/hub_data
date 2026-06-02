@@ -19,6 +19,8 @@ interface StravaRawActivity {
   total_elevation_gain: number
   start_date_local: string
   average_speed: number
+  average_heartrate?: number
+  max_heartrate?: number
 }
 
 export interface StravaAthlete {
@@ -29,6 +31,23 @@ export interface StravaAthlete {
   profile: string
   city: string
   country: string
+}
+
+export interface StravaShoe {
+  id: string
+  name: string
+  distanceKm: number
+  primary: boolean
+  retired: boolean
+}
+
+interface StravaRawShoe {
+  id: string
+  name?: string
+  nickname?: string
+  distance?: number
+  primary?: boolean
+  retired?: boolean
 }
 
 export interface StravaData {
@@ -46,6 +65,7 @@ export interface StravaData {
   }
   recentActivities: SportActivity[]
   yearlyStats: { year: number; distance: number; activities: number }[]
+  shoes: StravaShoe[]
   fetchedAt: string
 }
 
@@ -166,6 +186,8 @@ export async function loadStrava({ force = false } = {}): Promise<StravaData | n
         totalElevationGain: activity.total_elevation_gain,
         startDate: activity.start_date_local,
         averageSpeed: (activity.average_speed || 0) * 3.6,
+        averageHeartrate: activity.average_heartrate,
+        maxHeartrate: activity.max_heartrate,
       }))
 
     const yearlyMap = new Map<number, { distance: number; activities: number }>()
@@ -192,6 +214,17 @@ export async function loadStrava({ force = false } = {}): Promise<StravaData | n
       .map(([year, data]) => ({ year, distance: data.distance, activities: data.activities }))
       .sort((a, b) => a.year - b.year)
 
+    // Chaussures (gear) — renvoyées par /athlete avec le scope profile:read_all.
+    const shoes: StravaShoe[] = Array.isArray(athlete.shoes)
+      ? (athlete.shoes as StravaRawShoe[]).map((s) => ({
+          id: s.id,
+          name: s.nickname || s.name || 'Paire',
+          distanceKm: (s.distance || 0) / 1000,
+          primary: s.primary ?? false,
+          retired: s.retired ?? false,
+        }))
+      : []
+
     return {
       athlete: {
         id: athlete.id,
@@ -205,6 +238,7 @@ export async function loadStrava({ force = false } = {}): Promise<StravaData | n
       stats,
       recentActivities,
       yearlyStats,
+      shoes,
       fetchedAt: new Date().toISOString(),
     }
   } catch (error) {

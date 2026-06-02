@@ -210,9 +210,11 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
 
       <div className="mt-6 tech-card-flat p-4">
         <p className="text-xs text-text-secondary leading-relaxed">
-          Le <span className="text-earth-fern font-medium">score de risque</span> est calculé en fonction de
-          l'augmentation de charge hebdomadaire, de l'intensité récente, du temps de récupération et de la fréquence
-          des sorties. Un score &gt; 50 indique un risque élevé de blessure.
+          Le{' '}
+          <span className="text-earth-fern font-medium">score de risque</span>{' '}
+          {
+            "est calculé en fonction de l'augmentation de charge hebdomadaire, de l'intensité récente, du temps de récupération et de la fréquence des sorties. Un score > 50 indique un risque élevé de blessure."
+          }
         </p>
       </div>
     </div>

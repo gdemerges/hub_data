@@ -8,6 +8,7 @@ export interface SportActivity {
   startDate: string
   averageSpeed: number
   averageHeartrate?: number
+  maxHeartrate?: number
 }
 
 export const ACTIVITY_FILTER_KEYS = ['all', 'Run', 'Ride', 'RPM', 'Musculation'] as const
@@ -351,4 +352,114 @@ export function computePersonalRecords(runs: SportActivity[]): PersonalRecords {
   }
 
   return { bestAvgPace, longestRun, biggestElevation, efforts }
+}
+
+const MONTHS_FR = [
+  'janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin',
+  'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.',
+]
+
+export interface PaceProgressionPoint {
+  month: string // 'YYYY-MM'
+  label: string // mois court FR
+  /** Allure équivalente 10 km (min/km), null si aucune sortie ce mois-là. */
+  equivPace: number | null
+  runs: number
+}
+
+/**
+ * Progression d'allure sur les `months` derniers mois. Chaque sortie ≥ 2 km est
+ * ramenée à une allure équivalente 10 km (Riegel) avant moyenne mensuelle, pour
+ * comparer des mois aux distances différentes sans biais. Ordre chronologique.
+ */
+export function paceProgression(
+  runs: SportActivity[],
+  months = 12,
+  now: Date = new Date()
+): PaceProgressionPoint[] {
+  const sum = new Array<number>(months).fill(0)
+  const count = new Array<number>(months).fill(0)
+  for (const a of runs) {
+    if (a.distance < 2 || a.movingTime <= 0) continue
+    const d = new Date(a.startDate)
+    const diff = (now.getFullYear() - d.getFullYear()) * 12 + (now.getMonth() - d.getMonth())
+    if (diff < 0 || diff >= months) continue
+    const idx = months - 1 - diff
+    const equivPace = (a.movingTime * (10 / a.distance) ** 1.06) / 10
+    sum[idx] += equivPace
+    count[idx] += 1
+  }
+  return Array.from({ length: months }, (_, i) => {
+    const monthsBack = months - 1 - i
+    const dt = new Date(now.getFullYear(), now.getMonth() - monthsBack, 1)
+    return {
+      month: `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}`,
+      label: MONTHS_FR[dt.getMonth()],
+      equivPace: count[i] > 0 ? sum[i] / count[i] : null,
+      runs: count[i],
+    }
+  })
+}
+
+export interface RunCalendarDay {
+  date: string
+  count: number // km arrondis du jour
+  level: 0 | 1 | 2 | 3 | 4
+}
+
+/**
+ * Jours de course d'une année au format attendu par ContributionCalendar.
+ * La clé de date est construite comme le calendrier la cherchera (minuit local
+ * → ISO) pour garantir l'alignement quel que soit le fuseau. Niveau par paliers
+ * de distance cumulée du jour.
+ */
+export function runCalendar(runs: SportActivity[], year: number): RunCalendarDay[] {
+  const byDay = new Map<string, number>()
+  for (const a of runs) {
+    const d = new Date(a.startDate)
+    if (d.getFullYear() !== year) continue
+    const key = new Date(d.getFullYear(), d.getMonth(), d.getDate()).toISOString().split('T')[0]
+    byDay.set(key, (byDay.get(key) || 0) + a.distance)
+  }
+  return Array.from(byDay.entries()).map(([date, km]) => ({
+    date,
+    count: Math.round(km),
+    level: km >= 15 ? 4 : km >= 10 ? 3 : km >= 5 ? 2 : km > 0 ? 1 : 0,
+  }))
+}
+
+export interface PaceDistribution {
+  /** Volume (km) par zone d'intensité. */
+  easy: number
+  tempo: number
+  hard: number
+  /** Allure seuil estimée (min/km) servant d'ancre aux zones. */
+  thresholdPace: number
+}
+
+/**
+ * Répartition du volume (km) par intensité, ancrée sur une allure seuil estimée
+ * (25e centile des allures = le quart le plus rapide). Révèle si l'entraînement
+ * est polarisé ou « coincé au milieu ».
+ *  - intense : plus rapide que le seuil
+ *  - tempo   : seuil .. seuil × 1.15
+ *  - facile  : plus lent que seuil × 1.15
+ */
+export function paceDistribution(runs: SportActivity[]): PaceDistribution {
+  const valid = runs.filter((r) => r.distance > 0 && r.movingTime > 0)
+  if (valid.length === 0) return { easy: 0, tempo: 0, hard: 0, thresholdPace: 0 }
+
+  const paces = valid.map((r) => r.movingTime / r.distance).sort((a, b) => a - b)
+  const thresholdPace = paces[Math.floor(paces.length * 0.25)] ?? paces[0]
+
+  let easy = 0
+  let tempo = 0
+  let hard = 0
+  for (const r of valid) {
+    const pace = r.movingTime / r.distance
+    if (pace < thresholdPace) hard += r.distance
+    else if (pace <= thresholdPace * 1.15) tempo += r.distance
+    else easy += r.distance
+  }
+  return { easy, tempo, hard, thresholdPace }
 }

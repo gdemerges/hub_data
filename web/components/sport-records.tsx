@@ -1,6 +1,6 @@
 'use client'
 
-import { Medal, Gauge, Route, Mountain } from 'lucide-react'
+import { Medal, Gauge, Route, Mountain, HeartPulse } from 'lucide-react'
 import { SectionCard } from '@/components'
 import {
   computePersonalRecords,
@@ -8,6 +8,7 @@ import {
   formatRaceTime,
   type SportActivity,
 } from '@/lib/sport'
+import { estimateVdot } from '@/lib/fitness-calculator'
 
 interface Props {
   runs: SportActivity[]
@@ -18,6 +19,7 @@ const shortDate = (iso: string) =>
 
 export function SportRecords({ runs }: Props) {
   const records = computePersonalRecords(runs)
+  const vdot = estimateVdot(runs)
 
   const hasRecords =
     records.efforts.length > 0 ||
@@ -28,6 +30,22 @@ export function SportRecords({ runs }: Props) {
 
   return (
     <SectionCard title="Records personnels" icon={Medal} accent="saffron">
+      {vdot !== null && (
+        <div className="flex items-center gap-4 mb-4 p-4 rounded-2xl bg-earth-saffron/8 border border-earth-saffron/25">
+          <span className="p-2.5 rounded-xl bg-earth-saffron/15 border border-earth-saffron/30 text-earth-saffron shrink-0">
+            <HeartPulse className="w-5 h-5" strokeWidth={1.75} />
+          </span>
+          <div className="flex-1 min-w-0">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted">Indice de forme</p>
+            <p className="text-[11px] text-text-muted mt-0.5">Estimé sur ton meilleur effort récent</p>
+          </div>
+          <div className="text-right">
+            <span className="font-display text-4xl tracking-tight num leading-none text-earth-saffron">{vdot}</span>
+            <p className="text-[10px] uppercase tracking-[0.16em] text-text-muted mt-1">VDOT ≈ VO₂max</p>
+          </div>
+        </div>
+      )}
+
       {records.efforts.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
           {records.efforts.map((e) => (

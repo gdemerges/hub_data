@@ -23,6 +23,10 @@ import {
   StatCard,
   SportTrainingAnalysis,
   SportRecords,
+  SportRunCalendar,
+  SportPaceProgression,
+  SportTrainingDistribution,
+  SportShoes,
   SportAiPanels,
   SectionCard,
   SkeletonStatCard,
@@ -91,6 +95,7 @@ export function SportClient({ promise, filter, year }: Props) {
   if (!data) return <ConnectPanel />
 
   const filtered = data.recentActivities.filter((a) => filterActivity(a, filter))
+  const runRuns = data.recentActivities.filter((a) => a.type === 'Run')
   const stats = aggregateStats(filtered)
   // Totaux carrière réels (endpoint Strava /stats), pas la fenêtre ~2 ans du cache.
   const careerStats = {
@@ -136,8 +141,10 @@ export function SportClient({ promise, filter, year }: Props) {
 
       {filter === 'Run' && (
         <>
-          <SportRecords runs={data.recentActivities.filter((a) => a.type === 'Run')} />
-          <SportTrainingAnalysis runs={data.recentActivities.filter((a) => a.type === 'Run')} />
+          <SportRecords runs={runRuns} />
+          <SportRunCalendar runs={runRuns} year={year} />
+          <SportPaceProgression runs={runRuns} />
+          <SportTrainingAnalysis runs={runRuns} />
         </>
       )}
 
@@ -150,7 +157,9 @@ export function SportClient({ promise, filter, year }: Props) {
       />
 
       <AiSectionDivider />
+      {filter === 'Run' && <SportTrainingDistribution runs={runRuns} />}
       <SportAiPanels activities={data.recentActivities} runOnlyMode={filter === 'Run'} />
+      {filter === 'Run' && <SportShoes shoes={data.shoes} />}
     </>
   )
 }

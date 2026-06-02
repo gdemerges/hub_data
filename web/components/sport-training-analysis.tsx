@@ -144,7 +144,7 @@ function WeeklyVolumeChart({ weeks }: { weeks: WeeklyVolume[] }) {
   return (
     <div className="flex items-end justify-between gap-2 h-40">
       {weeks.map((w, i) => {
-        const height = (w.distance / maxDistance) * 100
+        const height = Math.round((w.distance / maxDistance) * 1000) / 10
         const isCurrent = i === lastIdx
         const monday = new Date(w.weekStart)
         const label = monday.toLocaleDateString('fr-FR', { day: 'numeric', month: 'numeric' })

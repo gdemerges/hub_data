@@ -7,6 +7,7 @@ import {
   calculateTimeToTarget,
   analyzeRecovery,
   analyzePerformanceFactors,
+  estimateVdot,
   FITNESS_CONSTANTS,
 } from './fitness-calculator'
 
@@ -155,6 +156,27 @@ describe('predictRaceTimes', () => {
     const tenWith = predictRaceTimes(withTen).find((p) => p.distance === 10)!
     const tenWithout = predictRaceTimes(onlyShort).find((p) => p.distance === 10)!
     expect(tenWith.confidence).toBeGreaterThan(tenWithout.confidence)
+  })
+})
+
+describe('estimateVdot', () => {
+  it('returns null without recent runs', () => {
+    expect(estimateVdot([])).toBeNull()
+    expect(estimateVdot([mkRun({ startDate: daysAgo(200) })])).toBeNull()
+    expect(estimateVdot([mkRun({ type: 'Ride', startDate: daysAgo(5) })])).toBeNull()
+  })
+
+  it('estimates a plausible VDOT from a recent 10k (~40 min → ~50)', () => {
+    const vdot = estimateVdot([mkRun({ distance: 10, movingTime: 40, startDate: daysAgo(5) })])
+    expect(vdot).not.toBeNull()
+    expect(vdot!).toBeGreaterThan(45)
+    expect(vdot!).toBeLessThan(55)
+  })
+
+  it('a faster runner scores a higher VDOT', () => {
+    const slow = estimateVdot([mkRun({ distance: 10, movingTime: 55, startDate: daysAgo(5) })])!
+    const fast = estimateVdot([mkRun({ distance: 10, movingTime: 38, startDate: daysAgo(5) })])!
+    expect(fast).toBeGreaterThan(slow)
   })
 })
 
