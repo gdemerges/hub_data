@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import type { RecoveryAdvice } from '@/lib/types'
 import { Shield, AlertTriangle, CheckCircle, Clock } from 'lucide-react'
 
@@ -8,6 +9,20 @@ interface RecoveryAdvisorProps {
 }
 
 export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
+  // « Prochaine sortie » dépend de Date.now() + du fuseau : non déterministe
+  // entre SSR et client → on ne la calcule qu'après montage pour éviter le
+  // mismatch d'hydratation.
+  const [nextSession, setNextSession] = useState<string | null>(null)
+  useEffect(() => {
+    setNextSession(
+      new Date(Date.now() + advice.hoursRecommended * 60 * 60 * 1000).toLocaleDateString('fr-FR', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+      })
+    )
+  }, [advice.hoursRecommended])
+
   const getStatusConfig = () => {
     switch (advice.status) {
       case 'ready':
@@ -126,12 +141,11 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
           </div>
           <div className="tech-card-flat p-4">
             <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-2">Prochaine sortie</p>
-            <p className="font-display text-2xl font-medium tracking-tight text-text-primary leading-none">
-              {new Date(Date.now() + advice.hoursRecommended * 60 * 60 * 1000).toLocaleDateString('fr-FR', {
-                weekday: 'short',
-                day: 'numeric',
-                month: 'short',
-              })}
+            <p
+              className="font-display text-2xl font-medium tracking-tight text-text-primary leading-none"
+              suppressHydrationWarning
+            >
+              {nextSession ?? '—'}
             </p>
           </div>
         </div>

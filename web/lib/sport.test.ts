@@ -3,10 +3,13 @@ import {
   filterActivity,
   filterLabel,
   formatDuration,
+  formatPace,
+  formatRaceTime,
   aggregateStats,
   yearlyStats,
   monthlyTrend,
   computeTrainingAnalysis,
+  computePersonalRecords,
   type SportActivity,
 } from './sport'
 
@@ -124,12 +127,94 @@ describe('yearlyStats', () => {
   })
 })
 
+describe('formatPace', () => {
+  it('converts km/h to min/km', () => {
+    expect(formatPace(12)).toBe("5'00\"")
+    expect(formatPace(10)).toBe("6'00\"")
+    expect(formatPace(60 / 5.5)).toBe("5'30\"")
+  })
+  it('handles invalid speed', () => {
+    expect(formatPace(0)).toBe('—')
+    expect(formatPace(-3)).toBe('—')
+  })
+  it('rolls 60s over to the next minute', () => {
+    // pace 5'59.7" rounds to 6'00", not 5'60"
+    expect(formatPace(60 / 5.995)).toBe("6'00\"")
+  })
+})
+
+describe('formatRaceTime', () => {
+  it('formats sub-hour as m\'ss"', () => {
+    expect(formatRaceTime(44.5)).toBe("44'30\"")
+  })
+  it('formats over an hour as h"mm', () => {
+    expect(formatRaceTime(150)).toBe('2h30')
+    expect(formatRaceTime(63)).toBe('1h03')
+  })
+  it('handles invalid input', () => {
+    expect(formatRaceTime(0)).toBe('—')
+  })
+})
+
+describe('computePersonalRecords', () => {
+  it('returns empty records for no runs', () => {
+    const r = computePersonalRecords([])
+    expect(r.bestAvgPace).toBeNull()
+    expect(r.longestRun).toBeNull()
+    expect(r.biggestElevation).toBeNull()
+    expect(r.efforts).toEqual([])
+  })
+
+  it('finds longest run, biggest elevation and best average pace', () => {
+    const runs = [
+      mk({ id: 1, distance: 5, movingTime: 25, totalElevationGain: 50 }),
+      mk({ id: 2, distance: 12, movingTime: 60, totalElevationGain: 200 }),
+      mk({ id: 3, distance: 10, movingTime: 60, totalElevationGain: 0 }),
+    ]
+    const r = computePersonalRecords(runs)
+    expect(r.longestRun?.id).toBe(2)
+    expect(r.biggestElevation?.id).toBe(2)
+    // r1 and r2 both at 5 min/km; r3 at 6 min/km
+    expect(r.bestAvgPace?.paceMinPerKm).toBeCloseTo(5, 5)
+  })
+
+  it('estimates only achievable race efforts via Riegel', () => {
+    const runs = [
+      mk({ id: 1, distance: 5, movingTime: 25 }),
+      mk({ id: 2, distance: 12, movingTime: 60 }),
+    ]
+    const r = computePersonalRecords(runs)
+    // max distance 12 km → 5k and 10k achievable, semi/marathon not
+    expect(r.efforts.map((e) => e.distance)).toEqual([5, 10])
+    const tenK = r.efforts.find((e) => e.distance === 10)!
+    // best 10k estimated from the 12 km run, so flagged as estimated
+    expect(tenK.estimated).toBe(true)
+    expect(tenK.estimatedTime).toBeLessThan(60)
+  })
+})
+
 describe('computeTrainingAnalysis', () => {
   function recent(daysAgo: number, over: Partial<SportActivity> = {}): SportActivity {
     const d = new Date()
     d.setDate(d.getDate() - daysAgo)
     return mk({ startDate: d.toISOString(), ...over })
   }
+
+  it('exposes up to 8 weekly volumes in chronological order', () => {
+    const runs = [
+      recent(0, { distance: 8 }),
+      recent(7, { distance: 6 }),
+      recent(14, { distance: 10 }),
+      recent(21, { distance: 5 }),
+    ]
+    const a = computeTrainingAnalysis(runs)
+    expect(a.weeklyVolumes.length).toBeGreaterThan(0)
+    expect(a.weeklyVolumes.length).toBeLessThanOrEqual(8)
+    const starts = a.weeklyVolumes.map((w) => w.weekStart)
+    expect([...starts].sort((x, y) => x - y)).toEqual(starts) // ascending
+    // last bucket = current week
+    expect(a.weeklyVolumes[a.weeklyVolumes.length - 1].distance).toBeCloseTo(8, 5)
+  })
 
   it('produces success alert when no risk and some volume', () => {
     const runs = [recent(0, { distance: 8 }), recent(7, { distance: 8 }), recent(14, { distance: 8 })]

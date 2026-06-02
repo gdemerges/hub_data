@@ -39,6 +39,19 @@ interface Activity {
 }
 
 /**
+ * Clé de date locale (YYYY-MM-DD) à partir des composantes locales d'une Date.
+ * Indispensable pour aligner l'indexation TSS (basée sur start_date_local, donc
+ * heure locale) avec l'itération jour-par-jour : `toISOString()` bascule en UTC
+ * et décalait le TSS des sorties de fin de journée d'un jour.
+ */
+function localDateKey(d: Date): string {
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
+
+/**
  * Calcule le seuil de fréquence cardiaque (LTHR) basé sur les activités récentes
  * LTHR = environ 90% de la FC max observée lors d'efforts soutenus
  */
@@ -144,10 +157,10 @@ export function calculateFitnessMetrics(activities: Activity[]): FitnessMetrics[
       .sort((a, b) => a - b)
     const thresholdPace = recentPaces[Math.floor(recentPaces.length / 2)] || FITNESS_CONSTANTS.DEFAULT_THRESHOLD_PACE
 
-    // Créer un map date -> TSS
+    // Créer un map date -> TSS (clé = date locale de la sortie)
     const dailyTSS = new Map<string, number>()
     for (const activity of recentActivities) {
-      const date = activity.startDate.split('T')[0]
+      const date = localDateKey(new Date(activity.startDate))
       const tss = calculateTSS(activity, thresholdPace, lthr)
       if (!Number.isNaN(tss) && tss > 0) {
         dailyTSS.set(date, (dailyTSS.get(date) || 0) + tss)
@@ -168,9 +181,9 @@ export function calculateFitnessMetrics(activities: Activity[]): FitnessMetrics[
       firstDate.setTime(lastDate.getTime() - FITNESS_CONSTANTS.FITNESS_WINDOW_DAYS * 24 * 60 * 60 * 1000)
     }
 
-    // Itérer sur chaque jour
+    // Itérer sur chaque jour (clé locale, alignée sur l'indexation TSS)
     for (let d = new Date(firstDate); d <= lastDate; d.setDate(d.getDate() + 1)) {
-      const dateStr = d.toISOString().split('T')[0]
+      const dateStr = localDateKey(d)
       const todayTSS = dailyTSS.get(dateStr) || 0
 
       // Formules de moyennes mobiles exponentielles
@@ -219,48 +232,54 @@ export function predictRaceTimes(activities: Activity[]): RacePrediction[] {
   const avgSpeed = recentSpeeds.reduce((sum, s) => sum + s, 0) / recentSpeeds.length
   const currentPace = 60 / avgSpeed // min/km
 
-  // Trouver la meilleure performance sur ~10km
-  const runs10k = recentRuns.filter(a => a.distance >= 9 && a.distance <= 11)
-  let reference10kTime = 60 // défaut: 60 min
+  // Référence = meilleure perf récente TOUTES distances, projetée en équivalent
+  // 10 km via Riegel (`temps × (10/distance)^1.06`). Un 5 km rapide ou un 15 km
+  // solide informent ainsi les prédictions, pas seulement la bande 9–11 km.
+  const eligibleRuns = recentRuns.filter(a => a.distance >= 2 && a.movingTime > 0)
+  let reference10kTime = 10 * currentPace // défaut: d'après la vitesse moyenne
 
-  if (runs10k.length > 0) {
-    const best10k = runs10k.reduce((best, run) => {
-      const time = run.movingTime
-      const bestTime = best.movingTime
-      return time < bestTime ? run : best
-    })
-    reference10kTime = best10k.movingTime
-  } else {
-    // Estimer d'après la vitesse moyenne
-    reference10kTime = 10 * currentPace
+  if (eligibleRuns.length > 0) {
+    reference10kTime = eligibleRuns.reduce((best, run) => {
+      const equiv10k = run.movingTime * (10 / run.distance) ** 1.06
+      return Math.min(best, equiv10k)
+    }, Infinity)
   }
+
+  // Une course proche de la distance cible fiabilise sa prédiction.
+  const hasRunNear = (d: number) =>
+    recentRuns.some(a => a.distance >= d * 0.8 && a.distance <= d * 1.2)
 
   // Formule de Riegel: T2 = T1 × (D2/D1)^1.06
   // Ajustée avec facteur de fatigue selon distance
+  // Confiance : base selon le volume récent + bonus si une course proche de la
+  // distance cible existe (la prédiction n'est alors plus une pure extrapolation).
+  const confidenceFor = (base: number, target: number) =>
+    Math.min(95, base + (hasRunNear(target) ? 10 : 0))
+
   const predictions: RacePrediction[] = [
     {
       distance: 5,
       predictedTime: reference10kTime * (5 / 10) ** 1.06,
       currentPace,
-      confidence: recentRuns.length >= 10 ? 85 : 70,
+      confidence: confidenceFor(recentRuns.length >= 10 ? 80 : 65, 5),
     },
     {
       distance: 10,
       predictedTime: reference10kTime,
       currentPace,
-      confidence: runs10k.length > 0 ? 90 : 75,
+      confidence: confidenceFor(recentRuns.length >= 10 ? 80 : 65, 10),
     },
     {
       distance: 21.1,
       predictedTime: reference10kTime * (21.1 / 10) ** 1.06,
       currentPace,
-      confidence: recentRuns.length >= 15 ? 75 : 60,
+      confidence: confidenceFor(recentRuns.length >= 15 ? 70 : 55, 21.1),
     },
     {
       distance: 42.2,
       predictedTime: reference10kTime * (42.2 / 10) ** 1.08, // Plus conservateur
       currentPace,
-      confidence: recentRuns.length >= 20 ? 70 : 50,
+      confidence: confidenceFor(recentRuns.length >= 20 ? 65 : 45, 42.2),
     },
   ]
 
@@ -419,164 +438,133 @@ export function analyzeRecovery(activities: Activity[]): RecoveryAdvice {
   }
 }
 
+/** Sortie augmentée d'une vitesse et de son résidu vs. l'attendu pour sa distance. */
+interface SpeedSample {
+  speed: number // km/h
+  residual: number // km/h, vitesse réelle − attendue pour la distance
+}
+
 /**
- * Analyse les facteurs de performance (jour de semaine, heure, repos)
- * Identifie les conditions optimales pour la performance
+ * Analyse les facteurs de performance (jour de semaine, heure, repos).
+ *
+ * Les sorties courtes sont mécaniquement plus rapides : comparer la vitesse
+ * brute par jour/heure ferait juste ressortir « quand tu fais tes sorties
+ * courtes ». On neutralise ce biais via une régression linéaire vitesse~distance
+ * et on classe les groupes sur la moyenne des résidus (vitesse réelle − attendue).
  */
 export function analyzePerformanceFactors(activities: Activity[]): PerformanceAnalysis | null {
   if (activities.length < 10) return null // Besoin d'au moins 10 sorties pour analyse
 
-  // Calculer la vitesse moyenne globale
-  const globalAvgSpeed = activities.reduce((sum, a) => {
-    const speed = a.distance / (a.movingTime / 60) // km/h
-    return sum + speed
-  }, 0) / activities.length
+  const speedOf = (a: Activity) => a.distance / (a.movingTime / 60) // km/h
 
-  // Analyse par jour de la semaine
+  const globalAvgSpeed =
+    activities.reduce((sum, a) => sum + speedOf(a), 0) / activities.length
+
+  // Régression linéaire vitesse = intercept + slope · distance.
+  const n = activities.length
+  let sumD = 0, sumV = 0, sumDD = 0, sumDV = 0
+  for (const a of activities) {
+    const d = a.distance
+    const v = speedOf(a)
+    sumD += d; sumV += v; sumDD += d * d; sumDV += d * v
+  }
+  const denom = n * sumDD - sumD * sumD
+  const slope = denom !== 0 ? (n * sumDV - sumD * sumV) / denom : 0
+  const intercept = (sumV - slope * sumD) / n
+  const expectedSpeed = (distance: number) => intercept + slope * distance
+
+  const sampleOf = (a: Activity): SpeedSample => {
+    const speed = speedOf(a)
+    return { speed, residual: speed - expectedSpeed(a.distance) }
+  }
+
+  // Construit les insights d'un regroupement : vitesse brute affichée, mais
+  // classement (improvement) basé sur le résidu moyen normalisé par la globale.
+  function buildInsights(
+    factor: string,
+    groups: Map<number, { samples: SpeedSample[]; label: string }>,
+  ): { insights: PerformanceInsight[]; best: PerformanceInsight | null } {
+    const insights: PerformanceInsight[] = []
+    let best: PerformanceInsight | null = null
+    let bestResidual = -Infinity
+
+    groups.forEach(({ samples, label }) => {
+      const avgSpeed = samples.reduce((s, x) => s + x.speed, 0) / samples.length
+      const avgResidual = samples.reduce((s, x) => s + x.residual, 0) / samples.length
+      const improvement = (avgResidual / globalAvgSpeed) * 100
+
+      const insight: PerformanceInsight = {
+        factor,
+        label,
+        avgSpeed,
+        activityCount: samples.length,
+        improvement,
+      }
+      insights.push(insight)
+
+      if (avgResidual > bestResidual) {
+        bestResidual = avgResidual
+        best = insight
+      }
+    })
+
+    return { insights, best }
+  }
+
+  // --- Jour de la semaine ---
   const dayNames = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
-  const byDay = new Map<number, { speeds: number[]; count: number }>()
-
+  const byDay = new Map<number, { samples: SpeedSample[]; label: string }>()
   activities.forEach(a => {
-    const date = new Date(a.startDate)
-    const day = date.getDay()
-    const speed = a.distance / (a.movingTime / 60)
-
-    if (!byDay.has(day)) {
-      byDay.set(day, { speeds: [], count: 0 })
-    }
-    const dayData = byDay.get(day)!
-    dayData.speeds.push(speed)
-    dayData.count++
+    const day = new Date(a.startDate).getDay()
+    if (!byDay.has(day)) byDay.set(day, { samples: [], label: dayNames[day] })
+    byDay.get(day)!.samples.push(sampleOf(a))
   })
 
-  const dayInsights: PerformanceInsight[] = []
-  let bestDay: PerformanceInsight | null = null
-
-  byDay.forEach((data, day) => {
-    const avgSpeed = data.speeds.reduce((sum, s) => sum + s, 0) / data.speeds.length
-    const improvement = ((avgSpeed - globalAvgSpeed) / globalAvgSpeed) * 100
-
-    const insight: PerformanceInsight = {
-      factor: 'day',
-      label: dayNames[day],
-      avgSpeed,
-      activityCount: data.count,
-      improvement,
-    }
-
-    dayInsights.push(insight)
-
-    if (!bestDay || avgSpeed > bestDay.avgSpeed) {
-      bestDay = insight
-    }
-  })
-
-  // Analyse par heure de la journée
+  // --- Heure de la journée ---
   const timeNames = ['Nuit (0h-6h)', 'Matin (6h-12h)', 'Après-midi (12h-18h)', 'Soir (18h-24h)']
-  const byTime = new Map<number, { speeds: number[]; count: number }>()
-
+  const byTime = new Map<number, { samples: SpeedSample[]; label: string }>()
   activities.forEach(a => {
-    const date = new Date(a.startDate)
-    const hour = date.getHours()
-    let timeSlot = 0
-    if (hour >= 6 && hour < 12) timeSlot = 1 // Matin
-    else if (hour >= 12 && hour < 18) timeSlot = 2 // Après-midi
-    else if (hour >= 18) timeSlot = 3 // Soir
-
-    const speed = a.distance / (a.movingTime / 60)
-
-    if (!byTime.has(timeSlot)) {
-      byTime.set(timeSlot, { speeds: [], count: 0 })
-    }
-    const timeData = byTime.get(timeSlot)!
-    timeData.speeds.push(speed)
-    timeData.count++
+    const hour = new Date(a.startDate).getHours()
+    let slot = 0
+    if (hour >= 6 && hour < 12) slot = 1
+    else if (hour >= 12 && hour < 18) slot = 2
+    else if (hour >= 18) slot = 3
+    if (!byTime.has(slot)) byTime.set(slot, { samples: [], label: timeNames[slot] })
+    byTime.get(slot)!.samples.push(sampleOf(a))
   })
 
-  const timeInsights: PerformanceInsight[] = []
-  let bestTime: PerformanceInsight | null = null
-
-  byTime.forEach((data, timeSlot) => {
-    const avgSpeed = data.speeds.reduce((sum, s) => sum + s, 0) / data.speeds.length
-    const improvement = ((avgSpeed - globalAvgSpeed) / globalAvgSpeed) * 100
-
-    const insight: PerformanceInsight = {
-      factor: 'time',
-      label: timeNames[timeSlot],
-      avgSpeed,
-      activityCount: data.count,
-      improvement,
-    }
-
-    timeInsights.push(insight)
-
-    if (!bestTime || avgSpeed > bestTime.avgSpeed) {
-      bestTime = insight
-    }
-  })
-
-  // Analyse par nombre de jours de repos avant la sortie
+  // --- Jours de repos avant la sortie ---
   const sortedActivities = [...activities].sort(
     (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
   )
-
-  const byRest = new Map<number, { speeds: number[]; count: number }>()
-
+  const restNames = ['', '0-1 jour', '2 jours', '3 jours', '4+ jours']
+  const byRest = new Map<number, { samples: SpeedSample[]; label: string }>()
   for (let i = 1; i < sortedActivities.length; i++) {
-    const current = sortedActivities[i]
-    const previous = sortedActivities[i - 1]
-
     const daysDiff = Math.round(
-      (new Date(current.startDate).getTime() - new Date(previous.startDate).getTime()) / (1000 * 60 * 60 * 24)
+      (new Date(sortedActivities[i].startDate).getTime() -
+        new Date(sortedActivities[i - 1].startDate).getTime()) /
+        (1000 * 60 * 60 * 24)
     )
-
-    // Grouper: 0-1j, 2j, 3j, 4j+
-    let restCategory = Math.min(daysDiff, 4)
-    if (daysDiff <= 1) restCategory = 1
-    else if (daysDiff === 2) restCategory = 2
-    else if (daysDiff === 3) restCategory = 3
-    else restCategory = 4
-
-    const speed = current.distance / (current.movingTime / 60)
-
+    const restCategory = daysDiff <= 1 ? 1 : daysDiff === 2 ? 2 : daysDiff === 3 ? 3 : 4
     if (!byRest.has(restCategory)) {
-      byRest.set(restCategory, { speeds: [], count: 0 })
+      byRest.set(restCategory, { samples: [], label: restNames[restCategory] })
     }
-    const restData = byRest.get(restCategory)!
-    restData.speeds.push(speed)
-    restData.count++
+    byRest.get(restCategory)!.samples.push(sampleOf(sortedActivities[i]))
   }
 
-  const restNames = ['', '0-1 jour', '2 jours', '3 jours', '4+ jours']
-  const restInsights: PerformanceInsight[] = []
-  let bestRest: PerformanceInsight | null = null
+  const day = buildInsights('day', byDay)
+  const time = buildInsights('time', byTime)
+  const rest = buildInsights('rest', byRest)
 
-  byRest.forEach((data, restDays) => {
-    const avgSpeed = data.speeds.reduce((sum, s) => sum + s, 0) / data.speeds.length
-    const improvement = ((avgSpeed - globalAvgSpeed) / globalAvgSpeed) * 100
-
-    const insight: PerformanceInsight = {
-      factor: 'rest',
-      label: restNames[restDays],
-      avgSpeed,
-      activityCount: data.count,
-      improvement,
-    }
-
-    restInsights.push(insight)
-
-    if (!bestRest || avgSpeed > bestRest.avgSpeed) {
-      bestRest = insight
-    }
-  })
-
-  if (!bestDay || !bestTime || !bestRest) return null
+  if (!day.best || !time.best || !rest.best) return null
 
   return {
     globalAvgSpeed,
-    bestDayOfWeek: bestDay,
-    bestTimeOfDay: bestTime,
-    bestRestDays: bestRest,
-    insights: [...dayInsights, ...timeInsights, ...restInsights].sort((a, b) => b.improvement - a.improvement),
+    bestDayOfWeek: day.best,
+    bestTimeOfDay: time.best,
+    bestRestDays: rest.best,
+    insights: [...day.insights, ...time.insights, ...rest.insights].sort(
+      (a, b) => b.improvement - a.improvement
+    ),
   }
 }

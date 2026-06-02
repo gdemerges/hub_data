@@ -132,6 +132,30 @@ describe('predictRaceTimes', () => {
     // Marathon time should be > 2 * half (due to exponent > 1)
     expect(marathon.predictedTime).toBeGreaterThan(half.predictedTime * 2)
   })
+
+  it('derives the reference from the best effort across ALL distances (#9)', () => {
+    // Beaucoup de 10 km lents + un 5 km rapide. L'ancien code ne regardait que
+    // la bande 9–11 km et prédisait ~60 min. Le 5 km rapide (équiv-10k ≈ 46 min)
+    // doit désormais tirer la prédiction vers le bas.
+    const slowTens = Array.from({ length: 10 }, (_, i) =>
+      mkRun({ startDate: daysAgo(i + 1), distance: 10, movingTime: 60 })
+    )
+    const fastFive = mkRun({ startDate: daysAgo(2), distance: 5, movingTime: 22 })
+    const tenK = predictRaceTimes([...slowTens, fastFive]).find((p) => p.distance === 10)!
+    expect(tenK.predictedTime).toBeLessThan(55)
+  })
+
+  it('boosts confidence when a run near the target distance exists (#9)', () => {
+    const withTen = Array.from({ length: 10 }, (_, i) =>
+      mkRun({ startDate: daysAgo(i + 1), distance: 10, movingTime: 55 })
+    )
+    const onlyShort = Array.from({ length: 10 }, (_, i) =>
+      mkRun({ startDate: daysAgo(i + 1), distance: 4, movingTime: 20 })
+    )
+    const tenWith = predictRaceTimes(withTen).find((p) => p.distance === 10)!
+    const tenWithout = predictRaceTimes(onlyShort).find((p) => p.distance === 10)!
+    expect(tenWith.confidence).toBeGreaterThan(tenWithout.confidence)
+  })
 })
 
 describe('calculateTimeToTarget', () => {
@@ -192,6 +216,22 @@ describe('calculateFitnessMetrics', () => {
     expect(calculateFitnessMetrics([old])).toEqual([])
   })
 
+  it('aligns daily TSS on the local calendar day (#3 timezone)', () => {
+    // Sortie récente à 20h heure locale (chaîne sans 'Z' = heure locale).
+    // L'ancien code indexait la boucle en UTC et décalait le TSS d'un jour
+    // pour les sorties du soir en fuseau négatif.
+    const d = new Date()
+    d.setDate(d.getDate() - 3)
+    const pad = (n: number) => String(n).padStart(2, '0')
+    const local = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T20:00:00`
+    const metrics = calculateFitnessMetrics([
+      mkRun({ startDate: local, distance: 10, movingTime: 60 }),
+    ])
+    const entry = metrics.find((m) => m.date === local.split('T')[0])
+    expect(entry).toBeTruthy()
+    expect(entry!.ctl).toBeGreaterThan(0)
+  })
+
   it('CTL rises and plateaus with daily constant load', () => {
     const runs = Array.from({ length: 60 }, (_, i) =>
       mkRun({ startDate: daysAgo(60 - i), distance: 10, movingTime: 60 })
@@ -239,5 +279,44 @@ describe('analyzePerformanceFactors', () => {
     expect(analysis!.bestTimeOfDay).toBeTruthy()
     expect(analysis!.bestRestDays).toBeTruthy()
     expect(analysis!.insights.length).toBeGreaterThan(0)
+  })
+
+  it('ranks the best day by distance-adjusted residual, not raw speed (#8)', () => {
+    // Date locale (sans 'Z') pour le k-ème jour de semaine `targetDay` donné.
+    function dateForWeekday(targetDay: number, k: number): string {
+      const d = new Date(2026, 0, 1, 8, 0, 0)
+      while (d.getDay() !== targetDay) d.setDate(d.getDate() + 1)
+      d.setDate(d.getDate() + k * 7)
+      const pad = (n: number) => String(n).padStart(2, '0')
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T08:00:00`
+    }
+    const run = (day: number, k: number, distance: number, speed: number) =>
+      mkRun({
+        startDate: dateForWeekday(day, k),
+        distance,
+        movingTime: (distance / speed) * 60,
+      })
+
+    // Fond de carte : sorties sur la droite vitesse = 14 − 0.2·distance.
+    const background = [
+      run(3, 0, 8, 12.4), run(3, 1, 12, 11.6),
+      run(5, 0, 16, 10.8), run(5, 1, 18, 10.4),
+      run(0, 0, 6, 12.8), run(0, 1, 10, 12.0),
+    ]
+    // Mardi : sorties courtes rapides → vitesse brute la plus haute (13.2), mais
+    // pile sur la droite (résidu ≈ 0).
+    const fastShort = Array.from({ length: 4 }, (_, k) => run(2, k, 4, 13.2))
+    // Jeudi : sorties longues, plus rapides que prévu pour 20 km (résidu +2),
+    // mais vitesse brute plus basse (12.0).
+    const relFastLong = Array.from({ length: 4 }, (_, k) => run(4, k, 20, 12.0))
+
+    const analysis = analyzePerformanceFactors([...background, ...fastShort, ...relFastLong])!
+    expect(analysis).not.toBeNull()
+
+    const dayInsights = analysis.insights.filter((i) => i.factor === 'day')
+    const maxRawSpeed = Math.max(...dayInsights.map((i) => i.avgSpeed))
+    // Le meilleur jour n'est PAS celui de vitesse brute maximale (Mardi).
+    expect(analysis.bestDayOfWeek.avgSpeed).toBeLessThan(maxRawSpeed)
+    expect(analysis.bestDayOfWeek.improvement).toBeGreaterThan(0)
   })
 })

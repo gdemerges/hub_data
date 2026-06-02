@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import type { RacePrediction, TrainingGoal } from '@/lib/types'
 import { Target, Award, TrendingUp, Edit2, Check, X } from 'lucide-react'
+import { formatPace } from '@/lib/sport'
 
 interface RacePredictorProps {
   predictions: RacePrediction[]
@@ -147,7 +148,7 @@ export function RacePredictor({ predictions, onSetGoal }: RacePredictorProps) {
                 <div>
                   <h4 className="font-display text-lg font-medium tracking-tight text-text-primary">{label}</h4>
                   <p className="text-[11px] text-text-muted mt-0.5 num">
-                    Allure : {prediction.currentPace.toFixed(2)} min/km
+                    Allure : {formatPace((distance * 60) / prediction.predictedTime)}/km
                   </p>
                 </div>
                 <div className={`text-[10px] uppercase tracking-[0.18em] font-medium ${getConfidenceColor(prediction.confidence)}`}>

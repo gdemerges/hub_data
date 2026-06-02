@@ -37,6 +37,36 @@ export function formatDuration(minutes: number): string {
   return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`
 }
 
+/**
+ * Allure en min/km à partir d'une vitesse en km/h. Renvoie `m'ss"`.
+ * Pertinent pour la course (les coureurs raisonnent en min/km, pas en km/h).
+ */
+export function formatPace(speedKmh: number): string {
+  if (!Number.isFinite(speedKmh) || speedKmh <= 0) return '—'
+  const paceMinPerKm = 60 / speedKmh
+  let minutes = Math.floor(paceMinPerKm)
+  let seconds = Math.round((paceMinPerKm - minutes) * 60)
+  if (seconds === 60) {
+    minutes += 1
+    seconds = 0
+  }
+  return `${minutes}'${seconds.toString().padStart(2, '0')}"`
+}
+
+/**
+ * Temps de course lisible à partir d'une durée en minutes.
+ * Sous l'heure : `m'ss"` (ex. 44'30"). Au-delà : `h'mm` (ex. 3h45).
+ */
+export function formatRaceTime(minutes: number): string {
+  if (!Number.isFinite(minutes) || minutes <= 0) return '—'
+  const totalSeconds = Math.round(minutes * 60)
+  const h = Math.floor(totalSeconds / 3600)
+  const m = Math.floor((totalSeconds % 3600) / 60)
+  const s = totalSeconds % 60
+  if (h > 0) return `${h}h${m.toString().padStart(2, '0')}`
+  return `${m}'${s.toString().padStart(2, '0')}"`
+}
+
 export function getWeekStart(date: Date): number {
   const d = new Date(date)
   d.setHours(0, 0, 0, 0)
@@ -110,6 +140,12 @@ export interface WeeklyData {
   runs: number
 }
 
+export interface WeeklyVolume {
+  weekStart: number
+  distance: number
+  runs: number
+}
+
 export interface TrainingAnalysis {
   currentWeekDistance: number
   currentWeekRuns: number
@@ -125,6 +161,7 @@ export interface TrainingAnalysis {
   predictedWeeklyDistance: number
   predictedMonthlyDistance: number
   recommendedLongRun: number
+  weeklyVolumes: WeeklyVolume[]
   alerts: { type: 'warning' | 'danger' | 'success'; message: string }[]
 }
 
@@ -212,6 +249,12 @@ export function computeTrainingAnalysis(runs: SportActivity[]): TrainingAnalysis
     ? Math.floor((Date.now() - new Date(lastRun.startDate).getTime()) / (1000 * 60 * 60 * 24))
     : null
 
+  // Volume des 8 dernières semaines, ordre chronologique (ancien -> récent),
+  // pour visualiser la tendance dans l'analyse d'entraînement (#7).
+  const weeklyVolumes: WeeklyVolume[] = sortedWeeks
+    .map(([weekStart, d]) => ({ weekStart, distance: d.distance, runs: d.runs }))
+    .reverse()
+
   return {
     currentWeekDistance,
     currentWeekRuns,
@@ -227,6 +270,85 @@ export function computeTrainingAnalysis(runs: SportActivity[]): TrainingAnalysis
     predictedWeeklyDistance: avgDistance4Weeks * 1.05,
     predictedMonthlyDistance: avgDistance4Weeks * 4,
     recommendedLongRun: avgLongestRun * 1.1,
+    weeklyVolumes,
     alerts,
   }
+}
+
+/** Distances officielles pour l'estimation des records (#5). */
+export const RACE_DISTANCES: { distance: number; label: string }[] = [
+  { distance: 5, label: '5 km' },
+  { distance: 10, label: '10 km' },
+  { distance: 21.1, label: 'Semi' },
+  { distance: 42.2, label: 'Marathon' },
+]
+
+export interface RaceEffort {
+  distance: number
+  label: string
+  /** Temps estimé (minutes) ramené à la distance officielle via Riegel. */
+  estimatedTime: number
+  /** Vrai si l'estimation provient d'une sortie de distance différente. */
+  estimated: boolean
+  activity: SportActivity
+}
+
+export interface PersonalRecords {
+  /** Meilleure allure moyenne (min/km) sur une sortie ≥ 1 km. */
+  bestAvgPace: { paceMinPerKm: number; activity: SportActivity } | null
+  longestRun: SportActivity | null
+  biggestElevation: SportActivity | null
+  efforts: RaceEffort[]
+}
+
+/**
+ * Records personnels de course. Comme on ne dispose que des données niveau
+ * activité (pas des splits), les efforts par distance officielle sont estimés
+ * via la formule de Riegel (`temps × (D/distance)^1.06`) sur les sorties ≥ D,
+ * en gardant le meilleur. Marqués `estimated` dès que la distance diffère.
+ */
+export function computePersonalRecords(runs: SportActivity[]): PersonalRecords {
+  const valid = runs.filter((r) => r.distance > 0 && r.movingTime > 0)
+  if (valid.length === 0) {
+    return { bestAvgPace: null, longestRun: null, biggestElevation: null, efforts: [] }
+  }
+
+  let bestAvgPace: PersonalRecords['bestAvgPace'] = null
+  let longestRun: SportActivity | null = null
+  let biggestElevation: SportActivity | null = null
+
+  for (const r of valid) {
+    if (r.distance >= 1) {
+      const pace = r.movingTime / r.distance // min/km
+      if (!bestAvgPace || pace < bestAvgPace.paceMinPerKm) {
+        bestAvgPace = { paceMinPerKm: pace, activity: r }
+      }
+    }
+    if (!longestRun || r.distance > longestRun.distance) longestRun = r
+    if (!biggestElevation || r.totalElevationGain > biggestElevation.totalElevationGain) {
+      biggestElevation = r
+    }
+  }
+
+  const efforts: RaceEffort[] = []
+  for (const { distance, label } of RACE_DISTANCES) {
+    const candidates = valid.filter((r) => r.distance >= distance * 0.95)
+    if (candidates.length === 0) continue
+    let best: { time: number; activity: SportActivity } | null = null
+    for (const r of candidates) {
+      const equivalent = r.movingTime * (distance / r.distance) ** 1.06
+      if (!best || equivalent < best.time) best = { time: equivalent, activity: r }
+    }
+    if (best) {
+      efforts.push({
+        distance,
+        label,
+        estimatedTime: best.time,
+        estimated: Math.abs(best.activity.distance - distance) > distance * 0.03,
+        activity: best.activity,
+      })
+    }
+  }
+
+  return { bestAvgPace, longestRun, biggestElevation, efforts }
 }

@@ -22,6 +22,7 @@ import { MusculationSection } from '@/components/musculation-section'
 import {
   StatCard,
   SportTrainingAnalysis,
+  SportRecords,
   SportAiPanels,
   SectionCard,
   SkeletonStatCard,
@@ -33,6 +34,7 @@ import {
   filterActivity,
   filterLabel,
   formatDuration,
+  formatPace,
   aggregateStats,
   availableYears,
   yearlyStats,
@@ -90,7 +92,12 @@ export function SportClient({ promise, filter, year }: Props) {
 
   const filtered = data.recentActivities.filter((a) => filterActivity(a, filter))
   const stats = aggregateStats(filtered)
-  const lifetimeStats = aggregateStats(data.recentActivities)
+  // Totaux carrière réels (endpoint Strava /stats), pas la fenêtre ~2 ans du cache.
+  const careerStats = {
+    totalDistance: data.stats.totalDistance,
+    totalTime: data.stats.totalTime,
+    totalActivities: data.stats.totalRuns + data.stats.totalRides + data.stats.totalSwims,
+  }
   const years = availableYears(filtered)
   const yearActivities = filtered.filter((a) => new Date(a.startDate).getFullYear() === year)
   const yearStats = aggregateStats(yearActivities)
@@ -100,7 +107,7 @@ export function SportClient({ promise, filter, year }: Props) {
 
   return (
     <>
-      <AthleteHero athlete={data.athlete} lifetime={lifetimeStats} />
+      <AthleteHero athlete={data.athlete} lifetime={careerStats} />
 
       <FilterBar
         filters={ACTIVITY_FILTERS}
@@ -128,7 +135,10 @@ export function SportClient({ promise, filter, year }: Props) {
       />
 
       {filter === 'Run' && (
-        <SportTrainingAnalysis runs={data.recentActivities.filter((a) => a.type === 'Run')} />
+        <>
+          <SportRecords runs={data.recentActivities.filter((a) => a.type === 'Run')} />
+          <SportTrainingAnalysis runs={data.recentActivities.filter((a) => a.type === 'Run')} />
+        </>
       )}
 
       <RecentActivities activities={filtered} />
@@ -229,11 +239,16 @@ function AthleteHero({
             )}
           </div>
 
-          {/* Lifetime stats inline */}
-          <div className="mt-6 grid grid-cols-3 gap-6 max-w-md border-t border-earth-rust/15 pt-5">
-            <LifetimeStat value={`${Math.round(lifetime.totalDistance)}`} unit="km" label="Distance" />
-            <LifetimeStat value={`${Math.round(lifetime.totalTime)}`} unit="h" label="Temps" />
-            <LifetimeStat value={`${lifetime.totalActivities}`} label="Activités" />
+          {/* Totaux carrière (toutes activités, depuis toujours) */}
+          <div className="mt-6 border-t border-earth-rust/15 pt-5">
+            <div className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-3">
+              Depuis toujours
+            </div>
+            <div className="grid grid-cols-3 gap-6 max-w-md">
+              <LifetimeStat value={`${Math.round(lifetime.totalDistance)}`} unit="km" label="Distance" />
+              <LifetimeStat value={`${Math.round(lifetime.totalTime)}`} unit="h" label="Temps" />
+              <LifetimeStat value={`${lifetime.totalActivities}`} label="Activités" />
+            </div>
           </div>
         </div>
       </div>
@@ -428,12 +443,24 @@ function RecentActivities({ activities }: { activities: SportActivity[] }) {
               </div>
               <div className="hidden sm:flex items-baseline gap-5 text-xs num">
                 <Metric value={`${activity.distance.toFixed(1)} km`} sub={formatDuration(activity.movingTime)} />
-                {activity.totalElevationGain > 0 && (
+                {activity.type === 'Run' ? (
+                  // Allure (min/km) — plus parlant que les km/h pour la course.
                   <Metric
-                    value={`+${Math.round(activity.totalElevationGain)} m`}
-                    sub={`${activity.averageSpeed.toFixed(1)} km/h`}
-                    tone="moss"
+                    value={formatPace(activity.averageSpeed)}
+                    sub={
+                      activity.totalElevationGain > 0
+                        ? `+${Math.round(activity.totalElevationGain)} m`
+                        : '/km'
+                    }
                   />
+                ) : (
+                  activity.totalElevationGain > 0 && (
+                    <Metric
+                      value={`+${Math.round(activity.totalElevationGain)} m`}
+                      sub={`${activity.averageSpeed.toFixed(1)} km/h`}
+                      tone="moss"
+                    />
+                  )
                 )}
               </div>
               <ArrowUpRight
