@@ -6,7 +6,6 @@ import {
   Film,
   Gamepad2,
   Book,
-  Tv,
   Activity,
   Github,
   Sparkles,
@@ -40,7 +39,6 @@ const SOURCES: SourceMeta[] = [
 
 const DAY_EVENT_META: Record<DayEventType, { icon: LucideIcon; text: string }> = {
   film: { icon: Film, text: 'text-earth-terracotta' },
-  series: { icon: Tv, text: 'text-earth-saffron' },
   game: { icon: Gamepad2, text: 'text-earth-moss' },
   book: { icon: Book, text: 'text-earth-indigo' },
 }

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { yearOf, computeGoals, DEFAULT_TARGETS } from './goals'
-import type { Film, Series, Game, Book } from './types'
+import type { Film, Game, Book } from './types'
 
 describe('yearOf', () => {
   it('parses ISO dates', () => {
@@ -24,21 +24,25 @@ describe('computeGoals', () => {
     { title: 'B', dateWatched: '2026-03-02' },
     { title: 'C', dateWatched: '2025-12-31' },
   ]
-  const series: Series[] = [{ title: 'S', dateCompleted: '2026-02-01' }]
   const games: Game[] = [{ title: 'G', dateFinished: '2026-04-04' }]
   const books: Book[] = [
     { id: '1', title: 'Dune', dateRead: '12/01/2026' },
     { id: '2', title: 'Foundation', dateRead: '05/07/2025' },
   ]
 
-  const input = { films, series, games, books, githubContributions: 750, year: 2026 }
+  const input = { films, games, books, githubContributions: 750, year: 2026 }
 
   it('counts only items dated within the target year', () => {
     const goals = computeGoals(input)
     expect(goals.find((g) => g.key === 'films')?.current).toBe(2)
-    expect(goals.find((g) => g.key === 'series')?.current).toBe(1)
     expect(goals.find((g) => g.key === 'games')?.current).toBe(1)
     expect(goals.find((g) => g.key === 'books')?.current).toBe(1)
+  })
+
+  it('marks the series goal as undated (no completion date at the source)', () => {
+    const series = computeGoals(input).find((g) => g.key === 'series')!
+    expect(series.undated).toBe(true)
+    expect(series.current).toBe(0)
   })
 
   it('passes github contributions through unchanged', () => {

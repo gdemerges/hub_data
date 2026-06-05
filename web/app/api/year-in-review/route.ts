@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { getGamesData, getFilmsData, getSeriesData, getBooksData } from '@/lib/data'
+import { getGamesData, getFilmsData, getBooksData } from '@/lib/data'
 import { logger } from '@/lib/logger'
-import type { Film, Series, Game, Book } from '@/lib/types'
+import type { Film, Game, Book } from '@/lib/types'
 
 // Dynamique : la réponse varie selon ?year= (lecture de searchParams).
 // Le cache CDN passe par l'en-tête Cache-Control de la réponse.
@@ -12,7 +12,8 @@ type TopItem = { title: string; rating?: number; subtitle?: string }
 type YearReview = {
   year: number
   films: { total: number; hoursWatched: number; items: TopItem[]; topGenres: { name: string; count: number }[] }
-  series: { total: number; episodes: number; items: TopItem[]; topGenres: { name: string; count: number }[] }
+  // undated : SerieBox n'exporte pas de date de fin de visionnage → pas de bilan par année.
+  series: { total: number; episodes: number; items: TopItem[]; topGenres: { name: string; count: number }[]; undated: boolean }
   games: { total: number; hoursPlayed: number; items: TopItem[]; topPlatforms: { name: string; hours: number }[] }
   books: { total: number; pages: number; items: TopItem[]; topAuthors: { name: string; count: number }[] }
   highlights: string[]
@@ -45,9 +46,9 @@ function topBy<T>(items: T[], key: (x: T) => string | undefined, n = 3): { name:
     .map(([name, count]) => ({ name, count }))
 }
 
-function buildReview(year: number, games: Game[], films: Film[], series: Series[], books: Book[]): YearReview {
+function buildReview(year: number, games: Game[], films: Film[], books: Book[]): YearReview {
   const filmsY = films.filter(f => yearOf(f.dateWatched) === year)
-  const seriesY = series.filter(s => yearOf(s.dateCompleted) === year)
+  // Séries volontairement absentes : aucune date de fin de visionnage à la source.
   // Jeux « de l'année » = joués pendant l'année (commencés ou terminés), pas
   // sortis cette année-là. On exclut donc le backlog/wishlist non touché.
   const gamesY = games.filter(g => yearOf(g.dateStarted) === year || yearOf(g.dateFinished) === year)
@@ -67,12 +68,10 @@ function buildReview(year: number, games: Game[], films: Film[], series: Series[
 
   const totalGameHours = Array.from(platformHours.values()).reduce((a, b) => a + b, 0)
   const totalFilmHours = filmsY.reduce((s, f) => s + (f.runtime ?? 0), 0) / 60
-  const totalEpisodes = seriesY.reduce((s, x) => s + (x.episodesWatched ?? x.episodes ?? 0), 0)
   const totalPages = booksY.reduce((s, b) => s + (b.pages ?? 0), 0)
 
   const highlights: string[] = []
   if (filmsY.length > 0) highlights.push(`${filmsY.length} film${filmsY.length > 1 ? 's' : ''} regardé${filmsY.length > 1 ? 's' : ''}`)
-  if (seriesY.length > 0) highlights.push(`${seriesY.length} série${seriesY.length > 1 ? 's' : ''} terminée${seriesY.length > 1 ? 's' : ''}`)
   if (gamesY.length > 0) highlights.push(`${gamesY.length} jeu${gamesY.length > 1 ? 'x' : ''}`)
   if (booksY.length > 0) highlights.push(`${booksY.length} livre${booksY.length > 1 ? 's' : ''}`)
   if (totalGameHours > 100) highlights.push(`${Math.round(totalGameHours)}h de jeu`)
@@ -87,10 +86,11 @@ function buildReview(year: number, games: Game[], films: Film[], series: Series[
       topGenres: genres(filmsY),
     },
     series: {
-      total: seriesY.length,
-      episodes: totalEpisodes,
-      items: sortItems(seriesY.map(s => ({ title: s.title, rating: s.rating, subtitle: s.genres?.[0] }))),
-      topGenres: genres(seriesY),
+      total: 0,
+      episodes: 0,
+      items: [],
+      topGenres: [],
+      undated: true,
     },
     games: {
       total: gamesY.length,
@@ -118,21 +118,20 @@ export async function GET(req: NextRequest) {
     : Math.max(1980, Math.min(currentYear + 1, parsedYear))
 
   try {
-    const [games, films, series, books] = await Promise.all([
+    const [games, films, books] = await Promise.all([
       getGamesData(),
       getFilmsData(),
-      getSeriesData(),
       getBooksData().catch(() => []),
     ])
 
     return NextResponse.json(
-      buildReview(year, games, films, series, books),
+      buildReview(year, games, films, books),
       { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } }
     )
   } catch (e) {
     logger.error('year-in-review build failed', e)
     // Renvoie une rétrospective vide valide : le fetcher SWR client ne
     // vérifie pas response.ok, donc une forme {error} ferait planter le rendu.
-    return NextResponse.json(buildReview(year, [], [], [], []), { status: 200 })
+    return NextResponse.json(buildReview(year, [], [], []), { status: 200 })
   }
 }

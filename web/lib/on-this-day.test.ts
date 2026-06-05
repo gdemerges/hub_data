@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { parseDate, eventsOnThisDay } from './on-this-day'
-import type { Film, Series, Game, Book } from './types'
+import type { Film, Game, Book } from './types'
 
 describe('parseDate', () => {
   it('parses ISO and French dates', () => {
@@ -20,14 +20,13 @@ describe('eventsOnThisDay', () => {
     { title: 'Wrong day', dateWatched: '2022-05-28' },
     { title: 'Wrong month', dateWatched: '2022-06-29' },
   ]
-  const series: Series[] = [{ title: 'Série', dateCompleted: '2020-05-29' }]
   const games: Game[] = [
     { title: 'Jeu fini', dateFinished: '2023-05-29' },
     { title: 'Jeu commencé', dateStarted: '2019-05-29' },
   ]
   const books: Book[] = [{ id: '1', title: 'Livre', dateRead: '29/05/2018', author: 'Auteur' }]
 
-  const input = { films, series, games, books }
+  const input = { films, games, books }
   const today = '2025-05-29'
 
   it('keeps only same month + day events', () => {
@@ -37,9 +36,9 @@ describe('eventsOnThisDay', () => {
     expect(titles).not.toContain('Wrong month')
   })
 
-  it('pulls events from every source', () => {
+  it('pulls events from every dated source (no series: undated at the source)', () => {
     const types = new Set(eventsOnThisDay(input, today).map((e) => e.type))
-    expect(types).toEqual(new Set(['film', 'series', 'game', 'book']))
+    expect(types).toEqual(new Set(['film', 'game', 'book']))
   })
 
   it('computes yearsAgo relative to today and sorts most recent first', () => {

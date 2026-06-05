@@ -79,7 +79,9 @@ export interface Series {
   backdropUrl?: string
   watchStatus?: WatchStatus
   dateAdded?: string
-  dateCompleted?: string
+  // NB : SerieBox n'exporte aucune date de fin de visionnage pour les séries
+  // (ni la source ni des snapshots). Les features temporelles (year-in-review,
+  // goals, on-this-day, jour) excluent donc volontairement les séries.
   created_at?: string
   updated_at?: string
 }

@@ -36,7 +36,8 @@ export async function GET() {
 
     games.forEach(g => bump(g.releaseYear ?? null, 'games'))
     films.forEach(f => bump(yearOf(f.dateWatched) ?? f.releaseYear ?? null, 'films'))
-    series.forEach(s => bump(yearOf(s.dateCompleted) ?? s.releaseYear ?? null, 'series'))
+    // Séries sans date de visionnage : cadrées sur l'année de sortie.
+    series.forEach(s => bump(s.releaseYear ?? null, 'series'))
     books.forEach(b => bump(b.year ?? null, 'books'))
 
     const stats = Array.from(map.values()).sort((a, b) => b.year - a.year)

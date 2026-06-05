@@ -1,29 +1,28 @@
 import { describe, it, expect } from 'vitest'
 import { eventsOnDate } from './day-detail'
-import type { Film, Series, Game, Book } from './types'
+import type { Film, Game, Book } from './types'
 
 describe('eventsOnDate', () => {
   const films: Film[] = [
     { title: 'Vu ce jour', dateWatched: '2026-05-29', rating: 7 },
     { title: 'Autre jour', dateWatched: '2026-05-28' },
   ]
-  const series: Series[] = [{ title: 'Série finie', dateCompleted: '2026-05-29' }]
   const games: Game[] = [
     { title: 'Jeu commencé', dateStarted: '2026-05-29' },
     { title: 'Jeu fini', dateFinished: '2026-05-29' },
   ]
   const books: Book[] = [{ id: '1', title: 'Livre', dateRead: '29/05/2026', author: 'Auteur' }]
 
-  const input = { films, series, games, books }
+  const input = { films, games, books }
 
-  it('returns only events on the exact date, across all sources', () => {
+  it('returns only events on the exact date, across all dated sources', () => {
     const events = eventsOnDate(input, '2026-05-29')
     const titles = events.map((e) => e.title)
     expect(titles).toContain('Vu ce jour')
-    expect(titles).toContain('Série finie')
     expect(titles).toContain('Livre')
     expect(titles).not.toContain('Autre jour')
-    expect(new Set(events.map((e) => e.type))).toEqual(new Set(['film', 'series', 'game', 'book']))
+    // Pas de 'series' : SerieBox n'exporte aucune date de fin de visionnage.
+    expect(new Set(events.map((e) => e.type))).toEqual(new Set(['film', 'game', 'book']))
   })
 
   it('distinguishes a started vs finished game', () => {

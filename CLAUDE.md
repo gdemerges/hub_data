@@ -16,7 +16,7 @@ make update-quick # Génère JSON sans re-télécharger
 - Imports : toujours `@/` alias
 - Composants : PascalCase, barrel export via `components/index.ts`
 - Fichiers : kebab-case
-- Données jamais committées — `data/` et `web/data/` sont gitignorés
+- Données : `data/` et `web/data/` gitignorés par défaut, **sauf** quelques fichiers whitelistés via `!` (JSON construits `games/films/series.json` + caches non sensibles) committés pour le build CI/CD — voir `.gitignore`
 - Erreurs API : toujours `{ data: [], hasData: false }` + `console.error`
 - Images externes : `<Image>` Next.js ; couvertures livres : `<img>`
 - Style : thème solarpunk (parchemin chaud, mousse, terracotta), Fraunces (display) + Inter (sans) + JetBrains Mono

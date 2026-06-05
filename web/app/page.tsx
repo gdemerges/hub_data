@@ -52,7 +52,7 @@ export default async function HomePage({
     ])
 
   const onThisDay = eventsOnThisDay(
-    { films: allFilms, series: allSeries, games: allGames, books: allBooks },
+    { films: allFilms, games: allGames, books: allBooks },
     new Date().toISOString().slice(0, 10),
   )
 
@@ -64,7 +64,6 @@ export default async function HomePage({
   const streaks = computeStreaks(activity)
   const goals = computeGoals({
     films: allFilms,
-    series: allSeries,
     games: allGames,
     books: allBooks,
     githubContributions,

@@ -11,7 +11,7 @@ type TopItem = { title: string; rating?: number; subtitle?: string }
 type Review = {
   year: number
   films: { total: number; hoursWatched: number; items: TopItem[]; topGenres: { name: string; count: number }[] }
-  series: { total: number; episodes: number; items: TopItem[]; topGenres: { name: string; count: number }[] }
+  series: { total: number; episodes: number; items: TopItem[]; topGenres: { name: string; count: number }[]; undated?: boolean }
   games: { total: number; hoursPlayed: number; items: TopItem[]; topPlatforms: { name: string; hours: number }[] }
   books: { total: number; pages: number; items: TopItem[]; topAuthors: { name: string; count: number }[] }
   highlights: string[]
@@ -165,10 +165,16 @@ export default function YearInReviewPage() {
               icon={Tv}
               title="Séries"
               color="text-earth-saffron"
-              stats={[`${data.series.total} terminées`, `${data.series.episodes} épisodes`]}
+              stats={data.series.undated ? ['Non daté'] : [`${data.series.total} terminées`, `${data.series.episodes} épisodes`]}
               items={data.series.items}
               extra={
-                data.series.topGenres.length > 0 ? (
+                data.series.undated ? (
+                  <div className="text-xs font-mono text-text-muted leading-relaxed">
+                    SerieBox n'exporte pas de date de fin de visionnage : les séries ne
+                    peuvent pas être rattachées à une année. Voir le bilan global dans{' '}
+                    <span className="text-text-secondary">Séries</span>.
+                  </div>
+                ) : data.series.topGenres.length > 0 ? (
                   <div className="text-xs font-mono text-text-secondary">
                     Genres: {data.series.topGenres.map(g => `${g.name} (${g.count})`).join(' · ')}
                   </div>

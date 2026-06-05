@@ -1,4 +1,4 @@
-import type { Film, Series, Game, Book } from './types'
+import type { Film, Game, Book } from './types'
 import type { Accent } from './accents'
 
 export type GoalKey = 'books' | 'films' | 'series' | 'games' | 'github'
@@ -12,6 +12,12 @@ export interface GoalProgress {
   target: number
   /** Pourcentage borné à 100 pour la barre de progression. */
   pct: number
+  /**
+   * Objectif non mesurable faute de date à la source (cas des séries : SerieBox
+   * n'exporte pas de date de fin de visionnage). L'UI affiche un badge « non daté »
+   * au lieu d'un compteur trompeur à 0.
+   */
+  undated?: boolean
 }
 
 /**
@@ -46,7 +52,6 @@ function countInYear(dates: Array<string | undefined>, year: number): number {
 
 export interface GoalsInput {
   films: Film[]
-  series: Series[]
   games: Game[]
   books: Book[]
   /** Contributions GitHub déjà cadrées sur l'année (via getGitHubContributions). */
@@ -70,7 +75,7 @@ export function computeGoals(
   input: GoalsInput,
   targets: Record<GoalKey, number> = DEFAULT_TARGETS
 ): GoalProgress[] {
-  const { films, series, games, books, githubContributions, year } = input
+  const { films, games, books, githubContributions, year } = input
 
   return [
     progress(
@@ -89,14 +94,11 @@ export function computeGoals(
       countInYear(films.map((f) => f.dateWatched), year),
       targets.films
     ),
-    progress(
-      'series',
-      'Séries terminées',
-      'saffron',
-      '/series',
-      countInYear(series.map((s) => s.dateCompleted), year),
-      targets.series
-    ),
+    // Séries non datables (cf. GoalProgress.undated) : pas de comptage par année.
+    {
+      ...progress('series', 'Séries terminées', 'saffron', '/series', 0, targets.series),
+      undated: true,
+    },
     progress(
       'games',
       'Jeux finis',

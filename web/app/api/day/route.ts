@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { getFilmsData, getSeriesData, getGamesData, getBooksData } from '@/lib/data'
+import { getFilmsData, getGamesData, getBooksData } from '@/lib/data'
 import { eventsOnDate } from '@/lib/day-detail'
 import { logger } from '@/lib/logger'
 
@@ -12,14 +12,13 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const [films, series, games, books] = await Promise.all([
+    const [films, games, books] = await Promise.all([
       getFilmsData(),
-      getSeriesData(),
       getGamesData(),
       getBooksData(),
     ])
 
-    const events = eventsOnDate({ films, series, games, books }, date)
+    const events = eventsOnDate({ films, games, books }, date)
 
     return NextResponse.json(
       { events, hasData: events.length > 0 },

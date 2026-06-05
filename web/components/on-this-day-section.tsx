@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { CalendarHeart, Film, Tv, Gamepad2, BookOpen, type LucideIcon } from 'lucide-react'
+import { CalendarHeart, Film, Gamepad2, BookOpen, type LucideIcon } from 'lucide-react'
 import { SectionCard } from './section-card'
 import { ACCENTS } from '@/lib/accents'
 import type { OnThisDayEvent, OnThisDayType } from '@/lib/on-this-day'
@@ -10,14 +10,12 @@ interface OnThisDaySectionProps {
 
 const TYPE_ICON: Record<OnThisDayType, LucideIcon> = {
   film: Film,
-  series: Tv,
   game: Gamepad2,
   book: BookOpen,
 }
 
 const TYPE_HREF: Record<OnThisDayType, string> = {
   film: '/films',
-  series: '/series',
   game: '/games',
   book: '/books',
 }

@@ -24,24 +24,35 @@ export function GoalsSection({ goals, year }: GoalsSectionProps) {
                     style={{ ['--g' as string]: rgb }}>
                     {goal.label}
                   </span>
-                  <span className="text-xs num text-text-muted shrink-0">
-                    <span className="font-semibold" style={{ color: `rgb(${rgb})` }}>
-                      {goal.current.toLocaleString('fr-FR')}
+                  {goal.undated ? (
+                    <span
+                      className="text-[10px] font-mono uppercase tracking-[0.14em] text-text-muted border border-border-subtle rounded px-1.5 py-0.5 shrink-0"
+                      title="SerieBox n'exporte pas de date de fin de visionnage : objectif non mesurable par année."
+                    >
+                      non daté
                     </span>
-                    {' / '}
-                    {goal.target.toLocaleString('fr-FR')}
-                  </span>
+                  ) : (
+                    <span className="text-xs num text-text-muted shrink-0">
+                      <span className="font-semibold" style={{ color: `rgb(${rgb})` }}>
+                        {goal.current.toLocaleString('fr-FR')}
+                      </span>
+                      {' / '}
+                      {goal.target.toLocaleString('fr-FR')}
+                    </span>
+                  )}
                 </div>
                 <div className="h-1.5 rounded-full overflow-hidden bg-bg-primary border border-border-subtle">
-                  <div
-                    className="h-full rounded-full transition-all duration-700"
-                    style={{
-                      width: `${goal.pct}%`,
-                      background: reached
-                        ? `rgb(${rgb})`
-                        : `linear-gradient(to right, rgb(${rgb} / 0.55), rgb(${rgb}))`,
-                    }}
-                  />
+                  {!goal.undated && (
+                    <div
+                      className="h-full rounded-full transition-all duration-700"
+                      style={{
+                        width: `${goal.pct}%`,
+                        background: reached
+                          ? `rgb(${rgb})`
+                          : `linear-gradient(to right, rgb(${rgb} / 0.55), rgb(${rgb}))`,
+                      }}
+                    />
+                  )}
                 </div>
               </Link>
             </li>

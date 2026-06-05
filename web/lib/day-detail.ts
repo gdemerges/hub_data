@@ -1,8 +1,9 @@
 import { parseDate } from './on-this-day'
-import type { Film, Series, Game, Book } from './types'
+import type { Film, Game, Book } from './types'
 import type { Accent } from './accents'
 
-export type DayEventType = 'film' | 'series' | 'game' | 'book'
+// Pas de 'series' : SerieBox n'exporte aucune date de fin de visionnage.
+export type DayEventType = 'film' | 'game' | 'book'
 
 export interface DayEvent {
   type: DayEventType
@@ -13,7 +14,6 @@ export interface DayEvent {
 
 export interface DayDetailInput {
   films: Film[]
-  series: Series[]
   games: Game[]
   books: Book[]
 }
@@ -40,11 +40,6 @@ export function eventsOnDate(input: DayDetailInput, date: string): DayEvent[] {
   for (const f of input.films) {
     if (toIso(f.dateWatched) === target) {
       events.push({ type: 'film', title: f.title, accent: 'terracotta', subtitle: f.rating ? `Note ${f.rating}/10` : undefined })
-    }
-  }
-  for (const s of input.series) {
-    if (toIso(s.dateCompleted) === target) {
-      events.push({ type: 'series', title: s.title, accent: 'saffron', subtitle: s.rating ? `Note ${s.rating}/10` : undefined })
     }
   }
   for (const g of input.games) {

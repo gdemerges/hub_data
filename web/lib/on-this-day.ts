@@ -1,7 +1,8 @@
-import type { Film, Series, Game, Book } from './types'
+import type { Film, Game, Book } from './types'
 import type { Accent } from './accents'
 
-export type OnThisDayType = 'film' | 'series' | 'game' | 'book'
+// Pas de 'series' : SerieBox n'exporte aucune date de fin de visionnage.
+export type OnThisDayType = 'film' | 'game' | 'book'
 
 export interface OnThisDayEvent {
   type: OnThisDayType
@@ -40,7 +41,6 @@ function pad(n: number): string {
 
 export interface OnThisDayInput {
   films: Film[]
-  series: Series[]
   games: Game[]
   books: Book[]
 }
@@ -80,9 +80,6 @@ export function eventsOnThisDay(input: OnThisDayInput, today: string): OnThisDay
 
   for (const f of input.films) {
     push('film', f.title, 'terracotta', f.dateWatched, f.rating ? `Note ${f.rating}/10` : undefined)
-  }
-  for (const s of input.series) {
-    push('series', s.title, 'saffron', s.dateCompleted, s.rating ? `Note ${s.rating}/10` : undefined)
   }
   for (const g of input.games) {
     const raw = g.dateFinished || g.dateStarted
