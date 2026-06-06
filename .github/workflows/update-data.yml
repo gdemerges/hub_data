@@ -16,9 +16,9 @@ name: Update data from SerieBox
 #   TMDB_API_KEY         — for film/series posters
 
 on:
-  schedule:
-    # Every Sunday at 2am UTC
-    - cron: '0 2 * * 0'
+  # No schedule: SerieBox login is gated by reCAPTCHA v3 so the PHPSESSID cookie
+  # expires and must be refreshed by hand. Running on a cron would just fail
+  # weekly — instead, refresh SERIEBOX_COOKIES and trigger the run manually.
   workflow_dispatch:
     inputs:
       skip_seriebox:
@@ -74,8 +74,8 @@ jobs:
           git commit -m "chore: update data from SerieBox [skip ci]"
           git push
 
-      # Loud alert: scheduled-workflow failures already email the repo owner;
-      # additionally open (or reuse) an issue so the expired cookie is visible.
+      # Loud alert: open (or reuse) an issue so an expired cookie is visible
+      # even if the manual run was launched and forgotten.
       - name: Alert on failure (likely expired SerieBox cookie)
         if: failure()
         env:
