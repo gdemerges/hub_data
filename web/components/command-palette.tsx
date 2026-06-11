@@ -148,6 +148,17 @@ export function CommandPalette() {
     el?.scrollIntoView({ block: 'nearest' })
   }, [selected])
 
+  // Même pathname (ex. deep link ?open= sur la page courante) : pathname ne
+  // change pas, la transition attendrait son timeout → navigation directe.
+  const navigate = (href: string) => {
+    setOpen(false)
+    if (href.split('?')[0] === window.location.pathname) {
+      router.push(href)
+      return
+    }
+    navigateWithViewTransition(() => router.push(href))
+  }
+
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault()
@@ -158,8 +169,7 @@ export function CommandPalette() {
     } else if (e.key === 'Enter') {
       const item = results[selected]
       if (item) {
-        setOpen(false)
-        navigateWithViewTransition(() => router.push(item.href))
+        navigate(item.href)
       }
     }
   }
@@ -207,10 +217,7 @@ export function CommandPalette() {
               <button
                 key={item.id}
                 data-idx={i}
-                onClick={() => {
-                  setOpen(false)
-                  navigateWithViewTransition(() => router.push(item.href))
-                }}
+                onClick={() => navigate(item.href)}
                 onMouseEnter={() => setSelected(i)}
                 className={cn(
                   'w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors',
