@@ -65,5 +65,9 @@ export function navigateWithViewTransition(push: () => void): void {
   doc.startViewTransition!(async () => {
     push()
     await waitForNavigation()
-  }).finished.finally(() => root.classList.remove('route-changing'))
+  })
+    // catch avant finally : finished rejette si la transition est skippée
+    // (navigation rapide, onglet caché) — sans observation, unhandledrejection.
+    .finished.catch(() => {})
+    .finally(() => root.classList.remove('route-changing'))
 }
