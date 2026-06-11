@@ -4,15 +4,17 @@ import { ChartBar, Television } from '@phosphor-icons/react'
 import { Suspense, useState } from 'react'
 import { SeriesClient } from '@/components/series-client'
 import { SeriesStats } from '@/components/series-stats'
+import type { SeriesStatsData } from '@/lib/media-stats'
 import type { Series } from '@/lib/types'
 
 interface SeriesPageClientProps {
   series: Series[]
+  seriesStats: SeriesStatsData
 }
 
 type Tab = 'catalogue' | 'stats'
 
-export function SeriesPageClient({ series }: SeriesPageClientProps) {
+export function SeriesPageClient({ series, seriesStats }: SeriesPageClientProps) {
   const [activeTab, setActiveTab] = useState<Tab>('catalogue')
 
   return (
@@ -39,7 +41,7 @@ export function SeriesPageClient({ series }: SeriesPageClientProps) {
         </Suspense>
       )}
 
-      {activeTab === 'stats' && <SeriesStats series={series} />}
+      {activeTab === 'stats' && <SeriesStats stats={seriesStats} />}
     </>
   )
 }

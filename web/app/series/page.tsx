@@ -2,12 +2,14 @@ import { Television } from '@phosphor-icons/react/dist/ssr'
 import { PageHeader } from '@/components'
 import { SeriesPageClient } from '@/components/series-page-client'
 import { getSeriesData } from '@/lib/data'
+import { computeSeriesStats } from '@/lib/media-stats'
 import { formatWatchHours, totalSeriesMinutes } from '@/lib/series-time'
 
 export const revalidate = 3600
 
 export default async function SeriesPage() {
   const series = await getSeriesData()
+  const seriesStats = computeSeriesStats(series)
   const watchMinutes = totalSeriesMinutes(series)
 
   return (
@@ -24,7 +26,7 @@ export default async function SeriesPage() {
         color="saffron"
         icon={Television}
       />
-      <SeriesPageClient series={series} />
+      <SeriesPageClient series={series} seriesStats={seriesStats} />
     </div>
   )
 }

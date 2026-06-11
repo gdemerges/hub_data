@@ -2,15 +2,13 @@
 
 import { BarChart3, Clock, Film, ListChecks, Radio, Star, Tv } from 'lucide-react'
 import Image from 'next/image'
-import { useMemo } from 'react'
 import { EmptyState } from '@/components/empty-state'
 import { PieChart } from '@/components/pie-chart'
-import { seriesColor } from '@/lib/chart'
-import { formatWatchHours, totalSeriesMinutes } from '@/lib/series-time'
-import type { Series } from '@/lib/types'
+import { formatWatchHours } from '@/lib/series-time'
+import type { SeriesStatsData } from '@/lib/media-stats'
 
 interface SeriesStatsProps {
-  series: Series[]
+  stats: SeriesStatsData
 }
 
 const STATUS_COLORS: Record<string, string> = {
@@ -21,87 +19,7 @@ const STATUS_COLORS: Record<string, string> = {
   Abandonnée: '#b06868',
 }
 
-function avg(nums: number[]): number {
-  if (!nums.length) return 0
-  return nums.reduce((a, b) => a + b, 0) / nums.length
-}
-
-export function SeriesStats({ series }: SeriesStatsProps) {
-  const stats = useMemo(() => {
-    const totalSeries = series.length
-    const totalMinutes = totalSeriesMinutes(series)
-    const totalEpisodes = series.reduce((sum, s) => sum + (s.episodesWatched ?? 0), 0)
-    const rated = series.filter((s) => s.rating && s.rating > 0)
-    const avgRating = avg(rated.map((s) => s.rating as number))
-    const mostWatched = [...series].sort((a, b) => (b.watchMinutes ?? 0) - (a.watchMinutes ?? 0))[0]
-
-    // Top 10 par heures de visionnage
-    const topWatched = [...series]
-      .filter((s) => (s.watchMinutes ?? 0) > 0)
-      .sort((a, b) => (b.watchMinutes ?? 0) - (a.watchMinutes ?? 0))
-      .slice(0, 10)
-
-    // Répartition par genre (nombre de séries)
-    const genreCounts = new Map<string, number>()
-    series.forEach((s) => {
-      s.genres?.forEach((g) => genreCounts.set(g, (genreCounts.get(g) ?? 0) + 1))
-    })
-    const genreData = [...genreCounts.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 8)
-      .map(([label, value], i) => ({ label, value, color: seriesColor(i) }))
-
-    // Répartition par statut
-    const statusCounts = new Map<string, number>()
-    series.forEach((s) => {
-      const key = s.status ?? 'Inconnu'
-      statusCounts.set(key, (statusCounts.get(key) ?? 0) + 1)
-    })
-    const statusData = [...statusCounts.entries()].sort((a, b) => b[1] - a[1])
-    const statusTotal = statusData.reduce((sum, [, v]) => sum + v, 0)
-
-    // Heures par décennie de sortie
-    const decadeMinutes = new Map<number, number>()
-    series.forEach((s) => {
-      if (!s.releaseYear || !s.watchMinutes) return
-      const decade = Math.floor(s.releaseYear / 10) * 10
-      decadeMinutes.set(decade, (decadeMinutes.get(decade) ?? 0) + s.watchMinutes)
-    })
-    const decadeData = [...decadeMinutes.entries()].sort((a, b) => a[0] - b[0])
-    const decadeMax = Math.max(...decadeData.map(([, v]) => v), 1)
-
-    // Top chaînes / plateformes : heures + nombre de séries
-    const channelStats = new Map<string, { minutes: number; count: number }>()
-    series.forEach((s) => {
-      if (!s.channel) return
-      const entry = channelStats.get(s.channel) ?? { minutes: 0, count: 0 }
-      entry.minutes += s.watchMinutes ?? 0
-      entry.count += 1
-      channelStats.set(s.channel, entry)
-    })
-    const channelData = [...channelStats.entries()]
-      .map(([name, v]) => ({ name, ...v }))
-      .sort((a, b) => b.count - a.count || b.minutes - a.minutes)
-      .slice(0, 8)
-    const channelMax = Math.max(...channelData.map((c) => c.count), 1)
-
-    return {
-      totalSeries,
-      totalMinutes,
-      totalEpisodes,
-      avgRating,
-      mostWatched,
-      topWatched,
-      genreData,
-      statusData,
-      statusTotal,
-      decadeData,
-      decadeMax,
-      channelData,
-      channelMax,
-    }
-  }, [series])
-
+export function SeriesStats({ stats }: SeriesStatsProps) {
   if (stats.totalSeries === 0) {
     return <EmptyState description="Aucune série à analyser." />
   }

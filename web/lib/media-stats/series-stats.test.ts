@@ -19,6 +19,8 @@ describe('computeSeriesStats', () => {
     expect(s.statusTotal).toBe(0)
     expect(s.decadeMax).toBe(1)
     expect(s.channelMax).toBe(1)
+    expect(s.mostWatched).toBeUndefined()
+    expect(s.totalMinutes).toBe(0)
   })
 
   it('totaux, top visionnage et note moyenne', () => {
@@ -55,6 +57,16 @@ describe('computeSeriesStats', () => {
     expect(s.channelData[0]).toEqual({ name: 'HBO', minutes: 150, count: 2 })
     expect(s.channelData[1]).toEqual({ name: 'Netflix', minutes: 900, count: 1 })
     expect(s.channelMax).toBe(2)
+  })
+
+  it('top genres avec couleurs', () => {
+    const s = computeSeriesStats([
+      mkSeries({ title: 'A', genres: ['Drame', 'SF'] }),
+      mkSeries({ title: 'B', genres: ['Drame'] }),
+    ])
+    expect(s.genreData[0].label).toBe('Drame')
+    expect(s.genreData[0].value).toBe(2)
+    expect(s.genreData[0].color).toBeTruthy()
   })
 
   it('minutes par décennie de sortie (ignore les séries sans watchMinutes)', () => {
