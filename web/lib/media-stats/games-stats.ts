@@ -128,6 +128,9 @@ export interface GameStatsData {
   statusTotal: number
 }
 
+// IMPORTANT : les tableaux retournés (topPlayed, topRated, unplayed, sagas[].games)
+// réutilisent les références des objets Game reçus — ne pas les cloner. React Flight
+// dédoublonne les références répétées dans le payload RSC ; un clone le ferait doubler.
 export function computeGameStats(games: Game[]): GameStatsData {
   // Séparer les jeux joués de la wishlist / jamais joués : les stats ne considèrent que les jeux joués.
   const played = games.filter((g) => !isUnplayed(g))
