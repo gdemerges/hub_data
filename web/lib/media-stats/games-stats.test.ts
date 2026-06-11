@@ -30,7 +30,7 @@ describe('computeGameStats', () => {
       mkGame({ title: 'C', status: 'Jamais joué' }),
     ])
     expect(s.totalGames).toBe(1)
-    expect(s.unplayed.map(g => g.title).sort()).toEqual(['B', 'C'])
+    expect(s.unplayed.map((g) => g.title).sort()).toEqual(['B', 'C'])
     // Le backlog n'apparaît pas dans la répartition par statut
     expect(s.statusBreakdown).toEqual([{ label: 'Fini', count: 1 }])
     expect(s.statusTotal).toBe(1)
@@ -77,8 +77,18 @@ describe('computeGameStats', () => {
 
   it('sagas : min 2 jeux, tri par heures, cover du plus joué', () => {
     const s = computeGameStats([
-      mkGame({ title: 'Zelda: Breath of the Wild', status: 'Fini', hoursPlayed: 100, coverUrl: 'botw.jpg' }),
-      mkGame({ title: 'Zelda: Tears of the Kingdom', status: 'Fini', hoursPlayed: 80, coverUrl: 'totk.jpg' }),
+      mkGame({
+        title: 'Zelda: Breath of the Wild',
+        status: 'Fini',
+        hoursPlayed: 100,
+        coverUrl: 'botw.jpg',
+      }),
+      mkGame({
+        title: 'Zelda: Tears of the Kingdom',
+        status: 'Fini',
+        hoursPlayed: 80,
+        coverUrl: 'totk.jpg',
+      }),
       mkGame({ title: 'Hadès', status: 'Fini', hoursPlayed: 50 }), // pas une saga listée
     ])
     expect(s.sagas).toHaveLength(1)
@@ -98,5 +108,49 @@ describe('computeGameStats', () => {
       { decade: '1990s', hours: 10 },
       { decade: '2020s', hours: 20 },
     ])
+  })
+
+  it('avgRatingByGenre : seuil ≥3 — genre avec 3 jeux inclus, genre avec 2 jeux absent', () => {
+    const s = computeGameStats([
+      mkGame({ title: 'RPG 1', status: 'Fini', rating: 16, genres: ['RPG'] }),
+      mkGame({ title: 'RPG 2', status: 'Fini', rating: 14, genres: ['RPG'] }),
+      mkGame({ title: 'RPG 3', status: 'Fini', rating: 12, genres: ['RPG'] }),
+      mkGame({ title: 'FPS 1', status: 'Fini', rating: 10, genres: ['FPS'] }),
+      mkGame({ title: 'FPS 2', status: 'Fini', rating: 12, genres: ['FPS'] }),
+    ])
+    const rpg = s.avgRatingByGenre.find((g) => g.label === 'RPG')
+    expect(rpg).toBeDefined()
+    expect(rpg).toEqual({ label: 'RPG', value: 14, count: 3 })
+
+    const fps = s.avgRatingByGenre.find((g) => g.label === 'FPS')
+    expect(fps).toBeUndefined()
+  })
+
+  it('avgRatingByPlatform : seuil ≥3 et fallback sur le champ top-level platform', () => {
+    // 3 jeux avec platform top-level 'PC' (sans tableau platforms) → inclus
+    // 2 jeux avec platform top-level 'Switch' → exclus
+    const s = computeGameStats([
+      mkGame({ title: 'PC 1', status: 'Fini', rating: 18, platform: 'PC' }),
+      mkGame({ title: 'PC 2', status: 'Fini', rating: 16, platform: 'PC' }),
+      mkGame({ title: 'PC 3', status: 'Fini', rating: 14, platform: 'PC' }),
+      mkGame({ title: 'Switch 1', status: 'Fini', rating: 12, platform: 'Switch' }),
+      mkGame({ title: 'Switch 2', status: 'Fini', rating: 10, platform: 'Switch' }),
+    ])
+    const pc = s.avgRatingByPlatform.find((p) => p.label === 'PC')
+    expect(pc).toBeDefined()
+    expect(pc).toEqual({ label: 'PC', value: 16, count: 3 })
+
+    const sw = s.avgRatingByPlatform.find((p) => p.label === 'Switch')
+    expect(sw).toBeUndefined()
+  })
+
+  it('sagas : "Mario Kart" (nom plus long) l\'emporte sur "Mario" pour les titres Mario Kart', () => {
+    const s = computeGameStats([
+      mkGame({ title: 'Mario Kart 8 Deluxe', status: 'Fini', hoursPlayed: 40 }),
+      mkGame({ title: 'Mario Kart: Double Dash', status: 'Fini', hoursPlayed: 20 }),
+    ])
+    const names = s.sagas.map((sg) => sg.name)
+    expect(names).toContain('Mario Kart')
+    expect(names).not.toContain('Mario')
   })
 })

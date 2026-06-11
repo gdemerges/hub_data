@@ -11,10 +11,10 @@ const UNPLAYED_STATUSES = new Set(['Wishé', 'Jamais joué'])
 export function gameStatus(g: Game): string | undefined {
   if (g.status) return g.status
   if (g.platforms && g.platforms.length > 0) {
-    if (g.platforms.some(p => p.status === 'Fini')) return 'Fini'
-    if (g.platforms.some(p => p.status === 'En cours')) return 'En cours'
-    // Prefer a "played" platform over a wished/unplayed one
-    const played = g.platforms.find(p => p.status && !UNPLAYED_STATUSES.has(p.status))
+    if (g.platforms.some((p) => p.status === 'Fini')) return 'Fini'
+    if (g.platforms.some((p) => p.status === 'En cours')) return 'En cours'
+    // Préférer une plateforme "jouée" à une plateforme souhaitée/non-jouée
+    const played = g.platforms.find((p) => p.status && !UNPLAYED_STATUSES.has(p.status))
     if (played) return played.status
     return g.platforms[0].status
   }
@@ -85,11 +85,14 @@ const SAGAS: { name: string; pattern: RegExp }[] = [
   { name: 'Tomb Raider', pattern: /\btomb raider\b/i },
   { name: 'Trine', pattern: /\btrine\b/i },
   { name: 'Watch Dogs', pattern: /\bwatch dogs\b/i },
-  { name: 'League of Legends', pattern: /\b(league of legends|lol|teamfight tactics|tft|wild rift|legends of runeterra)\b/i },
+  {
+    name: 'League of Legends',
+    pattern: /\b(league of legends|lol|teamfight tactics|tft|wild rift|legends of runeterra)\b/i,
+  },
 ]
 
-// Order matters: more-specific names ("Mario Kart") must beat shorter ones
-// ("Mario") when both could match the same title.
+// L'ordre est important : les noms plus spécifiques ("Mario Kart") doivent l'emporter
+// sur les plus courts ("Mario") quand les deux peuvent correspondre au même titre.
 SAGAS.sort((a, b) => b.name.length - a.name.length)
 
 function detectSaga(title: string): string | null {
@@ -126,32 +129,32 @@ export interface GameStatsData {
 }
 
 export function computeGameStats(games: Game[]): GameStatsData {
-  // Separate played from wishlist / never-played: stats only consider played games.
-  const played = games.filter(g => !isUnplayed(g))
+  // Séparer les jeux joués de la wishlist / jamais joués : les stats ne considèrent que les jeux joués.
+  const played = games.filter((g) => !isUnplayed(g))
   const unplayed = games.filter(isUnplayed)
 
   const totalGames = played.length
   const totalHours = played.reduce((s, g) => s + gameHours(g), 0)
 
-  const finished = played.filter(g => gameStatus(g) === 'Fini').length
+  const finished = played.filter((g) => gameStatus(g) === 'Fini').length
   const completionRate = totalGames ? (finished / totalGames) * 100 : 0
 
-  const ratedGames = played.filter(g => typeof g.rating === 'number')
-  const avgRating = avg(ratedGames.map(g => g.rating!))
+  const ratedGames = played.filter((g) => typeof g.rating === 'number')
+  const avgRating = avg(ratedGames.map((g) => g.rating!))
 
   // Biais personnel : delta moyen entre note perso et note publique
   const bothRated = played.filter(
-    g => typeof g.rating === 'number' && typeof g.avgRating === 'number'
+    (g) => typeof g.rating === 'number' && typeof g.avgRating === 'number',
   )
-  const avgVsCrowd = avg(bothRated.map(g => g.rating! - g.avgRating!))
+  const avgVsCrowd = avg(bothRated.map((g) => g.rating! - g.avgRating!))
 
   const topPlayed = [...played]
-    .filter(g => gameHours(g) > 0)
+    .filter((g) => gameHours(g) > 0)
     .sort((a, b) => gameHours(b) - gameHours(a))
     .slice(0, 10)
 
   const topRated = [...ratedGames]
-    .sort((a, b) => (b.rating! - a.rating!) || gameHours(b) - gameHours(a))
+    .sort((a, b) => b.rating! - a.rating! || gameHours(b) - gameHours(a))
     .slice(0, 10)
 
   // Répartition par plateforme : une entrée par plateforme (un jeu PC+PS5 compte deux fois).
@@ -159,8 +162,7 @@ export function computeGameStats(games: Game[]): GameStatsData {
   const statusCounts = new Map<string, number>()
   let statusTotal = 0
   for (const g of games) {
-    const platformStatuses =
-      g.platforms?.map(p => p.status) ?? (g.status ? [g.status] : [])
+    const platformStatuses = g.platforms?.map((p) => p.status) ?? (g.status ? [g.status] : [])
     for (const s of platformStatuses) {
       if (!s || UNPLAYED_STATUSES.has(s)) continue
       statusCounts.set(s, (statusCounts.get(s) ?? 0) + 1)
@@ -179,7 +181,7 @@ export function computeGameStats(games: Game[]): GameStatsData {
   }
   const hoursByDecade = Array.from(decadeMap.entries())
     .map(([decade, hours]) => ({ decade, hours }))
-    .filter(d => d.hours > 0)
+    .filter((d) => d.hours > 0)
     .sort((a, b) => a.decade.localeCompare(b.decade))
 
   const byGenre = new Map<string, number[]>()
@@ -197,7 +199,7 @@ export function computeGameStats(games: Game[]): GameStatsData {
 
   const byPlatform = new Map<string, number[]>()
   for (const g of ratedGames) {
-    const plats = g.platforms?.map(p => p.platform) ?? (g.platform ? [g.platform] : [])
+    const plats = g.platforms?.map((p) => p.platform) ?? (g.platform ? [g.platform] : [])
     for (const platform of plats) {
       if (!byPlatform.has(platform)) byPlatform.set(platform, [])
       byPlatform.get(platform)!.push(g.rating!)
@@ -224,8 +226,7 @@ export function computeGameStats(games: Game[]): GameStatsData {
       const sortedGames = [...v.games].sort((a, b) => gameHours(b) - gameHours(a))
       // Cover = jeu le plus joué avec une cover, sinon n'importe quelle cover de la saga
       const cover =
-        sortedGames.find(g => g.coverUrl)?.coverUrl ??
-        v.games.find(g => g.coverUrl)?.coverUrl
+        sortedGames.find((g) => g.coverUrl)?.coverUrl ?? v.games.find((g) => g.coverUrl)?.coverUrl
       return {
         name,
         hours: v.hours,
