@@ -403,7 +403,7 @@ function parseFrenchDate(raw?: string): string | undefined {
 
 async function processGames() {
   console.log('🎮 Processing games...')
-  const csv = readFileSync(resolve(DATA_DIR, 'jeux.csv'), 'utf-8')
+  const csv = readFileSync(resolve(DATA_DIR, 'jeux.csv'), 'utf-8').replace(/^(﻿|ï»¿)/, '')
   const records = parse(csv, {
     columns: true,
     delimiter: ';',
@@ -516,7 +516,7 @@ interface RawFilm {
 
 async function processFilms() {
   console.log('🎬 Processing films...')
-  const csv = readFileSync(resolve(DATA_DIR, 'films_vus.csv'), 'utf-8')
+  const csv = readFileSync(resolve(DATA_DIR, 'films_vus.csv'), 'utf-8').replace(/^(﻿|ï»¿)/, '')
   const records = parse(csv, {
     columns: true,
     delimiter: ';',
@@ -578,7 +578,7 @@ interface RawSeries {
 
 async function processSeries() {
   console.log('📺 Processing series...')
-  const csv = readFileSync(resolve(DATA_DIR, 'shows.csv'), 'utf-8')
+  const csv = readFileSync(resolve(DATA_DIR, 'shows.csv'), 'utf-8').replace(/^(﻿|ï»¿)/, '')
   const records = parse(csv, {
     columns: true,
     delimiter: ';',

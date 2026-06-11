@@ -6,12 +6,14 @@
     "avgRating": 17.72,
     "episodesWatched": 11,
     "episodes": 12,
+    "watchMinutes": 495,
     "releaseYear": 2005,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Romance",
       "Mélodrame"
     ],
+    "channel": "Fuji TV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/nwPp8ClNZAFl7Mm4H1GrQHF23az.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/eR0dyvmcsfo876Jin4slD6BqsRN.jpg"
   },
@@ -21,12 +23,14 @@
     "avgRating": 16,
     "episodesWatched": 1,
     "episodes": 49,
+    "watchMinutes": 52,
     "releaseYear": 2017,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Teen Drama"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/msVPrw2FqoRMqSVLGKAzAvfEUwu.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/c4CSgKL6QfkJxsWcGYDyTxpbzpW.jpg"
   },
@@ -38,12 +42,14 @@
     "avgRating": 12.51,
     "episodesWatched": 12,
     "episodes": 12,
+    "watchMinutes": 504,
     "releaseYear": 2017,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Action / Aventure"
     ],
+    "channel": "FOX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/2eoCEa9myi32C3QC7VYEu4y1f6D.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/xBCYJrPYAqdjAfvinHBB3WT9lqp.jpg"
   },
@@ -55,12 +61,14 @@
     "avgRating": 15.83,
     "episodesWatched": 204,
     "episodes": 204,
+    "watchMinutes": 8568,
     "releaseYear": 2001,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Action / Aventure"
     ],
+    "channel": "FOX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/pez9BcRmtzaf0FMPJcgUl89gxhs.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/be6mDIMv7cg8duWkcYVnTB8rphO.jpg"
   },
@@ -70,42 +78,48 @@
     "avgRating": 16.62,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 407,
     "releaseYear": 2023,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Judiciaire"
     ],
+    "channel": "Canal+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/5sLMJnnYCNgcLZtdD7rYwldzx1j.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/irDhBspzWhJ3GsQ05XTQ60MjlZq.jpg"
   },
   {
     "title": "A Knight of the Seven Kingdoms",
     "status": "À jour",
-    "avgRating": 15.88,
+    "avgRating": 15.9,
     "episodesWatched": 6,
     "episodes": 6,
+    "watchMinutes": 208,
     "releaseYear": 2026,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Fantastique"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/sBvdwKLYJ8lCZoCyrwTufOTfCFX.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/7mkUu1F2hVUNgz24xO8HPx0D6mK.jpg"
   },
   {
     "title": "Ahsoka",
     "status": "À jour",
-    "avgRating": 14.92,
+    "avgRating": 14.91,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 372,
     "releaseYear": 2023,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Disney+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/eiJeWeCAEZAmRppnXHiTWDcCd3Q.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/31GIcUUcdQPRkVtmdqgQWJMhXj1.jpg"
   },
@@ -113,15 +127,17 @@
     "title": "Altered Carbon",
     "status": "Terminée",
     "rating": 16,
-    "avgRating": 15.66,
+    "avgRating": 15.65,
     "episodesWatched": 18,
     "episodes": 18,
+    "watchMinutes": 969,
     "releaseYear": 2018,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/x3nu0gtOWl10sGLCi5LlHuR1WYC.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/A6I3M4MIA2Pi2gS6vGdg2eVlVXT.jpg"
   },
@@ -132,26 +148,30 @@
     "avgRating": 16.22,
     "episodesWatched": 24,
     "episodes": 24,
+    "watchMinutes": 1208,
     "releaseYear": 2022,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Disney+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/uoopC4EHcTV7ISmwUBHINWQ5QOA.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/AmUhBqsxcenA75T9hV49G6ouO9c.jpg"
   },
   {
     "title": "Anne with an E",
     "status": "En cours",
-    "avgRating": 17.4,
+    "avgRating": 17.41,
     "episodesWatched": 1,
     "episodes": 27,
+    "watchMinutes": 88,
     "releaseYear": 2017,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "CBC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/AfdA3ATmvQnsVr6ZqbSWVmnHWlg.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/ywQtHG17LZhAFZyZtBflhtFMtJ7.jpg"
   },
@@ -162,12 +182,14 @@
     "avgRating": 18.11,
     "episodesWatched": 18,
     "episodes": 18,
+    "watchMinutes": 743,
     "releaseYear": 2021,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Animation",
       "Fantastique"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/ypS7R36Vjcn51zZsXsta5onnaCo.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/q8eejQcg1bAqImEV8jh8RtBD4uH.jpg"
   },
@@ -177,12 +199,14 @@
     "avgRating": 15.06,
     "episodesWatched": 94,
     "episodes": 170,
+    "watchMinutes": 3948,
     "releaseYear": 2012,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Action / Aventure"
     ],
+    "channel": "The CW",
     "posterUrl": "https://image.tmdb.org/t/p/w500/4DVLTc7oVCzHOSmZzlDHefCKyqq.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/wAFuDJfZJrnh6a1wf1Vt7PqYBvR.jpg"
   },
@@ -193,12 +217,14 @@
     "avgRating": 16.55,
     "episodesWatched": 3,
     "episodes": 48,
+    "watchMinutes": 66,
     "releaseYear": 2015,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action",
       "Comédie"
-    ]
+    ],
+    "channel": "Fuji TV"
   },
   {
     "title": "Astérix &amp; Obélix : Le Combat des Chefs",
@@ -207,12 +233,14 @@
     "avgRating": 16.45,
     "episodesWatched": 5,
     "episodes": 5,
+    "watchMinutes": 180,
     "releaseYear": 2025,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Animation",
       "Aventure"
-    ]
+    ],
+    "channel": "Netflix"
   },
   {
     "title": "Atlantis",
@@ -221,12 +249,14 @@
     "avgRating": 12.69,
     "episodesWatched": 26,
     "episodes": 26,
+    "watchMinutes": 1170,
     "releaseYear": 2013,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantasy"
     ],
+    "channel": "BBC One",
     "posterUrl": "https://image.tmdb.org/t/p/w500/bmdlBu7y0pZq3KZwtFFHzWPEsbP.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/nMdyDnHiRpJ2sfqk3JfUb3CvME4.jpg"
   },
@@ -237,12 +267,14 @@
     "avgRating": 16.51,
     "episodesWatched": 38,
     "episodes": 38,
+    "watchMinutes": 1184,
     "releaseYear": 2017,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Comédie dramatique"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/Ai8NXxLzW4QrM4uWGT0LzLyKAlT.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/1VSwy48zZE5EchorC3ra1entcj6.jpg"
   },
@@ -252,12 +284,14 @@
     "avgRating": 14.92,
     "episodesWatched": 0,
     "episodes": 40,
+    "watchMinutes": 0,
     "releaseYear": 2017,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "Sky Deutschland",
     "posterUrl": "https://image.tmdb.org/t/p/w500/jYShWyYllx9DhOS6d92mN2yVsbA.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/7hezSIqkDjhP7MNGFN9vRkyWgO9.jpg"
   },
@@ -265,14 +299,16 @@
     "title": "The Pacific",
     "titleVF": "Band of Brothers : L'enfer du Pacifique",
     "status": "Terminée",
-    "avgRating": 16.2,
+    "avgRating": 16.21,
     "episodesWatched": 10,
     "episodes": 10,
+    "watchMinutes": 520,
     "releaseYear": 2010,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/tmjca0r0Wam21385kHDjudhDgIW.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/nWfpVLgioDXQsAbfL6UJxYz6d3d.jpg"
   },
@@ -282,12 +318,14 @@
     "avgRating": 15.73,
     "episodesWatched": 1,
     "episodes": 50,
+    "watchMinutes": 48,
     "releaseYear": 2013,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "A&E",
     "posterUrl": "https://image.tmdb.org/t/p/w500/xXKcfZE7ulYxgjjYv51s0zDG69s.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/s3pypVJf05ELPCUA6jSW381nLwm.jpg"
   },
@@ -297,12 +335,14 @@
     "avgRating": 17.07,
     "episodesWatched": 7,
     "episodes": 75,
+    "watchMinutes": 393,
     "releaseYear": 2003,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
-    ]
+    ],
+    "channel": "Syfy"
   },
   {
     "title": "Belle et Sébastien",
@@ -310,25 +350,29 @@
     "avgRating": 15.13,
     "episodesWatched": 13,
     "episodes": 13,
+    "watchMinutes": 338,
     "releaseYear": 1965,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "ORTF",
     "posterUrl": "https://image.tmdb.org/t/p/w500/8MrgJHEbYfaabSaZVOHp2u7ogBh.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/r33KxSZYYsStNKNQo2JO3zUwvhq.jpg"
   },
   {
     "title": "Big Little Lies",
     "status": "Abandonnée",
-    "avgRating": 16.45,
+    "avgRating": 16.44,
     "episodesWatched": 1,
     "episodes": 14,
+    "watchMinutes": 49,
     "releaseYear": 2017,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/aScGYfv4DJMVSkJP7QN5FaZtQdC.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/8Wo2Pqjxn7Xmd7p2dxRMIJtyMV7.jpg"
   },
@@ -338,12 +382,14 @@
     "avgRating": 14.76,
     "episodesWatched": 12,
     "episodes": 12,
+    "watchMinutes": 507,
     "releaseYear": 2020,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/l3tB2TtMXKzqE4MTCGe9wIHbpW.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/3N85J8xXehqLp17P9zCImgOf0u1.jpg"
   },
@@ -353,26 +399,30 @@
     "avgRating": 16.81,
     "episodesWatched": 28,
     "episodes": 34,
+    "watchMinutes": 1683,
     "releaseYear": 2011,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama"
     ],
+    "channel": "E4",
     "posterUrl": "https://image.tmdb.org/t/p/w500/9acfIYfBuB4GFVROipM9YrqxsXd.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/dg3OindVAGZBjlT3xYKqIAdukPL.jpg"
   },
   {
     "title": "Blue Lock",
     "status": "À commencer",
-    "avgRating": 15.71,
+    "avgRating": 15.7,
     "episodesWatched": 0,
     "episodes": 38,
+    "watchMinutes": 0,
     "releaseYear": 2022,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Sport",
       "Tranche de vie"
     ],
+    "channel": "BS11",
     "posterUrl": "https://image.tmdb.org/t/p/w500/9aICTTHECyRwB2pBHm3rAj1SgGg.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/seMRyWVwIVBWbC9xaMzDMZJ8fUH.jpg"
   },
@@ -382,12 +432,14 @@
     "avgRating": 16.08,
     "episodesWatched": 6,
     "episodes": 6,
+    "watchMinutes": 360,
     "releaseYear": 2018,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "BBC One",
     "posterUrl": "https://image.tmdb.org/t/p/w500/5DUJTrHTRLHLCKWriPhdusQogAv.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/tvYf5SOIgAumuVoYn2eYKlotAbf.jpg"
   },
@@ -397,12 +449,14 @@
     "avgRating": 15.7,
     "episodesWatched": 43,
     "episodes": 246,
+    "watchMinutes": 1806,
     "releaseYear": 2005,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "FOX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/jY8jLmNzWEsnHlTuI5FSzAb1ouo.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/4AXxajuAz9tHAOe6h5zDg8z1X2s.jpg"
   },
@@ -412,27 +466,32 @@
     "avgRating": 17.68,
     "episodesWatched": 2,
     "episodes": 62,
+    "watchMinutes": 106,
     "releaseYear": 2008,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "AMC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/hVVxgGZFR3JaXmkstnG1IR9Qbt6.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/tsRy63Mu5cu8etL1X7ZLyf7UP1M.jpg"
   },
   {
     "title": "Broadchurch",
     "status": "Terminée",
+    "rating": 18,
     "avgRating": 17.04,
     "episodesWatched": 24,
     "episodes": 24,
+    "watchMinutes": 1109,
     "releaseYear": 2013,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "ITV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/2NhBFUTg5KVBmGwafxtLwVdsqrr.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/66ieYewiusGZsUAbJGuefdo1GpS.jpg"
   },
@@ -442,26 +501,30 @@
     "avgRating": 15.38,
     "episodesWatched": 5,
     "episodes": 5,
+    "watchMinutes": 68,
     "releaseYear": 2016,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action & Aventure",
       "Fantastique & Mythe"
     ],
+    "channel": "Web série",
     "posterUrl": "https://image.tmdb.org/t/p/w500/oBnVTXHvlVXpfHE5Lp0tzNxMDwf.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/6mCyW0xDmM67CWApKVWFEVcsDgJ.jpg"
   },
   {
     "title": "Californication",
     "status": "Abandonnée",
-    "avgRating": 15.5,
+    "avgRating": 15.49,
     "episodesWatched": 12,
     "episodes": 84,
+    "watchMinutes": 324,
     "releaseYear": 2007,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie"
     ],
+    "channel": "Showtime",
     "posterUrl": "https://image.tmdb.org/t/p/w500/6mxF22FeS3AfGMPxPRGihBIOBYh.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/9o9SS26mUY4cp4iSFk7iwBeAQuP.jpg"
   },
@@ -471,25 +534,29 @@
     "avgRating": 16.64,
     "episodesWatched": 31,
     "episodes": 91,
+    "watchMinutes": 744,
     "releaseYear": 2018,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Action & Aventure",
       "Sport"
-    ]
+    ],
+    "channel": "TV Tokyo"
   },
   {
     "title": "Carnival Row",
     "status": "En cours",
-    "avgRating": 15.83,
+    "avgRating": 15.82,
     "episodesWatched": 13,
     "episodes": 18,
+    "watchMinutes": 724,
     "releaseYear": 2019,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantasy"
     ],
+    "channel": "Prime Video (Amazon)",
     "posterUrl": "https://image.tmdb.org/t/p/w500/jyhxT10e2z9IDsKoIQDKhyxSQJt.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/7gfLuaqVBdtNxKIxp9uc8sOUlQg.jpg"
   },
@@ -497,14 +564,16 @@
     "title": "Chernobyl",
     "status": "Terminée",
     "rating": 18,
-    "avgRating": 17.78,
+    "avgRating": 17.79,
     "episodesWatched": 5,
     "episodes": 5,
+    "watchMinutes": 315,
     "releaseYear": 2019,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/hlLXt2tOPT6RRnjiUmoxyG1LTFi.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/3URK0z9PzpVNJrGE7XOuyy6KFzk.jpg"
   },
@@ -514,12 +583,14 @@
     "avgRating": 14.71,
     "episodesWatched": 11,
     "episodes": 24,
+    "watchMinutes": 510,
     "releaseYear": 2007,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Historique"
     ],
+    "channel": "France 2",
     "posterUrl": "https://image.tmdb.org/t/p/w500/hyFbiFPX1zx1Uru18T98fwtikJj.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/rF5mZJDN95VmOaYFZrgDXXNmYIW.jpg"
   },
@@ -529,11 +600,13 @@
     "avgRating": 16.39,
     "episodesWatched": 20,
     "episodes": 91,
+    "watchMinutes": 840,
     "releaseYear": 2007,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie"
     ],
+    "channel": "NBC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/vEZvGVVMjk1TRs59nfypTI5lAXj.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/cFCDlwg7zUSn4V5C9blmnHmQTgm.jpg"
   },
@@ -541,15 +614,17 @@
     "title": "Clem",
     "status": "En attente",
     "rating": 16,
-    "avgRating": 15.28,
+    "avgRating": 15.27,
     "episodesWatched": 45,
     "episodes": 73,
+    "watchMinutes": 3314,
     "releaseYear": 2010,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Comédie dramatique"
     ],
+    "channel": "TF1",
     "posterUrl": "https://image.tmdb.org/t/p/w500/c6Ixh6NsU89VU3T4ydKcn6Dzn44.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/q3gOB21ep7Pss8q2AsaH2b5lTR5.jpg"
   },
@@ -559,12 +634,14 @@
     "avgRating": 15.5,
     "episodesWatched": 2,
     "episodes": 2,
+    "watchMinutes": 170,
     "releaseYear": 1999,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Historique"
     ],
+    "channel": "Hallmark Channel",
     "posterUrl": "https://image.tmdb.org/t/p/w500/nPyfLmH0TGsVxeoegAuLoaYVZXI.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/iup4gCREJAsJgFis3I6ir2d0Mwu.jpg"
   },
@@ -575,12 +652,14 @@
     "avgRating": 18.43,
     "episodesWatched": 2,
     "episodes": 13,
+    "watchMinutes": 86,
     "releaseYear": 2014,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Documentaire",
       "Science"
     ],
+    "channel": "FOX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/aBfrU3NiTk2VSUw0QKmyoP2tIFy.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/2Nwbv0hrN8sThLvgooShcPqmFrO.jpg"
   },
@@ -588,15 +667,17 @@
     "title": "Cyberpunk: Edgerunners",
     "status": "À jour",
     "rating": 16,
-    "avgRating": 16.41,
+    "avgRating": 16.4,
     "episodesWatched": 10,
     "episodes": 10,
+    "watchMinutes": 243,
     "releaseYear": 2022,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Action",
       "Science-Fiction"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/74Oo4hRy9xadpDZGqsWu2XqoNje.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/bRE6zX4iOAejLOQCHryoV5WNu8G.jpg"
   },
@@ -607,12 +688,14 @@
     "avgRating": 16.62,
     "episodesWatched": 12,
     "episodes": 12,
+    "watchMinutes": 622,
     "releaseYear": 2023,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "Canal+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/vNPfbjfWn0VatpFUwd2QHtUMPad.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/vXxHdhthGcbyI9ldu4uCEL8OuYV.jpg"
   },
@@ -622,25 +705,29 @@
     "avgRating": 13.78,
     "episodesWatched": 40,
     "episodes": 40,
+    "watchMinutes": 1693,
     "releaseYear": 2012,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Soap"
-    ]
+    ],
+    "channel": "TNT"
   },
   {
     "title": "Dandadan",
     "status": "En cours",
-    "avgRating": 16.58,
+    "avgRating": 16.59,
     "episodesWatched": 2,
     "episodes": 24,
+    "watchMinutes": 48,
     "releaseYear": 2024,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Comédie",
       "Horreur"
     ],
+    "channel": "AbemaTV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/dse3OM0apuA6HZt4gznRMmUirM3.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/uNTrRKIOyKYISthoeizghtXPEOK.jpg"
   },
@@ -651,12 +738,14 @@
     "avgRating": 16.09,
     "episodesWatched": 3,
     "episodes": 3,
+    "watchMinutes": 157,
     "releaseYear": 2019,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Documentaire",
       "Investigation"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/5RIVJnpIkPt90EwJQwPzqS1UTPG.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/e8Rla3XzYcY6A1fIYn6kbrIU674.jpg"
   },
@@ -668,26 +757,30 @@
     "avgRating": 17.41,
     "episodesWatched": 4,
     "episodes": 4,
+    "watchMinutes": 296,
     "releaseYear": 2019,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/wARtDgBwhs3jNiQdIVaKMirpSIi.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/5IIg0PhE764qVuKICgmSAE0Jotx.jpg"
   },
   {
     "title": "Dark",
     "status": "Abandonnée",
-    "avgRating": 16.41,
+    "avgRating": 16.4,
     "episodesWatched": 4,
     "episodes": 26,
+    "watchMinutes": 190,
     "releaseYear": 2017,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/vbG0zu0lIVDZZaUVOZuBIE9kno3.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/3jDXL4Xvj3AzDOF6UH1xeyHW8MH.jpg"
   },
@@ -697,12 +790,14 @@
     "avgRating": 14.23,
     "episodesWatched": 6,
     "episodes": 110,
+    "watchMinutes": 254,
     "releaseYear": 2016,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantastique"
     ],
+    "channel": "The CW",
     "posterUrl": "https://image.tmdb.org/t/p/w500/tAwfCIwA2BHR4H6j5hENvI3dbAl.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/be8fOACxsVyaX6lZLlQOWNqF0g2.jpg"
   },
@@ -710,15 +805,17 @@
     "title": "Death Note (2006)",
     "status": "Terminée",
     "rating": 19,
-    "avgRating": 17.16,
+    "avgRating": 17.17,
     "episodesWatched": 37,
     "episodes": 37,
+    "watchMinutes": 851,
     "releaseYear": 2006,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Énigme & Policier",
       "Fantastique & Mythe"
     ],
+    "channel": "NTV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/chnG4pYo89weaBjXHJWvW68E35B.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/koBa94NxTaGe2FoDzlXMuJptsv0.jpg"
   },
@@ -729,12 +826,14 @@
     "avgRating": 17.12,
     "episodesWatched": 63,
     "episodes": 63,
+    "watchMinutes": 1700,
     "releaseYear": 2019,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action & Aventure",
       "Fantastique & Mythe"
     ],
+    "channel": "Tokyo MX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/7Uj6vqmznWQ3w3hpQ1eIY9mMyMw.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/3GQKYh6Trm8pxd2AypovoYQf4Ay.jpg"
   },
@@ -744,11 +843,13 @@
     "avgRating": 16.23,
     "episodesWatched": 1,
     "episodes": 8,
+    "watchMinutes": 69,
     "releaseYear": 2025,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "France 2",
     "posterUrl": "https://image.tmdb.org/t/p/w500/ioVUaGee4QgIlaCGvaB8LeBaF0K.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/hbTbwAkCTTETCHOuofopLJ2wp3w.jpg"
   },
@@ -759,12 +860,14 @@
     "avgRating": 14.73,
     "episodesWatched": 6,
     "episodes": 50,
+    "watchMinutes": 179,
     "releaseYear": 2018,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Animation",
       "Comédie"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/gHiJR0QFwj6zkxC4aOIFD5iekB0.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/hHEqDPbO6z4Xje5tOf3Wm1mdMtI.jpg"
   },
@@ -775,12 +878,14 @@
     "avgRating": 16.22,
     "episodesWatched": 180,
     "episodes": 180,
+    "watchMinutes": 7560,
     "releaseYear": 2004,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Comédie dramatique"
     ],
+    "channel": "ABC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/zLqW1yC10RyjG7qgxJRPRqSzbY6.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/hW9NOFs8xUevb90KQYHhbifp9Po.jpg"
   },
@@ -791,12 +896,14 @@
     "avgRating": 15.47,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 389,
     "releaseYear": 2020,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "FX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/uv63iNWOh69bSJYJQZjiX6n8B3m.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/5yf5yfogIxhHhDU7F2Nuk1BsTYQ.jpg"
   },
@@ -806,12 +913,14 @@
     "avgRating": 16.32,
     "episodesWatched": 5,
     "episodes": 96,
+    "watchMinutes": 270,
     "releaseYear": 2006,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "Showtime",
     "posterUrl": "https://image.tmdb.org/t/p/w500/ptQtKhlJYtPlp5ecvJXvIGyjCjf.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/aSGSxGMTP893DPMCvMl9AdnEICE.jpg"
   },
@@ -823,12 +932,14 @@
     "avgRating": 15.02,
     "episodesWatched": 53,
     "episodes": 104,
+    "watchMinutes": 1219,
     "releaseYear": 1999,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Aventure",
       "Fantastique & Mythe"
     ],
+    "channel": "Fuji TV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/AlPYAJYkSfvVYAXK1a3gZqpWwda.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/miyvCeJLTg3iLl2yZxfmrtNxhcP.jpg"
   },
@@ -838,12 +949,14 @@
     "avgRating": 13.79,
     "episodesWatched": 3,
     "episodes": 3,
+    "watchMinutes": 270,
     "releaseYear": 2002,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantastique"
     ],
+    "channel": "ABC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/4tHOStqnM1ZBN9KTFLd1XdOiuIj.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/vQzJ9KvRzM1lJeUufBXcf9h7HDO.jpg"
   },
@@ -851,15 +964,17 @@
     "title": "Disclaimer*",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 15.08,
+    "avgRating": 15.1,
     "episodesWatched": 7,
     "episodes": 7,
+    "watchMinutes": 344,
     "releaseYear": 2024,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/dLugBMfbBbLENzfIGzM9Jcu2w8L.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/j7HEQlQoWA2weOR7jS1h5YbsEvM.jpg"
   },
@@ -870,12 +985,14 @@
     "avgRating": 16.08,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 400,
     "releaseYear": 2015,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "France 2",
     "posterUrl": "https://image.tmdb.org/t/p/w500/7QagBOtjh0Gb8g0LyZCKWc6oEHz.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/9Zaqt2jwNFH3lhrFLvvTF31lCds.jpg"
   },
@@ -885,12 +1002,14 @@
     "avgRating": 17.64,
     "episodesWatched": 6,
     "episodes": 6,
+    "watchMinutes": 244,
     "releaseYear": 2024,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Documentaire",
       "Musical"
     ],
+    "channel": "Arte.TV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/hquWQzp0Ac8pzzS5ksKgi7fmXYt.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/aGSRCMpSdR7QKOQXR35yl1g4Eq9.jpg"
   },
@@ -898,14 +1017,16 @@
     "title": "Dr. Quinn, Medicine Woman",
     "titleVF": "Docteur Quinn, femme médecin",
     "status": "Terminée",
-    "avgRating": 14.52,
+    "avgRating": 14.53,
     "episodesWatched": 149,
     "episodes": 149,
+    "watchMinutes": 6306,
     "releaseYear": 1993,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "CBS",
     "posterUrl": "https://image.tmdb.org/t/p/w500/5Vs0GTId7ETwp0g8zj2EcWJaPQq.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/tXJf6radpACrCQPYIU0ARFsVV7z.jpg"
   },
@@ -915,12 +1036,14 @@
     "avgRating": 17.53,
     "episodesWatched": 182,
     "episodes": 182,
+    "watchMinutes": 8622,
     "releaseYear": 2005,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "BBC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/kPDUsupiSRloYCwhz0JlN52VlPW.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/tPwpc9Uo1Fly50urDxfGWWk7H77.jpg"
   },
@@ -930,12 +1053,14 @@
     "avgRating": 15.64,
     "episodesWatched": 6,
     "episodes": 22,
+    "watchMinutes": 280,
     "releaseYear": 2023,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "BBC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/hpDopWiJ3JjC5UwgU83lJAs0tXL.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/ha5OhvQvoBIAsba3lJgdxlLVSwG.jpg"
   },
@@ -946,12 +1071,14 @@
     "avgRating": 13.78,
     "episodesWatched": 6,
     "episodes": 6,
+    "watchMinutes": 540,
     "releaseYear": 2005,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "TF1",
     "posterUrl": "https://image.tmdb.org/t/p/w500/ofoA0rotaOFUUkeUBghwF2Rwkv5.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/vgpR5wMafo4QDtwfC3rxS7f3VwQ.jpg"
   },
@@ -962,12 +1089,14 @@
     "avgRating": 17.34,
     "episodesWatched": 52,
     "episodes": 52,
+    "watchMinutes": 2938,
     "releaseYear": 2010,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Historique"
     ],
+    "channel": "iTV1",
     "posterUrl": "https://image.tmdb.org/t/p/w500/7HgDYRYjym4BwbhKaqTQq771SKb.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/1wgqpYNtQDn7TDkyQ2jsIAqxorW.jpg"
   },
@@ -975,15 +1104,17 @@
     "title": "House M.D.",
     "titleVF": "Dr House",
     "status": "Abandonnée",
-    "avgRating": 16.44,
+    "avgRating": 16.45,
     "episodesWatched": 46,
     "episodes": 177,
+    "watchMinutes": 1932,
     "releaseYear": 2004,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Médicale"
     ],
+    "channel": "FOX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/2Bw00vWztWFeTFpWTuPbUMkyDCA.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/r0Q6eeN9L1ORL9QsV0Sg8ZV3vnv.jpg"
   },
@@ -994,27 +1125,31 @@
     "avgRating": 16.18,
     "episodesWatched": 18,
     "episodes": 167,
+    "watchMinutes": 450,
     "releaseYear": 2009,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Combat & Arts Mart.",
       "Action"
     ],
+    "channel": "Fuji TV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/bvvGeZ5thNmzli9ayEP6xkXSfij.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/oz5zbMBKCUsb7hsbjdxvK8yagPD.jpg"
   },
   {
     "title": "Dune: Prophecy",
     "status": "En cours",
-    "avgRating": 15.39,
+    "avgRating": 15.4,
     "episodesWatched": 0,
     "episodes": 6,
+    "watchMinutes": 0,
     "releaseYear": 2024,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/vVhx4SP0eyDOmYRJdUNIQ24fGL5.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/lBoHzOgft2QfpjkVVvZCqeM4ttT.jpg"
   },
@@ -1026,11 +1161,13 @@
     "avgRating": 16.25,
     "episodesWatched": 7,
     "episodes": 7,
+    "watchMinutes": 441,
     "releaseYear": 2021,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/45Oz1v9rkwsJQBkNetvie5Ne3uR.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/7X1IGIl1JMJ9YFzJymCVoqZbvTR.jpg"
   },
@@ -1040,27 +1177,31 @@
     "avgRating": 15.3,
     "episodesWatched": 1,
     "episodes": 154,
+    "watchMinutes": 42,
     "releaseYear": 2012,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "CBS",
     "posterUrl": "https://image.tmdb.org/t/p/w500/c08s5w1pSMddZ1esPGaCKTmg72B.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/7sJrNKwzyJWnFPFpDL9wnZ859LZ.jpg"
   },
   {
     "title": "Élite",
     "status": "En attente",
-    "avgRating": 14.6,
+    "avgRating": 14.59,
     "episodesWatched": 4,
     "episodes": 64,
+    "watchMinutes": 204,
     "releaseYear": 2018,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/38B5Bh1r44RpnMvdTO2THAGaDJW.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/uU6YW3N11qECNfz18LNGAGg3Uir.jpg"
   },
@@ -1071,12 +1212,14 @@
     "avgRating": 16.51,
     "episodesWatched": 86,
     "episodes": 86,
+    "watchMinutes": 4531,
     "releaseYear": 2005,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "Canal+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/sQbPLPZaa5gcuPZCJbzT83SPoa3.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/gQr75UrfUsu799Xwzic1TYtZGTD.jpg"
   },
@@ -1086,13 +1229,15 @@
     "status": "En attente",
     "avgRating": 16.61,
     "episodesWatched": 2,
-    "episodes": 354,
+    "episodes": 357,
+    "watchMinutes": 84,
     "releaseYear": 2005,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "CBS",
     "posterUrl": "https://image.tmdb.org/t/p/w500/kRgsJq9dMz7bIciUEqwbmzFBwSL.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/tUtXfyVy54BY7eJnRtI8Xnmr1ZL.jpg"
   },
@@ -1100,29 +1245,34 @@
     "title": "Éternelle",
     "status": "Terminée",
     "rating": 15,
-    "avgRating": 13.35,
+    "avgRating": 13.61,
     "episodesWatched": 6,
     "episodes": 6,
+    "watchMinutes": 306,
     "releaseYear": 2009,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantastique"
     ],
+    "channel": "M6",
     "posterUrl": "https://image.tmdb.org/t/p/w500/wIDqrl6HvGnBuFFliqXp2doC0bQ.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/fjWqiNe0mrn1BxcJcbSuciuX1h3.jpg"
   },
   {
     "title": "Euphoria",
-    "status": "En cours",
-    "avgRating": 16.13,
-    "episodesWatched": 22,
-    "episodes": 23,
+    "status": "Terminée",
+    "rating": 17,
+    "avgRating": 15.95,
+    "episodesWatched": 26,
+    "episodes": 26,
+    "watchMinutes": 1569,
     "releaseYear": 2019,
-    "airingStatus": "Diffusion actuelle",
+    "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/y2Oydc1hoN8aV1ObovRoweL5msE.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/mez2Z3WqlPKNXpi7mWoiiE5guE9.jpg"
   },
@@ -1132,12 +1282,14 @@
     "avgRating": 16.63,
     "episodesWatched": 10,
     "episodes": 328,
+    "watchMinutes": 250,
     "releaseYear": 2009,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action & Aventure",
       "Fantastique & Mythe"
     ],
+    "channel": "TV Tokyo",
     "posterUrl": "https://image.tmdb.org/t/p/w500/iuRJ2QRRNMIu2VdEIuLIaJvt1PZ.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/lT8CUfNOkBQW9oPda2T5UPzVquM.jpg"
   },
@@ -1148,26 +1300,30 @@
     "avgRating": 16.11,
     "episodesWatched": 70,
     "episodes": 70,
+    "watchMinutes": 3531,
     "releaseYear": 2007,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie"
     ],
+    "channel": "France 2",
     "posterUrl": "https://image.tmdb.org/t/p/w500/kbhDlWULVibcsiNLYDBVXnpINfW.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/qVmypVCKbbbwlSK7zMjiW9KxPOd.jpg"
   },
   {
     "title": "Fallout",
     "status": "En cours",
-    "avgRating": 15.98,
+    "avgRating": 15.95,
     "episodesWatched": 2,
     "episodes": 16,
+    "watchMinutes": 139,
     "releaseYear": 2024,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Prime Video (Amazon)",
     "posterUrl": "https://image.tmdb.org/t/p/w500/eyG7Rb6r4oIYQR07qUVq0gJ2gDj.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/cIgHBLTMbcIkS0yvIrUUVVKLdOz.jpg"
   },
@@ -1177,11 +1333,13 @@
     "avgRating": 16.13,
     "episodesWatched": 46,
     "episodes": 96,
+    "watchMinutes": 2778,
     "releaseYear": 2001,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "France 3",
     "posterUrl": "https://image.tmdb.org/t/p/w500/oRIgRMONJrKnozX6g0UVdORjhwc.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/xdYTTWrQykBfT3Z8EMuV8BP6P3Z.jpg"
   },
@@ -1193,12 +1351,14 @@
     "avgRating": 14.2,
     "episodesWatched": 160,
     "episodes": 160,
+    "watchMinutes": 6720,
     "releaseYear": 2002,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "CBS",
     "posterUrl": "https://image.tmdb.org/t/p/w500/nb8Je5893l6SpdRGBn68B2XABol.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/9PBVvl5o88WyKoynCYsws9jkGAl.jpg"
   },
@@ -1209,12 +1369,14 @@
     "avgRating": 15.37,
     "episodesWatched": 49,
     "episodes": 184,
+    "watchMinutes": 2058,
     "releaseYear": 2014,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantastique"
     ],
+    "channel": "The CW",
     "posterUrl": "https://image.tmdb.org/t/p/w500/Hrta0iq8KEQbdOpSnki2gUMowk.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/gFkHcIh7iE5G0oVOgpmY8ONQjhl.jpg"
   },
@@ -1225,26 +1387,30 @@
     "avgRating": 16.79,
     "episodesWatched": 12,
     "episodes": 12,
+    "watchMinutes": 300,
     "releaseYear": 2016,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie"
     ],
+    "channel": "BBC Three",
     "posterUrl": "https://image.tmdb.org/t/p/w500/27vEYsRKa3eAniwmoccOoluEXQ1.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/hXdQ4MWsEOX6qg6VydKrLb3YJ4g.jpg"
   },
   {
     "title": "For All Mankind",
     "status": "En cours",
-    "avgRating": 15.83,
-    "episodesWatched": 40,
-    "episodes": 47,
+    "avgRating": 15.76,
+    "episodesWatched": 42,
+    "episodes": 50,
+    "watchMinutes": 2522,
     "releaseYear": 2019,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/fwU65YHkNbXpyNVtxGSpDOScMW1.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/9OQ5BIITkJwRJo9JA6AlCfJIGBQ.jpg"
   },
@@ -1254,12 +1420,14 @@
     "avgRating": 15.25,
     "episodesWatched": 30,
     "episodes": 30,
+    "watchMinutes": 1589,
     "releaseYear": 2021,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/zy70mjUsPPjQredAXWuo9VWVGoE.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/7NNNXo0qG2SqH4JoG7GPvJ2hzes.jpg"
   },
@@ -1269,12 +1437,14 @@
     "avgRating": 15.55,
     "episodesWatched": 32,
     "episodes": 41,
+    "watchMinutes": 740,
     "releaseYear": 2013,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Sport",
       "Comédie"
     ],
+    "channel": "Tokyo MX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/owoZ7XlWMqnahtkIaQjWXPIHt3U.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/cW4UIp68lE64xlChC9ckjp5DVjQ.jpg"
   },
@@ -1285,12 +1455,14 @@
     "avgRating": 17.32,
     "episodesWatched": 10,
     "episodes": 10,
+    "watchMinutes": 594,
     "releaseYear": 2001,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Guerre"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/7w2zhfN03Ff1pOgnUo9tFu0qELt.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/2yDV0xLyqW88dn5qE7YCRnoYmfy.jpg"
   },
@@ -1300,12 +1472,14 @@
     "avgRating": 17.5,
     "episodesWatched": 26,
     "episodes": 236,
+    "watchMinutes": 572,
     "releaseYear": 1994,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Sitcom"
     ],
+    "channel": "NBC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/2koX1xLkpTQM4IZebYvKysFW1Nh.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/m3Jev59mJLyUp5bXhY5SVfIBZI0.jpg"
   },
@@ -1313,15 +1487,17 @@
     "title": "Sôsô no Frieren",
     "titleVF": "Frieren: Beyond Journey's End",
     "status": "En cours",
-    "avgRating": 17.58,
+    "avgRating": 17.57,
     "episodesWatched": 0,
     "episodes": 38,
+    "watchMinutes": 0,
     "releaseYear": 2023,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Action & Aventure",
       "Fantastique & Mythe"
     ],
+    "channel": "NTV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/j8K7vgF3Kp5T6EwJvez9B4it6CB.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/rBOnrVlck7BIlGeWVlzYiZeg4l2.jpg"
   },
@@ -1331,12 +1507,14 @@
     "avgRating": 16.42,
     "episodesWatched": 45,
     "episodes": 100,
+    "watchMinutes": 2080,
     "releaseYear": 2008,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "FOX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/sY9hg5dLJ93RJOyKEiu1nAtBRND.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/eksjqZGaGUtSZJD6nWQPsqzDMn0.jpg"
   },
@@ -1348,12 +1526,14 @@
     "avgRating": 17.89,
     "episodesWatched": 64,
     "episodes": 64,
+    "watchMinutes": 1600,
     "releaseYear": 2009,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action & Aventure",
       "Fantastique & Mythe"
-    ]
+    ],
+    "channel": "TBS (JP)"
   },
   {
     "title": "Kakegurui (2017)",
@@ -1362,12 +1542,14 @@
     "avgRating": 14.88,
     "episodesWatched": 2,
     "episodes": 24,
+    "watchMinutes": 48,
     "releaseYear": 2017,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drame",
       "Horreur"
-    ]
+    ],
+    "channel": "Tokyo MX"
   },
   {
     "title": "Game of Thrones",
@@ -1377,27 +1559,31 @@
     "avgRating": 17.84,
     "episodesWatched": 73,
     "episodes": 73,
+    "watchMinutes": 3987,
     "releaseYear": 2011,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantasy"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/eRMfekBOnwyE9G0ffyEJIBOjX2n.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/2OMB0ynKlyIenMJWI2Dy9IWT4c.jpg"
   },
   {
     "title": "Gangs of London",
     "status": "En cours",
-    "avgRating": 16.28,
+    "avgRating": 16.27,
     "episodesWatched": 9,
     "episodes": 25,
+    "watchMinutes": 546,
     "releaseYear": 2020,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "Sky Atlantic",
     "posterUrl": "https://image.tmdb.org/t/p/w500/ovyJ246qOfs6XEmQOOasswYuPHC.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/9aJ6KwLASA38WzdMRVjk7ILpuTv.jpg"
   },
@@ -1407,12 +1593,14 @@
     "avgRating": 14.94,
     "episodesWatched": 9,
     "episodes": 121,
+    "watchMinutes": 384,
     "releaseYear": 2009,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Musical"
     ],
+    "channel": "FOX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/62T2vsZYTje3KhdCsiLR1K1RFJW.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/1orqm4lN8VtYGlxZ1g12ip6iwmG.jpg"
   },
@@ -1422,27 +1610,31 @@
     "avgRating": 16.96,
     "episodesWatched": 45,
     "episodes": 58,
+    "watchMinutes": 2340,
     "releaseYear": 2014,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "Sky Italia",
     "posterUrl": "https://image.tmdb.org/t/p/w500/6DkrJ6V0vf6zK4bUv4z8a2VGgu8.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/qVyqPzx6wD3Wm3HD4iy3PrJYxGX.jpg"
   },
   {
     "title": "Gotham",
     "status": "En cours",
-    "avgRating": 15.32,
+    "avgRating": 15.31,
     "episodesWatched": 67,
     "episodes": 100,
+    "watchMinutes": 2886,
     "releaseYear": 2014,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Action / Aventure"
     ],
+    "channel": "FOX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/qWZDd8X79Caky51mpS35xFtgE3p.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/rbDFI2I1nMyJtX4Y3jJ4H1QRdRX.jpg"
   },
@@ -1453,11 +1645,13 @@
     "avgRating": 16.16,
     "episodesWatched": 12,
     "episodes": 13,
+    "watchMinutes": 660,
     "releaseYear": 1998,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Youth"
     ],
+    "channel": "Fuji TV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/b6wKiR4tZKWhVDymeB0A00bYvlX.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/6az9NYkdUWsxhpDxugCe2HTgPFZ.jpg"
   },
@@ -1467,26 +1661,30 @@
     "avgRating": 16.5,
     "episodesWatched": 21,
     "episodes": 29,
+    "watchMinutes": 1223,
     "releaseYear": 2012,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Youth"
     ],
+    "channel": "Fuji TV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/lgWW84kKvQdlBT4NeOdkDt4npnU.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/bYaI5pEcBDdq0tPdGkIoVYoFhRK.jpg"
   },
   {
     "title": "Grey's Anatomy",
     "status": "En cours",
-    "avgRating": 16.23,
+    "avgRating": 16.22,
     "episodesWatched": 420,
     "episodes": 466,
+    "watchMinutes": 17749,
     "releaseYear": 2005,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Médicale"
     ],
+    "channel": "ABC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/1OA3uVJ7anIEmroz6hVeGZSqbWA.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/jP0Rhj9OTPDAwQlHQwOLFDdeE8t.jpg"
   },
@@ -1498,12 +1696,14 @@
     "avgRating": 17.7,
     "episodesWatched": 43,
     "episodes": 43,
+    "watchMinutes": 1075,
     "releaseYear": 1999,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Ecchi"
     ],
+    "channel": "Fuji TV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/5GHvM6IqxjpNLGMLmmROYP39yWG.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/pOhJoBPgw0GmwAO3O3YueZCJW2A.jpg"
   },
@@ -1514,12 +1714,14 @@
     "avgRating": 15.42,
     "episodesWatched": 71,
     "episodes": 71,
+    "watchMinutes": 1562,
     "releaseYear": 1998,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Sitcom"
     ],
+    "channel": "Canal+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/yhEHOWwwnz01HFlSNreMkLG5MVX.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/wQQfRsqA5RXcksxBgXmDv2cdAg8.jpg"
   },
@@ -1529,11 +1731,13 @@
     "avgRating": 16.61,
     "episodesWatched": 7,
     "episodes": 40,
+    "watchMinutes": 302,
     "releaseYear": 2014,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "AMC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/AtKo2gANo2QBgZN9ebTAa8hXnvv.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/o35U5p9J3eDsqrgfCpYUOO2lsuG.jpg"
   },
@@ -1543,11 +1747,13 @@
     "avgRating": 16.57,
     "episodesWatched": 2,
     "episodes": 18,
+    "watchMinutes": 115,
     "releaseYear": 2014,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "BBC One",
     "posterUrl": "https://image.tmdb.org/t/p/w500/xZK5iQSrn2mouZEk2PwyLPCwa4u.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/zG1K7njAaHcLElUKqNRqmVEbXdh.jpg"
   },
@@ -1556,26 +1762,30 @@
     "status": "À venir",
     "episodesWatched": 0,
     "episodes": 0,
+    "watchMinutes": 0,
     "releaseYear": 2026,
     "airingStatus": "Diffusion prochaine",
     "genres": [
       "Drama",
       "Fantastique"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/4NqpRFYM63YrBhWhdQC1rIM3836.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/8hyCBtjkpznUfpId4pQeOsznbOd.jpg"
   },
   {
     "title": "Hero Corp",
     "status": "Abandonnée",
-    "avgRating": 15.47,
+    "avgRating": 15.45,
     "episodesWatched": 2,
     "episodes": 93,
+    "watchMinutes": 52,
     "releaseYear": 2008,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie"
     ],
+    "channel": "France 4",
     "posterUrl": "https://image.tmdb.org/t/p/w500/kntWwFhs7m4ldDI2pI5IAb1d1PO.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/zIEI4clUpWRJ3H21eiLFFJzhabO.jpg"
   },
@@ -1586,12 +1796,14 @@
     "avgRating": 14.79,
     "episodesWatched": 68,
     "episodes": 78,
+    "watchMinutes": 2867,
     "releaseYear": 2006,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantastique"
     ],
+    "channel": "NBC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/591yxVVms1W2R54GXbumeCzoQhK.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/zoetbPF7jYY0jjY5js3x6r1QjSW.jpg"
   },
@@ -1601,12 +1813,14 @@
     "avgRating": 15.39,
     "episodesWatched": 1,
     "episodes": 53,
+    "watchMinutes": 25,
     "releaseYear": 2012,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action",
       "Ecchi"
     ],
+    "channel": "AT-X",
     "posterUrl": "https://image.tmdb.org/t/p/w500/yMYvz4vbKMIXb2IMYYi1GSlNaGx.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/u8QK47ttafn3iYox9o1dKyEEhcv.jpg"
   },
@@ -1618,12 +1832,14 @@
     "avgRating": 14.97,
     "episodesWatched": 12,
     "episodes": 13,
+    "watchMinutes": 300,
     "releaseYear": 2010,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Horreur",
       "Action"
     ],
+    "channel": "AT-X",
     "posterUrl": "https://image.tmdb.org/t/p/w500/bKRK0jDz9jccNcqus2LP5mIhA24.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/ivWNDYPxDMjc82ajeSPuyq70hu9.jpg"
   },
@@ -1634,12 +1850,14 @@
     "avgRating": 15.41,
     "episodesWatched": 3,
     "episodes": 6,
+    "watchMinutes": 132,
     "releaseYear": 2020,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Documentaire",
       "Culture"
-    ]
+    ],
+    "channel": "Netflix"
   },
   {
     "title": "H/JACK",
@@ -1648,12 +1866,14 @@
     "avgRating": 15.41,
     "episodesWatched": 7,
     "episodes": 15,
+    "watchMinutes": 331,
     "releaseYear": 2023,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/3QL5fgnSy5NJn1oZTwasGupFI5m.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/aRZ7k1M3AdjVv8n3Fi6cAkEdpYY.jpg"
   },
@@ -1665,12 +1885,14 @@
     "avgRating": 15.81,
     "episodesWatched": 23,
     "episodes": 23,
+    "watchMinutes": 1217,
     "releaseYear": 2019,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantasy"
     ],
+    "channel": "BBC One",
     "posterUrl": "https://image.tmdb.org/t/p/w500/yxkepbA5TFZkQ7ThRjbV08QXRCq.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/t8KjRqfOqNx14cHLwARjR08bjeb.jpg"
   },
@@ -1680,12 +1902,14 @@
     "avgRating": 14.88,
     "episodesWatched": 3,
     "episodes": 17,
+    "watchMinutes": 86,
     "releaseYear": 2018,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "Prime Video (Amazon)",
     "posterUrl": "https://image.tmdb.org/t/p/w500/6GTzd7ZeivgBOrIn45720nsq0TU.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/3XgM3Y6XfyVuKTqZYg4BEYyTuS7.jpg"
   },
@@ -1695,12 +1919,14 @@
     "avgRating": 16.02,
     "episodesWatched": 84,
     "episodes": 96,
+    "watchMinutes": 4405,
     "releaseYear": 2011,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "Showtime",
     "posterUrl": "https://image.tmdb.org/t/p/w500/6GAvS2e6VIRsms9FpVt33PsCoEW.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/391ixi0wVbFtFLQnOy8ZncWv2io.jpg"
   },
@@ -1711,27 +1937,31 @@
     "avgRating": 16.39,
     "episodesWatched": 73,
     "episodes": 73,
+    "watchMinutes": 3686,
     "releaseYear": 2013,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Politique"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/hKWxWjFwnMvkWQawbhvC0Y7ygQ8.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/A3bigAAa4u6EbDvmMpDc0GNIEtG.jpg"
   },
   {
     "title": "House of the Dragon",
     "status": "À jour",
-    "avgRating": 16.49,
+    "avgRating": 16.48,
     "episodesWatched": 18,
     "episodes": 18,
+    "watchMinutes": 1109,
     "releaseYear": 2022,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Fantasy"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/lP73xk4HGJ9CPxDWouzKzK6j82o.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/2xGcSLyTAzConiHAByWqhfLiatT.jpg"
   },
@@ -1741,12 +1971,14 @@
     "avgRating": 16.53,
     "episodesWatched": 27,
     "episodes": 208,
+    "watchMinutes": 594,
     "releaseYear": 2005,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Sitcom"
     ],
+    "channel": "CBS",
     "posterUrl": "https://image.tmdb.org/t/p/w500/e6PuvBDHqUrJ3dRI2co1G4WXVWf.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/3f8aW6vcYRP6mTZdgXm83BiuB9t.jpg"
   },
@@ -1756,27 +1988,31 @@
     "avgRating": 15.29,
     "episodesWatched": 8,
     "episodes": 24,
+    "watchMinutes": 369,
     "releaseYear": 2015,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "AMC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/iBjjSGgnjAQBSQGO9pYIh7Gp2PO.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/fS2AKTDK0VwZo7dq9sG38D9cuu.jpg"
   },
   {
     "title": "Hunter x Hunter (2011)",
     "status": "Abandonnée",
-    "avgRating": 17.28,
+    "avgRating": 17.26,
     "episodesWatched": 2,
     "episodes": 148,
+    "watchMinutes": 50,
     "releaseYear": 2011,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action & Aventure",
       "Combat & Arts Mart."
     ],
+    "channel": "NTV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/9WxfAQquTun9ATkV6iAeFHMkqxv.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/bFKKyCI89Xq98Gul8cGox8K3sZa.jpg"
   },
@@ -1786,12 +2022,14 @@
     "avgRating": 14.81,
     "episodesWatched": 5,
     "episodes": 20,
+    "watchMinutes": 245,
     "releaseYear": 2018,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "YouTube Red / YouTube Premium",
     "posterUrl": "https://image.tmdb.org/t/p/w500/sMZMj1gCDZA9eZzHpEmDMpQ0Iur.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/aBES9VQIw3YwPXhVw3XLZtK4Eeq.jpg"
   },
@@ -1803,11 +2041,13 @@
     "avgRating": 16.23,
     "episodesWatched": 52,
     "episodes": 127,
+    "watchMinutes": 1300,
     "releaseYear": 2008,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Sport"
     ],
+    "channel": "TV Tokyo",
     "posterUrl": "https://image.tmdb.org/t/p/w500/wGLKyYQfb06AU9vQbdRhBDAgn6t.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/zhtEYosjlYtNavbvImxcs36We4i.jpg"
   },
@@ -1818,12 +2058,14 @@
     "avgRating": 13.48,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 416,
     "releaseYear": 2012,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Historique"
     ],
+    "channel": "France 2",
     "posterUrl": "https://image.tmdb.org/t/p/w500/ih8xEwvktxJrJauVAo1PqLPqldB.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/hotW7VsdPRElD327K03G3UGQVPL.jpg"
   },
@@ -1833,12 +2075,14 @@
     "avgRating": 13.78,
     "episodesWatched": 10,
     "episodes": 10,
+    "watchMinutes": 520,
     "releaseYear": 2018,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
-    ]
+    ],
+    "channel": "TF1"
   },
   {
     "title": "It's a Sin",
@@ -1847,11 +2091,13 @@
     "avgRating": 16.91,
     "episodesWatched": 5,
     "episodes": 5,
+    "watchMinutes": 233,
     "releaseYear": 2021,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "Channel 4",
     "posterUrl": "https://image.tmdb.org/t/p/w500/tUaNS4b5TIiP1SwpHCYCbUoGpHG.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/pVkw6917LRh4mWkbDKe5sIMCzci.jpg"
   },
@@ -1862,12 +2108,14 @@
     "avgRating": 14.32,
     "episodesWatched": 1,
     "episodes": 12,
+    "watchMinutes": 31,
     "releaseYear": 2022,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Comédie romantique"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/ezztSUk7sAX9HZ5v0sPsZkOSUXs.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/jAp4HEecU2GCUkeDplt5OpWw8dM.jpg"
   },
@@ -1878,12 +2126,14 @@
     "avgRating": 14.36,
     "episodesWatched": 19,
     "episodes": 29,
+    "watchMinutes": 798,
     "releaseYear": 2006,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Action / Aventure"
-    ]
+    ],
+    "channel": "CBS"
   },
   {
     "title": "Jeux d'influence",
@@ -1891,12 +2141,14 @@
     "avgRating": 15.38,
     "episodesWatched": 0,
     "episodes": 12,
+    "watchMinutes": 0,
     "releaseYear": 2019,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "Arte",
     "posterUrl": "https://image.tmdb.org/t/p/w500/6ZPI2TI5cQasmQ9hwflO0J8cqwr.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/ezTrucJNP2FpyCf2S6M2lpPdWiT.jpg"
   },
@@ -1907,12 +2159,14 @@
     "avgRating": 17.84,
     "episodesWatched": 468,
     "episodes": 468,
+    "watchMinutes": 2014,
     "releaseYear": 2005,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Shortcom"
     ],
+    "channel": "M6",
     "posterUrl": "https://image.tmdb.org/t/p/w500/d6P4O0LzE4WFp4GnSkzauUTmC2P.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/1Tcv90k3MzWKsq1zJbxVlsT7YXr.jpg"
   },
@@ -1924,12 +2178,14 @@
     "avgRating": 16.94,
     "episodesWatched": 75,
     "episodes": 75,
+    "watchMinutes": 1875,
     "releaseYear": 2012,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Sport"
     ],
+    "channel": "MBS",
     "posterUrl": "https://image.tmdb.org/t/p/w500/fAzQrphU6I8jLwvVyU63XrIFIpt.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/fOyOP702oDeGyM2H4I8mQ5pdKne.jpg"
   },
@@ -1940,12 +2196,14 @@
     "avgRating": 14.21,
     "episodesWatched": 33,
     "episodes": 43,
+    "watchMinutes": 1386,
     "releaseYear": 2006,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantastique"
     ],
+    "channel": "ABC Family",
     "posterUrl": "https://image.tmdb.org/t/p/w500/4omwjf3HgGx4nZXcA0Avmd9bQny.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/gHZ0m4CVV64GROPLBy8iQOJy0Dr.jpg"
   },
@@ -1954,15 +2212,17 @@
     "titleVF": "L'affaire Jacob Barber",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 15.55,
+    "avgRating": 15.54,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 404,
     "releaseYear": 2020,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/v5OM7I9c5ZLQNxWOZD1A2bkqfXu.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/wGPbGjNmFhkT9uTWDX4b06FMd45.jpg"
   },
@@ -1971,14 +2231,16 @@
     "titleVF": "L'Amie prodigieuse",
     "status": "Terminée",
     "rating": 19,
-    "avgRating": 16.9,
+    "avgRating": 16.95,
     "episodesWatched": 34,
     "episodes": 34,
+    "watchMinutes": 1920,
     "releaseYear": 2018,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "Rai 1",
     "posterUrl": "https://image.tmdb.org/t/p/w500/9DQsaN2cpANL6MesRHj4yz8wvlc.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/iIYR1FuBD5ma2L2KjbHHWYgFu6Y.jpg"
   },
@@ -1989,11 +2251,13 @@
     "avgRating": 17.54,
     "episodesWatched": 88,
     "episodes": 89,
+    "watchMinutes": 2235,
     "releaseYear": 2013,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action"
     ],
+    "channel": "MBS",
     "posterUrl": "https://image.tmdb.org/t/p/w500/cEnxvrGIGwLz7ZfCx3g8oULJxrr.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/rqbCbjB19amtOtFQbb3K2lgm2zv.jpg"
   },
@@ -2004,26 +2268,30 @@
     "avgRating": 16.49,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 168,
     "releaseYear": 2019,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "Canal+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/2DKwGBkRxIy04rkcG8lLV1N7OdB.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/bmbIyOjzvbMyvbYX4zpY8GUa2fh.jpg"
   },
   {
     "title": "La Casa de Papel (Netflix)",
     "status": "En cours",
-    "avgRating": 16.31,
+    "avgRating": 16.32,
     "episodesWatched": 45,
     "episodes": 48,
+    "watchMinutes": 2156,
     "releaseYear": 2017,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
-    ]
+    ],
+    "channel": "Netflix"
   },
   {
     "title": "Little House on the Prairie (1974)",
@@ -2033,26 +2301,30 @@
     "avgRating": 14.8,
     "episodesWatched": 211,
     "episodes": 211,
+    "watchMinutes": 9062,
     "releaseYear": 1974,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Action / Aventure"
-    ]
+    ],
+    "channel": "NBC"
   },
   {
     "title": "Laura : Le compte à rebours a commencé",
     "status": "Terminée",
     "rating": 14,
-    "avgRating": 14,
+    "avgRating": 14.05,
     "episodesWatched": 4,
     "episodes": 4,
+    "watchMinutes": 360,
     "releaseYear": 2006,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Action / Aventure"
     ],
+    "channel": "M6",
     "posterUrl": "https://image.tmdb.org/t/p/w500/yxOb0g5JOxATIbSP9sMO8dPq8m0.jpg"
   },
   {
@@ -2063,12 +2335,14 @@
     "avgRating": 16.63,
     "episodesWatched": 10,
     "episodes": 10,
+    "watchMinutes": 460,
     "releaseYear": 2000,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantasy"
     ],
+    "channel": "NBC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/ch6Pm0g1iq40Mj38yJx9bb3Juav.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/6lYM8Xs6R4Uc5iYEIQsypwVigqi.jpg"
   },
@@ -2078,12 +2352,14 @@
     "avgRating": 17.06,
     "episodesWatched": 1,
     "episodes": 50,
+    "watchMinutes": 54,
     "releaseYear": 2015,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "Canal+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/iwfPM9DKmhksFZ1FVskAHZirORi.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/3ZIWMs9vRjuss8RJWn2ijGRuwtE.jpg"
   },
@@ -2094,12 +2370,14 @@
     "avgRating": 15.73,
     "episodesWatched": 88,
     "episodes": 88,
+    "watchMinutes": 3804,
     "releaseYear": 1996,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "NBC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/qHF2UG4IeNyYIJb8NNrAOagQQl5.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/uSNmMsfadV5dEhYEwqn6Kojctj9.jpg"
   },
@@ -2110,11 +2388,13 @@
     "avgRating": 19.83,
     "episodesWatched": 2,
     "episodes": 8,
+    "watchMinutes": 42,
     "releaseYear": 2021,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Documentaire"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/bodKs3jqum0qZ2MocnOAlUQ9WE6.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/xoY4yOhfSjte4jlRTuZCCvZm22S.jpg"
   },
@@ -2123,15 +2403,17 @@
     "titleVF": "Le Jeu de la dame",
     "status": "Terminée",
     "rating": 18,
-    "avgRating": 17.04,
+    "avgRating": 17.03,
     "episodesWatched": 7,
     "episodes": 7,
+    "watchMinutes": 395,
     "releaseYear": 2020,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Action / Aventure"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/jPHoAsRKtGKmjB28QgBWEtLJHRi.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/34OGjFEbHj0E3lE2w0iTUVq0CBz.jpg"
   },
@@ -2139,15 +2421,17 @@
     "title": "Le Maître du Zodiaque",
     "status": "Terminée",
     "rating": 13,
-    "avgRating": 12.79,
+    "avgRating": 12.75,
     "episodesWatched": 5,
     "episodes": 5,
+    "watchMinutes": 500,
     "releaseYear": 2006,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "TF1",
     "posterUrl": "https://image.tmdb.org/t/p/w500/z3Z20RyVrjssyjlT5pz2JOgIZfC.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/2nvoAc9MTvDrLI2LKg7kYCWfHJG.jpg"
   },
@@ -2155,15 +2439,17 @@
     "title": "The Lord of the Rings: The Rings of Power",
     "titleVF": "Le Seigneur des Anneaux : Les Anneaux de Pouvoir",
     "status": "À jour",
-    "avgRating": 14.37,
+    "avgRating": 14.36,
     "episodesWatched": 16,
     "episodes": 16,
+    "watchMinutes": 1097,
     "releaseYear": 2022,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Fantasy"
     ],
+    "channel": "Prime Video (Amazon)",
     "posterUrl": "https://image.tmdb.org/t/p/w500/dZBrHfywu7ATQRWpEvJolklwetz.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/vpRAeMi5VBZT3Kjykive6qan2Ui.jpg"
   },
@@ -2171,15 +2457,17 @@
     "title": "The 100",
     "titleVF": "Les 100",
     "status": "Abandonnée",
-    "avgRating": 15.85,
+    "avgRating": 15.84,
     "episodesWatched": 4,
     "episodes": 100,
+    "watchMinutes": 165,
     "releaseYear": 2014,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "The CW",
     "posterUrl": "https://image.tmdb.org/t/p/w500/1ePsCN6vpduAX1LxEdqfbwfS4nf.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/8ZerYKvIaNUJZvAHXYTQu4qTwFw.jpg"
   },
@@ -2191,12 +2479,14 @@
     "avgRating": 14.39,
     "episodesWatched": 45,
     "episodes": 45,
+    "watchMinutes": 1890,
     "releaseYear": 2004,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
-    ]
+    ],
+    "channel": "USA Network"
   },
   {
     "title": "Les Aventures de Tintin (1992)",
@@ -2205,12 +2495,14 @@
     "avgRating": 15.9,
     "episodesWatched": 39,
     "episodes": 39,
+    "watchMinutes": 793,
     "releaseYear": 1992,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Animation",
       "Aventure"
-    ]
+    ],
+    "channel": "France 3"
   },
   {
     "title": "Les Bougon (FR)",
@@ -2219,11 +2511,13 @@
     "avgRating": 14.44,
     "episodesWatched": 10,
     "episodes": 10,
+    "watchMinutes": 520,
     "releaseYear": 2008,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie"
-    ]
+    ],
+    "channel": "M6"
   },
   {
     "title": "The Kennedys",
@@ -2233,11 +2527,13 @@
     "avgRating": 14.5,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 336,
     "releaseYear": 2011,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "ReelzChannel",
     "posterUrl": "https://image.tmdb.org/t/p/w500/tBQjDU1foDUkZy58fQBfTOswxzM.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/6KPUjhcb4lIbMpTCjZSLacF77wu.jpg"
   },
@@ -2247,12 +2543,14 @@
     "avgRating": 15.44,
     "episodesWatched": 4,
     "episodes": 4,
+    "watchMinutes": 360,
     "releaseYear": 2000,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Historique"
-    ]
+    ],
+    "channel": "TF1"
   },
   {
     "title": "The Pillars of the Earth",
@@ -2262,12 +2560,14 @@
     "avgRating": 15.94,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 416,
     "releaseYear": 2010,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Historique"
     ],
+    "channel": "Starz",
     "posterUrl": "https://image.tmdb.org/t/p/w500/A1tyaDw7U3aaYwMZdXI3DwnWm3f.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/d6OdX943Igjy3RItNhlPjKtpHw8.jpg"
   },
@@ -2277,12 +2577,14 @@
     "avgRating": 14.8,
     "episodesWatched": 8,
     "episodes": 16,
+    "watchMinutes": 417,
     "releaseYear": 2012,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantastique"
     ],
+    "channel": "Canal+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/zUrIilv5RlBPn1CVIIytYRgndXr.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/g64LG7nV1vpRPTmNxM1oTkf0pWq.jpg"
   },
@@ -2294,12 +2596,14 @@
     "avgRating": 15.76,
     "episodesWatched": 19,
     "episodes": 19,
+    "watchMinutes": 418,
     "releaseYear": 2004,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Sitcom"
     ],
+    "channel": "ABC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/xFaNmMuGowqKJxJFhco6qRH9TnG.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/pkwewoFeFB7lWOkGKptGodscs1j.jpg"
   },
@@ -2311,12 +2615,14 @@
     "avgRating": 16.7,
     "episodesWatched": 401,
     "episodes": 804,
+    "watchMinutes": 8826,
     "releaseYear": 1989,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Animation",
       "Comédie"
     ],
+    "channel": "FOX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/py1CAYqgpKKtLBdtctLIXfDYDjW.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/jIArNHIekrCSVgdMbKPAXpPY03Y.jpg"
   },
@@ -2327,11 +2633,13 @@
     "avgRating": 16.88,
     "episodesWatched": 55,
     "episodes": 86,
+    "watchMinutes": 2995,
     "releaseYear": 1999,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/qxEIC2pMudIdnPTyfSXr0y866I8.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/lNpkvX2s8LGB0mjGODMT4o6Up7j.jpg"
   },
@@ -2343,12 +2651,14 @@
     "avgRating": 15.76,
     "episodesWatched": 30,
     "episodes": 30,
+    "watchMinutes": 1800,
     "releaseYear": 2014,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Action / Aventure"
     ],
+    "channel": "BBC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/6kOMlk4hlavwO5L82eLdklN0fm5.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/nkPWqWZQ84WtbUY5RktSPPrNdWO.jpg"
   },
@@ -2359,11 +2669,13 @@
     "avgRating": 17.28,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 362,
     "releaseYear": 2023,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/2WlMsIe7e42S9PbnlWCRfVyb66P.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/sPE6RlcIdK7i5Z991cQQkoO2R6t.jpg"
   },
@@ -2375,12 +2687,14 @@
     "avgRating": 14,
     "episodesWatched": 88,
     "episodes": 88,
+    "watchMinutes": 3696,
     "releaseYear": 1993,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantastique"
-    ]
+    ],
+    "channel": "ABC"
   },
   {
     "title": "Lost",
@@ -2389,12 +2703,14 @@
     "avgRating": 15.92,
     "episodesWatched": 110,
     "episodes": 122,
+    "watchMinutes": 4620,
     "releaseYear": 2004,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "ABC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/lJpYSqKmae4Rk57InDZoFa6mPzU.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/yUOFocKDW7MCC5isx4FK8A68QFp.jpg"
   },
@@ -2404,12 +2720,14 @@
     "avgRating": 16.12,
     "episodesWatched": 3,
     "episodes": 45,
+    "watchMinutes": 41,
     "releaseYear": 2019,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Animation",
       "Science-Fiction"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/uQMHEsgdhxbRKofDRNsAeWouHlT.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/nBrkOZyI75artyizuBFeya48KbO.jpg"
   },
@@ -2419,12 +2737,14 @@
     "avgRating": 16.36,
     "episodesWatched": 20,
     "episodes": 20,
+    "watchMinutes": 1000,
     "releaseYear": 2010,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "BBC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/hDxOMX8zzH1FiqKWVBzNaYGBkle.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/A2qdFRq9oJDC5E7fbgSS4POUMDF.jpg"
   },
@@ -2433,15 +2753,17 @@
     "titleVF": "Ma famille d'abord",
     "status": "Terminée",
     "rating": 18,
-    "avgRating": 15.41,
+    "avgRating": 15.42,
     "episodesWatched": 123,
     "episodes": 123,
+    "watchMinutes": 2706,
     "releaseYear": 2001,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Sitcom"
     ],
+    "channel": "ABC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/9xIwhzgBoTejiN1zv9VRHUKkpBt.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/v9CyGKG1P2McFMAnOG4X59b7CI7.jpg"
   },
@@ -2452,11 +2774,13 @@
     "avgRating": 15.95,
     "episodesWatched": 92,
     "episodes": 92,
+    "watchMinutes": 4416,
     "releaseYear": 2007,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "AMC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/A9FdR46H6Fl9p1nOMMRQHKrmtiH.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/A5lVyejMsP5G7rAJBwU9ug3Wzou.jpg"
   },
@@ -2466,12 +2790,14 @@
     "avgRating": 17.26,
     "episodesWatched": 0,
     "episodes": 25,
+    "watchMinutes": 0,
     "releaseYear": 2017,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Action & Aventure",
       "Fantastique & Mythe"
     ],
+    "channel": "AT-X",
     "posterUrl": "https://image.tmdb.org/t/p/w500/4Bh9qzB1Kau4RDaVQXVFdoJ0HcE.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/uzp513qTcHsAavlCJ58x5d73bzy.jpg"
   },
@@ -2481,11 +2807,13 @@
     "avgRating": 16.62,
     "episodesWatched": 2,
     "episodes": 10,
+    "watchMinutes": 103,
     "releaseYear": 2021,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/4brWcSXdH31BZUTtRTHj2BYFe6M.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/eX0tVkoLokMQGne4lBHqUgJUE6o.jpg"
   },
@@ -2495,12 +2823,14 @@
     "avgRating": 17.03,
     "episodesWatched": 2,
     "episodes": 20,
+    "watchMinutes": 122,
     "releaseYear": 2015,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Documentaire",
       "True Crime"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/sy2nV3rCcJQaRK5M0NWvvTU7CBx.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/i0bVPXHdvLQzE1Ld8dDwbCj1kOW.jpg"
   },
@@ -2509,14 +2839,16 @@
     "titleVF": "Malcolm",
     "status": "Terminée",
     "rating": 16,
-    "avgRating": 17.01,
+    "avgRating": 17.02,
     "episodesWatched": 151,
     "episodes": 151,
+    "watchMinutes": 3322,
     "releaseYear": 2000,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie"
     ],
+    "channel": "FOX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/aRd5NJafhAAPXupmTamJGBXonSq.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/si3OheCrSpEyK2JUtZOThsZPUR4.jpg"
   },
@@ -2526,12 +2858,14 @@
     "avgRating": 15.76,
     "episodesWatched": 21,
     "episodes": 21,
+    "watchMinutes": 1089,
     "releaseYear": 2014,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Historique"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/syYTHCBvFlobr8eJjQMKAjrn9yV.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/nLlujkVolfX9jrfQdpJHv9FPFlt.jpg"
   },
@@ -2542,12 +2876,14 @@
     "avgRating": 16.29,
     "episodesWatched": 39,
     "episodes": 39,
+    "watchMinutes": 2059,
     "releaseYear": 2015,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Action / Aventure"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/jwhi2cBENpdMYJUkmVTJ6Fcrokf.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/6KclfESXQia4BbJNv4xUnBqaWfe.jpg"
   },
@@ -2557,57 +2893,65 @@
     "avgRating": 15.36,
     "episodesWatched": 13,
     "episodes": 39,
+    "watchMinutes": 661,
     "releaseYear": 2015,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Action / Aventure"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/d8OS8nKmv45BjGXsWTOxRdiFm1X.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/fjEOQhzZk2Or7VYUBeMx5ZIwU95.jpg"
   },
   {
     "title": "Marvel's Luke Cage",
     "status": "En attente",
-    "avgRating": 14.29,
+    "avgRating": 14.28,
     "episodesWatched": 7,
     "episodes": 26,
+    "watchMinutes": 378,
     "releaseYear": 2016,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Action / Aventure"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/whnbD6LEjHenvda3A2cV2Vky531.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/bJOmop22SGTHPo1tiuVAFf4U7B9.jpg"
   },
   {
     "title": "Marvel's The Defenders",
     "status": "Terminée",
-    "avgRating": 14.26,
+    "avgRating": 14.28,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 398,
     "releaseYear": 2017,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantastique"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/k8UOUmPzCHrflLHxvNhogsJGo8D.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/ycAWXhAhyaE7g3JBAaierK4LgNg.jpg"
   },
   {
     "title": "Marvel's The Punisher",
     "status": "Terminée",
-    "avgRating": 16.12,
+    "avgRating": 16.14,
     "episodesWatched": 26,
     "episodes": 26,
+    "watchMinutes": 1382,
     "releaseYear": 2017,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Action / Aventure"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/ioWV96X8lFnjO8PPAl6ayfZGjkM.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/jBGjbSDRxOEudW9rmQbWDzJUKq9.jpg"
   },
@@ -2615,15 +2959,17 @@
     "title": "Masters of the Air",
     "status": "Terminée",
     "rating": 16,
-    "avgRating": 16.64,
+    "avgRating": 16.59,
     "episodesWatched": 9,
     "episodes": 9,
+    "watchMinutes": 510,
     "releaseYear": 2024,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Guerre"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/wwEZ3cn1mrfbTsNenyUZSsBvgYD.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/6snBXmgkscLEJQmxx46qEIlqYlB.jpg"
   },
@@ -2634,12 +2980,14 @@
     "avgRating": 15.76,
     "episodesWatched": 11,
     "episodes": 16,
+    "watchMinutes": 587,
     "releaseYear": 2022,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Fantastique"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/1UzED7WZJgzEIeVz1xiuZ1529nb.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/iHSwvRVsRyxpX7FE7GbviaDvgGZ.jpg"
   },
@@ -2650,12 +2998,14 @@
     "avgRating": 15.88,
     "episodesWatched": 65,
     "episodes": 65,
+    "watchMinutes": 2845,
     "releaseYear": 2008,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantasy"
     ],
+    "channel": "BBC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/8eR5Jg7CxsuCOEBU5wW0opObxpi.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/2JcrP4gNhU3KMbdajoEi1OvDl1Y.jpg"
   },
@@ -2667,12 +3017,14 @@
     "avgRating": 16.07,
     "episodesWatched": 26,
     "episodes": 49,
+    "watchMinutes": 650,
     "releaseYear": 1995,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Mecha",
       "Action & Aventure"
     ],
+    "channel": "TV Asahi",
     "posterUrl": "https://image.tmdb.org/t/p/w500/6SmgoFD32LA2utwJhXYLHNviPS.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/6q1eredSOpFhzjoStR8V29BxAZC.jpg"
   },
@@ -2682,12 +3034,14 @@
     "avgRating": 16.25,
     "episodesWatched": 37,
     "episodes": 250,
+    "watchMinutes": 814,
     "releaseYear": 2009,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Sitcom"
     ],
+    "channel": "ABC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/k5Qg5rgPoKdh3yTJJrLtyoyYGwC.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/nO7EzksrBzlNpAg5rgv8HzaBIkx.jpg"
   },
@@ -2698,12 +3052,14 @@
     "avgRating": 14.34,
     "episodesWatched": 5,
     "episodes": 20,
+    "watchMinutes": 121,
     "releaseYear": 2021,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Animation",
       "Fantastique"
     ],
+    "channel": "Disney+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/xsxGnXkxHhV1zObKuTYQb36Xo3l.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/2O3ZRECju00Jod6LrVB3uRgZMXK.jpg"
   },
@@ -2714,12 +3070,14 @@
     "avgRating": 15.72,
     "episodesWatched": 14,
     "episodes": 14,
+    "watchMinutes": 392,
     "releaseYear": 1990,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Shortcom"
     ],
+    "channel": "iTV1",
     "posterUrl": "https://image.tmdb.org/t/p/w500/pUNQV35kDaKuejnXGNiUeEBurNE.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/lHSLW9lihnuRMs1yYarmMJX4phK.jpg"
   },
@@ -2730,11 +3088,13 @@
     "avgRating": 16.58,
     "episodesWatched": 45,
     "episodes": 45,
+    "watchMinutes": 2173,
     "releaseYear": 2015,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "USA Network",
     "posterUrl": "https://image.tmdb.org/t/p/w500/kv1nRqgebSsREnd7vdC2pSGjpLo.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/4ceSkV7cmCon4exXaZwuhW1VdE0.jpg"
   },
@@ -2744,12 +3104,14 @@
     "avgRating": 17.11,
     "episodesWatched": 3,
     "episodes": 18,
+    "watchMinutes": 90,
     "releaseYear": 2016,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Sitcom"
     ],
+    "channel": "BBC Two",
     "posterUrl": "https://image.tmdb.org/t/p/w500/vRaRhHi7pwPJkiNkVhwRK7RKA9n.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/tLY7Ye67otD2A62cxhun5IYtO7d.jpg"
   },
@@ -2760,12 +3122,14 @@
     "avgRating": 14.72,
     "episodesWatched": 2,
     "episodes": 10,
+    "watchMinutes": 53,
     "releaseYear": 2025,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Comédie",
       "Science-Fiction"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/52sxkAm0WfPIsdHVjLdKt3j1zPu.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/if4r7bXrDH50GhNwCo3Bz8F2LOg.jpg"
   },
@@ -2776,12 +3140,14 @@
     "avgRating": 12.29,
     "episodesWatched": 12,
     "episodes": 12,
+    "watchMinutes": 624,
     "releaseYear": 2007,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "TF1",
     "posterUrl": "https://image.tmdb.org/t/p/w500/l5xzUxIraNX3IxIxnpyNryPsAZv.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/v1uB1UiKhuSSh982wyNRFrWfLp2.jpg"
   },
@@ -2791,11 +3157,13 @@
     "avgRating": 13.97,
     "episodesWatched": 30,
     "episodes": 40,
+    "watchMinutes": 812,
     "releaseYear": 2020,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/jI3pbM1wYQ0JNBUnVXCY7nyK1Ck.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/cP82Jtvn7DwVt0mWaDFm7QhWHez.jpg"
   },
@@ -2805,26 +3173,30 @@
     "avgRating": 15.38,
     "episodesWatched": 4,
     "episodes": 4,
+    "watchMinutes": 345,
     "releaseYear": 2002,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Historique"
     ],
+    "channel": "France 2",
     "posterUrl": "https://image.tmdb.org/t/p/w500/wLgl5Q85MJ75sau35OCK4QVomR7.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/w00UB3mFj4dmU0ImlsjMQ9rXt3E.jpg"
   },
   {
     "title": "Narcos",
     "status": "En cours",
-    "avgRating": 16.6,
+    "avgRating": 16.59,
     "episodesWatched": 6,
     "episodes": 30,
+    "watchMinutes": 291,
     "releaseYear": 2015,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/lE81IZv7mCYxbanB4ibDeivB1qs.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/y9ekzkPFmWSqUU3Kj0wHmYUM8qu.jpg"
   },
@@ -2832,30 +3204,34 @@
     "title": "Naruto",
     "status": "Terminée",
     "rating": 16,
-    "avgRating": 16.29,
+    "avgRating": 16.28,
     "episodesWatched": 220,
     "episodes": 220,
+    "watchMinutes": 5500,
     "releaseYear": 2002,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action & Aventure",
       "Combat & Arts Mart."
     ],
+    "channel": "Animax",
     "posterUrl": "https://image.tmdb.org/t/p/w500/mLoI2Zto2JYUvSB8PpqvZIV7vWj.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/mpsYIytXhDXjI9yYC1Fp1S3PxsS.jpg"
   },
   {
     "title": "Naruto: Shippuden",
     "status": "Abandonnée",
-    "avgRating": 16.67,
+    "avgRating": 16.68,
     "episodesWatched": 93,
     "episodes": 500,
+    "watchMinutes": 2325,
     "releaseYear": 2007,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action & Aventure",
       "Combat & Arts Mart."
     ],
+    "channel": "TV Tokyo",
     "posterUrl": "https://image.tmdb.org/t/p/w500/qOxedwaJzdms2alAmIEHEnDeDzg.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/z0YhJvomqedHF85bplUJEotkN5l.jpg"
   },
@@ -2865,12 +3241,14 @@
     "avgRating": 14.76,
     "episodesWatched": 1,
     "episodes": 24,
+    "watchMinutes": 23,
     "releaseYear": 2023,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action",
       "Science-Fiction"
     ],
+    "channel": "Tokyo MX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/tTldK0S5b6ICerha6oK0TF7p1gY.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/bGRKHQsmLUz2hQB8W3nYnCIc9Y0.jpg"
   },
@@ -2880,12 +3258,14 @@
     "avgRating": 15.23,
     "episodesWatched": 5,
     "episodes": 156,
+    "watchMinutes": 25,
     "releaseYear": 2008,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Fantastique"
     ],
+    "channel": "Web série",
     "posterUrl": "https://image.tmdb.org/t/p/w500/vhaScl4FvcjBrKd4Po9pgzgJHUv.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/w4bbnWfyMKvhD97jO3Sc6cVd3Ee.jpg"
   },
@@ -2896,12 +3276,14 @@
     "avgRating": 17.53,
     "episodesWatched": 2,
     "episodes": 12,
+    "watchMinutes": 102,
     "releaseYear": 2019,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Documentaire",
       "Nature"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/3zADtCUCrcQ2Ea5cvfmWFfMIwDk.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/p8EUX6MPSNLxVwqO3fCYTi896Ro.jpg"
   },
@@ -2912,12 +3294,14 @@
     "avgRating": 13.62,
     "episodesWatched": 6,
     "episodes": 6,
+    "watchMinutes": 272,
     "releaseYear": 2022,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Disney+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/slX7j56s5gkuuXMYYOMHo47hFp1.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/p3Jmm6d1ShUrJEuU3DYD2K19c66.jpg"
   },
@@ -2928,12 +3312,14 @@
     "avgRating": 14.96,
     "episodesWatched": 128,
     "episodes": 128,
+    "watchMinutes": 2816,
     "releaseYear": 1983,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Sport",
       "Action"
-    ]
+    ],
+    "channel": "TV Tokyo"
   },
   {
     "title": "One Outs",
@@ -2941,11 +3327,13 @@
     "avgRating": 16.48,
     "episodesWatched": 1,
     "episodes": 25,
+    "watchMinutes": 25,
     "releaseYear": 2008,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Sport"
     ],
+    "channel": "NTV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/d3WmETNNzsFrd8iHh6y75a1jgZN.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/eR5Dgd9yckTKBisyzzmago9kCkO.jpg"
   },
@@ -2954,13 +3342,15 @@
     "status": "En cours",
     "avgRating": 17.78,
     "episodesWatched": 848,
-    "episodes": 1161,
+    "episodes": 1165,
+    "watchMinutes": 20352,
     "releaseYear": 1999,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Action & Aventure",
       "Comédie"
-    ]
+    ],
+    "channel": "Fuji TV"
   },
   {
     "title": "One Piece (2023)",
@@ -2968,12 +3358,14 @@
     "avgRating": 16.21,
     "episodesWatched": 8,
     "episodes": 16,
+    "watchMinutes": 452,
     "releaseYear": 2023,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Comédie",
       "Action/Aventure"
-    ]
+    ],
+    "channel": "Netflix"
   },
   {
     "title": "One Piece (Specials)",
@@ -2981,12 +3373,14 @@
     "avgRating": 15.67,
     "episodesWatched": 6,
     "episodes": 28,
+    "watchMinutes": 392,
     "releaseYear": 1998,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Action & Aventure",
       "Comédie"
-    ]
+    ],
+    "channel": "Autres"
   },
   {
     "title": "Orange Is the New Black",
@@ -2995,12 +3389,14 @@
     "avgRating": 16.31,
     "episodesWatched": 91,
     "episodes": 91,
+    "watchMinutes": 5367,
     "releaseYear": 2013,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Comédie dramatique"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/9l5CLA7r0i9WBuDX2Rsy99CNKPw.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/zJiWhsEYCy5BkFCBONoMnUunyZQ.jpg"
   },
@@ -3008,45 +3404,51 @@
     "title": "Outlander",
     "titleVF": "Outlander : Le Chardon et le Tartan",
     "status": "En cours",
-    "avgRating": 17.12,
+    "avgRating": 17.1,
     "episodesWatched": 59,
-    "episodes": 100,
+    "episodes": 101,
+    "watchMinutes": 3462,
     "releaseYear": 2014,
-    "airingStatus": "Diffusion actuelle",
+    "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Historique"
     ],
+    "channel": "Starz",
     "posterUrl": "https://image.tmdb.org/t/p/w500/yq2O5h2fIEVurWEmnOvlPXoFRcX.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/nf3Vlxm3C9U1aKUUQHmKFZmxPSc.jpg"
   },
   {
     "title": "Pachinko",
     "status": "À jour",
-    "avgRating": 17.24,
+    "avgRating": 17.18,
     "episodesWatched": 16,
     "episodes": 16,
+    "watchMinutes": 856,
     "releaseYear": 2022,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Historique"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/wUTXdmL6oNjhiStGveOaPeuFOYQ.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/vVKlL4HyrQYAcJuaaUW49FrRqY5.jpg"
   },
   {
     "title": "Peaky Blinders",
     "status": "En cours",
-    "avgRating": 17.18,
+    "avgRating": 17.17,
     "episodesWatched": 20,
     "episodes": 36,
+    "watchMinutes": 1160,
     "releaseYear": 2013,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Historique"
     ],
+    "channel": "BBC Two",
     "posterUrl": "https://image.tmdb.org/t/p/w500/wfD5hDb61sS203D0te7JbIzeyQe.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/wiE9doxiLwq3WCGamDIOb2PqBqc.jpg"
   },
@@ -3056,12 +3458,14 @@
     "avgRating": 16.49,
     "episodesWatched": 26,
     "episodes": 26,
+    "watchMinutes": 135,
     "releaseYear": 2018,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Animation",
       "Comédie"
-    ]
+    ],
+    "channel": "Blackpills"
   },
   {
     "title": "Person of Interest",
@@ -3069,12 +3473,14 @@
     "avgRating": 16.73,
     "episodesWatched": 0,
     "episodes": 103,
+    "watchMinutes": 0,
     "releaseYear": 2011,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "CBS",
     "posterUrl": "https://image.tmdb.org/t/p/w500/6FuKOyJgViZXgMDOq9djFJLWPqX.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/1UkDX6CK8hJ0oUtUycDTp5Vh9wO.jpg"
   },
@@ -3085,12 +3491,14 @@
     "avgRating": 15.54,
     "episodesWatched": 26,
     "episodes": 26,
+    "watchMinutes": 655,
     "releaseYear": 2011,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action",
       "Fantastique & Mythe"
     ],
+    "channel": "MBS",
     "posterUrl": "https://image.tmdb.org/t/p/w500/14enSe2AEZFijNLeCQZumAMa1MA.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/aPQ1ul1PLbYsC0VjcIOaofH7AZ2.jpg"
   },
@@ -3102,26 +3510,30 @@
     "avgRating": 15.57,
     "episodesWatched": 329,
     "episodes": 1242,
+    "watchMinutes": 8225,
     "releaseYear": 1997,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action & Aventure"
-    ]
+    ],
+    "channel": "TV Tokyo"
   },
   {
     "title": "Pocket Monsters: The Origin",
     "titleVF": "Pokémon : Les Origines",
     "status": "Terminée",
     "rating": 17,
-    "avgRating": 15.87,
+    "avgRating": 15.81,
     "episodesWatched": 4,
     "episodes": 4,
+    "watchMinutes": 108,
     "releaseYear": 2013,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Familial & Jeunesse",
       "Action & Aventure"
     ],
+    "channel": "TV Tokyo",
     "posterUrl": "https://image.tmdb.org/t/p/w500/i1VBvb96toO2stZVE1QbD9IX3Ay.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/zVpsLulhjz1RoW4LWQjYP3wmhtg.jpg"
   },
@@ -3132,12 +3544,14 @@
     "avgRating": 15.74,
     "episodesWatched": 3,
     "episodes": 18,
+    "watchMinutes": 15,
     "releaseYear": 2016,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action & Aventure",
       "Fantastique & Mythe"
-    ]
+    ],
+    "channel": "Web série"
   },
   {
     "title": "Presumed Innocent",
@@ -3146,11 +3560,13 @@
     "avgRating": 15.46,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 347,
     "releaseYear": 2024,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/W7BbPGtyaHSJpobiQONjdUroJi.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/dzsg5Akwfw1lsVoaPmvLcLSrKkh.jpg"
   },
@@ -3161,12 +3577,14 @@
     "avgRating": 15.27,
     "episodesWatched": 90,
     "episodes": 90,
+    "watchMinutes": 3921,
     "releaseYear": 2005,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Action / Aventure"
     ],
+    "channel": "FOX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/bCFZhGJLYxmEac4viu6orDeOXYJ.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/n3Brk7roueE9HOwVmYlJx5j462g.jpg"
   },
@@ -3176,12 +3594,14 @@
     "avgRating": 15.02,
     "episodesWatched": 54,
     "episodes": 111,
+    "watchMinutes": 2268,
     "releaseYear": 2007,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Médicale"
     ],
+    "channel": "ABC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/pW20ANAGdrgreYJExduUVaWos6H.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/2iYitemZYaZUcmSo0l2p3WHvj5J.jpg"
   },
@@ -3192,11 +3612,13 @@
     "avgRating": 16.39,
     "episodesWatched": 6,
     "episodes": 6,
+    "watchMinutes": 330,
     "releaseYear": 2014,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "TF1",
     "posterUrl": "https://image.tmdb.org/t/p/w500/k3R90ujL8czXSRwg35WlEVrKf1z.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/nW3mSVpxaS8uNlny2mdTLAFnEmt.jpg"
   },
@@ -3206,13 +3628,15 @@
     "status": "Abandonnée",
     "avgRating": 17.07,
     "episodesWatched": 2,
-    "episodes": 81,
+    "episodes": 84,
+    "watchMinutes": 44,
     "releaseYear": 2013,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Animation",
       "Science-Fiction"
     ],
+    "channel": "Adult Swim",
     "posterUrl": "https://image.tmdb.org/t/p/w500/tOpp4yPODFeaEr1KLz5fQ9jkJFx.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/zJZfxi8X3XPHAhxXseRugtnNVtt.jpg"
   },
@@ -3223,11 +3647,13 @@
     "avgRating": 16.4,
     "episodesWatched": 22,
     "episodes": 22,
+    "watchMinutes": 1168,
     "releaseYear": 2005,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/ptJ1ThkbmeapXqvkg98tJkXlHat.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/b2fhZk0xB2TgMsDXT6goR28PoHX.jpg"
   },
@@ -3238,12 +3664,14 @@
     "avgRating": 15.12,
     "episodesWatched": 330,
     "episodes": 1207,
+    "watchMinutes": 1980,
     "releaseYear": 2009,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Comédie",
       "Shortcom"
     ],
+    "channel": "M6",
     "posterUrl": "https://image.tmdb.org/t/p/w500/38N3KQblPyTLGWNZs2qmy9mQywm.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/pnTYmGcsJBgQyI6qB8wHyvbuHBW.jpg"
   },
@@ -3251,15 +3679,17 @@
     "title": "Sense8",
     "status": "Terminée",
     "rating": 18,
-    "avgRating": 17.33,
+    "avgRating": 17.32,
     "episodesWatched": 24,
     "episodes": 24,
+    "watchMinutes": 1491,
     "releaseYear": 2015,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/kmyvlQ9QKzgdZY31rXaUlgCnzrB.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/3G0oM3TvwOGJRRiiYDnTAoMXiaN.jpg"
   },
@@ -3269,12 +3699,14 @@
     "avgRating": 16.82,
     "episodesWatched": 19,
     "episodes": 19,
+    "watchMinutes": 932,
     "releaseYear": 2022,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/xmjW474DJ27bqTYNvS4MvraJgiQ.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/ixgFmf1X59PUZam2qbAfskx2gQr.jpg"
   },
@@ -3285,27 +3717,31 @@
     "avgRating": 16.08,
     "episodesWatched": 32,
     "episodes": 32,
+    "watchMinutes": 1758,
     "releaseYear": 2019,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Comédie"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/hVk1hhJjyeTSCk3Fiy6p0W5pPxK.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/u23G9KZregWHs1use6ir1fX27gl.jpg"
   },
   {
     "title": "Shameless (US)",
     "status": "Abandonnée",
-    "avgRating": 17.12,
+    "avgRating": 17.11,
     "episodesWatched": 10,
     "episodes": 134,
+    "watchMinutes": 500,
     "releaseYear": 2011,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Comédie"
     ],
+    "channel": "Showtime",
     "posterUrl": "https://image.tmdb.org/t/p/w500/ifo31fMWLmyOVpdak9K0kY4jldQ.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/5s9XHTB9SLPdg3mNU6BlSLnZ9Qq.jpg"
   },
@@ -3315,11 +3751,13 @@
     "avgRating": 16.12,
     "episodesWatched": 2,
     "episodes": 8,
+    "watchMinutes": 112,
     "releaseYear": 2018,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/6eiQC2oSCGlufC99bBVUKn27QGN.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/b9cCIwtT0gD42wEMMZwMdY8zfgS.jpg"
   },
@@ -3330,27 +3768,31 @@
     "avgRating": 17.83,
     "episodesWatched": 14,
     "episodes": 14,
+    "watchMinutes": 1174,
     "releaseYear": 2010,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "BBC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/nBRtABdAHf4SWSAWHelXz0H6tY9.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/8rvLEmdI4gLrMO1rLqbNdnNcPFE.jpg"
   },
   {
     "title": "Shining Girls",
     "status": "Abandonnée",
-    "avgRating": 15.94,
+    "avgRating": 15.91,
     "episodesWatched": 2,
     "episodes": 8,
+    "watchMinutes": 100,
     "releaseYear": 2022,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/jB8NlVnLBEvmoLIkqazRAKrp1uA.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/aijJqFjhyRA8g7xRg6KUdoExynk.jpg"
   },
@@ -3360,12 +3802,14 @@
     "avgRating": 16.51,
     "episodesWatched": 10,
     "episodes": 10,
+    "watchMinutes": 586,
     "releaseYear": 2024,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Historique"
-    ]
+    ],
+    "channel": "FX"
   },
   {
     "title": "Shrinking",
@@ -3373,12 +3817,14 @@
     "avgRating": 16.21,
     "episodesWatched": 25,
     "episodes": 33,
+    "watchMinutes": 868,
     "releaseYear": 2023,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Comédie",
       "Comédie dramatique"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/vOn72IFPhA6B8d0hsEl1riECOES.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/hI9z1UuNhBthvkm3iJ8m3zv43Pf.jpg"
   },
@@ -3389,26 +3835,30 @@
     "avgRating": 15.99,
     "episodesWatched": 53,
     "episodes": 53,
+    "watchMinutes": 1450,
     "releaseYear": 2014,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/4ptpmWBVD9HY9hMh8Cbs6SMiy7p.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/4pfXAnWxOfEJsUgDPW0zqzs5UWv.jpg"
   },
   {
     "title": "Silo",
     "status": "À jour",
-    "avgRating": 16.08,
+    "avgRating": 16.11,
     "episodesWatched": 20,
     "episodes": 20,
+    "watchMinutes": 996,
     "releaseYear": 2023,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/zGMLj5ZTybGpgYtNnDbMbN1rOcp.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/4XccmjsOmQZw8S2iW1wvlvmb5v1.jpg"
   },
@@ -3419,11 +3869,13 @@
     "avgRating": 15.46,
     "episodesWatched": 62,
     "episodes": 62,
+    "watchMinutes": 3062,
     "releaseYear": 2007,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "E4",
     "posterUrl": "https://image.tmdb.org/t/p/w500/1fC7UYY12Cy0TzNEjzV2K7gxPgi.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/saBnI34QTYTjG9sj8DsembO4PBK.jpg"
   },
@@ -3434,12 +3886,14 @@
     "avgRating": 15.07,
     "episodesWatched": 152,
     "episodes": 217,
+    "watchMinutes": 6384,
     "releaseYear": 2001,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Fantastique"
     ],
+    "channel": "The WB",
     "posterUrl": "https://image.tmdb.org/t/p/w500/el4r3RABoLe5Hh6U2I3OybBjrme.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/4wVq9ICc4MI2XcssrumpCOhKLpI.jpg"
   },
@@ -3449,27 +3903,31 @@
     "avgRating": 14.63,
     "episodesWatched": 30,
     "episodes": 30,
+    "watchMinutes": 713,
     "releaseYear": 2020,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Comédie",
       "Comédie dramatique"
     ],
+    "channel": "France TV Slash",
     "posterUrl": "https://image.tmdb.org/t/p/w500/a9C48YHspvHQRgcDlzx32zrqRgK.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/oMqtodKhEACMVWvRFsaOvttMkm6.jpg"
   },
   {
     "title": "Star Trek: Discovery",
     "status": "En cours",
-    "avgRating": 15.39,
+    "avgRating": 15.38,
     "episodesWatched": 13,
     "episodes": 65,
+    "watchMinutes": 583,
     "releaseYear": 2017,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "CBS All Access",
     "posterUrl": "https://image.tmdb.org/t/p/w500/xwpOHgym48Ftz7fbJq5te5xoiwu.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/ePr0k72sypMpZYubz6w34dcW68Y.jpg"
   },
@@ -3479,12 +3937,14 @@
     "avgRating": 15.35,
     "episodesWatched": 12,
     "episodes": 77,
+    "watchMinutes": 209,
     "releaseYear": 2014,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Animation",
       "Science-Fiction"
     ],
+    "channel": "Disney XD",
     "posterUrl": "https://image.tmdb.org/t/p/w500/eLrScs6Bs26JMcS8hiZhf7YRROr.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/8BNjxMJMFp0BgqMh4PyuwZMXxh1.jpg"
   },
@@ -3494,12 +3954,14 @@
     "avgRating": 16.33,
     "episodesWatched": 40,
     "episodes": 100,
+    "watchMinutes": 1680,
     "releaseYear": 2004,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Syfy",
     "posterUrl": "https://image.tmdb.org/t/p/w500/81z6ZRDxRiXZd4mioDuzLEU8USH.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/SLAPI1h9SWBMLTCO8ULvTGiP9G.jpg"
   },
@@ -3507,15 +3969,17 @@
     "title": "Stargate SG-1",
     "status": "Terminée",
     "rating": 16,
-    "avgRating": 16.76,
+    "avgRating": 16.74,
     "episodesWatched": 194,
     "episodes": 214,
+    "watchMinutes": 8166,
     "releaseYear": 1997,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Showtime",
     "posterUrl": "https://image.tmdb.org/t/p/w500/i1pG8vJvGZnYdlFeldq9PvnJC9B.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/yOyzlRw54oYaGvhUBdPr7TFwtrX.jpg"
   },
@@ -3526,12 +3990,14 @@
     "avgRating": 16.99,
     "episodesWatched": 42,
     "episodes": 42,
+    "watchMinutes": 2699,
     "releaseYear": 2016,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/iGZkjG3BDTuWsWu9Cdmh2jh3q7d.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/56v2KjBlU4XaOv9rVYEQypROD7P.jpg"
   },
@@ -3539,14 +4005,16 @@
     "title": "Succession",
     "status": "Terminée",
     "rating": 19,
-    "avgRating": 15.81,
+    "avgRating": 15.84,
     "episodesWatched": 39,
     "episodes": 39,
+    "watchMinutes": 2413,
     "releaseYear": 2018,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/z0XiwdrCQ9yVIr4O0pxzaAYRxdW.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/bcdUYUFk8GdpZJPiSAas9UeocLH.jpg"
   },
@@ -3557,11 +4025,13 @@
     "avgRating": 13.09,
     "episodesWatched": 26,
     "episodes": 26,
+    "watchMinutes": 1092,
     "releaseYear": 2004,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "The WB",
     "posterUrl": "https://image.tmdb.org/t/p/w500/mvdhBaU7CaIaZzoO4SgjPcyxXAM.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/4f2Cj0GLuvcrA8w87F1AdWGqwoW.jpg"
   },
@@ -3573,12 +4043,14 @@
     "avgRating": 17.62,
     "episodesWatched": 60,
     "episodes": 60,
+    "watchMinutes": 3540,
     "releaseYear": 2002,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/efV8dprxpU1JXNGqepVY68ZaHKZ.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/layPSOJGckJv3PXZDIVluMq69mn.jpg"
   },
@@ -3589,11 +4061,13 @@
     "avgRating": 14.59,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 416,
     "releaseYear": 2007,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "M6",
     "posterUrl": "https://image.tmdb.org/t/p/w500/mV6Bcv0bmIKpBlo7DkaHVGFLREl.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/sLsEwXnwW88FmZKzcgBaJ6monyr.jpg"
   },
@@ -3604,12 +4078,14 @@
     "avgRating": 15.64,
     "episodesWatched": 47,
     "episodes": 103,
+    "watchMinutes": 1974,
     "releaseYear": 2011,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Teen Drama"
     ],
+    "channel": "ABC Family",
     "posterUrl": "https://image.tmdb.org/t/p/w500/db5XnOxGcUHeNhBRNbHfqTlzXmk.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/atwkAlHM9NQjEOes09YuSrwsPPQ.jpg"
   },
@@ -3621,12 +4097,14 @@
     "avgRating": 15.21,
     "episodesWatched": 4,
     "episodes": 4,
+    "watchMinutes": 131,
     "releaseYear": 2007,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Épique & Héroique",
       "Aventure"
     ],
+    "channel": "Autres",
     "posterUrl": "https://image.tmdb.org/t/p/w500/grsdAYgCFpTmqPspF2lIkixBje9.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/tl1pY31vANCAY5uLhVqdhQzXf5K.jpg"
   },
@@ -3634,15 +4112,17 @@
     "title": "Ted Lasso",
     "status": "À jour",
     "rating": 19,
-    "avgRating": 17.32,
+    "avgRating": 17.33,
     "episodesWatched": 34,
     "episodes": 34,
+    "watchMinutes": 1453,
     "releaseYear": 2020,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Comédie",
       "Comédie dramatique"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/5fhZdwP1DVJ0FyVH6vrFdHwpXIn.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/gEQkOMmnJcoh9Hh1vk7fpVYnksR.jpg"
   },
@@ -3653,12 +4133,14 @@
     "avgRating": 17.2,
     "episodesWatched": 24,
     "episodes": 24,
+    "watchMinutes": 1113,
     "releaseYear": 2020,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "Kan 11",
     "posterUrl": "https://image.tmdb.org/t/p/w500/lkOD0iXtwwUJSIT6UgVfpgRJOho.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/2hpvEPS5ckA00g0H55gsxLWynNt.jpg"
   },
@@ -3668,12 +4150,14 @@
     "avgRating": 13.02,
     "episodesWatched": 0,
     "episodes": 8,
+    "watchMinutes": 0,
     "releaseYear": 2024,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Disney+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/ikH31sBUVZ00WwSfwbMVHj6Rg5E.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/kwronSXO1ogMqHHFvY2eBxfFLdn.jpg"
   },
@@ -3683,12 +4167,14 @@
     "avgRating": 16.89,
     "episodesWatched": 235,
     "episodes": 279,
+    "watchMinutes": 5166,
     "releaseYear": 2007,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Sitcom"
     ],
+    "channel": "CBS",
     "posterUrl": "https://image.tmdb.org/t/p/w500/kMhMKG3IVJV8HhMGK7GEY6X73bP.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/gMqQY6SwuhKg1LvmiTxKX6YrINr.jpg"
   },
@@ -3699,27 +4185,31 @@
     "avgRating": 16.91,
     "episodesWatched": 60,
     "episodes": 60,
+    "watchMinutes": 3275,
     "releaseYear": 2016,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Historique"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/snrhOM9JOY3i7UGNDZBfBakiq4n.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/8VXhcrl5z2I1zEU9X3pkkNrZlD.jpg"
   },
   {
     "title": "The Expanse",
     "status": "En attente",
-    "avgRating": 16.18,
+    "avgRating": 16.14,
     "episodesWatched": 1,
     "episodes": 62,
+    "watchMinutes": 44,
     "releaseYear": 2015,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Syfy",
     "posterUrl": "https://image.tmdb.org/t/p/w500/5vQlVWkIMPhZ88OWchJsgwGEK9.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/uUwnClwdMA12bpHgeKgkQrbu5Oe.jpg"
   },
@@ -3729,12 +4219,14 @@
     "avgRating": 16.24,
     "episodesWatched": 11,
     "episodes": 17,
+    "watchMinutes": 740,
     "releaseYear": 2013,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "RTE1",
     "posterUrl": "https://image.tmdb.org/t/p/w500/kIrpNZDuuKfo7Yd1U6LHxVXdfmC.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/vunaJ5k1cG8T4ROUGDZ05IhNXkP.jpg"
   },
@@ -3744,12 +4236,14 @@
     "avgRating": 16,
     "episodesWatched": 46,
     "episodes": 156,
+    "watchMinutes": 1932,
     "releaseYear": 2009,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Judiciaire"
     ],
+    "channel": "CBS",
     "posterUrl": "https://image.tmdb.org/t/p/w500/lasNCd45fpPLirlA7QxkuopWro.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/uinrziSwEmS6s8VvGBad5sed7bF.jpg"
   },
@@ -3760,12 +4254,14 @@
     "avgRating": 15.37,
     "episodesWatched": 22,
     "episodes": 70,
+    "watchMinutes": 136,
     "releaseYear": 2007,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Fantastique"
     ],
+    "channel": "Web série",
     "posterUrl": "https://image.tmdb.org/t/p/w500/nDMtG1NwnpA3rPDld38BvWRsVf.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/8gcJEB0jdXqhvYjkCnOCcMnTD8h.jpg"
   },
@@ -3773,15 +4269,17 @@
     "title": "The Handmaid's Tale",
     "titleVF": "The Handmaid?s Tale : La Servante Écarlate",
     "status": "En attente",
-    "avgRating": 16.9,
+    "avgRating": 16.94,
     "episodesWatched": 1,
     "episodes": 66,
+    "watchMinutes": 57,
     "releaseYear": 2017,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Hulu",
     "posterUrl": "https://image.tmdb.org/t/p/w500/46a087NxApCdEWWJxqflmvHDTzt.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/atb20IUkdYcZISq3DJ769nc3h1G.jpg"
   },
@@ -3791,27 +4289,31 @@
     "avgRating": 16.12,
     "episodesWatched": 16,
     "episodes": 16,
+    "watchMinutes": 901,
     "releaseYear": 2023,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Horreur"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/4pMd9VAdqm96KA2W4X8yetgc7EF.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/acevLdSl5I2MK5RYAm7gwAndt1w.jpg"
   },
   {
     "title": "The Mandalorian",
     "status": "À jour",
-    "avgRating": 16.39,
+    "avgRating": 16.4,
     "episodesWatched": 24,
     "episodes": 24,
+    "watchMinutes": 995,
     "releaseYear": 2019,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "Disney+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/s8lHYTNYM919rDFvMs33tOeMbYf.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/9zcbqSxdsRMZWHYtyCd1nXPr2xq.jpg"
   },
@@ -3821,25 +4323,29 @@
     "avgRating": 16.68,
     "episodesWatched": 14,
     "episodes": 25,
+    "watchMinutes": 802,
     "releaseYear": 2012,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/v1gsDHnSsCziPOGQBAh57oDX57G.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/oNNdRpSQSdRIaWnSFejhw1qk51K.jpg"
   },
   {
     "title": "The Office (US)",
     "status": "En cours",
-    "avgRating": 17.39,
+    "avgRating": 17.38,
     "episodesWatched": 1,
     "episodes": 201,
+    "watchMinutes": 22,
     "releaseYear": 2005,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie"
     ],
+    "channel": "NBC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/2dApsoX4bd98szjrbj5i3syYOh2.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/mLyW3UTgi2lsMdtueYODcfAB9Ku.jpg"
   },
@@ -3847,15 +4353,17 @@
     "title": "The Outsider",
     "status": "Terminée",
     "rating": 14,
-    "avgRating": 14.44,
+    "avgRating": 14.46,
     "episodesWatched": 10,
     "episodes": 10,
+    "watchMinutes": 523,
     "releaseYear": 2020,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Horreur"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/g2uOKfpQXb3y3eFTCyGmtcHRkVy.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/lmlsqpAfDZnZumcFhbsTrOy9uNZ.jpg"
   },
@@ -3865,27 +4373,31 @@
     "avgRating": 15.8,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 460,
     "releaseYear": 2024,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/eV8TTHJOR8AJqPLm9uSLjnItgiU.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/4TdmuuwiIiKw3JOjIuhdgYxRXnN.jpg"
   },
   {
     "title": "The Pitt",
-    "status": "En cours",
-    "avgRating": 16.82,
-    "episodesWatched": 27,
+    "status": "À jour",
+    "avgRating": 16.85,
+    "episodesWatched": 30,
     "episodes": 30,
+    "watchMinutes": 1431,
     "releaseYear": 2025,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Médicale"
     ],
+    "channel": "Max",
     "posterUrl": "https://image.tmdb.org/t/p/w500/3JxOVjbW2Kp2kYSh4N89OsWe2A4.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/z3BkMbCy5ajZPMyKEUwsPHuz2cV.jpg"
   },
@@ -3895,11 +4407,13 @@
     "avgRating": 15.17,
     "episodesWatched": 10,
     "episodes": 10,
+    "watchMinutes": 303,
     "releaseYear": 2025,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Comédie"
     ],
+    "channel": "Apple TV+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/clnQO3HfqcsiqinWDkIuvoTXmoC.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/j4nrXoHEEHnEgMyoFXUSvXYALFh.jpg"
   },
@@ -3910,11 +4424,13 @@
     "avgRating": 14.94,
     "episodesWatched": 6,
     "episodes": 6,
+    "watchMinutes": 326,
     "releaseYear": 2020,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/kRSttUABWfavAjAzO28PQTDK2El.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/tJjwEzTglpxoWJXwEbZlKLppMhr.jpg"
   },
@@ -3924,12 +4440,14 @@
     "avgRating": 16.75,
     "episodesWatched": 3,
     "episodes": 12,
+    "watchMinutes": 180,
     "releaseYear": 2013,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Historique"
-    ]
+    ],
+    "channel": "BBC"
   },
   {
     "title": "The Walking Dead",
@@ -3937,27 +4455,31 @@
     "avgRating": 16.18,
     "episodesWatched": 99,
     "episodes": 177,
+    "watchMinutes": 4448,
     "releaseYear": 2010,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Horreur"
     ],
+    "channel": "AMC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/cVDzRylKifHGS1PFNlePfJ8sxUj.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/rAOjnEFTuNysY7bot8zonhImGMh.jpg"
   },
   {
     "title": "The Witcher",
     "status": "En cours",
-    "avgRating": 15.44,
+    "avgRating": 15.43,
     "episodesWatched": 18,
     "episodes": 32,
+    "watchMinutes": 1052,
     "releaseYear": 2019,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Fantasy"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/rhErSlk0M236rNFertVAZa9lz9S.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/foGkPxpw9h8zln81j63mix5B7m8.jpg"
   },
@@ -3967,11 +4489,13 @@
     "avgRating": 15.31,
     "episodesWatched": 0,
     "episodes": 5,
+    "watchMinutes": 0,
     "releaseYear": 2016,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "BBC Three",
     "posterUrl": "https://image.tmdb.org/t/p/w500/kwTHwy53aXITTWYNZvarczlo02S.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/hTqGb7oSI3OCgWw55XtDOy1iWtF.jpg"
   },
@@ -3981,12 +4505,14 @@
     "avgRating": 15.08,
     "episodesWatched": 10,
     "episodes": 10,
+    "watchMinutes": 558,
     "releaseYear": 2024,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Historique"
     ],
+    "channel": "Peacock",
     "posterUrl": "https://image.tmdb.org/t/p/w500/gvz0m4MJ8sAj6yMcQdwN07bNjRY.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/vX71TGviqLsOtDNJ9q1QR4m14kH.jpg"
   },
@@ -3997,12 +4523,14 @@
     "avgRating": 16.24,
     "episodesWatched": 18,
     "episodes": 18,
+    "watchMinutes": 1046,
     "releaseYear": 2022,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
-    ]
+    ],
+    "channel": "HBO Max"
   },
   {
     "title": "Torchwood",
@@ -4010,12 +4538,14 @@
     "avgRating": 15.74,
     "episodesWatched": 2,
     "episodes": 41,
+    "watchMinutes": 100,
     "releaseYear": 2006,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "BBC Three",
     "posterUrl": "https://image.tmdb.org/t/p/w500/bv7C5r7QyXGsaMxvU40FVY7SvrD.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/gpRM2AB4tjfUXxjaCZWnHLjiGmC.jpg"
   },
@@ -4025,12 +4555,14 @@
     "avgRating": 15.68,
     "episodesWatched": 3,
     "episodes": 147,
+    "watchMinutes": 97,
     "releaseYear": 2011,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action",
       "Comédie"
     ],
+    "channel": "Fuji TV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/yb7E9VTSY2551ujj13i7wstkiSV.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/j6u5ekbEjavBLUYBPfoXZh4G4Jg.jpg"
   },
@@ -4041,12 +4573,14 @@
     "avgRating": 13.63,
     "episodesWatched": 76,
     "episodes": 76,
+    "watchMinutes": 1672,
     "releaseYear": 2002,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Sitcom"
     ],
+    "channel": "ABC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/6iQUPGD9TgMdy3iw3tyVEVCj9hu.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/7o3zJuoRP1paXSPzKwkbm5Dhwfh.jpg"
   },
@@ -4056,12 +4590,14 @@
     "avgRating": 16.95,
     "episodesWatched": 1,
     "episodes": 30,
+    "watchMinutes": 57,
     "releaseYear": 2014,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/v1pOP44wChdvxoGhnjSmhnzyDje.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/v8YFr8BbU9qsO8PYIulzTeM6Qk.jpg"
   },
@@ -4072,12 +4608,14 @@
     "avgRating": 14.15,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 416,
     "releaseYear": 2012,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Historique"
     ],
+    "channel": "Showcase (CAN)",
     "posterUrl": "https://image.tmdb.org/t/p/w500/4tJWWxG3zOviMr3kEzWjbjAyruo.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/6FMpi4dDLGH5IGFmpwFYvLi4UZ.jpg"
   },
@@ -4087,11 +4625,13 @@
     "avgRating": 16.77,
     "episodesWatched": 66,
     "episodes": 72,
+    "watchMinutes": 3335,
     "releaseYear": 2009,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "France 3",
     "posterUrl": "https://image.tmdb.org/t/p/w500/9rHYQ9bwjDV4P6zeppB3jWmJWjH.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/5Orq1SaqhjbuyJcA77GFA4hyt1D.jpg"
   },
@@ -4103,12 +4643,14 @@
     "avgRating": 14.43,
     "episodesWatched": 84,
     "episodes": 84,
+    "watchMinutes": 6720,
     "releaseYear": 2002,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Teen Drama"
     ],
+    "channel": "Antena 3",
     "posterUrl": "https://image.tmdb.org/t/p/w500/lUo4OlG7e5YUzcVPG24XnVEIraI.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/tdDFYJ9YvVOjQsNmCguukuQOVVT.jpg"
   },
@@ -4119,27 +4661,31 @@
     "avgRating": 16.41,
     "episodesWatched": 8,
     "episodes": 8,
+    "watchMinutes": 385,
     "releaseYear": 2019,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/jHOrNJNM03Lsjdw7nsw7TlqBOhd.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/AhFEqj8PFvvNDQ3Ouv39kNfTraI.jpg"
   },
   {
     "title": "Une famille formidable",
     "status": "En attente",
-    "avgRating": 14.53,
+    "avgRating": 14.52,
     "episodesWatched": 17,
     "episodes": 53,
+    "watchMinutes": 1530,
     "releaseYear": 1992,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Comédie dramatique"
     ],
+    "channel": "TF1",
     "posterUrl": "https://image.tmdb.org/t/p/w500/9uCUph0chZmiR8VsMDGmyEwQFdS.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/wnBfkAwxWAA1l6mqeRhuCHCg4QK.jpg"
   },
@@ -4151,12 +4697,14 @@
     "avgRating": 13.69,
     "episodesWatched": 88,
     "episodes": 88,
+    "watchMinutes": 1936,
     "releaseYear": 2002,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Comédie",
       "Sitcom"
     ],
+    "channel": "CBS",
     "posterUrl": "https://image.tmdb.org/t/p/w500/iMZNlCtkdJx9q0Z04thVwSQ6Y9t.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/3hCgghAAKralrDmiFtyZvsHC9aP.jpg"
   },
@@ -4167,11 +4715,13 @@
     "avgRating": 16.19,
     "episodesWatched": 4,
     "episodes": 4,
+    "watchMinutes": 213,
     "releaseYear": 2020,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/mdH0FbD328BIann1TPVwsPdCi0G.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/8Czs5ituRaAQu7BTRPbSkwF2pTr.jpg"
   },
@@ -4183,12 +4733,14 @@
     "avgRating": 16.17,
     "episodesWatched": 331,
     "episodes": 331,
+    "watchMinutes": 13943,
     "releaseYear": 1994,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Médicale"
     ],
+    "channel": "NBC",
     "posterUrl": "https://image.tmdb.org/t/p/w500/5kId85tX9lQMV22vKqTxsGdmuFd.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/b1t0mS2MAqnMdh5opqi94rlDEjn.jpg"
   },
@@ -4198,12 +4750,14 @@
     "avgRating": 15.9,
     "episodesWatched": 1,
     "episodes": 30,
+    "watchMinutes": 54,
     "releaseYear": 2015,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Historique"
     ],
+    "channel": "Canal+",
     "posterUrl": "https://image.tmdb.org/t/p/w500/fMqCRNpc2FadD0n7vJLRmlS0aEt.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/cWe83yD8s7B1OZ71ntIS5fCeqWC.jpg"
   },
@@ -4214,11 +4768,13 @@
     "avgRating": 13.76,
     "episodesWatched": 6,
     "episodes": 6,
+    "watchMinutes": 540,
     "releaseYear": 2010,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama"
     ],
+    "channel": "M6",
     "posterUrl": "https://image.tmdb.org/t/p/w500/2wrTi32aa2mEnippcZIzoI06UgP.jpg"
   },
   {
@@ -4227,42 +4783,48 @@
     "avgRating": 16.92,
     "episodesWatched": 2,
     "episodes": 25,
+    "watchMinutes": 114,
     "releaseYear": 2016,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Historique"
     ],
+    "channel": "ITV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/wtu2oxkUuP8bQu8YY7slIlvvvpX.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/srlPdxE5rmanfs5W09LLp8KU1VA.jpg"
   },
   {
     "title": "Vinland Saga",
     "status": "En cours",
-    "avgRating": 16.67,
+    "avgRating": 16.69,
     "episodesWatched": 2,
     "episodes": 50,
+    "watchMinutes": 54,
     "releaseYear": 2019,
     "airingStatus": "Diffusion actuelle",
     "genres": [
       "Action & Aventure",
       "Drame"
     ],
+    "channel": "NHK",
     "posterUrl": "https://image.tmdb.org/t/p/w500/ySPYLN1sHmgRdqdfLOE092JlNTp.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/xamCBQePUy9xI42GvtphLuGqd09.jpg"
   },
   {
     "title": "Violet Evergarden",
     "status": "Abandonnée",
-    "avgRating": 17.6,
+    "avgRating": 17.61,
     "episodesWatched": 1,
     "episodes": 14,
+    "watchMinutes": 24,
     "releaseYear": 2018,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drame",
       "Fantastique & Mythe"
     ],
+    "channel": "Netflix",
     "posterUrl": "https://image.tmdb.org/t/p/w500/2pV3XjjwRjevbaHoWH0Z3orOSrL.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/2e2AEk7Jmn8CztM62hoUyEEWw0B.jpg"
   },
@@ -4272,12 +4834,14 @@
     "avgRating": 15.96,
     "episodesWatched": 0,
     "episodes": 9,
+    "watchMinutes": 0,
     "releaseYear": 2019,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Action / Aventure"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/m8rWq3j73ZGhDuSCZWMMoE9ePH1.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/fh2CStc3fKFYhkKOFyUHBGksRWj.jpg"
   },
@@ -4288,12 +4852,14 @@
     "avgRating": 16.45,
     "episodesWatched": 36,
     "episodes": 36,
+    "watchMinutes": 2180,
     "releaseYear": 2016,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "HBO",
     "posterUrl": "https://image.tmdb.org/t/p/w500/iblRK215A0oz3ewTtIIXO9XcW1N.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/rX5hvSRB2k4YoIvRg6Zky52rWk0.jpg"
   },
@@ -4305,12 +4871,14 @@
     "avgRating": 16.46,
     "episodesWatched": 208,
     "episodes": 218,
+    "watchMinutes": 9360,
     "releaseYear": 1993,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Science-Fiction"
     ],
+    "channel": "FOX",
     "posterUrl": "https://image.tmdb.org/t/p/w500/eP4OS57gbqiOIvVAnCs8T4rz5t4.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/w00lfexrsOeR25dO4hsWhbcUnmD.jpg"
   },
@@ -4321,12 +4889,14 @@
     "avgRating": 17.24,
     "episodesWatched": 6,
     "episodes": 6,
+    "watchMinutes": 344,
     "releaseYear": 2019,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Politique"
     ],
+    "channel": "BBC One",
     "posterUrl": "https://image.tmdb.org/t/p/w500/2rfeV55nzGiM8jkPi85ZTineVg8.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/95DOsfIpXweztOlzGBU1bnePCIS.jpg"
   },
@@ -4336,12 +4906,14 @@
     "avgRating": 15.26,
     "episodesWatched": 30,
     "episodes": 50,
+    "watchMinutes": 1429,
     "releaseYear": 2018,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Thriller"
     ],
+    "channel": "Lifetime (US)",
     "posterUrl": "https://image.tmdb.org/t/p/w500/doavJnd27DZv6wxruPUC38Od9NC.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/gzOIymABxmetAECXtazEYCpMmfb.jpg"
   },
@@ -4349,15 +4921,17 @@
     "title": "Shigatsu wa Kimi no Uso",
     "titleVF": "Your Lie in April",
     "status": "Abandonnée",
-    "avgRating": 17.14,
+    "avgRating": 17.12,
     "episodesWatched": 12,
     "episodes": 23,
+    "watchMinutes": 288,
     "releaseYear": 2014,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Amour & Amitié",
       "Tranche de vie"
     ],
+    "channel": "Fuji TV",
     "posterUrl": "https://image.tmdb.org/t/p/w500/xswPti7YWJfvqFf52P5VAN1QMuJ.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/x6jWDL4H9TaBLGEvyej0qKiirBU.jpg"
   },
@@ -4369,26 +4943,30 @@
     "avgRating": 14.55,
     "episodesWatched": 27,
     "episodes": 27,
+    "watchMinutes": 648,
     "releaseYear": 1998,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Action & Aventure",
       "Fantastique & Mythe"
-    ]
+    ],
+    "channel": "TV Tokyo"
   },
   {
     "title": "Zodiaque",
     "status": "Terminée",
     "rating": 15,
-    "avgRating": 14.82,
+    "avgRating": 14.8,
     "episodesWatched": 5,
     "episodes": 5,
+    "watchMinutes": 500,
     "releaseYear": 2004,
     "airingStatus": "Diffusion finie",
     "genres": [
       "Drama",
       "Policier"
     ],
+    "channel": "TF1",
     "posterUrl": "https://image.tmdb.org/t/p/w500/vzpaiBaHmGdvuZOn21DnMWKkeaa.jpg",
     "backdropUrl": "https://image.tmdb.org/t/p/w1280/oC85EtlrVr8q9hMU7gmKgwNaEJY.jpg"
   }

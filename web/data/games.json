@@ -84,7 +84,7 @@
       "Gestion"
     ],
     "rating": 15,
-    "avgRating": 17.0545,
+    "avgRating": 17.0542,
     "releaseYear": 2013,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/cob8m6.jpg"
   },
@@ -166,14 +166,16 @@
   {
     "title": "Assassin's Creed Origins",
     "platform": "PC",
-    "status": "En cours",
-    "hoursPlayed": 21,
+    "status": "Fini",
+    "hoursPlayed": 25,
     "genres": [
       "Action-RPG",
       "Aventure"
     ],
-    "avgRating": 16.5152,
+    "rating": 15,
+    "avgRating": 16.5038,
     "releaseYear": 2017,
+    "dateFinished": "2026-05-13",
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1rbe.jpg"
   },
   {
@@ -229,6 +231,18 @@
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co5fay.jpg"
   },
   {
+    "title": "Baldur's Gate III",
+    "platform": "PC",
+    "status": "Wishé",
+    "hoursPlayed": 0,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 18.896,
+    "releaseYear": 2023,
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co670h.jpg"
+  },
+  {
     "title": "Baten Kaitos",
     "platform": "GameCube",
     "status": "Fini",
@@ -263,7 +277,7 @@
       "Action/Aventure"
     ],
     "rating": 18,
-    "avgRating": 17.5229,
+    "avgRating": 17.5182,
     "releaseYear": 2009,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1voj.jpg"
   },
@@ -277,7 +291,7 @@
       "Action/Aventure"
     ],
     "rating": 16,
-    "avgRating": 17.5156,
+    "avgRating": 17.5077,
     "releaseYear": 2011,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1voh.jpg"
   },
@@ -425,7 +439,7 @@
       "Gestion",
       "Stratégie"
     ],
-    "avgRating": 16.5942,
+    "avgRating": 16.5714,
     "releaseYear": 2016,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/coaaqr.jpg"
   },
@@ -438,7 +452,7 @@
       "Aventure-RPG"
     ],
     "rating": 19,
-    "avgRating": 18.75,
+    "avgRating": 18.7597,
     "releaseYear": 2025,
     "dateStarted": "2025-12-20",
     "dateFinished": "2026-01-18",
@@ -452,7 +466,7 @@
     "genres": [
       "Tower défense"
     ],
-    "avgRating": 14.3636,
+    "avgRating": 14.5833,
     "releaseYear": 2016,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/cobb48.jpg"
   },
@@ -492,7 +506,7 @@
       "FPS"
     ],
     "rating": 18,
-    "avgRating": 17.4512,
+    "avgRating": 17.4634,
     "releaseYear": 2020,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/coaih8.jpg"
   },
@@ -582,6 +596,19 @@
     "avgRating": 17.2667,
     "releaseYear": 2015,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2v6a.jpg"
+  },
+  {
+    "title": "Donkey Kong Bananza",
+    "platform": "Nintendo Switch 2",
+    "status": "En cours",
+    "hoursPlayed": 0,
+    "genres": [
+      "Aventure / Plates-Formes"
+    ],
+    "avgRating": 15.6,
+    "releaseYear": 2025,
+    "dateStarted": "2026-05-11",
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/cobd1q.jpg"
   },
   {
     "title": "Donkey Kong Country",
@@ -753,7 +780,7 @@
       "Gestion"
     ],
     "rating": 8,
-    "avgRating": 16.2308,
+    "avgRating": 16.2381,
     "releaseYear": 2008,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1y2h.jpg"
   },
@@ -793,7 +820,7 @@
     "genres": [
       "Gestion"
     ],
-    "avgRating": 15.6667,
+    "avgRating": 16,
     "releaseYear": 2015,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co6p4w.jpg"
   },
@@ -1247,7 +1274,7 @@
     "genres": [
       "Action-RPG"
     ],
-    "avgRating": 17.08,
+    "avgRating": 17.098,
     "releaseYear": 2020,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co7bo2.jpg"
   },
@@ -1348,7 +1375,7 @@
       "Action"
     ],
     "rating": 18,
-    "avgRating": 17.3264,
+    "avgRating": 17.3247,
     "releaseYear": 2015,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co9751.jpg"
   },
@@ -1493,7 +1520,7 @@
       "Action"
     ],
     "rating": 15,
-    "avgRating": 15.5,
+    "avgRating": 15.4878,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/cobkd4.jpg"
   },
   {
@@ -1514,7 +1541,7 @@
     "genres": [
       "RPG"
     ],
-    "avgRating": 16.0538,
+    "avgRating": 16.0532,
     "releaseYear": 2023,
     "dateStarted": "2025-08-11",
     "dateFinished": "2025-09-14",
@@ -1570,7 +1597,7 @@
       "Sport ",
       "RPG"
     ],
-    "avgRating": 13,
+    "avgRating": 12.5,
     "releaseYear": 2014
   },
   {
@@ -1581,7 +1608,7 @@
     "genres": [
       "Action/Aventure"
     ],
-    "avgRating": 15.64,
+    "avgRating": 15.6538,
     "releaseYear": 2019,
     "dateStarted": "2025-11-15",
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co4sbi.jpg"
@@ -1594,7 +1621,7 @@
     "genres": [
       "Action-RPG"
     ],
-    "avgRating": 15.2821,
+    "avgRating": 15.325,
     "releaseYear": 2009,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co31qj.jpg"
   },
@@ -1630,7 +1657,7 @@
       "Aventure",
       "Action"
     ],
-    "avgRating": 16.0345,
+    "avgRating": 16.0667,
     "releaseYear": 2011,
     "dateStarted": "2026-01-18",
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2ldn.jpg"
@@ -1657,7 +1684,7 @@
       "MOBA"
     ],
     "rating": 17,
-    "avgRating": 16.2418,
+    "avgRating": 16.2426,
     "releaseYear": 2009,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/cobpn7.jpg"
   },
@@ -1683,7 +1710,7 @@
       "Simulation de vie"
     ],
     "rating": 16,
-    "avgRating": 16.3885,
+    "avgRating": 16.3857,
     "releaseYear": 2004,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co3dm5.jpg"
   },
@@ -1785,7 +1812,7 @@
       "Course"
     ],
     "rating": 17,
-    "avgRating": 15.5312,
+    "avgRating": 15.5464,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2146.jpg"
   },
   {
@@ -1797,7 +1824,7 @@
       "Course"
     ],
     "rating": 17,
-    "avgRating": 16.848,
+    "avgRating": 16.8506,
     "releaseYear": 2017,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co213q.jpg"
   },
@@ -1810,7 +1837,7 @@
       "Course"
     ],
     "rating": 16,
-    "avgRating": 16.3667,
+    "avgRating": 16.3702,
     "releaseYear": 2005,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/cob9rx.jpg"
   },
@@ -1823,7 +1850,7 @@
       "Course"
     ],
     "rating": 16,
-    "avgRating": 16.4406,
+    "avgRating": 16.4466,
     "releaseYear": 2008,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co214e.jpg"
   },
@@ -1831,11 +1858,11 @@
     "title": "Mario Kart World",
     "platform": "Nintendo Switch 2",
     "status": "En cours",
-    "hoursPlayed": 7,
+    "hoursPlayed": 8,
     "genres": [
       "Course"
     ],
-    "avgRating": 15.3571,
+    "avgRating": 15.5333,
     "releaseYear": 2025,
     "dateStarted": "2025-06-07",
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/cob9s9.jpg"
@@ -1849,7 +1876,7 @@
       "Course"
     ],
     "rating": 17,
-    "avgRating": 17.3457,
+    "avgRating": 17.3497,
     "releaseYear": 2003,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co7ndu.jpg"
   },
@@ -1883,7 +1910,7 @@
     "genres": [
       "Action-RPG"
     ],
-    "avgRating": 17.0483,
+    "avgRating": 17.0204,
     "releaseYear": 2008,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1x7o.jpg"
   },
@@ -1905,7 +1932,7 @@
     "genres": [
       "Action-RPG"
     ],
-    "avgRating": 17.5956,
+    "avgRating": 17.5797,
     "releaseYear": 2010,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co20ac.jpg"
   },
@@ -2108,7 +2135,7 @@
       "Plates-Formes"
     ],
     "rating": 15,
-    "avgRating": 16.012,
+    "avgRating": 16.0179,
     "releaseYear": 2006,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co21rm.jpg"
   },
@@ -2174,10 +2201,10 @@
       {
         "platform": "Nintendo Switch 2",
         "status": "En cours",
-        "hoursPlayed": 0
+        "hoursPlayed": 2
       }
     ],
-    "hoursPlayed": 22,
+    "hoursPlayed": 24,
     "genres": [
       "Action/Aventure",
       "Survie"
@@ -2236,6 +2263,19 @@
     "avgRating": 17.1667,
     "releaseYear": 2016,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2hlq.jpg"
+  },
+  {
+    "title": "Persona 3 Reload",
+    "platform": "PC",
+    "status": "En cours",
+    "hoursPlayed": 7,
+    "genres": [
+      "RPG"
+    ],
+    "avgRating": 17.1429,
+    "releaseYear": 2024,
+    "dateStarted": "2026-06-05",
+    "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co78nt.jpg"
   },
   {
     "title": "Persona 4: Golden",
@@ -2313,7 +2353,7 @@
       "Jeu de combat"
     ],
     "rating": 15,
-    "avgRating": 15.4474,
+    "avgRating": 15.5128,
     "releaseYear": 2004,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co2tpe.jpg"
   },
@@ -2350,7 +2390,8 @@
     "genres": [
       "Aventure"
     ],
-    "avgRating": 14.8889,
+    "rating": 16,
+    "avgRating": 15,
     "releaseYear": 2016,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co9gmb.jpg"
   },
@@ -2401,7 +2442,7 @@
       "RPG",
       "Aventure"
     ],
-    "avgRating": 15.1148,
+    "avgRating": 15.129,
     "releaseYear": 2016,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co3co7.jpg"
   },
@@ -2468,7 +2509,7 @@
       "RPG"
     ],
     "rating": 16,
-    "avgRating": 15.8981,
+    "avgRating": 15.9083,
     "releaseYear": 2007,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1zht.jpg"
   },
@@ -2517,7 +2558,7 @@
       "RPG"
     ],
     "rating": 15,
-    "avgRating": 16.9157,
+    "avgRating": 16.9167,
     "releaseYear": 2010,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1z57.jpg"
   },
@@ -2544,7 +2585,7 @@
       "RPG"
     ],
     "rating": 15,
-    "avgRating": 15.9143,
+    "avgRating": 15.9296,
     "releaseYear": 2007,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1zio.jpg"
   },
@@ -2611,7 +2652,7 @@
       "Aventure"
     ],
     "rating": 18,
-    "avgRating": 16.5776,
+    "avgRating": 16.5812,
     "releaseYear": 2013,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1z8y.jpg"
   },
@@ -2625,7 +2666,7 @@
       "Réflexion"
     ],
     "rating": 16,
-    "avgRating": 16.587,
+    "avgRating": 16.5784,
     "releaseYear": 2008
   },
   {
@@ -2700,7 +2741,7 @@
       "Sport "
     ],
     "rating": 17,
-    "avgRating": 16.0374,
+    "avgRating": 16.0463,
     "releaseYear": 2015,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/cobxcp.jpg"
   },
@@ -2708,7 +2749,7 @@
     "title": "Rome: Total War",
     "platform": "PC",
     "status": "Fini",
-    "hoursPlayed": 57,
+    "hoursPlayed": 62,
     "genres": [
       "RTS",
       "Gestion"
@@ -2896,7 +2937,7 @@
     "genres": [
       "Action/Aventure"
     ],
-    "avgRating": 14.75,
+    "avgRating": 14.8,
     "releaseYear": 2024,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co9nh7.jpg"
   },
@@ -2921,7 +2962,7 @@
     "genres": [
       "RPG"
     ],
-    "avgRating": 17.1957,
+    "avgRating": 17.1915,
     "releaseYear": 2003,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1tmz.jpg"
   },
@@ -2933,7 +2974,7 @@
     "genres": [
       "RTS"
     ],
-    "avgRating": 17.1368,
+    "avgRating": 17.1354,
     "releaseYear": 2010,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1tnn.jpg"
   },
@@ -2956,7 +2997,7 @@
       "Simulation",
       "RPG"
     ],
-    "avgRating": 17.25,
+    "avgRating": 17.2475,
     "releaseYear": 2016,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/coa93h.jpg"
   },
@@ -2988,7 +3029,7 @@
     "title": "Stray",
     "platform": "PC",
     "status": "En cours",
-    "hoursPlayed": 2,
+    "hoursPlayed": 3,
     "genres": [
       "Aventure"
     ],
@@ -3043,7 +3084,7 @@
     "genres": [
       "Plates-Formes"
     ],
-    "avgRating": 17.0102,
+    "avgRating": 17.0101,
     "releaseYear": 2007,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co21ro.jpg"
   },
@@ -3069,7 +3110,7 @@
       "Plates-Formes"
     ],
     "rating": 18,
-    "avgRating": 16.9945,
+    "avgRating": 17,
     "releaseYear": 2017,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1mxf.jpg"
   },
@@ -3081,7 +3122,7 @@
     "genres": [
       "Party-Game"
     ],
-    "avgRating": 14.8125,
+    "avgRating": 14.8085,
     "releaseYear": 2018,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/cobaa9.jpg"
   },
@@ -3121,7 +3162,7 @@
       "Jeu de combat"
     ],
     "rating": 16,
-    "avgRating": 17.6159,
+    "avgRating": 17.6053,
     "releaseYear": 2002,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co21yv.jpg"
   },
@@ -3170,7 +3211,7 @@
       "Action-RPG"
     ],
     "rating": 17,
-    "avgRating": 16.4091,
+    "avgRating": 16.4348,
     "releaseYear": 2009,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co5gb4.jpg"
   },
@@ -3232,7 +3273,7 @@
     "genres": [
       "RPG"
     ],
-    "avgRating": 17.6531,
+    "avgRating": 17.66,
     "releaseYear": 2016,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1vco.jpg"
   },
@@ -3305,7 +3346,7 @@
     "genres": [
       "Action/Aventure"
     ],
-    "avgRating": 18.0935,
+    "avgRating": 18.0959,
     "releaseYear": 2017,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co3p2d.jpg"
   },
@@ -3330,7 +3371,7 @@
       "Action/Aventure"
     ],
     "rating": 16,
-    "avgRating": 18.2321,
+    "avgRating": 18.2311,
     "releaseYear": 2003,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co3ohz.jpg"
   },
@@ -3542,6 +3583,7 @@
       "Réflexion"
     ],
     "avgRating": 16.4828,
+    "releaseYear": 2011,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co25z7.jpg"
   },
   {
@@ -3661,7 +3703,7 @@
       "Gestion"
     ],
     "rating": 15,
-    "avgRating": 16.1875,
+    "avgRating": 16.2121,
     "releaseYear": 2001,
     "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co22u7.jpg"
   }
