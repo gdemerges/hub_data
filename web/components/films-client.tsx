@@ -1,9 +1,11 @@
 'use client'
 
 import { useState, useMemo, useEffect, useDeferredValue } from 'react'
+import { flushSync } from 'react-dom'
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
+import { withViewTransition } from '@/lib/view-transition'
 import { MediaTopPicks, type TopPick } from '@/components/media-top-picks'
 import { Recommendations } from '@/components/recommendations'
 import { StaggerContainer, StaggerItem } from '@/components/page-transition'
@@ -34,6 +36,24 @@ export function FilmsClient({ films }: FilmsClientProps) {
   )
   const [selectedItem, setSelectedItem] = useState<Film | null>(null)
   const deferredSearch = useDeferredValue(search)
+
+  // Titre de la carte en cours de morph : seule cette carte porte le
+  // view-transition-name (le navigateur exige un nom unique par document).
+  const [morphTitle, setMorphTitle] = useState<string | null>(null)
+
+  const openItem = (item: Film) => {
+    // Pose le nom sur la carte cliquée AVANT la capture de l'état "old".
+    flushSync(() => setMorphTitle(item.title))
+    withViewTransition(() => {
+      flushSync(() => setSelectedItem(item))
+    })
+  }
+
+  const closeItem = () => {
+    withViewTransition(() => {
+      flushSync(() => setSelectedItem(null))
+    }).then(() => setMorphTitle(null))
+  }
 
   useEffect(() => {
     const open = searchParams.get('open')
@@ -175,9 +195,10 @@ export function FilmsClient({ films }: FilmsClientProps) {
               imageUrl={item.imageUrl}
               subtitle={item.subtitle}
               badge={item.badge}
-              onClick={() => setSelectedItem(item)}
+              onClick={() => openItem(item)}
               priority={index < 12}
               color="terracotta"
+              transitionName={morphTitle === item.title ? 'media-cover' : undefined}
             />
           </StaggerItem>
         ))}
@@ -194,7 +215,7 @@ export function FilmsClient({ films }: FilmsClientProps) {
       {selectedItem && (
         <MediaDetail
           isOpen={!!selectedItem}
-          onClose={() => setSelectedItem(null)}
+          onClose={closeItem}
           title={selectedItem.title}
           imageUrl={selectedItem.posterUrl}
         >

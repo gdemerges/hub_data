@@ -676,4 +676,18 @@
   @keyframes vtRouteIn {
     from { opacity: 0; }
   }
+
+  /* === View Transitions — morph cover grille → détail === */
+  ::view-transition-group(media-cover) {
+    animation-duration: 0.3s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  /* Les snapshots remplissent le groupe pendant l'interpolation de taille. */
+  ::view-transition-old(media-cover),
+  ::view-transition-new(media-cover) {
+    animation: none;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
 }

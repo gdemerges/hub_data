@@ -37,7 +37,7 @@ export function MediaDetail({ isOpen, onClose, title, imageUrl, children }: Medi
 
         <div className="flex flex-col md:flex-row gap-6 p-6">
           {/* Poster */}
-          <div className="flex-shrink-0 w-full md:w-56">
+          <div className="flex-shrink-0 w-full md:w-56" style={{ viewTransitionName: 'media-cover' }}>
             {imageUrl ? (
               <div className="relative aspect-[2/3] rounded-lg overflow-hidden border border-earth-terracotta/20">
                 <Image

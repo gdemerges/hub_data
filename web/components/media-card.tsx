@@ -13,6 +13,8 @@ interface MediaCardProps {
   onClick?: () => void
   priority?: boolean
   color?: Accent
+  /** Nom de View Transition posé sur le poster (morph vers le détail). */
+  transitionName?: string
 }
 
 const accent: Record<
@@ -48,6 +50,7 @@ export function MediaCard({
   onClick,
   priority = false,
   color = 'fern',
+  transitionName,
 }: MediaCardProps) {
   const c = accent[color]
   return (
@@ -62,7 +65,7 @@ export function MediaCard({
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary'
       )}
     >
-      <div className="relative w-full aspect-[2/3] overflow-hidden bg-bg-tertiary">
+      <div className="relative w-full aspect-[2/3] overflow-hidden bg-bg-tertiary" style={transitionName ? { viewTransitionName: transitionName } : undefined}>
         {imageUrl ? (
           <Image
             src={imageUrl}

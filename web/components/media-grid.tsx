@@ -1,8 +1,10 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { flushSync } from 'react-dom'
 import { MediaCard } from './media-card'
 import { MediaDetail } from './media-detail'
+import { withViewTransition } from '@/lib/view-transition'
 import { Search, SlidersHorizontal } from 'lucide-react'
 
 interface MediaItem {
@@ -34,6 +36,24 @@ export function MediaGrid<T extends MediaItem>({
   const [selectedItem, setSelectedItem] = useState<T | null>(null)
   const [filter, setFilter] = useState<string>('all')
   const [showFilters, setShowFilters] = useState(false)
+
+  // Titre de la carte en cours de morph : seule cette carte porte le
+  // view-transition-name (le navigateur exige un nom unique par document).
+  const [morphTitle, setMorphTitle] = useState<string | null>(null)
+
+  const openItem = (item: T) => {
+    // Pose le nom sur la carte cliquée AVANT la capture de l'état "old".
+    flushSync(() => setMorphTitle(item.title))
+    withViewTransition(() => {
+      flushSync(() => setSelectedItem(item))
+    })
+  }
+
+  const closeItem = () => {
+    withViewTransition(() => {
+      flushSync(() => setSelectedItem(null))
+    }).then(() => setMorphTitle(null))
+  }
 
   const filteredItems = useMemo(() => {
     let result = items
@@ -123,8 +143,9 @@ export function MediaGrid<T extends MediaItem>({
             imageUrl={item.imageUrl}
             subtitle={item.subtitle}
             badge={item.badge}
-            onClick={() => setSelectedItem(item)}
+            onClick={() => openItem(item)}
             priority={index < 12}
+            transitionName={morphTitle === item.title ? 'media-cover' : undefined}
           />
         ))}
       </div>
@@ -140,7 +161,7 @@ export function MediaGrid<T extends MediaItem>({
       {renderDetail && selectedItem && (
         <MediaDetail
           isOpen={!!selectedItem}
-          onClose={() => setSelectedItem(null)}
+          onClose={closeItem}
           title={selectedItem.title}
           imageUrl={selectedItem.imageUrl}
         >
