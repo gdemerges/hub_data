@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { getGamesData } from '@/lib/data'
+import { computeGameStats } from '@/lib/media-stats'
 import { getMonthlyPlaytime, getCurrentMonth } from '@/lib/play-log'
 import { seriesColor } from '@/lib/chart'
 import { GameController } from '@phosphor-icons/react/dist/ssr'
@@ -9,6 +10,7 @@ export const revalidate = 3600
 
 export default async function GamesPage() {
   const games = await getGamesData()
+  const gameStats = computeGameStats(games)
   const currentMonth = getCurrentMonth()
   const monthlyPlaytime = getMonthlyPlaytime(currentMonth)
 
@@ -106,6 +108,7 @@ export default async function GamesPage() {
           pieChartData={pieChartData}
           genreChartData={genreChartData}
           totalHours={totalHours}
+          gameStats={gameStats}
         />
       </Suspense>
     </div>

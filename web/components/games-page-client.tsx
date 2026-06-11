@@ -7,6 +7,7 @@ import { SteamSection } from '@/components/steam-section'
 import { GameStats } from '@/components/games-stats'
 import { Trophy, Gamepad2, BarChart3, Activity } from 'lucide-react'
 import type { Game } from '@/lib/types'
+import type { GameStatsData } from '@/lib/media-stats'
 
 interface GamesPageClientProps {
   games: Game[]
@@ -15,6 +16,7 @@ interface GamesPageClientProps {
   pieChartData: { label: string; value: number; color: string }[]
   genreChartData: { label: string; value: number; color: string }[]
   totalHours: number
+  gameStats: GameStatsData
 }
 
 type Tab = 'games' | 'steam' | 'stats'
@@ -26,6 +28,7 @@ export function GamesPageClient({
   pieChartData,
   genreChartData,
   totalHours,
+  gameStats,
 }: GamesPageClientProps) {
   const [activeTab, setActiveTab] = useState<Tab>('games')
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null)
@@ -104,7 +107,7 @@ export function GamesPageClient({
         <>
           {/* Rich stats: KPI row + tops + status + decades + per-genre/platform */}
           <div className="mb-8">
-            <GameStats games={games} />
+            <GameStats stats={gameStats} />
           </div>
 
           {/* Charts - Platform and Genre side by side */}
