@@ -50,9 +50,12 @@ export function FilmsClient({ films }: FilmsClientProps) {
   }
 
   const closeItem = () => {
+    // Capture le titre en cours : si une autre carte est ouverte pendant les
+    // ~300ms de transition, son morphTitle ne doit pas être écrasé.
+    const closing = morphTitle
     withViewTransition(() => {
       flushSync(() => setSelectedItem(null))
-    }).then(() => setMorphTitle(null))
+    }).then(() => setMorphTitle((t) => (t === closing ? null : t)))
   }
 
   useEffect(() => {
@@ -198,7 +201,9 @@ export function FilmsClient({ films }: FilmsClientProps) {
               onClick={() => openItem(item)}
               priority={index < 12}
               color="terracotta"
-              transitionName={morphTitle === item.title ? 'media-cover' : undefined}
+              // Nom supprimé tant que le modal est ouvert : deux éléments avec le
+              // même view-transition-name feraient skipper la transition.
+              transitionName={morphTitle === item.title && !selectedItem ? 'media-cover' : undefined}
             />
           </StaggerItem>
         ))}
