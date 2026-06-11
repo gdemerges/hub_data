@@ -128,8 +128,7 @@ export default function YearInReviewPage() {
       <YearReviewHero key={year} year={year} data={data ?? null} />
 
       {data && (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Section
               icon={FilmIcon}
               title="Films"
@@ -192,8 +191,7 @@ export default function YearInReviewPage() {
                 ) : null
               }
             />
-          </div>
-        </>
+        </div>
       )}
     </div>
   )
