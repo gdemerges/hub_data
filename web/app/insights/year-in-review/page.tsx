@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import useSWR from 'swr'
-import { PageHeader } from '@/components'
-import { Film as FilmIcon, Tv, Gamepad2, BookOpen, Sparkles, ChevronDown } from 'lucide-react'
+import { PageHeader, YearReviewHero } from '@/components'
+import { Film as FilmIcon, Tv, Gamepad2, BookOpen, ChevronDown } from 'lucide-react'
 import { CalendarBlank } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
 
@@ -93,7 +93,7 @@ function Section({
 
 export default function YearInReviewPage() {
   const [year, setYear] = useState(currentYear)
-  const { data, isLoading } = useSWR<Review>(`/api/year-in-review?year=${year}`, fetcher, {
+  const { data } = useSWR<Review>(`/api/year-in-review?year=${year}`, fetcher, {
     dedupingInterval: 300_000, // 5min — données statiques, pas besoin de re-fetch fréquent
   })
 
@@ -124,28 +124,11 @@ export default function YearInReviewPage() {
         ))}
       </div>
 
-      {isLoading && (
-        <div className="tech-card p-8 text-center text-text-muted font-mono">Chargement...</div>
-      )}
+      {/* key={year} : remonte le hero au changement d'année → les compteurs rejouent */}
+      <YearReviewHero key={year} year={year} data={data ?? null} />
 
       {data && (
         <>
-          {data.highlights.length > 0 && (
-            <div className="tech-card p-6 mb-6 bg-gradient-to-br from-earth-terracotta/5 to-earth-fern/5">
-              <div className="flex items-center gap-2 mb-4">
-                <Sparkles className="w-5 h-5 text-earth-terracotta" />
-                <h2 className="font-display font-semibold text-text-primary uppercase tracking-wider">Faits marquants</h2>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                {data.highlights.map((h, i) => (
-                  <div key={i} className="px-4 py-2 bg-bg-card border border-earth-terracotta/30 rounded-lg font-mono text-sm text-text-primary">
-                    {h}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Section
               icon={FilmIcon}
