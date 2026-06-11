@@ -7,3 +7,4 @@ export {
   isUnplayed,
   type SagaStats,
 } from './games-stats'
+export { computeSeriesStats, type SeriesStatsData } from './series-stats'
