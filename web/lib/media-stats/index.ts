@@ -1,3 +1,4 @@
+export { computeFilmStats, type FilmStatsData } from './films-stats'
 export {
   computeGameStats,
   type GameStatsData,
