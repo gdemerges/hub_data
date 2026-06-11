@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import Link from 'next/link'
+import { TransitionLink } from './transition-link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import {
@@ -132,7 +132,7 @@ export function Navigation() {
     const isActive = pathname === item.href
     const Icon = item.icon
     return (
-      <Link
+      <TransitionLink
         href={item.href}
         onClick={onClick}
         aria-current={isActive ? 'page' : undefined}
@@ -162,7 +162,7 @@ export function Navigation() {
           )}
           style={{ background: 'currentColor' }}
         />
-      </Link>
+      </TransitionLink>
     )
   }
 
@@ -202,7 +202,7 @@ export function Navigation() {
               const isActive = pathname === item.href
               const ItemIcon = item.icon
               return (
-                <Link
+                <TransitionLink
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpenGroup(null)}
@@ -219,7 +219,7 @@ export function Navigation() {
                     className={accentText[item.color]}
                   />
                   <span className="font-medium">{item.label}</span>
-                </Link>
+                </TransitionLink>
               )
             })}
           </div>
@@ -229,10 +229,10 @@ export function Navigation() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-bg-primary/85 backdrop-blur-md border-b border-border-subtle">
+    <header className="site-nav-vt sticky top-0 z-50 bg-bg-primary/85 backdrop-blur-md border-b border-border-subtle">
       <div className="max-w-7xl mx-auto px-6 py-3">
         <div className="flex items-center justify-between gap-6">
-          <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
+          <TransitionLink href="/" className="flex items-center gap-2.5 shrink-0 group">
             <span
               className="p-1.5 rounded-xl bg-earth-moss/10 border border-earth-moss/30 transition-transform duration-500 ease-spring group-hover:rotate-[-12deg] group-hover:scale-110"
               style={{ transformOrigin: 'bottom center' }}
@@ -242,7 +242,7 @@ export function Navigation() {
             <span className="font-display text-lg font-medium tracking-tight text-text-primary">
               Hub Life
             </span>
-          </Link>
+          </TransitionLink>
 
           <nav className="hidden lg:flex items-center justify-end gap-1 flex-1">
             {navEntries.map(entry =>

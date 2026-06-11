@@ -654,4 +654,26 @@
       clip-path: circle(150% at var(--theme-x, 100%) var(--theme-y, 0%));
     }
   }
+
+  /* === View Transitions — navigation entre pages === */
+  /* Le header garde sa propre couche : il reste immobile pendant le fade. */
+  html.route-changing .site-nav-vt {
+    view-transition-name: site-nav;
+  }
+  html.route-changing::view-transition-old(site-nav),
+  html.route-changing::view-transition-new(site-nav) {
+    animation: none;
+  }
+  html.route-changing::view-transition-old(root) {
+    animation: vtRouteOut 0.25s ease both;
+  }
+  html.route-changing::view-transition-new(root) {
+    animation: vtRouteIn 0.25s ease both;
+  }
+  @keyframes vtRouteOut {
+    to { opacity: 0; }
+  }
+  @keyframes vtRouteIn {
+    from { opacity: 0; }
+  }
 }

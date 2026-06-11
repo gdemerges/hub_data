@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Suspense } from 'react'
 import { Inter, JetBrains_Mono, Fraunces } from 'next/font/google'
-import { Navigation, CommandPalette, ServiceWorkerRegister, Footer, RouteProgress } from '@/components'
+import { Navigation, CommandPalette, ServiceWorkerRegister, Footer, RouteProgress, RouteTransitionListener } from '@/components'
 import { SWRProvider } from '@/lib/swr-config'
 import './globals.css'
 
@@ -73,6 +73,7 @@ export default function RootLayout({
           <a href="#main" className="skip-link">Aller au contenu</a>
           <Suspense fallback={null}>
             <RouteProgress />
+            <RouteTransitionListener />
           </Suspense>
           <Navigation />
           <CommandPalette />

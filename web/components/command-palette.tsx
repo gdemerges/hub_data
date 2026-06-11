@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { MagnifyingGlass, X } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
+import { navigateWithViewTransition } from '@/lib/view-transition'
 
 type Kind = 'nav' | 'games' | 'films' | 'series' | 'books'
 
@@ -157,8 +158,8 @@ export function CommandPalette() {
     } else if (e.key === 'Enter') {
       const item = results[selected]
       if (item) {
-        router.push(item.href)
         setOpen(false)
+        navigateWithViewTransition(() => router.push(item.href))
       }
     }
   }
@@ -207,8 +208,8 @@ export function CommandPalette() {
                 key={item.id}
                 data-idx={i}
                 onClick={() => {
-                  router.push(item.href)
                   setOpen(false)
+                  navigateWithViewTransition(() => router.push(item.href))
                 }}
                 onMouseEnter={() => setSelected(i)}
                 className={cn(
