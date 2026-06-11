@@ -223,3 +223,6 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 data/spotify-refresh-token.txt
+
+# Brainstorming visual companion
+.superpowers/
