@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import type { Film } from '@/lib/types'
 import { computeFilmStats } from './films-stats'
 
+// Fixture helper : cast volontaire, seuls les champs utilisés par le calcul comptent.
 function mkFilm(over: Partial<Film>): Film {
   return { title: 'Sans titre', ...over } as Film
 }
@@ -13,6 +14,7 @@ describe('computeFilmStats', () => {
     expect(s.totalMinutes).toBe(0)
     expect(s.avgRuntime).toBe(0)
     expect(s.avgRating).toBe(0)
+    expect(s.bestRated).toBeUndefined()
     expect(s.topRated).toEqual([])
     expect(s.genreData).toEqual([])
     expect(s.yearData).toEqual([])
@@ -41,6 +43,8 @@ describe('computeFilmStats', () => {
       mkFilm({ title: 'A', dateWatched: '2024-03-01', releaseYear: 1999 }),
       mkFilm({ title: 'B', dateWatched: '2024-07-15', releaseYear: 2003 }),
       mkFilm({ title: 'C', dateWatched: '2025-01-02', releaseYear: 2001 }),
+      // dateWatched invalide : ignoré dans yearData ; pas de releaseYear → decadeData inchangé
+      mkFilm({ title: 'D', dateWatched: 'invalide' }),
     ])
     expect(s.yearData).toEqual([
       [2024, 2],
@@ -51,6 +55,7 @@ describe('computeFilmStats', () => {
       [1990, 1],
       [2000, 2],
     ])
+    expect(s.decadeMax).toBe(2)
   })
 
   it('répartition des notes arrondies, triée note décroissante', () => {

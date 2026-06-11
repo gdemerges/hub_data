@@ -2,96 +2,16 @@
 
 import { BarChart3, CalendarDays, Clapperboard, Clock, Film, Star } from 'lucide-react'
 import Image from 'next/image'
-import { useMemo } from 'react'
 import { EmptyState } from '@/components/empty-state'
 import { PieChart } from '@/components/pie-chart'
-import { seriesColor } from '@/lib/chart'
 import { formatWatchHours } from '@/lib/series-time'
-import type { Film as FilmType } from '@/lib/types'
+import type { FilmStatsData } from '@/lib/media-stats'
 
 interface FilmsStatsProps {
-  films: FilmType[]
+  stats: FilmStatsData
 }
 
-function avg(nums: number[]): number {
-  if (!nums.length) return 0
-  return nums.reduce((a, b) => a + b, 0) / nums.length
-}
-
-export function FilmsStats({ films }: FilmsStatsProps) {
-  const stats = useMemo(() => {
-    const totalFilms = films.length
-    const totalMinutes = films.reduce((sum, f) => sum + (f.runtime ?? 0), 0)
-    const withRuntime = films.filter((f) => (f.runtime ?? 0) > 0)
-    const avgRuntime = avg(withRuntime.map((f) => f.runtime as number))
-    const rated = films.filter((f) => f.rating && f.rating > 0)
-    const avgRating = avg(rated.map((f) => f.rating as number))
-    const bestRated = [...films]
-      .filter((f) => f.rating && f.rating > 0)
-      .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))[0]
-
-    // Top 10 par note personnelle
-    const topRated = [...films]
-      .filter((f) => f.rating && f.rating > 0)
-      .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0) || (b.runtime ?? 0) - (a.runtime ?? 0))
-      .slice(0, 10)
-
-    // Répartition par genre (nombre de films)
-    const genreCounts = new Map<string, number>()
-    films.forEach((f) => {
-      f.genres?.forEach((g) => genreCounts.set(g, (genreCounts.get(g) ?? 0) + 1))
-    })
-    const genreData = [...genreCounts.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 8)
-      .map(([label, value], i) => ({ label, value, color: seriesColor(i) }))
-
-    // Films vus par année (date de visionnage)
-    const watchedByYear = new Map<number, number>()
-    films.forEach((f) => {
-      const y = f.dateWatched ? Number(f.dateWatched.slice(0, 4)) : null
-      if (!y || Number.isNaN(y)) return
-      watchedByYear.set(y, (watchedByYear.get(y) ?? 0) + 1)
-    })
-    const yearData = [...watchedByYear.entries()].sort((a, b) => a[0] - b[0])
-    const yearMax = Math.max(...yearData.map(([, v]) => v), 1)
-
-    // Films par décennie de sortie
-    const decadeCounts = new Map<number, number>()
-    films.forEach((f) => {
-      if (!f.releaseYear) return
-      const decade = Math.floor(f.releaseYear / 10) * 10
-      decadeCounts.set(decade, (decadeCounts.get(decade) ?? 0) + 1)
-    })
-    const decadeData = [...decadeCounts.entries()].sort((a, b) => a[0] - b[0])
-    const decadeMax = Math.max(...decadeData.map(([, v]) => v), 1)
-
-    // Répartition des notes personnelles
-    const ratingCounts = new Map<number, number>()
-    rated.forEach((f) => {
-      const r = Math.round(f.rating as number)
-      ratingCounts.set(r, (ratingCounts.get(r) ?? 0) + 1)
-    })
-    const ratingData = [...ratingCounts.entries()].sort((a, b) => b[0] - a[0])
-    const ratingMax = Math.max(...ratingData.map(([, v]) => v), 1)
-
-    return {
-      totalFilms,
-      totalMinutes,
-      avgRuntime,
-      avgRating,
-      bestRated,
-      topRated,
-      genreData,
-      yearData,
-      yearMax,
-      decadeData,
-      decadeMax,
-      ratingData,
-      ratingMax,
-    }
-  }, [films])
-
+export function FilmsStats({ stats }: FilmsStatsProps) {
   if (stats.totalFilms === 0) {
     return <EmptyState description="Aucun film à analyser." />
   }

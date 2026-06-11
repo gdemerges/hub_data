@@ -4,15 +4,17 @@ import { ChartBar, FilmStrip } from '@phosphor-icons/react'
 import { Suspense, useState } from 'react'
 import { FilmsClient } from '@/components/films-client'
 import { FilmsStats } from '@/components/films-stats'
+import type { FilmStatsData } from '@/lib/media-stats'
 import type { Film } from '@/lib/types'
 
 interface FilmsPageClientProps {
   films: Film[]
+  filmStats: FilmStatsData
 }
 
 type Tab = 'catalogue' | 'stats'
 
-export function FilmsPageClient({ films }: FilmsPageClientProps) {
+export function FilmsPageClient({ films, filmStats }: FilmsPageClientProps) {
   const [activeTab, setActiveTab] = useState<Tab>('catalogue')
 
   return (
@@ -39,7 +41,7 @@ export function FilmsPageClient({ films }: FilmsPageClientProps) {
         </Suspense>
       )}
 
-      {activeTab === 'stats' && <FilmsStats films={films} />}
+      {activeTab === 'stats' && <FilmsStats stats={filmStats} />}
     </>
   )
 }
