@@ -1,9 +1,9 @@
 'use client'
 
-import { startTransition, use, useOptimistic } from 'react'
-import Link from 'next/link'
-import { ContributionCalendar } from '@/components'
 import { Activity, ChevronLeft, ChevronRight } from 'lucide-react'
+import Link from 'next/link'
+import { startTransition, use, useOptimistic } from 'react'
+import { ContributionCalendar } from '@/components'
 import type { ContributionsData } from '@/lib/github'
 
 interface Props {

@@ -1,10 +1,10 @@
+import { GameController } from '@phosphor-icons/react/dist/ssr'
 import { Suspense } from 'react'
+import { GamesPageClient, MonthlyPlaytime, PageHeader, SkeletonChart } from '@/components'
+import { seriesColor } from '@/lib/chart'
 import { getGamesData } from '@/lib/data'
 import { computeGameStats } from '@/lib/media-stats'
-import { getMonthlyPlaytime, getCurrentMonth } from '@/lib/play-log'
-import { seriesColor } from '@/lib/chart'
-import { GameController } from '@phosphor-icons/react/dist/ssr'
-import { GamesPageClient, MonthlyPlaytime, PageHeader, SkeletonChart } from '@/components'
+import { getCurrentMonth, getMonthlyPlaytime } from '@/lib/play-log'
 
 export const revalidate = 3600
 
@@ -16,10 +16,10 @@ export default async function GamesPage() {
 
   // Extract all unique platforms, including from multi-platform games
   const platformSet = new Set<string>()
-  games.forEach(game => {
+  games.forEach((game) => {
     if (game.platforms && game.platforms.length > 0) {
       // Multi-platform game: add all platforms
-      game.platforms.forEach(p => platformSet.add(p.platform))
+      game.platforms.forEach((p) => platformSet.add(p.platform))
     } else if (game.platform) {
       // Single-platform game: add the platform
       platformSet.add(game.platform)
@@ -29,10 +29,10 @@ export default async function GamesPage() {
 
   // Calculate hours per platform
   const platformHours: { [key: string]: number } = {}
-  games.forEach(game => {
+  games.forEach((game) => {
     if (game.platforms && game.platforms.length > 0) {
       // Multi-platform game: use platform-specific hours
-      game.platforms.forEach(p => {
+      game.platforms.forEach((p) => {
         if (p.hoursPlayed) {
           platformHours[p.platform] = (platformHours[p.platform] || 0) + p.hoursPlayed
         }
@@ -58,11 +58,11 @@ export default async function GamesPage() {
 
   // Calculate hours per genre
   const genreHours: { [key: string]: number } = {}
-  games.forEach(game => {
+  games.forEach((game) => {
     if (game.genres && game.genres.length > 0 && game.hoursPlayed) {
       // Divide hours equally among all genres for this game
       const hoursPerGenre = game.hoursPlayed / game.genres.length
-      game.genres.forEach(genre => {
+      game.genres.forEach((genre) => {
         // Normalize RPG genres
         let normalizedGenre = genre
         if (genre.includes('RPG')) {

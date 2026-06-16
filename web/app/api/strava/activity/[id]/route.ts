@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
-
-import { getValidStravaToken } from '@/lib/strava-token'
 import { logger } from '@/lib/logger'
+import { getValidStravaToken } from '@/lib/strava-token'
 
 const STRAVA_API = 'https://www.strava.com/api/v3'
 
@@ -17,10 +16,7 @@ interface StravaLap {
   lap_index: number
 }
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
 
@@ -46,7 +42,7 @@ export async function GET(
     // Fetch activity streams (GPS, heart rate, etc.)
     const streamsResponse = await fetch(
       `${STRAVA_API}/activities/${id}/streams?keys=latlng,altitude,heartrate,time,distance,velocity_smooth,cadence&key_by_type=true`,
-      { headers }
+      { headers },
     )
     const streams = streamsResponse.ok ? await streamsResponse.json() : null
 
@@ -77,15 +73,17 @@ export async function GET(
         sufferScore: activity.suffer_score,
         deviceName: activity.device_name,
       },
-      streams: streams ? {
-        latlng: streams.latlng?.data,
-        altitude: streams.altitude?.data,
-        heartrate: streams.heartrate?.data,
-        time: streams.time?.data,
-        distance: streams.distance?.data,
-        velocity: streams.velocity_smooth?.data,
-        cadence: streams.cadence?.data,
-      } : null,
+      streams: streams
+        ? {
+            latlng: streams.latlng?.data,
+            altitude: streams.altitude?.data,
+            heartrate: streams.heartrate?.data,
+            time: streams.time?.data,
+            distance: streams.distance?.data,
+            velocity: streams.velocity_smooth?.data,
+            cadence: streams.cadence?.data,
+          }
+        : null,
       laps: (laps as StravaLap[]).map((lap) => ({
         name: lap.name,
         distance: lap.distance / 1000,

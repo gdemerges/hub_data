@@ -20,9 +20,7 @@ const IMG_HOSTS = [
 
 // Wildcard image hosts (Spotify users linked via Facebook serve avatars from
 // regional fbcdn subdomains like scontent-fra5-1.xx.fbcdn.net).
-const IMG_WILDCARD_HOSTS = [
-  '*.fbcdn.net',
-]
+const IMG_WILDCARD_HOSTS = ['*.fbcdn.net']
 
 const CONNECT_HOSTS = [
   'api.themoviedb.org',
@@ -57,7 +55,10 @@ const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'X-Frame-Options', value: 'DENY' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()' },
+  {
+    key: 'Permissions-Policy',
+    value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+  },
   ...(isProd
     ? [{ key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' }]
     : []),

@@ -1,21 +1,21 @@
 'use client'
 
-import { useMemo, useState } from 'react'
-import type { Book } from '@/lib/types'
 import {
   BookOpen,
-  Star,
-  Hash,
-  CheckCircle2,
-  Clock,
-  Calendar,
-  Users,
   Building2,
-  TrendingUp,
-  TrendingDown,
-  Layers,
+  Calendar,
+  CheckCircle2,
   ChevronDown,
+  Clock,
+  Hash,
+  Layers,
+  Star,
+  TrendingDown,
+  TrendingUp,
+  Users,
 } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import type { Book } from '@/lib/types'
 
 interface BooksStatsProps {
   books: Book[]
@@ -35,7 +35,10 @@ const BOOK_SAGAS: { name: string; pattern: RegExp }[] = [
   { name: 'Samurai Deeper Kyo', pattern: /\bsamurai deeper kyo\b/i },
   { name: 'Platinum End', pattern: /\bplatinum end|purachina endo\b/i },
   { name: 'The Breaker', pattern: /\bthe breaker\b/i },
-  { name: 'Gardiens des cités perdues', pattern: /\bgardiens des cit[eé]s perdues|keeper of the lost cities\b/i },
+  {
+    name: 'Gardiens des cités perdues',
+    pattern: /\bgardiens des cit[eé]s perdues|keeper of the lost cities\b/i,
+  },
   { name: 'Hunger Games', pattern: /\bhunger games\b/i },
   { name: 'Le cycle des robots', pattern: /\bcycle des robots|i[, ]+robot\b/i },
   { name: 'Octofight', pattern: /\boctofight\b/i },
@@ -63,17 +66,17 @@ function parseFrenchDateTime(s?: string): Date | null {
 export function BooksStats({ books }: BooksStatsProps) {
   const stats = useMemo(() => {
     const total = books.length
-    const read = books.filter(b => b.dateRead && b.dateRead.trim() !== '')
+    const read = books.filter((b) => b.dateRead && b.dateRead.trim() !== '')
     const readCount = read.length
     const totalPages = read.reduce((s, b) => s + (b.pages ?? 0), 0)
 
-    const rated = books.filter(b => typeof b.rating === 'number' && b.rating! > 0)
-    const avgRating = avg(rated.map(b => b.rating!))
+    const rated = books.filter((b) => typeof b.rating === 'number' && b.rating! > 0)
+    const avgRating = avg(rated.map((b) => b.rating!))
 
     const bothRated = books.filter(
-      b => typeof b.rating === 'number' && b.rating! > 0 && typeof b.avgRating === 'number'
+      (b) => typeof b.rating === 'number' && b.rating! > 0 && typeof b.avgRating === 'number',
     )
-    const avgVsCrowd = avg(bothRated.map(b => b.rating! - b.avgRating!))
+    const avgVsCrowd = avg(bothRated.map((b) => b.rating! - b.avgRating!))
 
     const pagesByYear = new Map<number, number>()
     const booksByYear = new Map<number, number>()
@@ -86,7 +89,7 @@ export function BooksStats({ books }: BooksStatsProps) {
     }
     const yearStats = Array.from(pagesByYear.keys())
       .sort()
-      .map(y => ({
+      .map((y) => ({
         year: y,
         pages: pagesByYear.get(y) ?? 0,
         books: booksByYear.get(y) ?? 0,
@@ -158,7 +161,7 @@ export function BooksStats({ books }: BooksStatsProps) {
           const by = parseFrenchDateTime(b.dateRead)?.getTime() ?? 0
           return ay - by
         })
-        const cover = sortedBooks.find(x => x.coverUrl)?.coverUrl
+        const cover = sortedBooks.find((x) => x.coverUrl)?.coverUrl
         return {
           name,
           count: v.books.length,
@@ -260,8 +263,8 @@ function KpiRow({
         avgVsCrowd > 0.05
           ? `+${avgVsCrowd.toFixed(1)} vs moyenne`
           : avgVsCrowd < -0.05
-          ? `${avgVsCrowd.toFixed(1)} vs moyenne`
-          : 'aligné sur la moyenne',
+            ? `${avgVsCrowd.toFixed(1)} vs moyenne`
+            : 'aligné sur la moyenne',
       icon: <Star className="w-5 h-5" />,
       color: 'text-earth-saffron',
       bg: 'bg-earth-saffron/10',
@@ -269,7 +272,7 @@ function KpiRow({
   ]
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      {items.map(it => (
+      {items.map((it) => (
         <div key={it.label} className="bg-bg-card border border-border-subtle rounded-xl p-4">
           <div className="flex items-center gap-3 mb-2">
             <div className={`p-2 rounded-lg ${it.bg} ${it.color}`}>{it.icon}</div>
@@ -283,13 +286,9 @@ function KpiRow({
   )
 }
 
-function PagesByYear({
-  items,
-}: {
-  items: { year: number; pages: number; books: number }[]
-}) {
+function PagesByYear({ items }: { items: { year: number; pages: number; books: number }[] }) {
   if (!items.length) return null
-  const max = Math.max(...items.map(i => i.pages))
+  const max = Math.max(...items.map((i) => i.pages))
   return (
     <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
       <div className="flex items-center gap-3 mb-4">
@@ -369,7 +368,7 @@ function TopAuthors({
   items: { name: string; count: number; pages: number; rating?: number }[]
 }) {
   if (!items.length) return null
-  const max = Math.max(...items.map(i => i.count))
+  const max = Math.max(...items.map((i) => i.count))
   return (
     <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
       <div className="flex items-center gap-3 mb-4">
@@ -407,7 +406,7 @@ function TopAuthors({
 
 function TopEditors({ items }: { items: { name: string; count: number }[] }) {
   if (!items.length) return null
-  const max = Math.max(...items.map(i => i.count))
+  const max = Math.max(...items.map((i) => i.count))
   return (
     <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
       <div className="flex items-center gap-3 mb-4">
@@ -452,8 +451,8 @@ interface SagaItem {
 function SagaList({ items }: { items: SagaItem[] }) {
   const [selected, setSelected] = useState<string | null>(null)
   if (!items.length) return null
-  const max = Math.max(...items.map(i => i.pages))
-  const selectedSaga = items.find(s => s.name === selected) ?? null
+  const max = Math.max(...items.map((i) => i.pages))
+  const selectedSaga = items.find((s) => s.name === selected) ?? null
 
   return (
     <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
@@ -548,7 +547,8 @@ function SagaList({ items }: { items: SagaItem[] }) {
                 <div className="flex-1 min-w-0">
                   <p className="text-sm text-text-primary truncate">{b.title}</p>
                   <p className="text-xs text-text-muted truncate">
-                    {b.author || '—'}{b.year ? ` · ${b.year}` : ''}
+                    {b.author || '—'}
+                    {b.year ? ` · ${b.year}` : ''}
                   </p>
                 </div>
                 {b.rating ? (
@@ -586,8 +586,14 @@ export function ReadingDelay({ purchase, read }: { purchase?: string; read?: str
   const days = Math.round((r.getTime() - p.getTime()) / 86400000)
   if (days < 0) return null
   if (days < 1) return <span className="text-text-muted">le jour même</span>
-  if (days < 30) return <span className="text-text-muted">{days} jour{days > 1 ? 's' : ''} après achat</span>
-  if (days < 365) return <span className="text-text-muted">{Math.round(days / 30)} mois après achat</span>
+  if (days < 30)
+    return (
+      <span className="text-text-muted">
+        {days} jour{days > 1 ? 's' : ''} après achat
+      </span>
+    )
+  if (days < 365)
+    return <span className="text-text-muted">{Math.round(days / 30)} mois après achat</span>
   return <span className="text-text-muted">{(days / 365).toFixed(1)} ans après achat</span>
 }
 

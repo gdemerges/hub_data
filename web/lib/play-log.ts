@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, existsSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 const PLAY_LOG_DIR = resolve(process.cwd(), '../data/play-log')
@@ -43,8 +43,8 @@ function readMonth(month: string): PlayLogMonth | null {
 export function listAvailableMonths(): string[] {
   if (!existsSync(PLAY_LOG_DIR)) return []
   return readdirSync(PLAY_LOG_DIR)
-    .filter(f => /^\d{4}-\d{2}\.json$/.test(f))
-    .map(f => f.slice(0, 7))
+    .filter((f) => /^\d{4}-\d{2}\.json$/.test(f))
+    .map((f) => f.slice(0, 7))
     .sort()
 }
 

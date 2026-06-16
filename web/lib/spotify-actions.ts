@@ -1,8 +1,8 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { loadSpotify } from './spotify'
 import { logger } from './logger'
+import { loadSpotify } from './spotify'
 
 export async function syncSpotifyAction(): Promise<{ ok: boolean; error?: string }> {
   try {

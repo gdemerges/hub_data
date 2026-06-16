@@ -1,5 +1,11 @@
-import type { FitnessMetrics, RacePrediction, RecoveryAdvice, PerformanceAnalysis, PerformanceInsight } from './types'
 import { logger } from './logger'
+import type {
+  FitnessMetrics,
+  PerformanceAnalysis,
+  PerformanceInsight,
+  RacePrediction,
+  RecoveryAdvice,
+} from './types'
 
 // Fitness algorithm constants — edit here to adjust all calculations
 export const FITNESS_CONSTANTS = {
@@ -56,13 +62,13 @@ function localDateKey(d: Date): string {
  * LTHR = environ 90% de la FC max observée lors d'efforts soutenus
  */
 export function calculateLTHR(activities: Activity[]): number {
-  const activitiesWithHR = activities.filter(a => a.averageHeartrate && a.averageHeartrate > 0)
+  const activitiesWithHR = activities.filter((a) => a.averageHeartrate && a.averageHeartrate > 0)
 
   if (activitiesWithHR.length === 0) return FITNESS_CONSTANTS.DEFAULT_LTHR
 
   // Trouver les 10 efforts les plus intenses (allure rapide + FC élevée)
   const intensiveEfforts = activitiesWithHR
-    .filter(a => a.distance > 3) // Au moins 3km pour être significatif
+    .filter((a) => a.distance > 3) // Au moins 3km pour être significatif
     .sort((a, b) => {
       const scoreA = (a.averageHeartrate || 0) * (a.distance / (a.movingTime / 60))
       const scoreB = (b.averageHeartrate || 0) * (b.distance / (b.movingTime / 60))
@@ -72,23 +78,27 @@ export function calculateLTHR(activities: Activity[]): number {
 
   if (intensiveEfforts.length === 0) {
     // Utiliser la moyenne des 90% supérieurs
-    const sortedHR = activitiesWithHR
-      .map(a => a.averageHeartrate || 0)
-      .sort((a, b) => b - a)
+    const sortedHR = activitiesWithHR.map((a) => a.averageHeartrate || 0).sort((a, b) => b - a)
     const top10Percent = sortedHR.slice(0, Math.max(1, Math.floor(sortedHR.length * 0.1)))
-    return Math.round(top10Percent.reduce((sum, hr) => sum + hr, 0) / top10Percent.length * 0.90)
+    return Math.round((top10Percent.reduce((sum, hr) => sum + hr, 0) / top10Percent.length) * 0.9)
   }
 
   // Moyenne des FC des efforts intenses, réduite de 10% pour estimer le seuil
-  const avgIntensiveHR = intensiveEfforts.reduce((sum, a) => sum + (a.averageHeartrate || 0), 0) / intensiveEfforts.length
-  return Math.round(avgIntensiveHR * 0.90)
+  const avgIntensiveHR =
+    intensiveEfforts.reduce((sum, a) => sum + (a.averageHeartrate || 0), 0) /
+    intensiveEfforts.length
+  return Math.round(avgIntensiveHR * 0.9)
 }
 
 /**
  * Calcule le Training Stress Score (TSS) pour une activité
  * Priorité : utilise la fréquence cardiaque si disponible, sinon l'allure
  */
-export function calculateTSS(activity: Activity, thresholdPace: number = FITNESS_CONSTANTS.DEFAULT_THRESHOLD_PACE, lthr?: number): number {
+export function calculateTSS(
+  activity: Activity,
+  thresholdPace: number = FITNESS_CONSTANTS.DEFAULT_THRESHOLD_PACE,
+  lthr?: number,
+): number {
   const durationHours = activity.movingTime / 60
   let intensityFactor = 0
 
@@ -98,7 +108,10 @@ export function calculateTSS(activity: Activity, thresholdPace: number = FITNESS
     intensityFactor = activity.averageHeartrate / lthr
 
     // Limiter IF entre MIN et MAX (sécurité)
-    intensityFactor = Math.max(FITNESS_CONSTANTS.MIN_INTENSITY_FACTOR, Math.min(FITNESS_CONSTANTS.MAX_INTENSITY_FACTOR, intensityFactor))
+    intensityFactor = Math.max(
+      FITNESS_CONSTANTS.MIN_INTENSITY_FACTOR,
+      Math.min(FITNESS_CONSTANTS.MAX_INTENSITY_FACTOR, intensityFactor),
+    )
 
     // TSS = durée (h) × IF² × 100
     const tss = durationHours * intensityFactor ** 2 * 100
@@ -133,7 +146,7 @@ export function calculateFitnessMetrics(activities: Activity[]): FitnessMetrics[
   try {
     // Trier par date croissante
     const sortedActivities = [...activities].sort(
-      (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+      (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
     )
 
     if (sortedActivities.length === 0) return []
@@ -141,7 +154,7 @@ export function calculateFitnessMetrics(activities: Activity[]): FitnessMetrics[
     // Limiter aux activités de la fenêtre FITNESS_WINDOW_DAYS pour optimiser les performances
     const sixMonthsAgo = Date.now() - FITNESS_CONSTANTS.FITNESS_WINDOW_DAYS * 24 * 60 * 60 * 1000
     const recentActivities = sortedActivities.filter(
-      a => new Date(a.startDate).getTime() >= sixMonthsAgo
+      (a) => new Date(a.startDate).getTime() >= sixMonthsAgo,
     )
 
     if (recentActivities.length === 0) return []
@@ -152,10 +165,11 @@ export function calculateFitnessMetrics(activities: Activity[]): FitnessMetrics[
     // Calculer le pace seuil moyen (médiane des 10 dernières sorties)
     const recentPaces = recentActivities
       .slice(-10)
-      .map(a => a.movingTime / a.distance)
-      .filter(pace => !Number.isNaN(pace) && pace > 0)
+      .map((a) => a.movingTime / a.distance)
+      .filter((pace) => !Number.isNaN(pace) && pace > 0)
       .sort((a, b) => a - b)
-    const thresholdPace = recentPaces[Math.floor(recentPaces.length / 2)] || FITNESS_CONSTANTS.DEFAULT_THRESHOLD_PACE
+    const thresholdPace =
+      recentPaces[Math.floor(recentPaces.length / 2)] || FITNESS_CONSTANTS.DEFAULT_THRESHOLD_PACE
 
     // Créer un map date -> TSS (clé = date locale de la sortie)
     const dailyTSS = new Map<string, number>()
@@ -178,7 +192,9 @@ export function calculateFitnessMetrics(activities: Activity[]): FitnessMetrics[
     // Limiter le nombre d'itérations
     const daysDiff = Math.floor((lastDate.getTime() - firstDate.getTime()) / (1000 * 60 * 60 * 24))
     if (daysDiff > FITNESS_CONSTANTS.FITNESS_WINDOW_DAYS) {
-      firstDate.setTime(lastDate.getTime() - FITNESS_CONSTANTS.FITNESS_WINDOW_DAYS * 24 * 60 * 60 * 1000)
+      firstDate.setTime(
+        lastDate.getTime() - FITNESS_CONSTANTS.FITNESS_WINDOW_DAYS * 24 * 60 * 60 * 1000,
+      )
     }
 
     // Itérer sur chaque jour (clé locale, alignée sur l'indexation TSS)
@@ -215,19 +231,17 @@ export function calculateFitnessMetrics(activities: Activity[]): FitnessMetrics[
  * Utilise la formule de Riegel ajustée + progression récente
  */
 export function predictRaceTimes(activities: Activity[]): RacePrediction[] {
-  const runs = activities.filter(a => a.type === 'Run')
+  const runs = activities.filter((a) => a.type === 'Run')
   if (runs.length === 0) return []
 
   // Trouver les meilleures performances récentes (3 derniers mois)
   const threeMonthsAgo = Date.now() - 90 * 24 * 60 * 60 * 1000
-  const recentRuns = runs.filter(a => new Date(a.startDate).getTime() > threeMonthsAgo)
+  const recentRuns = runs.filter((a) => new Date(a.startDate).getTime() > threeMonthsAgo)
 
   if (recentRuns.length === 0) return []
 
   // Calculer la vitesse moyenne des 10 dernières sorties (km/h)
-  const recentSpeeds = recentRuns
-    .slice(-10)
-    .map(a => (a.distance / (a.movingTime / 60))) // km/h
+  const recentSpeeds = recentRuns.slice(-10).map((a) => a.distance / (a.movingTime / 60)) // km/h
 
   const avgSpeed = recentSpeeds.reduce((sum, s) => sum + s, 0) / recentSpeeds.length
   const currentPace = 60 / avgSpeed // min/km
@@ -235,7 +249,7 @@ export function predictRaceTimes(activities: Activity[]): RacePrediction[] {
   // Référence = meilleure perf récente TOUTES distances, projetée en équivalent
   // 10 km via Riegel (`temps × (10/distance)^1.06`). Un 5 km rapide ou un 15 km
   // solide informent ainsi les prédictions, pas seulement la bande 9–11 km.
-  const eligibleRuns = recentRuns.filter(a => a.distance >= 2 && a.movingTime > 0)
+  const eligibleRuns = recentRuns.filter((a) => a.distance >= 2 && a.movingTime > 0)
   let reference10kTime = 10 * currentPace // défaut: d'après la vitesse moyenne
 
   if (eligibleRuns.length > 0) {
@@ -247,7 +261,7 @@ export function predictRaceTimes(activities: Activity[]): RacePrediction[] {
 
   // Une course proche de la distance cible fiabilise sa prédiction.
   const hasRunNear = (d: number) =>
-    recentRuns.some(a => a.distance >= d * 0.8 && a.distance <= d * 1.2)
+    recentRuns.some((a) => a.distance >= d * 0.8 && a.distance <= d * 1.2)
 
   // Formule de Riegel: T2 = T1 × (D2/D1)^1.06
   // Ajustée avec facteur de fatigue selon distance
@@ -298,14 +312,14 @@ export function estimateVdot(activities: Activity[]): number | null {
 
   const threeMonthsAgo = Date.now() - 90 * 24 * 60 * 60 * 1000
   const recent = runs.filter(
-    (a) => new Date(a.startDate).getTime() > threeMonthsAgo && a.distance >= 2 && a.movingTime > 0
+    (a) => new Date(a.startDate).getTime() > threeMonthsAgo && a.distance >= 2 && a.movingTime > 0,
   )
   if (recent.length === 0) return null
 
   // Meilleur temps équivalent 10 km (minutes).
   const best10kTime = recent.reduce(
     (best, run) => Math.min(best, run.movingTime * (10 / run.distance) ** 1.06),
-    Infinity
+    Infinity,
   )
   if (!Number.isFinite(best10kTime) || best10kTime <= 0) return null
 
@@ -325,7 +339,7 @@ export function estimateVdot(activities: Activity[]): number | null {
 export function calculateTimeToTarget(
   currentTime: number,
   targetTime: number,
-  recentActivities: Activity[]
+  recentActivities: Activity[],
 ): number {
   if (currentTime <= targetTime) return 0
 
@@ -333,12 +347,12 @@ export function calculateTimeToTarget(
   const twoMonthsAgo = Date.now() - 60 * 24 * 60 * 60 * 1000
   const oneMonthAgo = Date.now() - 30 * 24 * 60 * 60 * 1000
 
-  const runs = recentActivities.filter(a => a.type === 'Run')
-  const olderRuns = runs.filter(a => {
+  const runs = recentActivities.filter((a) => a.type === 'Run')
+  const olderRuns = runs.filter((a) => {
     const date = new Date(a.startDate).getTime()
     return date >= twoMonthsAgo && date < oneMonthAgo
   })
-  const recentRuns = runs.filter(a => {
+  const recentRuns = runs.filter((a) => {
     const date = new Date(a.startDate).getTime()
     return date >= oneMonthAgo
   })
@@ -350,8 +364,10 @@ export function calculateTimeToTarget(
     return Math.ceil((gap / improvement) * 30)
   }
 
-  const avgOlderPace = olderRuns.reduce((sum, r) => sum + (r.movingTime / r.distance), 0) / olderRuns.length
-  const avgRecentPace = recentRuns.reduce((sum, r) => sum + (r.movingTime / r.distance), 0) / recentRuns.length
+  const avgOlderPace =
+    olderRuns.reduce((sum, r) => sum + r.movingTime / r.distance, 0) / olderRuns.length
+  const avgRecentPace =
+    recentRuns.reduce((sum, r) => sum + r.movingTime / r.distance, 0) / recentRuns.length
 
   // Amélioration mensuelle
   const paceImprovement = (avgOlderPace - avgRecentPace) / avgOlderPace
@@ -381,7 +397,7 @@ export function analyzeRecovery(activities: Activity[]): RecoveryAdvice {
 
   // Trier par date décroissante
   const sorted = [...activities].sort(
-    (a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+    (a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime(),
   )
 
   // Calculer le LTHR (seuil de fréquence cardiaque)
@@ -389,23 +405,34 @@ export function analyzeRecovery(activities: Activity[]): RecoveryAdvice {
 
   const now = Date.now()
   const lastActivity = sorted[0]
-  const hoursSinceLastActivity = (now - new Date(lastActivity.startDate).getTime()) / (1000 * 60 * 60)
+  const hoursSinceLastActivity =
+    (now - new Date(lastActivity.startDate).getTime()) / (1000 * 60 * 60)
 
   // Calculer la charge de la dernière activité
-  const lastActivityLoad = calculateTSS(lastActivity, FITNESS_CONSTANTS.DEFAULT_THRESHOLD_PACE, lthr)
+  const lastActivityLoad = calculateTSS(
+    lastActivity,
+    FITNESS_CONSTANTS.DEFAULT_THRESHOLD_PACE,
+    lthr,
+  )
 
   // Calculer la charge de la semaine
   const oneWeekAgo = now - FITNESS_CONSTANTS.ATL_DAYS * 24 * 60 * 60 * 1000
-  const weekActivities = sorted.filter(a => new Date(a.startDate).getTime() >= oneWeekAgo)
-  const weeklyLoad = weekActivities.reduce((sum, a) => sum + calculateTSS(a, FITNESS_CONSTANTS.DEFAULT_THRESHOLD_PACE, lthr), 0)
+  const weekActivities = sorted.filter((a) => new Date(a.startDate).getTime() >= oneWeekAgo)
+  const weeklyLoad = weekActivities.reduce(
+    (sum, a) => sum + calculateTSS(a, FITNESS_CONSTANTS.DEFAULT_THRESHOLD_PACE, lthr),
+    0,
+  )
 
   // Calculer la charge de la semaine précédente
   const twoWeeksAgo = now - 2 * FITNESS_CONSTANTS.ATL_DAYS * 24 * 60 * 60 * 1000
-  const previousWeekActivities = sorted.filter(a => {
+  const previousWeekActivities = sorted.filter((a) => {
     const date = new Date(a.startDate).getTime()
     return date >= twoWeeksAgo && date < oneWeekAgo
   })
-  const previousWeekLoad = previousWeekActivities.reduce((sum, a) => sum + calculateTSS(a, FITNESS_CONSTANTS.DEFAULT_THRESHOLD_PACE, lthr), 0)
+  const previousWeekLoad = previousWeekActivities.reduce(
+    (sum, a) => sum + calculateTSS(a, FITNESS_CONSTANTS.DEFAULT_THRESHOLD_PACE, lthr),
+    0,
+  )
 
   // Calcul du risque
   let riskScore = 0
@@ -440,7 +467,7 @@ export function analyzeRecovery(activities: Activity[]): RecoveryAdvice {
 
   // Risque 4: Trop de sorties consécutives
   const last3Days = now - FITNESS_CONSTANTS.CONSECUTIVE_ACTIVITY_RISK * 24 * 60 * 60 * 1000
-  const recentCount = sorted.filter(a => new Date(a.startDate).getTime() >= last3Days).length
+  const recentCount = sorted.filter((a) => new Date(a.startDate).getTime() >= last3Days).length
   if (recentCount >= FITNESS_CONSTANTS.CONSECUTIVE_ACTIVITY_RISK) {
     riskScore += 15
     reasons.push(`${recentCount} sorties en 3 jours`)
@@ -461,7 +488,7 @@ export function analyzeRecovery(activities: Activity[]): RecoveryAdvice {
     hoursRecommended = 0
   }
 
-  const reason = reasons.length > 0 ? reasons.join(' • ') : 'Charge d\'entraînement équilibrée'
+  const reason = reasons.length > 0 ? reasons.join(' • ') : "Charge d'entraînement équilibrée"
 
   return {
     status,
@@ -490,16 +517,21 @@ export function analyzePerformanceFactors(activities: Activity[]): PerformanceAn
 
   const speedOf = (a: Activity) => a.distance / (a.movingTime / 60) // km/h
 
-  const globalAvgSpeed =
-    activities.reduce((sum, a) => sum + speedOf(a), 0) / activities.length
+  const globalAvgSpeed = activities.reduce((sum, a) => sum + speedOf(a), 0) / activities.length
 
   // Régression linéaire vitesse = intercept + slope · distance.
   const n = activities.length
-  let sumD = 0, sumV = 0, sumDD = 0, sumDV = 0
+  let sumD = 0,
+    sumV = 0,
+    sumDD = 0,
+    sumDV = 0
   for (const a of activities) {
     const d = a.distance
     const v = speedOf(a)
-    sumD += d; sumV += v; sumDD += d * d; sumDV += d * v
+    sumD += d
+    sumV += v
+    sumDD += d * d
+    sumDV += d * v
   }
   const denom = n * sumDD - sumD * sumD
   const slope = denom !== 0 ? (n * sumDV - sumD * sumV) / denom : 0
@@ -547,7 +579,7 @@ export function analyzePerformanceFactors(activities: Activity[]): PerformanceAn
   // --- Jour de la semaine ---
   const dayNames = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
   const byDay = new Map<number, { samples: SpeedSample[]; label: string }>()
-  activities.forEach(a => {
+  activities.forEach((a) => {
     const day = new Date(a.startDate).getDay()
     if (!byDay.has(day)) byDay.set(day, { samples: [], label: dayNames[day] })
     byDay.get(day)!.samples.push(sampleOf(a))
@@ -556,7 +588,7 @@ export function analyzePerformanceFactors(activities: Activity[]): PerformanceAn
   // --- Heure de la journée ---
   const timeNames = ['Nuit (0h-6h)', 'Matin (6h-12h)', 'Après-midi (12h-18h)', 'Soir (18h-24h)']
   const byTime = new Map<number, { samples: SpeedSample[]; label: string }>()
-  activities.forEach(a => {
+  activities.forEach((a) => {
     const hour = new Date(a.startDate).getHours()
     let slot = 0
     if (hour >= 6 && hour < 12) slot = 1
@@ -568,7 +600,7 @@ export function analyzePerformanceFactors(activities: Activity[]): PerformanceAn
 
   // --- Jours de repos avant la sortie ---
   const sortedActivities = [...activities].sort(
-    (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+    (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
   )
   const restNames = ['', '0-1 jour', '2 jours', '3 jours', '4+ jours']
   const byRest = new Map<number, { samples: SpeedSample[]; label: string }>()
@@ -576,7 +608,7 @@ export function analyzePerformanceFactors(activities: Activity[]): PerformanceAn
     const daysDiff = Math.round(
       (new Date(sortedActivities[i].startDate).getTime() -
         new Date(sortedActivities[i - 1].startDate).getTime()) /
-        (1000 * 60 * 60 * 24)
+        (1000 * 60 * 60 * 24),
     )
     const restCategory = daysDiff <= 1 ? 1 : daysDiff === 2 ? 2 : daysDiff === 3 ? 3 : 4
     if (!byRest.has(restCategory)) {
@@ -597,7 +629,7 @@ export function analyzePerformanceFactors(activities: Activity[]): PerformanceAn
     bestTimeOfDay: time.best,
     bestRestDays: rest.best,
     insights: [...day.insights, ...time.insights, ...rest.insights].sort(
-      (a, b) => b.improvement - a.improvement
+      (a, b) => b.improvement - a.improvement,
     ),
   }
 }

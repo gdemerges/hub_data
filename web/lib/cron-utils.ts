@@ -32,8 +32,13 @@ export async function warmRoute(path: string): Promise<NextResponse> {
   } catch (error) {
     logger.error(`Cron failed for ${path}:`, error)
     return NextResponse.json(
-      { success: false, path, error: error instanceof Error ? error.message : 'Unknown', timestamp: new Date().toISOString() },
-      { status: 500 }
+      {
+        success: false,
+        path,
+        error: error instanceof Error ? error.message : 'Unknown',
+        timestamp: new Date().toISOString(),
+      },
+      { status: 500 },
     )
   }
 }

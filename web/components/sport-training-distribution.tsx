@@ -2,7 +2,7 @@
 
 import { ChartPie } from 'lucide-react'
 import { PieChart, SectionCard } from '@/components'
-import { paceDistribution, formatPace, type SportActivity } from '@/lib/sport'
+import { formatPace, paceDistribution, type SportActivity } from '@/lib/sport'
 
 interface Props {
   runs: SportActivity[]

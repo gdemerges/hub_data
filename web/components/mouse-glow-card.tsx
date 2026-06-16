@@ -9,9 +9,7 @@ interface BaseProps {
   children: React.ReactNode
 }
 
-type Props =
-  | (BaseProps & { href: string })
-  | (BaseProps & { href?: undefined })
+type Props = (BaseProps & { href: string }) | (BaseProps & { href?: undefined })
 
 /**
  * Wrapper client qui pose --mx/--my (en %) sur l'élément au mousemove,

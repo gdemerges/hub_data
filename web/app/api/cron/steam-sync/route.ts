@@ -15,7 +15,7 @@ async function syncWithRetry(retries = MAX_RETRIES): Promise<unknown> {
     return await response.json()
   } catch (error) {
     if (retries > 0) {
-      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY_MS))
+      await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS))
       return syncWithRetry(retries - 1)
     }
     throw error
@@ -37,8 +37,12 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     logger.error('Steam cron sync failed:', error)
     return NextResponse.json(
-      { success: false, error: error instanceof Error ? error.message : 'Unknown error', timestamp: new Date().toISOString() },
-      { status: 500 }
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+        timestamp: new Date().toISOString(),
+      },
+      { status: 500 },
     )
   }
 }

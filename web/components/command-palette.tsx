@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { MagnifyingGlass, X } from '@phosphor-icons/react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { navigateWithViewTransition } from '@/lib/view-transition'
 
@@ -88,7 +88,7 @@ export function CommandPalette() {
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault()
-        setOpen(o => !o)
+        setOpen((o) => !o)
       } else if (e.key === 'Escape') {
         setOpen(false)
       }
@@ -106,8 +106,8 @@ export function CommandPalette() {
   useEffect(() => {
     if (!open || items.length > 0) return
     fetch('/api/search')
-      .then(r => r.json())
-      .then(d => setItems(d.items ?? []))
+      .then((r) => r.json())
+      .then((d) => setItems(d.items ?? []))
       .catch(() => setItems([]))
   }, [open, items.length])
 
@@ -120,7 +120,7 @@ export function CommandPalette() {
   }, [open])
 
   const results = useMemo<Result[]>(() => {
-    const media: Result[] = items.map(it => ({
+    const media: Result[] = items.map((it) => ({
       id: it.id,
       title: it.title,
       kind: it.section,
@@ -131,11 +131,11 @@ export function CommandPalette() {
     // Requête vide : la palette agit comme un navigateur (sections d'abord).
     if (!query.trim()) return NAV_COMMANDS
     return [...NAV_COMMANDS, ...media]
-      .map(item => ({ item, score: fuzzyScore(query, item.title) }))
-      .filter(x => x.score > 0)
+      .map((item) => ({ item, score: fuzzyScore(query, item.title) }))
+      .filter((x) => x.score > 0)
       .sort((a, b) => b.score - a.score)
       .slice(0, 30)
-      .map(x => x.item)
+      .map((x) => x.item)
   }, [items, query])
 
   useEffect(() => {
@@ -162,10 +162,10 @@ export function CommandPalette() {
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault()
-      setSelected(s => Math.min(s + 1, results.length - 1))
+      setSelected((s) => Math.min(s + 1, results.length - 1))
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
-      setSelected(s => Math.max(s - 1, 0))
+      setSelected((s) => Math.max(s - 1, 0))
     } else if (e.key === 'Enter') {
       const item = results[selected]
       if (item) {
@@ -186,14 +186,14 @@ export function CommandPalette() {
     >
       <div
         className="w-full max-w-2xl mx-4 bg-bg-card border border-border-default rounded-2xl shadow-soft-lg overflow-hidden"
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-3 px-4 py-3 border-b border-border-subtle">
           <MagnifyingGlass size={16} className="text-earth-moss shrink-0" />
           <input
             ref={inputRef}
             value={query}
-            onChange={e => setQuery(e.target.value)}
+            onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
             placeholder="Aller à une section, rechercher jeux, films, séries, livres…"
             className="flex-1 bg-transparent text-text-primary placeholder:text-text-muted outline-none text-sm"
@@ -222,7 +222,7 @@ export function CommandPalette() {
                 className={cn(
                   'w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors',
                   'focus-visible:outline-none focus-visible:bg-bg-hover',
-                  i === selected ? 'bg-bg-hover' : 'hover:bg-bg-hover/60'
+                  i === selected ? 'bg-bg-hover' : 'hover:bg-bg-hover/60',
                 )}
               >
                 <span className={cn('text-xs font-medium w-16 shrink-0', KIND_COLORS[item.kind])}>
@@ -230,22 +230,30 @@ export function CommandPalette() {
                 </span>
                 <span className="flex-1 text-sm text-text-primary truncate">{item.title}</span>
                 {item.subtitle && (
-                  <span className="text-xs text-text-secondary truncate max-w-[120px]">{item.subtitle}</span>
+                  <span className="text-xs text-text-secondary truncate max-w-[120px]">
+                    {item.subtitle}
+                  </span>
                 )}
-                {item.year && (
-                  <span className="text-xs text-text-muted num">{item.year}</span>
-                )}
+                {item.year && <span className="text-xs text-text-muted num">{item.year}</span>}
               </button>
             ))
           )}
         </div>
         <div className="flex items-center justify-between px-4 py-2 border-t border-border-subtle text-[11px] text-text-muted">
           <div className="flex gap-3">
-            <span><kbd className="px-1 bg-bg-secondary rounded font-mono">↑↓</kbd> naviguer</span>
-            <span><kbd className="px-1 bg-bg-secondary rounded font-mono">↵</kbd> ouvrir</span>
-            <span><kbd className="px-1 bg-bg-secondary rounded font-mono">esc</kbd> fermer</span>
+            <span>
+              <kbd className="px-1 bg-bg-secondary rounded font-mono">↑↓</kbd> naviguer
+            </span>
+            <span>
+              <kbd className="px-1 bg-bg-secondary rounded font-mono">↵</kbd> ouvrir
+            </span>
+            <span>
+              <kbd className="px-1 bg-bg-secondary rounded font-mono">esc</kbd> fermer
+            </span>
           </div>
-          <span>{results.length} résultat{results.length > 1 ? 's' : ''}</span>
+          <span>
+            {results.length} résultat{results.length > 1 ? 's' : ''}
+          </span>
         </div>
       </div>
     </div>

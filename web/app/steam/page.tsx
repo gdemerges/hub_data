@@ -1,9 +1,9 @@
-import { Suspense } from 'react'
-import Image from 'next/image'
-import { StatCard, PageHeader } from '@/components'
-import { SteamPlaytimeSection, SteamPlaytimeSkeleton } from '@/components/steam-playtime-section'
-import { Gamepad2, Clock, Trophy, Zap } from 'lucide-react'
 import { SteamLogo } from '@phosphor-icons/react/dist/ssr'
+import { Clock, Gamepad2, Trophy, Zap } from 'lucide-react'
+import Image from 'next/image'
+import { Suspense } from 'react'
+import { PageHeader, StatCard } from '@/components'
+import { SteamPlaytimeSection, SteamPlaytimeSkeleton } from '@/components/steam-playtime-section'
 import { loadSteam } from '@/lib/steam'
 import { loadPlaytime } from '@/lib/steam-playtime'
 
@@ -85,9 +85,24 @@ export default async function SteamPage({
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <StatCard label="Jeux possédés" value={data.stats.totalGames} icon={Gamepad2} color="moss" />
-        <StatCard label="Heures de jeu" value={data.stats.totalPlaytimeHours} icon={Clock} color="fern" />
-        <StatCard label="Jeux récents" value={data.stats.gamesPlayedRecently} icon={Trophy} color="saffron" />
+        <StatCard
+          label="Jeux possédés"
+          value={data.stats.totalGames}
+          icon={Gamepad2}
+          color="moss"
+        />
+        <StatCard
+          label="Heures de jeu"
+          value={data.stats.totalPlaytimeHours}
+          icon={Clock}
+          color="fern"
+        />
+        <StatCard
+          label="Jeux récents"
+          value={data.stats.gamesPlayedRecently}
+          icon={Trophy}
+          color="saffron"
+        />
       </div>
 
       <Suspense fallback={<SteamPlaytimeSkeleton />}>
@@ -128,9 +143,7 @@ export default async function SteamPage({
                 <h4 className="font-medium text-text-primary truncate group-hover:text-earth-terracotta transition-colors">
                   {game.name}
                 </h4>
-                <p className="text-xs font-mono text-text-muted">
-                  {game.playtimeHours}h joués
-                </p>
+                <p className="text-xs font-mono text-text-muted">{game.playtimeHours}h joués</p>
               </div>
             </div>
           ))}

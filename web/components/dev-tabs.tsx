@@ -1,17 +1,11 @@
 'use client'
 
-import { useState } from 'react'
 import { GithubLogo, Sparkle } from '@phosphor-icons/react/dist/ssr'
+import { useState } from 'react'
 
 type Tab = 'github' | 'claude'
 
-export function DevTabs({
-  github,
-  claude,
-}: {
-  github: React.ReactNode
-  claude: React.ReactNode
-}) {
+export function DevTabs({ github, claude }: { github: React.ReactNode; claude: React.ReactNode }) {
   const [tab, setTab] = useState<Tab>('github')
 
   return (

@@ -4,8 +4,8 @@ import { BarChart3, CalendarDays, Clapperboard, Clock, Film, Star } from 'lucide
 import Image from 'next/image'
 import { EmptyState } from '@/components/empty-state'
 import { PieChart } from '@/components/pie-chart'
-import { formatWatchHours } from '@/lib/series-time'
 import type { FilmStatsData } from '@/lib/media-stats'
+import { formatWatchHours } from '@/lib/series-time'
 
 interface FilmsStatsProps {
   stats: FilmStatsData
@@ -50,7 +50,10 @@ export function FilmsStats({ stats }: FilmsStatsProps) {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Top notes */}
-        <Card icon={<Star className="w-5 h-5 text-earth-terracotta" />} title="Top 10 — mieux notés">
+        <Card
+          icon={<Star className="w-5 h-5 text-earth-terracotta" />}
+          title="Top 10 — mieux notés"
+        >
           {stats.topRated.length > 0 ? (
             <ol className="space-y-2.5">
               {stats.topRated.map((f, i) => (
@@ -84,7 +87,10 @@ export function FilmsStats({ stats }: FilmsStatsProps) {
         </Card>
 
         {/* Genres */}
-        <Card icon={<Film className="w-5 h-5 text-earth-terracotta" />} title="Répartition par genre">
+        <Card
+          icon={<Film className="w-5 h-5 text-earth-terracotta" />}
+          title="Répartition par genre"
+        >
           {stats.genreData.length > 0 ? (
             <div className="flex justify-center">
               <PieChart data={stats.genreData} size={280} unit="" />
@@ -142,7 +148,10 @@ export function FilmsStats({ stats }: FilmsStatsProps) {
       </div>
 
       {/* Répartition des notes */}
-      <Card icon={<BarChart3 className="w-5 h-5 text-earth-terracotta" />} title="Répartition des notes">
+      <Card
+        icon={<BarChart3 className="w-5 h-5 text-earth-terracotta" />}
+        title="Répartition des notes"
+      >
         {stats.ratingData.length > 0 ? (
           <div className="space-y-3">
             {stats.ratingData.map(([note, count]) => (

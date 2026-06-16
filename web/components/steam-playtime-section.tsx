@@ -1,9 +1,9 @@
 'use client'
 
-import { use, useOptimistic, useTransition } from 'react'
+import { ChevronLeft, ChevronRight, Clock, RefreshCw } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Clock, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react'
+import { use, useOptimistic, useTransition } from 'react'
 import { ContributionCalendar } from '@/components'
 import { syncSteamAction } from '@/lib/steam-actions'
 import type { PlaytimeData } from '@/lib/steam-playtime'

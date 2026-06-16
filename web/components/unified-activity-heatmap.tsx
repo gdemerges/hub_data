@@ -1,17 +1,8 @@
 'use client'
 
+import { Activity, Book, Film, Gamepad2, Github, type LucideIcon, Sparkles, X } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import useSWR from 'swr'
-import {
-  Film,
-  Gamepad2,
-  Book,
-  Activity,
-  Github,
-  Sparkles,
-  X,
-  type LucideIcon,
-} from 'lucide-react'
 import type { ActivitySource, UnifiedActivity } from '@/lib/activity'
 import type { DayEvent, DayEventType } from '@/lib/day-detail'
 
@@ -73,8 +64,18 @@ function formatLongDate(iso: string): string {
 }
 
 const MONTH_LABELS = [
-  'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin',
-  'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc',
+  'Jan',
+  'Fév',
+  'Mar',
+  'Avr',
+  'Mai',
+  'Juin',
+  'Juil',
+  'Août',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Déc',
 ]
 const DAY_LABELS = ['Lun', '', 'Mer', '', 'Ven', '', '']
 
@@ -85,18 +86,18 @@ export function UnifiedActivityHeatmap({ data }: Props) {
   // Named events (films/séries/jeux/livres) for the clicked day — fetched on
   // demand. Quantitative sources (sport/GitHub/Claude) are read from `data`.
   const { data: dayData, isLoading: dayLoading } = useSWR<{ events: DayEvent[] }>(
-    selectedDate ? `/api/day?date=${selectedDate}` : null
+    selectedDate ? `/api/day?date=${selectedDate}` : null,
   )
   const dayEvents = dayData?.events ?? []
   const dayCounts = selectedDate
-    ? SOURCES.map(s => ({
+    ? SOURCES.map((s) => ({
         ...s,
-        count: data.sources.find(d => d.source === s.key)?.byDate[selectedDate] ?? 0,
-      })).filter(s => s.count > 0)
+        count: data.sources.find((d) => d.source === s.key)?.byDate[selectedDate] ?? 0,
+      })).filter((s) => s.count > 0)
     : []
 
-  const meta = SOURCES.find(s => s.key === active)!
-  const source = data.sources.find(s => s.source === active)
+  const meta = SOURCES.find((s) => s.key === active)!
+  const source = data.sources.find((s) => s.source === active)
   const byDate = source?.byDate ?? {}
   const total = source?.total ?? 0
 
@@ -132,7 +133,7 @@ export function UnifiedActivityHeatmap({ data }: Props) {
     const headers: { col: number; label: string }[] = []
     let prevMonth = -1
     cols.forEach((col, i) => {
-      const firstDate = col.find(d => d !== null) as string | undefined
+      const firstDate = col.find((d) => d !== null) as string | undefined
       if (!firstDate) return
       const m = parseInt(firstDate.slice(5, 7), 10) - 1
       if (m !== prevMonth && parseInt(firstDate.slice(8, 10), 10) <= 7) {
@@ -162,11 +163,10 @@ export function UnifiedActivityHeatmap({ data }: Props) {
           </p>
         </div>
         <div className="ml-auto flex flex-wrap gap-1">
-          {SOURCES.map(s => {
+          {SOURCES.map((s) => {
             const isActive = s.key === active
             const SIcon = s.icon
-            const count =
-              data.sources.find(d => d.source === s.key)?.total ?? 0
+            const count = data.sources.find((d) => d.source === s.key)?.total ?? 0
             return (
               <button
                 key={s.key}
@@ -180,9 +180,7 @@ export function UnifiedActivityHeatmap({ data }: Props) {
               >
                 <SIcon className="w-3 h-3" />
                 {s.label}
-                {count > 0 && (
-                  <span className="text-[9px] opacity-70">{count}</span>
-                )}
+                {count > 0 && <span className="text-[9px] opacity-70">{count}</span>}
               </button>
             )
           })}
@@ -198,13 +196,9 @@ export function UnifiedActivityHeatmap({ data }: Props) {
           {/* Month labels */}
           <div className="flex pl-8 gap-[3px] relative h-3 text-[10px] font-mono text-text-muted">
             {columns.map((_, i) => {
-              const h = monthHeaders.find(x => x.col === i)
+              const h = monthHeaders.find((x) => x.col === i)
               return (
-                <span
-                  key={i}
-                  className="w-[11px] flex-shrink-0"
-                  style={{ position: 'relative' }}
-                >
+                <span key={i} className="w-[11px] flex-shrink-0" style={{ position: 'relative' }}>
                   {h && <span className="absolute left-0 whitespace-nowrap">{h.label}</span>}
                 </span>
               )
@@ -228,12 +222,7 @@ export function UnifiedActivityHeatmap({ data }: Props) {
               <div key={i} className="flex flex-col gap-[3px]">
                 {col.map((date, j) => {
                   if (!date) {
-                    return (
-                      <div
-                        key={j}
-                        className="w-[11px] h-[11px] rounded-sm"
-                      />
-                    )
+                    return <div key={j} className="w-[11px] h-[11px] rounded-sm" />
                   }
                   const v = byDate[date] ?? 0
                   const lvl = intensity(v, max)
@@ -259,7 +248,9 @@ export function UnifiedActivityHeatmap({ data }: Props) {
                         background:
                           v === 0
                             ? 'transparent'
-                            : `${meta.hex}${Math.round(opacity * 255).toString(16).padStart(2, '0')}`,
+                            : `${meta.hex}${Math.round(opacity * 255)
+                                .toString(16)
+                                .padStart(2, '0')}`,
                       }}
                     />
                   )
@@ -271,7 +262,7 @@ export function UnifiedActivityHeatmap({ data }: Props) {
           {/* Legend */}
           <div className="flex items-center gap-2 mt-3 text-[10px] font-mono text-text-muted">
             <span>Moins</span>
-            {[1, 2, 3, 4].map(lvl => (
+            {[1, 2, 3, 4].map((lvl) => (
               <div
                 key={lvl}
                 className="w-[11px] h-[11px] rounded-sm border border-border-subtle/40"
@@ -294,7 +285,7 @@ export function UnifiedActivityHeatmap({ data }: Props) {
               <span className="text-sm font-medium text-text-primary capitalize">
                 {formatLongDate(selectedDate)}
               </span>
-              {dayCounts.map(s => {
+              {dayCounts.map((s) => {
                 const SIcon = s.icon
                 return (
                   <span

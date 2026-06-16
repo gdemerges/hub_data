@@ -18,12 +18,8 @@ export function StatusBreakdown({
     <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
       <div className="flex items-center gap-3 mb-4">
         <CheckCircle2 className="w-5 h-5 text-earth-moss" />
-        <h3 className="text-sm font-semibold text-text-secondary">
-          Répartition par statut
-        </h3>
-        <span className="text-xs text-text-muted ml-auto">
-          {total} entrées (par plateforme)
-        </span>
+        <h3 className="text-sm font-semibold text-text-secondary">Répartition par statut</h3>
+        <span className="text-xs text-text-muted ml-auto">{total} entrées (par plateforme)</span>
       </div>
       <div className="space-y-3">
         {items.map(({ label, count }) => {
@@ -33,10 +29,7 @@ export function StatusBreakdown({
             <div key={label}>
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
-                  <span
-                    className="w-2 h-2 rounded-full"
-                    style={{ background: color }}
-                  />
+                  <span className="w-2 h-2 rounded-full" style={{ background: color }} />
                   <span className="text-sm text-text-primary">{label}</span>
                 </div>
                 <span className="text-xs font-mono text-text-secondary">

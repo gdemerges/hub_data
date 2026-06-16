@@ -1,7 +1,14 @@
 import type { Metadata, Viewport } from 'next'
+import { Fraunces, Inter, JetBrains_Mono } from 'next/font/google'
 import { Suspense } from 'react'
-import { Inter, JetBrains_Mono, Fraunces } from 'next/font/google'
-import { Navigation, CommandPalette, ServiceWorkerRegister, Footer, RouteProgress, RouteTransitionListener } from '@/components'
+import {
+  CommandPalette,
+  Footer,
+  Navigation,
+  RouteProgress,
+  RouteTransitionListener,
+  ServiceWorkerRegister,
+} from '@/components'
 import { SWRProvider } from '@/lib/swr-config'
 import './globals.css'
 
@@ -52,11 +59,7 @@ function PageFallback() {
   )
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" suppressHydrationWarning>
       <head>
@@ -67,10 +70,14 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} ${fraunces.variable} font-sans`}>
+      <body
+        className={`${inter.variable} ${jetbrainsMono.variable} ${fraunces.variable} font-sans`}
+      >
         <SWRProvider>
           <ServiceWorkerRegister />
-          <a href="#main" className="skip-link">Aller au contenu</a>
+          <a href="#main" className="skip-link">
+            Aller au contenu
+          </a>
           <Suspense fallback={null}>
             <RouteProgress />
             <RouteTransitionListener />
@@ -78,9 +85,7 @@ export default function RootLayout({
           <Navigation />
           <CommandPalette />
           <main id="main" className="min-h-screen">
-            <Suspense fallback={<PageFallback />}>
-              {children}
-            </Suspense>
+            <Suspense fallback={<PageFallback />}>{children}</Suspense>
           </main>
           <Footer />
         </SWRProvider>

@@ -1,7 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server'
-
-import { getValidStravaToken } from '@/lib/strava-token'
 import { logger } from '@/lib/logger'
+import { getValidStravaToken } from '@/lib/strava-token'
 
 const STRAVA_API = 'https://www.strava.com/api/v3'
 
@@ -40,18 +39,22 @@ async function fetchStravaData(accessToken: string, year: string | null) {
     // Fetch activities for the year (limited to 200)
     const activitiesResponse = await fetch(
       `${STRAVA_API}/athlete/activities?after=${after}&before=${before}&per_page=200`,
-      { headers }
+      { headers },
     )
 
     if (activitiesResponse.ok) {
       const activities = await activitiesResponse.json()
 
       // Sum only Run activities
-      interface StravaActivityMin { type: string; distance: number }
+      interface StravaActivityMin {
+        type: string
+        distance: number
+      }
       const typedActivities = activities as StravaActivityMin[]
-      yearRunDistance = typedActivities
-        .filter((activity) => activity.type === 'Run')
-        .reduce((sum, activity) => sum + (activity.distance || 0), 0) / 1000
+      yearRunDistance =
+        typedActivities
+          .filter((activity) => activity.type === 'Run')
+          .reduce((sum, activity) => sum + (activity.distance || 0), 0) / 1000
     }
   }
 
@@ -62,7 +65,7 @@ async function fetchStravaData(accessToken: string, year: string | null) {
       yearRunDistance,
       totalRideDistance: (statsData.all_ride_totals?.distance || 0) / 1000,
       yearRideDistance: (statsData.ytd_ride_totals?.distance || 0) / 1000,
-    }
+    },
   }
 }
 
@@ -98,12 +101,11 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: result.error }, { status: result.status || 500 })
     }
 
-    return NextResponse.json(result.data, { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } })
+    return NextResponse.json(result.data, {
+      headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' },
+    })
   } catch (error) {
     logger.error('Strava stats API error:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch Strava stats' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to fetch Strava stats' }, { status: 500 })
   }
 }

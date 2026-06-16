@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest'
-import { computeStreak, computeStreaks } from './streaks'
+import { describe, expect, it } from 'vitest'
 import type { UnifiedActivity } from './activity'
+import { computeStreak, computeStreaks } from './streaks'
 
 describe('computeStreak', () => {
   it('returns zero for an empty map', () => {

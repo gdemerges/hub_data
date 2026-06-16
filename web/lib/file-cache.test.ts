@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { promises as fsp } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import { readFileCache, writeFileCache, isCacheFresh } from './file-cache'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { isCacheFresh, readFileCache, writeFileCache } from './file-cache'
 
 let tmpDir: string
 

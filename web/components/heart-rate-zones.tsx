@@ -1,7 +1,7 @@
 'use client'
 
-import { Heart, TrendingUp, Zap } from 'lucide-react'
 import { Pulse } from '@phosphor-icons/react/dist/ssr'
+import { Heart, TrendingUp, Zap } from 'lucide-react'
 import { EmptyState } from './empty-state'
 
 interface Activity {
@@ -125,11 +125,15 @@ export function HeartRateZones({ activities, lthr }: HeartRateZonesProps) {
   const activitiesWithHR = activities.filter((a) => a.averageHeartrate && a.averageHeartrate > 0)
   const observedMaxHR = Math.max(0, ...activities.map((a) => a.maxHeartrate ?? 0))
   const zones = calculateZoneDistribution(activities)
-  const dominantZone = zones.reduce((max, zone) => (zone.minutes > max.minutes ? zone : max), zones[0])
+  const dominantZone = zones.reduce(
+    (max, zone) => (zone.minutes > max.minutes ? zone : max),
+    zones[0],
+  )
   const avgHR =
     activitiesWithHR.length > 0
       ? Math.round(
-          activitiesWithHR.reduce((sum, a) => sum + (a.averageHeartrate || 0), 0) / activitiesWithHR.length,
+          activitiesWithHR.reduce((sum, a) => sum + (a.averageHeartrate || 0), 0) /
+            activitiesWithHR.length,
         )
       : 0
 
@@ -200,7 +204,9 @@ export function HeartRateZones({ activities, lthr }: HeartRateZonesProps) {
                     Z{zone.zone}
                   </span>
                   <span className="text-text-primary font-medium">{zone.name}</span>
-                  <span className="text-text-muted num hidden sm:inline">{zoneRange(zone.zone - 1)} bpm</span>
+                  <span className="text-text-muted num hidden sm:inline">
+                    {zoneRange(zone.zone - 1)} bpm
+                  </span>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
                   <span className="text-text-muted num">{formatMinutes(zone.minutes)}</span>
@@ -241,7 +247,9 @@ export function HeartRateZones({ activities, lthr }: HeartRateZonesProps) {
           <Zap className={`w-4 h-4 ${recommendation.color} mt-0.5 shrink-0`} strokeWidth={1.75} />
           <div>
             <p className={`text-sm font-medium ${recommendation.color}`}>Recommandation</p>
-            <p className="text-xs text-text-secondary leading-relaxed mt-1">{recommendation.message}</p>
+            <p className="text-xs text-text-secondary leading-relaxed mt-1">
+              {recommendation.message}
+            </p>
           </div>
         </div>
       </div>
@@ -249,10 +257,10 @@ export function HeartRateZones({ activities, lthr }: HeartRateZonesProps) {
       {/* Info */}
       <div className="mt-6 tech-card-flat p-4">
         <p className="text-xs text-text-secondary leading-relaxed">
-          La <span className="text-earth-clay font-medium">LTHR</span> (Lactate Threshold HR) est calculée
-          automatiquement à partir de tes efforts intenses récents. Les calculs de{' '}
-          <span className="text-earth-fern font-medium">TSS</span> utilisent la fréquence cardiaque quand elle est
-          disponible.
+          La <span className="text-earth-clay font-medium">LTHR</span> (Lactate Threshold HR) est
+          calculée automatiquement à partir de tes efforts intenses récents. Les calculs de{' '}
+          <span className="text-earth-fern font-medium">TSS</span> utilisent la fréquence cardiaque
+          quand elle est disponible.
         </p>
       </div>
     </div>
@@ -269,7 +277,9 @@ function Header() {
         <h3 className="font-display text-lg font-medium tracking-tight text-text-primary">
           Zones de fréquence cardiaque
         </h3>
-        <p className="text-xs text-text-muted mt-0.5">Distribution de l'entraînement par intensité</p>
+        <p className="text-xs text-text-muted mt-0.5">
+          Distribution de l'entraînement par intensité
+        </p>
       </div>
     </div>
   )
@@ -291,7 +301,11 @@ function KeyMetric({ label, value, sub, tone, icon: Icon }: KeyMetricProps) {
         {Icon && <Icon className={`w-3.5 h-3.5 ${valueClass}`} strokeWidth={1.75} />}
         <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted">{label}</p>
       </div>
-      <p className={`font-display text-3xl font-medium tracking-tight num leading-none ${valueClass}`}>{value}</p>
+      <p
+        className={`font-display text-3xl font-medium tracking-tight num leading-none ${valueClass}`}
+      >
+        {value}
+      </p>
       <p className="text-[11px] text-text-muted mt-2">{sub}</p>
     </div>
   )

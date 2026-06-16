@@ -1,4 +1,11 @@
-import { readFileSync, writeFileSync, mkdirSync, existsSync, copyFileSync, readdirSync } from 'node:fs'
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs'
 import { resolve } from 'node:path'
 import { parse } from 'csv-parse/sync'
 
@@ -49,9 +56,9 @@ function parseCSV(path: string): Map<GameKey, number> {
 function findPreviousSnapshot(today: string): string | null {
   if (!existsSync(SNAPSHOT_DIR)) return null
   const files = readdirSync(SNAPSHOT_DIR)
-    .filter(f => /^jeux-\d{4}-\d{2}-\d{2}\.csv$/.test(f))
-    .map(f => f.slice(5, 15)) // YYYY-MM-DD
-    .filter(d => d < today)
+    .filter((f) => /^jeux-\d{4}-\d{2}-\d{2}\.csv$/.test(f))
+    .map((f) => f.slice(5, 15)) // YYYY-MM-DD
+    .filter((d) => d < today)
     .sort()
   return files.length ? files[files.length - 1] : null
 }
@@ -108,7 +115,7 @@ function upsertMonthlyLog(today: string, dayLog: DayLog) {
       existing = { month: monthKey(today), days: [] }
     }
   }
-  existing.days = existing.days.filter(d => d.date !== today)
+  existing.days = existing.days.filter((d) => d.date !== today)
   existing.days.push(dayLog)
   existing.days.sort((a, b) => a.date.localeCompare(b.date))
   writeFileSync(monthFile, JSON.stringify(existing, null, 2))
@@ -147,11 +154,11 @@ function main() {
   }
   const monthFile = upsertMonthlyLog(today, dayLog)
 
-  const positive = entries.filter(e => e.delta > 0)
+  const positive = entries.filter((e) => e.delta > 0)
   const totalHours = positive.reduce((s, e) => s + e.delta, 0)
   console.log(
     `📊 track-play-deltas: ${entries.length} changes vs ${prevDate} ` +
-    `(+${totalHours.toFixed(1)}h on ${positive.length} games) → ${monthFile}`
+      `(+${totalHours.toFixed(1)}h on ${positive.length} games) → ${monthFile}`,
   )
   for (const e of positive.slice(0, 5)) {
     const flagStr = e.flags ? ` [${e.flags.join(',')}]` : ''

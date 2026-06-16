@@ -1,14 +1,9 @@
 'use client'
 
-import { Medal, Gauge, Route, Mountain, HeartPulse } from 'lucide-react'
+import { Gauge, HeartPulse, Medal, Mountain, Route } from 'lucide-react'
 import { SectionCard } from '@/components'
-import {
-  computePersonalRecords,
-  formatPace,
-  formatRaceTime,
-  type SportActivity,
-} from '@/lib/sport'
 import { estimateVdot } from '@/lib/fitness-calculator'
+import { computePersonalRecords, formatPace, formatRaceTime, type SportActivity } from '@/lib/sport'
 
 interface Props {
   runs: SportActivity[]
@@ -36,12 +31,20 @@ export function SportRecords({ runs }: Props) {
             <HeartPulse className="w-5 h-5" strokeWidth={1.75} />
           </span>
           <div className="flex-1 min-w-0">
-            <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted">Indice de forme</p>
-            <p className="text-[11px] text-text-muted mt-0.5">Estimé sur ton meilleur effort récent</p>
+            <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted">
+              Indice de forme
+            </p>
+            <p className="text-[11px] text-text-muted mt-0.5">
+              Estimé sur ton meilleur effort récent
+            </p>
           </div>
           <div className="text-right">
-            <span className="font-display text-4xl tracking-tight num leading-none text-earth-saffron">{vdot}</span>
-            <p className="text-[10px] uppercase tracking-[0.16em] text-text-muted mt-1">VDOT ≈ VO₂max</p>
+            <span className="font-display text-4xl tracking-tight num leading-none text-earth-saffron">
+              {vdot}
+            </span>
+            <p className="text-[10px] uppercase tracking-[0.16em] text-text-muted mt-1">
+              VDOT ≈ VO₂max
+            </p>
           </div>
         </div>
       )}
@@ -64,7 +67,9 @@ export function SportRecords({ runs }: Props) {
               <p className="font-display text-2xl tracking-tight num leading-none text-earth-saffron">
                 {formatRaceTime(e.estimatedTime)}
               </p>
-              <p className="text-[11px] text-text-muted mt-2 num">{shortDate(e.activity.startDate)}</p>
+              <p className="text-[11px] text-text-muted mt-2 num">
+                {shortDate(e.activity.startDate)}
+              </p>
             </div>
           ))}
         </div>
@@ -127,7 +132,9 @@ function RecordTile({
         <Icon className={`w-3.5 h-3.5 ${toneClass}`} strokeWidth={1.75} />
         <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted">{label}</p>
       </div>
-      <p className={`font-display text-2xl tracking-tight num leading-none ${toneClass}`}>{value}</p>
+      <p className={`font-display text-2xl tracking-tight num leading-none ${toneClass}`}>
+        {value}
+      </p>
       <p className="text-[11px] text-text-muted mt-2 num">{sub}</p>
     </div>
   )

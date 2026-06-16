@@ -1,50 +1,50 @@
 'use client'
 
-import { use, useOptimistic, startTransition } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import {
   Activity,
-  Timer,
-  Route,
-  Flame,
-  TrendingUp,
-  Mountain,
+  ArrowUpRight,
   Bike,
-  Footprints,
   Disc,
   Dumbbell,
-  Zap,
+  Flame,
+  Footprints,
   MapPin,
-  ArrowUpRight,
+  Mountain,
+  Route,
+  Timer,
+  TrendingUp,
+  Zap,
 } from 'lucide-react'
-import { MusculationSection } from '@/components/musculation-section'
+import Image from 'next/image'
+import Link from 'next/link'
+import { startTransition, use, useOptimistic } from 'react'
 import {
-  StatCard,
-  SportTrainingAnalysis,
+  SectionCard,
+  Skeleton,
+  SkeletonStatCard,
+  SportAiPanels,
+  SportPaceProgression,
   SportRecords,
   SportRunCalendar,
-  SportPaceProgression,
-  SportTrainingDistribution,
   SportShoes,
-  SportAiPanels,
-  SectionCard,
-  SkeletonStatCard,
-  Skeleton,
+  SportTrainingAnalysis,
+  SportTrainingDistribution,
+  StatCard,
 } from '@/components'
+import { MusculationSection } from '@/components/musculation-section'
 import {
-  type SportActivity,
   type ActivityFilterKey,
+  aggregateStats,
+  availableYears,
   filterActivity,
   filterLabel,
   formatDuration,
   formatPace,
-  aggregateStats,
-  availableYears,
-  yearlyStats,
   monthlyTrend,
+  type SportActivity,
+  yearlyStats,
 } from '@/lib/sport'
-import type { StravaData, StravaAthlete } from '@/lib/strava'
+import type { StravaAthlete, StravaData } from '@/lib/strava'
 
 const ACTIVITY_FILTERS: { key: ActivityFilterKey; label: string; icon: typeof Activity }[] = [
   { key: 'all', label: 'Tout', icon: Activity },
@@ -122,9 +122,26 @@ export function SportClient({ promise, filter, year }: Props) {
       />
 
       <div className="motion-stagger grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-        <StatCard label={`Distance · ${label}`} value={`${Math.round(stats.totalDistance)} km`} icon={Route} color="rust" trend={distanceTrend} />
-        <StatCard label="Temps total" value={`${Math.round(stats.totalTime)} h`} icon={Timer} color="fern" trend={timeTrend} />
-        <StatCard label="Dénivelé total" value={`${Math.round(stats.totalElevation)} m`} icon={Mountain} color="moss" />
+        <StatCard
+          label={`Distance · ${label}`}
+          value={`${Math.round(stats.totalDistance)} km`}
+          icon={Route}
+          color="rust"
+          trend={distanceTrend}
+        />
+        <StatCard
+          label="Temps total"
+          value={`${Math.round(stats.totalTime)} h`}
+          icon={Timer}
+          color="fern"
+          trend={timeTrend}
+        />
+        <StatCard
+          label="Dénivelé total"
+          value={`${Math.round(stats.totalElevation)} m`}
+          icon={Mountain}
+          color="moss"
+        />
         <StatCard label="Activités" value={stats.totalActivities} icon={Flame} color="terracotta" />
       </div>
 
@@ -235,8 +252,7 @@ function AthleteHero({
             Athlète
           </div>
           <h2 className="font-display text-3xl sm:text-5xl font-medium tracking-tight text-text-primary leading-[1] mb-3">
-            {athlete.firstname}{' '}
-            <span className="text-earth-rust italic">{athlete.lastname}</span>
+            {athlete.firstname} <span className="text-earth-rust italic">{athlete.lastname}</span>
           </h2>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-text-secondary">
             <span className="font-mono text-earth-rust/80">@{athlete.username}</span>
@@ -254,7 +270,11 @@ function AthleteHero({
               Depuis toujours
             </div>
             <div className="grid grid-cols-3 gap-6 max-w-md">
-              <LifetimeStat value={`${Math.round(lifetime.totalDistance)}`} unit="km" label="Distance" />
+              <LifetimeStat
+                value={`${Math.round(lifetime.totalDistance)}`}
+                unit="km"
+                label="Distance"
+              />
               <LifetimeStat value={`${Math.round(lifetime.totalTime)}`} unit="h" label="Temps" />
               <LifetimeStat value={`${lifetime.totalActivities}`} label="Activités" />
             </div>
@@ -313,7 +333,10 @@ function FilterBar({
                 : 'group inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-text-secondary border border-transparent hover:border-border-default hover:text-text-primary hover:bg-bg-hover transition-all duration-300'
             }
           >
-            <Icon className="w-4 h-4 transition-transform group-hover:scale-110" strokeWidth={1.75} />
+            <Icon
+              className="w-4 h-4 transition-transform group-hover:scale-110"
+              strokeWidth={1.75}
+            />
             <span>{f.label}</span>
           </Link>
         )
@@ -414,7 +437,9 @@ function BigStat({
   }[tone]
   return (
     <div className="text-center">
-      <div className={`font-display text-4xl sm:text-5xl font-medium tracking-tight num leading-none ${toneClass}`}>
+      <div
+        className={`font-display text-4xl sm:text-5xl font-medium tracking-tight num leading-none ${toneClass}`}
+      >
         {value}
         {unit && <span className="text-xl text-text-muted ml-1 font-sans">{unit}</span>}
       </div>
@@ -451,7 +476,10 @@ function RecentActivities({ activities }: { activities: SportActivity[] }) {
                 </p>
               </div>
               <div className="hidden sm:flex items-baseline gap-5 text-xs num">
-                <Metric value={`${activity.distance.toFixed(1)} km`} sub={formatDuration(activity.movingTime)} />
+                <Metric
+                  value={`${activity.distance.toFixed(1)} km`}
+                  sub={formatDuration(activity.movingTime)}
+                />
                 {activity.type === 'Run' ? (
                   // Allure (min/km) — plus parlant que les km/h pour la course.
                   <Metric
@@ -484,7 +512,15 @@ function RecentActivities({ activities }: { activities: SportActivity[] }) {
   )
 }
 
-function Metric({ value, sub, tone = 'fern' }: { value: string; sub: string; tone?: 'fern' | 'moss' }) {
+function Metric({
+  value,
+  sub,
+  tone = 'fern',
+}: {
+  value: string
+  sub: string
+  tone?: 'fern' | 'moss'
+}) {
   const cls = tone === 'moss' ? 'text-earth-moss' : 'text-earth-fern'
   return (
     <div className="text-right">
@@ -569,7 +605,8 @@ function AiSectionDivider() {
         <span className="h-px flex-1 bg-gradient-to-l from-transparent to-earth-fern/40" />
       </div>
       <p className="text-center text-sm text-text-muted max-w-md mx-auto">
-        Modèles statistiques sur tes activités — charge d'entraînement, prédicteur de course, récupération.
+        Modèles statistiques sur tes activités — charge d'entraînement, prédicteur de course,
+        récupération.
       </p>
     </div>
   )

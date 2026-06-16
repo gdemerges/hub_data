@@ -26,13 +26,7 @@ export function Skeleton({ className, accent }: SkeletonProps) {
     ? ({ ['--accent' as string]: accentRgb[accent] } as React.CSSProperties)
     : undefined
   return (
-    <div
-      style={style}
-      className={cn(
-        'rounded-lg bg-bg-tertiary/50 skeleton-shimmer',
-        className,
-      )}
-    />
+    <div style={style} className={cn('rounded-lg bg-bg-tertiary/50 skeleton-shimmer', className)} />
   )
 }
 
@@ -41,10 +35,7 @@ export function SkeletonStatCard({ accent }: { accent?: Accent }) {
     ? ({ ['--accent' as string]: accentRgb[accent] } as React.CSSProperties)
     : undefined
   return (
-    <div
-      style={style}
-      className="tech-card p-6 skeleton-shimmer"
-    >
+    <div style={style} className="tech-card p-6 skeleton-shimmer">
       <div className="flex items-start justify-between mb-6">
         <div className="w-12 h-12 rounded-2xl bg-bg-tertiary/40" />
       </div>
@@ -62,10 +53,7 @@ export function SkeletonChart({ accent }: { accent?: Accent }) {
     ? ({ ['--accent' as string]: accentRgb[accent] } as React.CSSProperties)
     : undefined
   return (
-    <div
-      style={style}
-      className="tech-card p-6 skeleton-shimmer"
-    >
+    <div style={style} className="tech-card p-6 skeleton-shimmer">
       <div className="h-4 w-48 mb-6 rounded bg-bg-tertiary/40" />
       <div className="h-64 w-full rounded-lg bg-bg-tertiary/30" />
     </div>
@@ -77,10 +65,7 @@ export function SkeletonProfile({ accent }: { accent?: Accent }) {
     ? ({ ['--accent' as string]: accentRgb[accent] } as React.CSSProperties)
     : undefined
   return (
-    <div
-      style={style}
-      className="tech-card p-6 skeleton-shimmer"
-    >
+    <div style={style} className="tech-card p-6 skeleton-shimmer">
       <div className="flex flex-col sm:flex-row items-start gap-6">
         <div className="w-[120px] h-[120px] rounded-full bg-bg-tertiary/40" />
         <div className="flex-1 space-y-3">

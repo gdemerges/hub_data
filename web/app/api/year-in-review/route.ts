@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { getGamesData, getFilmsData, getBooksData } from '@/lib/data'
+import { getBooksData, getFilmsData, getGamesData } from '@/lib/data'
 import { logger } from '@/lib/logger'
-import type { Film, Game, Book } from '@/lib/types'
+import type { Book, Film, Game } from '@/lib/types'
 
 // Dynamique : la réponse varie selon ?year= (lecture de searchParams).
 // Le cache CDN passe par l'en-tête Cache-Control de la réponse.
@@ -11,11 +11,32 @@ type TopItem = { title: string; rating?: number; subtitle?: string }
 
 type YearReview = {
   year: number
-  films: { total: number; hoursWatched: number; items: TopItem[]; topGenres: { name: string; count: number }[] }
+  films: {
+    total: number
+    hoursWatched: number
+    items: TopItem[]
+    topGenres: { name: string; count: number }[]
+  }
   // undated : SerieBox n'exporte pas de date de fin de visionnage → pas de bilan par année.
-  series: { total: number; episodes: number; items: TopItem[]; topGenres: { name: string; count: number }[]; undated: boolean }
-  games: { total: number; hoursPlayed: number; items: TopItem[]; topPlatforms: { name: string; hours: number }[] }
-  books: { total: number; pages: number; items: TopItem[]; topAuthors: { name: string; count: number }[] }
+  series: {
+    total: number
+    episodes: number
+    items: TopItem[]
+    topGenres: { name: string; count: number }[]
+    undated: boolean
+  }
+  games: {
+    total: number
+    hoursPlayed: number
+    items: TopItem[]
+    topPlatforms: { name: string; hours: number }[]
+  }
+  books: {
+    total: number
+    pages: number
+    items: TopItem[]
+    topAuthors: { name: string; count: number }[]
+  }
   highlights: string[]
 }
 
@@ -24,7 +45,7 @@ type YearReview = {
 // pour que rien ne disparaisse de la rétrospective.
 function sortItems(items: TopItem[]): TopItem[] {
   return [...items].sort(
-    (a, b) => (b.rating ?? -1) - (a.rating ?? -1) || a.title.localeCompare(b.title, 'fr')
+    (a, b) => (b.rating ?? -1) - (a.rating ?? -1) || a.title.localeCompare(b.title, 'fr'),
   )
 }
 
@@ -34,9 +55,13 @@ function yearOf(d?: string): number | null {
   return Number.isFinite(y) ? y : null
 }
 
-function topBy<T>(items: T[], key: (x: T) => string | undefined, n = 3): { name: string; count: number }[] {
+function topBy<T>(
+  items: T[],
+  key: (x: T) => string | undefined,
+  n = 3,
+): { name: string; count: number }[] {
   const counts = new Map<string, number>()
-  items.forEach(i => {
+  items.forEach((i) => {
     const k = key(i)
     if (k) counts.set(k, (counts.get(k) ?? 0) + 1)
   })
@@ -47,23 +72,32 @@ function topBy<T>(items: T[], key: (x: T) => string | undefined, n = 3): { name:
 }
 
 function buildReview(year: number, games: Game[], films: Film[], books: Book[]): YearReview {
-  const filmsY = films.filter(f => yearOf(f.dateWatched) === year)
+  const filmsY = films.filter((f) => yearOf(f.dateWatched) === year)
   // Séries volontairement absentes : aucune date de fin de visionnage à la source.
   // Jeux « de l'année » = joués pendant l'année (commencés ou terminés), pas
   // sortis cette année-là. On exclut donc le backlog/wishlist non touché.
-  const gamesY = games.filter(g => yearOf(g.dateStarted) === year || yearOf(g.dateFinished) === year)
-  const booksY = books.filter(b => b.year === year)
+  const gamesY = games.filter(
+    (g) => yearOf(g.dateStarted) === year || yearOf(g.dateFinished) === year,
+  )
+  const booksY = books.filter((b) => b.year === year)
 
   const genres = (items: { genres?: string[] }[], n = 3) => {
     const counts = new Map<string, number>()
-    items.forEach(i => (i.genres ?? []).forEach(g => counts.set(g, (counts.get(g) ?? 0) + 1)))
-    return Array.from(counts.entries()).sort((a, b) => b[1] - a[1]).slice(0, n).map(([name, count]) => ({ name, count }))
+    items.forEach((i) => (i.genres ?? []).forEach((g) => counts.set(g, (counts.get(g) ?? 0) + 1)))
+    return Array.from(counts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, n)
+      .map(([name, count]) => ({ name, count }))
   }
 
   const platformHours = new Map<string, number>()
-  gamesY.forEach(g => {
-    if (g.platforms?.length) g.platforms.forEach(p => platformHours.set(p.platform, (platformHours.get(p.platform) ?? 0) + (p.hoursPlayed ?? 0)))
-    else if (g.platform) platformHours.set(g.platform, (platformHours.get(g.platform) ?? 0) + (g.hoursPlayed ?? 0))
+  gamesY.forEach((g) => {
+    if (g.platforms?.length)
+      g.platforms.forEach((p) =>
+        platformHours.set(p.platform, (platformHours.get(p.platform) ?? 0) + (p.hoursPlayed ?? 0)),
+      )
+    else if (g.platform)
+      platformHours.set(g.platform, (platformHours.get(g.platform) ?? 0) + (g.hoursPlayed ?? 0))
   })
 
   const totalGameHours = Array.from(platformHours.values()).reduce((a, b) => a + b, 0)
@@ -71,7 +105,10 @@ function buildReview(year: number, games: Game[], films: Film[], books: Book[]):
   const totalPages = booksY.reduce((s, b) => s + (b.pages ?? 0), 0)
 
   const highlights: string[] = []
-  if (filmsY.length > 0) highlights.push(`${filmsY.length} film${filmsY.length > 1 ? 's' : ''} regardé${filmsY.length > 1 ? 's' : ''}`)
+  if (filmsY.length > 0)
+    highlights.push(
+      `${filmsY.length} film${filmsY.length > 1 ? 's' : ''} regardé${filmsY.length > 1 ? 's' : ''}`,
+    )
   if (gamesY.length > 0) highlights.push(`${gamesY.length} jeu${gamesY.length > 1 ? 'x' : ''}`)
   if (booksY.length > 0) highlights.push(`${booksY.length} livre${booksY.length > 1 ? 's' : ''}`)
   if (totalGameHours > 100) highlights.push(`${Math.round(totalGameHours)}h de jeu`)
@@ -82,7 +119,9 @@ function buildReview(year: number, games: Game[], films: Film[], books: Book[]):
     films: {
       total: filmsY.length,
       hoursWatched: Math.round(totalFilmHours),
-      items: sortItems(filmsY.map(f => ({ title: f.title, rating: f.rating, subtitle: f.genres?.[0] }))),
+      items: sortItems(
+        filmsY.map((f) => ({ title: f.title, rating: f.rating, subtitle: f.genres?.[0] })),
+      ),
       topGenres: genres(filmsY),
     },
     series: {
@@ -95,14 +134,25 @@ function buildReview(year: number, games: Game[], films: Film[], books: Book[]):
     games: {
       total: gamesY.length,
       hoursPlayed: Math.round(totalGameHours),
-      items: sortItems(gamesY.map(g => ({ title: g.title, rating: g.rating, subtitle: g.platform ?? g.platforms?.[0]?.platform }))),
-      topPlatforms: Array.from(platformHours.entries()).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([name, hours]) => ({ name, hours: Math.round(hours) })),
+      items: sortItems(
+        gamesY.map((g) => ({
+          title: g.title,
+          rating: g.rating,
+          subtitle: g.platform ?? g.platforms?.[0]?.platform,
+        })),
+      ),
+      topPlatforms: Array.from(platformHours.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([name, hours]) => ({ name, hours: Math.round(hours) })),
     },
     books: {
       total: booksY.length,
       pages: totalPages,
-      items: sortItems(booksY.map(b => ({ title: b.title, rating: b.rating, subtitle: b.author }))),
-      topAuthors: topBy(booksY, b => b.author),
+      items: sortItems(
+        booksY.map((b) => ({ title: b.title, rating: b.rating, subtitle: b.author })),
+      ),
+      topAuthors: topBy(booksY, (b) => b.author),
     },
     highlights,
   }
@@ -124,10 +174,9 @@ export async function GET(req: NextRequest) {
       getBooksData().catch(() => []),
     ])
 
-    return NextResponse.json(
-      buildReview(year, games, films, books),
-      { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } }
-    )
+    return NextResponse.json(buildReview(year, games, films, books), {
+      headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' },
+    })
   } catch (e) {
     logger.error('year-in-review build failed', e)
     // Renvoie une rétrospective vide valide : le fetcher SWR client ne

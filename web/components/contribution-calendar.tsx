@@ -17,7 +17,8 @@ interface ContributionCalendarProps {
 export function ContributionCalendar({
   contributions,
   year,
-  formatTooltip = (count, date) => `${count} contributions le ${new Date(date).toLocaleDateString('fr-FR')}`
+  formatTooltip = (count, date) =>
+    `${count} contributions le ${new Date(date).toLocaleDateString('fr-FR')}`,
 }: ContributionCalendarProps) {
   const { weeks, months } = useMemo(() => {
     // Use provided year or current year
@@ -34,9 +35,7 @@ export function ContributionCalendar({
     const endOfYear = new Date(targetYear, 11, 31)
 
     // Create a map of contributions by date
-    const contributionMap = new Map(
-      contributions.map(c => [c.date, c])
-    )
+    const contributionMap = new Map(contributions.map((c) => [c.date, c]))
 
     // Build weeks array (each week has 7 days)
     const weeks: ContributionDay[][] = []
@@ -153,7 +152,7 @@ export function ContributionCalendar({
                 className="flex items-center font-mono"
                 style={{
                   height: cellHeight,
-                  opacity: i % 2 === 0 ? 0 : 1
+                  opacity: i % 2 === 0 ? 0 : 1,
                 }}
               >
                 {day}
@@ -187,11 +186,8 @@ export function ContributionCalendar({
         {/* Legend */}
         <div className="flex items-center gap-2 mt-4 text-xs text-text-muted justify-end font-mono">
           <span>Moins</span>
-          {[0, 1, 2, 3, 4].map(level => (
-            <div
-              key={level}
-              className={`w-3 h-3 rounded-sm ${getColor(level)}`}
-            />
+          {[0, 1, 2, 3, 4].map((level) => (
+            <div key={level} className={`w-3 h-3 rounded-sm ${getColor(level)}`} />
           ))}
           <span>Plus</span>
         </div>

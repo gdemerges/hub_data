@@ -14,13 +14,11 @@ export interface SportActivity {
 export const ACTIVITY_FILTER_KEYS = ['all', 'Run', 'Ride', 'RPM', 'Musculation'] as const
 export type ActivityFilterKey = (typeof ACTIVITY_FILTER_KEYS)[number]
 
-export function filterActivity(
-  activity: { type: string; name: string },
-  filter: string
-): boolean {
+export function filterActivity(activity: { type: string; name: string }, filter: string): boolean {
   if (filter === 'all') return true
   if (filter === 'RPM') return activity.name.toUpperCase().includes('RPM')
-  if (filter === 'Ride') return activity.type === 'Ride' && !activity.name.toUpperCase().includes('RPM')
+  if (filter === 'Ride')
+    return activity.type === 'Ride' && !activity.name.toUpperCase().includes('RPM')
   return activity.type === filter
 }
 
@@ -93,7 +91,7 @@ export function aggregateStats(activities: SportActivity[]): AggregateStats {
 
 export function availableYears(activities: SportActivity[]): number[] {
   return Array.from(new Set(activities.map((a) => new Date(a.startDate).getFullYear()))).sort(
-    (a, b) => b - a
+    (a, b) => b - a,
   )
 }
 
@@ -123,7 +121,7 @@ export function monthlyTrend(
   activities: SportActivity[],
   metric: 'distance' | 'time',
   months = 12,
-  now: Date = new Date()
+  now: Date = new Date(),
 ): number[] {
   const buckets = new Array<number>(months).fill(0)
   for (const a of activities) {
@@ -189,9 +187,7 @@ export function computeTrainingAnalysis(runs: SportActivity[]): TrainingAnalysis
       ? last4Weeks.reduce((s, [, d]) => s + d.distance, 0) / last4Weeks.length
       : 0
   const avgRunsPerWeek =
-    last4Weeks.length > 0
-      ? last4Weeks.reduce((s, [, d]) => s + d.runs, 0) / last4Weeks.length
-      : 0
+    last4Weeks.length > 0 ? last4Weeks.reduce((s, [, d]) => s + d.runs, 0) / last4Weeks.length : 0
 
   const currentWeekDistance = currentWeek ? currentWeek[1].distance : 0
   const currentWeekRuns = currentWeek ? currentWeek[1].runs : 0
@@ -211,9 +207,7 @@ export function computeTrainingAnalysis(runs: SportActivity[]): TrainingAnalysis
   const avgLongestRun =
     last4Weeks.length > 0
       ? last4Weeks.reduce((sum, [weekStart]) => {
-          const weekRuns = runs.filter(
-            (r) => getWeekStart(new Date(r.startDate)) === weekStart
-          )
+          const weekRuns = runs.filter((r) => getWeekStart(new Date(r.startDate)) === weekStart)
           return sum + Math.max(...weekRuns.map((r) => r.distance), 0)
         }, 0) / last4Weeks.length
       : 0
@@ -355,8 +349,18 @@ export function computePersonalRecords(runs: SportActivity[]): PersonalRecords {
 }
 
 const MONTHS_FR = [
-  'janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin',
-  'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.',
+  'janv.',
+  'févr.',
+  'mars',
+  'avr.',
+  'mai',
+  'juin',
+  'juil.',
+  'août',
+  'sept.',
+  'oct.',
+  'nov.',
+  'déc.',
 ]
 
 export interface PaceProgressionPoint {
@@ -375,7 +379,7 @@ export interface PaceProgressionPoint {
 export function paceProgression(
   runs: SportActivity[],
   months = 12,
-  now: Date = new Date()
+  now: Date = new Date(),
 ): PaceProgressionPoint[] {
   const sum = new Array<number>(months).fill(0)
   const count = new Array<number>(months).fill(0)

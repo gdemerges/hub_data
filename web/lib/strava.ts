@@ -1,10 +1,9 @@
 import 'server-only'
 import path from 'node:path'
-
-import { getValidStravaToken } from './strava-token'
-import { readFileCache, writeFileCache, isCacheFresh } from './file-cache'
+import { isCacheFresh, readFileCache, writeFileCache } from './file-cache'
 import { logger } from './logger'
 import type { SportActivity } from './sport'
+import { getValidStravaToken } from './strava-token'
 
 const STRAVA_API = 'https://www.strava.com/api/v3'
 const ACTIVITIES_CACHE_FILE = path.join(process.cwd(), 'data', 'strava-activities-cache.json')
@@ -77,7 +76,7 @@ async function fetchActivities(headers: HeadersInit, after: number): Promise<Str
   while (hasMore && page <= 10) {
     const response = await fetch(
       `${STRAVA_API}/athlete/activities?per_page=200&after=${after}&page=${page}`,
-      { headers }
+      { headers },
     )
     if (response.ok) {
       const pageActivities: StravaRawActivity[] = await response.json()
@@ -123,11 +122,13 @@ export async function loadStrava({ force = false } = {}): Promise<StravaData | n
         const latestCachedDate = cache.data
           .map((a) => new Date(a.start_date_local).getTime() / 1000)
           .reduce((max, t) => Math.max(max, t), 0)
-        activitiesPromise = fetchActivities(headers, Math.floor(latestCachedDate)).then((newActivities) => {
-          const cachedById = new Map(cache.data.map((a) => [a.id, a]))
-          for (const a of newActivities) cachedById.set(a.id, a)
-          return Array.from(cachedById.values())
-        })
+        activitiesPromise = fetchActivities(headers, Math.floor(latestCachedDate)).then(
+          (newActivities) => {
+            const cachedById = new Map(cache.data.map((a) => [a.id, a]))
+            for (const a of newActivities) cachedById.set(a.id, a)
+            return Array.from(cachedById.values())
+          },
+        )
       } else {
         activitiesPromise = fetchActivities(headers, fullSyncAfter)
       }
@@ -176,7 +177,9 @@ export async function loadStrava({ force = false } = {}): Promise<StravaData | n
     }
 
     const recentActivities = activities
-      .sort((a, b) => new Date(b.start_date_local).getTime() - new Date(a.start_date_local).getTime())
+      .sort(
+        (a, b) => new Date(b.start_date_local).getTime() - new Date(a.start_date_local).getTime(),
+      )
       .map((activity) => ({
         id: activity.id,
         name: activity.name,

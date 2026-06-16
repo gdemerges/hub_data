@@ -23,7 +23,7 @@ const lastCallAt = new Map<string, number>()
 export async function rateLimitedFetch(
   apiKey: string,
   minIntervalMs: number,
-  fetchFn: () => Promise<Response>
+  fetchFn: () => Promise<Response>,
 ): Promise<Response> {
   // Attach to the current tail of this API's queue
   const tail = queues.get(apiKey) ?? Promise.resolve()
@@ -32,12 +32,15 @@ export async function rateLimitedFetch(
   const nextSlot = tail.then(async () => {
     const elapsed = Date.now() - (lastCallAt.get(apiKey) ?? 0)
     const wait = Math.max(0, minIntervalMs - elapsed)
-    if (wait > 0) await new Promise<void>(resolve => setTimeout(resolve, wait))
+    if (wait > 0) await new Promise<void>((resolve) => setTimeout(resolve, wait))
     lastCallAt.set(apiKey, Date.now())
   })
 
   // Advance the queue tail (ignore errors in the slot itself — they surface below)
-  queues.set(apiKey, nextSlot.catch(() => {}))
+  queues.set(
+    apiKey,
+    nextSlot.catch(() => {}),
+  )
 
   // Wait for our slot, then execute
   await nextSlot

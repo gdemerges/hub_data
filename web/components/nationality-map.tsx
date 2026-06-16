@@ -1,12 +1,7 @@
 'use client'
 
 import { memo, useMemo } from 'react'
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  ZoomableGroup
-} from 'react-simple-maps'
+import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
 
 const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 
@@ -22,114 +17,114 @@ interface NationalityMapProps {
 // Mapping des noms de pays en français vers les noms ISO (utilisés dans le GeoJSON)
 const countryNameMapping: Record<string, string> = {
   // Europe
-  'France': 'France',
-  'Espagne': 'Spain',
-  'Italie': 'Italy',
+  France: 'France',
+  Espagne: 'Spain',
+  Italie: 'Italy',
   'Royaume-Uni': 'United Kingdom',
-  'Angleterre': 'United Kingdom',
-  'Suisse': 'Switzerland',
-  'Allemagne': 'Germany',
-  'Belgique': 'Belgium',
-  'Portugal': 'Portugal',
+  Angleterre: 'United Kingdom',
+  Suisse: 'Switzerland',
+  Allemagne: 'Germany',
+  Belgique: 'Belgium',
+  Portugal: 'Portugal',
   'Pays-Bas': 'Netherlands',
-  'Hollande': 'Netherlands',
-  'Autriche': 'Austria',
-  'Pologne': 'Poland',
-  'Tchéquie': 'Czechia',
+  Hollande: 'Netherlands',
+  Autriche: 'Austria',
+  Pologne: 'Poland',
+  Tchéquie: 'Czechia',
   'République Tchèque': 'Czechia',
-  'Hongrie': 'Hungary',
-  'Roumanie': 'Romania',
-  'Bulgarie': 'Bulgaria',
-  'Grèce': 'Greece',
-  'Suède': 'Sweden',
-  'Norvège': 'Norway',
-  'Danemark': 'Denmark',
-  'Finlande': 'Finland',
-  'Irlande': 'Ireland',
-  'Écosse': 'United Kingdom',
+  Hongrie: 'Hungary',
+  Roumanie: 'Romania',
+  Bulgarie: 'Bulgaria',
+  Grèce: 'Greece',
+  Suède: 'Sweden',
+  Norvège: 'Norway',
+  Danemark: 'Denmark',
+  Finlande: 'Finland',
+  Irlande: 'Ireland',
+  Écosse: 'United Kingdom',
   'Pays de Galles': 'United Kingdom',
-  'Luxembourg': 'Luxembourg',
-  'Slovaquie': 'Slovakia',
-  'Slovénie': 'Slovenia',
-  'Croatie': 'Croatia',
-  'Serbie': 'Serbia',
-  'Bosnie': 'Bosnia and Herz.',
-  'Monténégro': 'Montenegro',
-  'Macédoine': 'North Macedonia',
-  'Albanie': 'Albania',
-  'Kosovo': 'Kosovo',
-  'Lettonie': 'Latvia',
-  'Lituanie': 'Lithuania',
-  'Estonie': 'Estonia',
-  'Islande': 'Iceland',
-  'Malte': 'Malta',
-  'Chypre': 'Cyprus',
+  Luxembourg: 'Luxembourg',
+  Slovaquie: 'Slovakia',
+  Slovénie: 'Slovenia',
+  Croatie: 'Croatia',
+  Serbie: 'Serbia',
+  Bosnie: 'Bosnia and Herz.',
+  Monténégro: 'Montenegro',
+  Macédoine: 'North Macedonia',
+  Albanie: 'Albania',
+  Kosovo: 'Kosovo',
+  Lettonie: 'Latvia',
+  Lituanie: 'Lithuania',
+  Estonie: 'Estonia',
+  Islande: 'Iceland',
+  Malte: 'Malta',
+  Chypre: 'Cyprus',
   // Europe de l'Est
-  'Russie': 'Russia',
-  'Ukraine': 'Ukraine',
-  'Biélorussie': 'Belarus',
-  'Moldavie': 'Moldova',
-  'Géorgie': 'Georgia',
-  'Arménie': 'Armenia',
-  'Azerbaïdjan': 'Azerbaijan',
+  Russie: 'Russia',
+  Ukraine: 'Ukraine',
+  Biélorussie: 'Belarus',
+  Moldavie: 'Moldova',
+  Géorgie: 'Georgia',
+  Arménie: 'Armenia',
+  Azerbaïdjan: 'Azerbaijan',
   // Amérique du Nord
   'États-Unis': 'United States of America',
-  'USA': 'United States of America',
-  'Canada': 'Canada',
-  'Mexique': 'Mexico',
+  USA: 'United States of America',
+  Canada: 'Canada',
+  Mexique: 'Mexico',
   // Amérique du Sud
-  'Brésil': 'Brazil',
-  'Argentine': 'Argentina',
-  'Colombie': 'Colombia',
-  'Chili': 'Chile',
-  'Pérou': 'Peru',
-  'Venezuela': 'Venezuela',
-  'Cuba': 'Cuba',
-  'Équateur': 'Ecuador',
-  'Bolivie': 'Bolivia',
-  'Paraguay': 'Paraguay',
-  'Uruguay': 'Uruguay',
+  Brésil: 'Brazil',
+  Argentine: 'Argentina',
+  Colombie: 'Colombia',
+  Chili: 'Chile',
+  Pérou: 'Peru',
+  Venezuela: 'Venezuela',
+  Cuba: 'Cuba',
+  Équateur: 'Ecuador',
+  Bolivie: 'Bolivia',
+  Paraguay: 'Paraguay',
+  Uruguay: 'Uruguay',
   // Asie
-  'Japon': 'Japan',
-  'Chine': 'China',
+  Japon: 'Japan',
+  Chine: 'China',
   'Corée du Sud': 'South Korea',
-  'Corée': 'South Korea',
-  'Inde': 'India',
-  'Thaïlande': 'Thailand',
-  'Vietnam': 'Vietnam',
-  'Philippines': 'Philippines',
-  'Indonésie': 'Indonesia',
-  'Malaisie': 'Malaysia',
-  'Singapour': 'Singapore',
-  'Taïwan': 'Taiwan',
+  Corée: 'South Korea',
+  Inde: 'India',
+  Thaïlande: 'Thailand',
+  Vietnam: 'Vietnam',
+  Philippines: 'Philippines',
+  Indonésie: 'Indonesia',
+  Malaisie: 'Malaysia',
+  Singapour: 'Singapore',
+  Taïwan: 'Taiwan',
   // Océanie
-  'Australie': 'Australia',
+  Australie: 'Australia',
   'Nouvelle-Zélande': 'New Zealand',
   // Afrique du Nord
-  'Maroc': 'Morocco',
-  'Algérie': 'Algeria',
-  'Tunisie': 'Tunisia',
-  'Égypte': 'Egypt',
-  'Libye': 'Libya',
+  Maroc: 'Morocco',
+  Algérie: 'Algeria',
+  Tunisie: 'Tunisia',
+  Égypte: 'Egypt',
+  Libye: 'Libya',
   // Afrique
   'Afrique du Sud': 'South Africa',
-  'Nigeria': 'Nigeria',
-  'Kenya': 'Kenya',
-  'Sénégal': 'Senegal',
-  'Côte d\'Ivoire': 'Ivory Coast',
-  'Cameroun': 'Cameroon',
-  'Ghana': 'Ghana',
-  'Éthiopie': 'Ethiopia',
+  Nigeria: 'Nigeria',
+  Kenya: 'Kenya',
+  Sénégal: 'Senegal',
+  "Côte d'Ivoire": 'Ivory Coast',
+  Cameroun: 'Cameroon',
+  Ghana: 'Ghana',
+  Éthiopie: 'Ethiopia',
   // Moyen-Orient
-  'Turquie': 'Turkey',
-  'Israël': 'Israel',
-  'Liban': 'Lebanon',
+  Turquie: 'Turkey',
+  Israël: 'Israel',
+  Liban: 'Lebanon',
   'Émirats Arabes Unis': 'United Arab Emirates',
   'Arabie Saoudite': 'Saudi Arabia',
-  'Iran': 'Iran',
-  'Irak': 'Iraq',
-  'Syrie': 'Syria',
-  'Jordanie': 'Jordan',
+  Iran: 'Iran',
+  Irak: 'Iraq',
+  Syrie: 'Syria',
+  Jordanie: 'Jordan',
 }
 
 // Fonction pour nettoyer la nationalité (enlever emoji et espaces)
@@ -196,7 +191,7 @@ export const NationalityMap = memo(function NationalityMap({ data }: Nationality
         projection="geoMercator"
         projectionConfig={{
           scale: 120,
-          center: [10, 30]
+          center: [10, 30],
         }}
         width={800}
         height={400}
@@ -204,10 +199,10 @@ export const NationalityMap = memo(function NationalityMap({ data }: Nationality
       >
         <defs>
           <filter id="glow-red">
-            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feGaussianBlur stdDeviation="2" result="coloredBlur" />
             <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
+              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
         </defs>
@@ -244,7 +239,8 @@ export const NationalityMap = memo(function NationalityMap({ data }: Nationality
                     }}
                   >
                     <title>
-                      {countryName}{count ? `: ${count}` : ''}
+                      {countryName}
+                      {count ? `: ${count}` : ''}
                     </title>
                   </Geography>
                 )

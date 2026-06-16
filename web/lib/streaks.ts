@@ -1,4 +1,4 @@
-import type { UnifiedActivity, ActivitySource } from './activity'
+import type { ActivitySource, UnifiedActivity } from './activity'
 
 export interface Streak {
   /** Jours consécutifs actifs se terminant aujourd'hui (ou hier si rien aujourd'hui). */

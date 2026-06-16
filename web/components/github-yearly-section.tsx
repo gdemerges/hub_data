@@ -1,8 +1,8 @@
 'use client'
 
+import { TrendingUp } from 'lucide-react'
 import { use } from 'react'
 import { BarChart } from '@/components'
-import { TrendingUp } from 'lucide-react'
 import type { YearlyContributionsData } from '@/lib/github'
 
 interface Props {

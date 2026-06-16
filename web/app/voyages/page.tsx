@@ -1,9 +1,19 @@
-import { MapPin, Globe, Calendar, Upload, Building2, TrendingUp, Clock, Award, Sparkles } from 'lucide-react'
 import { Compass } from '@phosphor-icons/react/dist/ssr'
-import { PageHeader, SectionCard, RankRow } from '@/components'
+import {
+  Award,
+  Building2,
+  Calendar,
+  Clock,
+  Globe,
+  MapPin,
+  Sparkles,
+  TrendingUp,
+  Upload,
+} from 'lucide-react'
+import { PageHeader, RankRow, SectionCard } from '@/components'
 import { WorldMapClient } from '@/components/world-map-client'
-import { loadVoyages } from '@/lib/voyages'
 import type { TravelStats } from '@/lib/voyages'
+import { loadVoyages } from '@/lib/voyages'
 
 export const revalidate = 86400
 
@@ -36,7 +46,11 @@ export default async function VoyagesPage() {
         title="Voyages"
         subtitle="Historique des lieux visités"
         eyebrow={stats ? `${stats.totalCountries} pays · ${stats.totalCities} villes` : 'Section'}
-        dateline={stats?.visitsByYear?.length ? `${stats.visitsByYear[0].year} → ${stats.visitsByYear[stats.visitsByYear.length - 1].year}` : 'Tous les voyages'}
+        dateline={
+          stats?.visitsByYear?.length
+            ? `${stats.visitsByYear[0].year} → ${stats.visitsByYear[stats.visitsByYear.length - 1].year}`
+            : 'Tous les voyages'
+        }
         color="sage"
         icon={Compass}
       />
@@ -81,12 +95,17 @@ export default async function VoyagesPage() {
                     <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-text-tertiary mb-1">
                       Lieu
                     </div>
-                    <div className="font-display text-lg text-text-primary truncate" title={stats.longestStay.name}>
+                    <div
+                      className="font-display text-lg text-text-primary truncate"
+                      title={stats.longestStay.name}
+                    >
                       {stats.longestStay.name}
                     </div>
                     {(stats.longestStay.city || stats.longestStay.country) && (
                       <div className="text-xs text-text-secondary mt-0.5">
-                        {[stats.longestStay.city, stats.longestStay.country].filter(Boolean).join(' · ')}
+                        {[stats.longestStay.city, stats.longestStay.country]
+                          .filter(Boolean)
+                          .join(' · ')}
                       </div>
                     )}
                   </div>
@@ -137,7 +156,9 @@ export default async function VoyagesPage() {
                     rank={i + 1}
                     accent="fern"
                     primary={country.name}
-                    secondary={country.firstVisit ? `depuis ${formatDate(country.firstVisit)}` : undefined}
+                    secondary={
+                      country.firstVisit ? `depuis ${formatDate(country.firstVisit)}` : undefined
+                    }
                     metric={`${country.visits} visites`}
                   />
                 ))}
@@ -152,7 +173,10 @@ export default async function VoyagesPage() {
                   const maxVisits = Math.max(...stats.visitsByYear.map((y) => y.visits))
                   const height = (year.visits / maxVisits) * 100
                   return (
-                    <div key={year.year} className="flex-1 flex flex-col items-center justify-end h-48 gap-2 group">
+                    <div
+                      key={year.year}
+                      className="flex-1 flex flex-col items-center justify-end h-48 gap-2 group"
+                    >
                       <span className="font-mono text-[10px] text-earth-moss tabular-nums">
                         {year.visits > maxVisits * 0.15 ? year.visits : ''}
                       </span>
@@ -229,7 +253,10 @@ function KpiStrip({ stats }: { stats: TravelStats }) {
             {it.value}
           </div>
           {it.hint && (
-            <div className="font-mono text-[10px] text-text-tertiary mt-1.5 truncate" title={it.hint}>
+            <div
+              className="font-mono text-[10px] text-text-tertiary mt-1.5 truncate"
+              title={it.hint}
+            >
               {it.hint}
             </div>
           )}
@@ -243,15 +270,15 @@ function ContinentBars({ data }: { data: TravelStats['continents'] }) {
   if (data.length === 0) {
     return <div className="text-sm text-text-tertiary py-4 text-center">Aucune donnée</div>
   }
-  const max = Math.max(...data.map(d => d.visits), 1)
+  const max = Math.max(...data.map((d) => d.visits), 1)
   const colors: Record<string, string> = {
-    'Europe': '#5a7d4a',
-    'Asie': '#b86b3c',
+    Europe: '#5a7d4a',
+    Asie: '#b86b3c',
     'Amérique du Nord': '#3d5170',
     'Amérique du Sud': '#a8552c',
-    'Afrique': '#d9a441',
-    'Océanie': '#7ba896',
-    'Autre': '#a3b598',
+    Afrique: '#d9a441',
+    Océanie: '#7ba896',
+    Autre: '#a3b598',
   }
   return (
     <ul className="space-y-3">
@@ -285,11 +312,13 @@ function EmptyState() {
       <div className="text-center">
         <div
           className="gradient-mesh w-20 h-20 mx-auto mb-6 rounded-3xl border border-earth-sage/30 flex items-center justify-center"
-          style={{
-            ['--mesh-a' as string]: '163 181 152',
-            ['--mesh-b' as string]: '90 125 74',
-            ['--mesh-c' as string]: '163 181 152',
-          } as React.CSSProperties}
+          style={
+            {
+              ['--mesh-a' as string]: '163 181 152',
+              ['--mesh-b' as string]: '90 125 74',
+              ['--mesh-c' as string]: '163 181 152',
+            } as React.CSSProperties
+          }
         >
           <Upload className="w-9 h-9 text-earth-sage" strokeWidth={1.5} />
         </div>
@@ -317,7 +346,7 @@ function EmptyState() {
             </>,
             'Sélectionner uniquement "Historique des positions"',
             'Choisir le format JSON',
-            'Télécharger et extraire l\'archive',
+            "Télécharger et extraire l'archive",
             <>
               Placer le dossier <em>Semantic Location History</em> dans{' '}
               <code className="text-earth-sage text-xs">data/location-history/</code>

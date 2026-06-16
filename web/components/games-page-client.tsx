@@ -1,13 +1,13 @@
 'use client'
 
-import { useState, Suspense } from 'react'
+import { Activity, BarChart3, Gamepad2, Trophy } from 'lucide-react'
+import { Suspense, useState } from 'react'
+import { EmptyState, PieChart } from '@/components'
 import { GamesClient } from '@/components/games-client'
-import { PieChart, EmptyState } from '@/components'
-import { SteamSection } from '@/components/steam-section'
 import { GameStats } from '@/components/games-stats'
-import { Trophy, Gamepad2, BarChart3, Activity } from 'lucide-react'
-import type { Game } from '@/lib/types'
+import { SteamSection } from '@/components/steam-section'
 import type { GameStatsData } from '@/lib/media-stats'
+import type { Game } from '@/lib/types'
 
 interface GamesPageClientProps {
   games: Game[]
@@ -48,7 +48,7 @@ export function GamesPageClient({
 
   // Filter games by genre if selected
   const filteredGames = selectedGenre
-    ? games.filter(game => game.genres?.includes(selectedGenre))
+    ? games.filter((game) => game.genres?.includes(selectedGenre))
     : games
 
   return (
@@ -143,9 +143,7 @@ export function GamesPageClient({
             <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
               <div className="flex items-center gap-3 mb-4">
                 <BarChart3 className="w-5 h-5 text-accent-primary" />
-                <h3 className="text-sm font-semibold text-text-secondary">
-                  Répartition par genre
-                </h3>
+                <h3 className="text-sm font-semibold text-text-secondary">Répartition par genre</h3>
               </div>
               {genreChartData.length > 0 ? (
                 <div className="flex flex-col items-center">

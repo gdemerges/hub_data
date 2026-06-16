@@ -15,12 +15,12 @@
  * and prints the refresh token to copy into .env as SPOTIFY_REFRESH_TOKEN.
  */
 
-import { createServer } from 'node:http'
 import { exec } from 'node:child_process'
-import { resolve } from 'node:path'
-import { readFileSync, writeFileSync, existsSync } from 'node:fs'
-import { config } from 'dotenv'
 import crypto from 'node:crypto'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { createServer } from 'node:http'
+import { resolve } from 'node:path'
+import { config } from 'dotenv'
 
 config({ path: resolve(__dirname, '../.env') })
 
@@ -32,8 +32,8 @@ function openBrowser(url: string): void {
     process.platform === 'darwin'
       ? `open "${url}"`
       : process.platform === 'win32'
-      ? `start "" "${url}"`
-      : `xdg-open "${url}"`
+        ? `start "" "${url}"`
+        : `xdg-open "${url}"`
   exec(cmd, () => {
     // best-effort; if it fails the user can copy the URL manually
   })
@@ -45,7 +45,7 @@ async function main() {
   if (!clientId || !clientSecret) {
     console.error(
       'SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET must be set in web/.env first.\n' +
-        'Get them from https://developer.spotify.com/dashboard'
+        'Get them from https://developer.spotify.com/dashboard',
     )
     process.exit(1)
   }
@@ -93,7 +93,7 @@ async function main() {
       }
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
       res.end(
-        '<h1>Spotify connecté ✅</h1><p>Tu peux fermer cet onglet et revenir au terminal.</p>'
+        '<h1>Spotify connecté ✅</h1><p>Tu peux fermer cet onglet et revenir au terminal.</p>',
       )
       server.close()
       resolveCode(c)
@@ -110,8 +110,7 @@ async function main() {
   const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
     headers: {
-      Authorization:
-        `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`,
+      Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`,
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: new URLSearchParams({
@@ -149,7 +148,7 @@ async function main() {
     const content = readFileSync(envPath, 'utf-8')
     const lines = content.split('\n')
     let found = false
-    const updated = lines.map(l => {
+    const updated = lines.map((l) => {
       if (l.startsWith('SPOTIFY_REFRESH_TOKEN=')) {
         found = true
         return line
@@ -169,7 +168,7 @@ async function main() {
   console.log('\nRedémarre le serveur Next.js (make dev).')
 }
 
-main().catch(e => {
+main().catch((e) => {
   console.error(e)
   process.exit(1)
 })

@@ -1,8 +1,8 @@
 'use client'
 
+import { Calendar, Film as FilmIcon, Gamepad2, TrendingUp, Tv } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { TrendingUp, Calendar, Film as FilmIcon, Tv, Gamepad2 } from 'lucide-react'
-import type { Film, Series, Game } from '@/lib/types'
+import type { Film, Game, Series } from '@/lib/types'
 
 interface TemporalStatsProps {
   films: Film[]
@@ -23,7 +23,20 @@ export function TemporalStats({ films, series, games }: TemporalStatsProps) {
   const [selectedYear, setSelectedYear] = useState(currentYear)
 
   const monthlyData = useMemo(() => {
-    const months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc']
+    const months = [
+      'Jan',
+      'Fév',
+      'Mar',
+      'Avr',
+      'Mai',
+      'Juin',
+      'Juil',
+      'Août',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Déc',
+    ]
 
     const data: MonthlyData[] = months.map((month) => ({
       month,
@@ -58,10 +71,7 @@ export function TemporalStats({ films, series, games }: TemporalStatsProps) {
   }, [films, series, games, selectedYear])
 
   const maxValue = useMemo(() => {
-    return Math.max(
-      ...monthlyData.map(d => Math.max(d.films, d.series, d.games)),
-      1
-    )
+    return Math.max(...monthlyData.map((d) => Math.max(d.films, d.series, d.games)), 1)
   }, [monthlyData])
 
   const totalFilms = monthlyData.reduce((sum, d) => sum + d.films, 0)
@@ -87,8 +97,10 @@ export function TemporalStats({ films, series, games }: TemporalStatsProps) {
           onChange={(e) => setSelectedYear(Number(e.target.value))}
           className="px-3 py-1.5 bg-bg-primary border border-earth-fern/30 rounded text-sm font-mono text-earth-fern focus:outline-none focus:border-earth-fern"
         >
-          {years.map(year => (
-            <option key={year} value={year}>{year}</option>
+          {years.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
           ))}
         </select>
       </div>

@@ -1,7 +1,7 @@
 'use client'
 
+import { Desktop, Moon, Sun } from '@phosphor-icons/react'
 import { useEffect, useState } from 'react'
-import { Sun, Moon, Desktop } from '@phosphor-icons/react'
 
 type Theme = 'dark' | 'light'
 type Preference = Theme | 'system'
@@ -74,7 +74,11 @@ export function ThemeToggle() {
     const supportsVT = 'startViewTransition' in document
     if (!reduce && supportsVT) {
       root.classList.add('theme-changing')
-      const t = (document as Document & { startViewTransition: (cb: () => void) => { finished: Promise<void> } }).startViewTransition(apply)
+      const t = (
+        document as Document & {
+          startViewTransition: (cb: () => void) => { finished: Promise<void> }
+        }
+      ).startViewTransition(apply)
       t.finished.finally(() => root.classList.remove('theme-changing'))
     } else {
       apply()

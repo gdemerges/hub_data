@@ -1,5 +1,5 @@
 declare module 'react-simple-maps' {
-  import type { ReactNode, CSSProperties } from 'react'
+  import type { CSSProperties, ReactNode } from 'react'
 
   interface GeographyRecord {
     rsmKey: string

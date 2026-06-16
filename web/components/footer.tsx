@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { GithubLogo, Leaf } from '@phosphor-icons/react'
 import Link from 'next/link'
-import { Leaf, GithubLogo } from '@phosphor-icons/react'
+import { useEffect, useState } from 'react'
 
 export function Footer() {
   const [now, setNow] = useState<Date | null>(null)
@@ -13,9 +13,7 @@ export function Footer() {
     return () => clearInterval(id)
   }, [])
 
-  const time = now
-    ? now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
-    : '—'
+  const time = now ? now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : '—'
   const date = now
     ? now.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
     : ''
@@ -23,7 +21,10 @@ export function Footer() {
   return (
     <footer className="border-t border-border-subtle mt-16">
       <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2 text-text-secondary hover:text-earth-moss transition-colors">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-text-secondary hover:text-earth-moss transition-colors"
+        >
           <Leaf size={16} weight="duotone" className="text-earth-moss" />
           <span className="font-display text-sm tracking-tight">Hub Life</span>
         </Link>
@@ -31,7 +32,9 @@ export function Footer() {
         <div className="flex items-center gap-4 text-[11px] uppercase tracking-[0.18em] text-text-muted font-mono">
           <span suppressHydrationWarning>{date}</span>
           <span aria-hidden>·</span>
-          <span className="num" suppressHydrationWarning>{time}</span>
+          <span className="num" suppressHydrationWarning>
+            {time}
+          </span>
         </div>
 
         <a

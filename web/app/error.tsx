@@ -1,7 +1,7 @@
 'use client'
 
+import { ArrowsClockwise, Warning } from '@phosphor-icons/react'
 import { useEffect } from 'react'
-import { Warning, ArrowsClockwise } from '@phosphor-icons/react'
 
 export default function GlobalError({
   error,
@@ -29,10 +29,7 @@ export default function GlobalError({
             digest: {error.digest}
           </p>
         )}
-        <button
-          onClick={() => reset()}
-          className="btn-secondary"
-        >
+        <button onClick={() => reset()} className="btn-secondary">
           <ArrowsClockwise size={16} />
           Réessayer
         </button>

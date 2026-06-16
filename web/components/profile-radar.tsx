@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import { ChevronLeft, ChevronRight, User } from 'lucide-react'
+import { useState } from 'react'
 import { useApiData } from '@/lib/use-api-data'
 
 interface RadarDataPoint {
@@ -40,11 +40,9 @@ function SvgRadarChart({ data }: { data: RadarDataPoint[] }) {
   })
 
   const toPoints = (pts: { x: number; y: number }[]) =>
-    pts.map(p => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(' ')
+    pts.map((p) => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(' ')
 
-  const gridPolygons = levels.map(level =>
-    toPoints(data.map((_, i) => pointAt(i, maxR * level)))
-  )
+  const gridPolygons = levels.map((level) => toPoints(data.map((_, i) => pointAt(i, maxR * level))))
   const dataPoints = data.map((d, i) => pointAt(i, maxR * (d.value / 100)))
   const dataPolygon = toPoints(dataPoints)
 
@@ -76,8 +74,10 @@ function SvgRadarChart({ data }: { data: RadarDataPoint[] }) {
           return (
             <line
               key={i}
-              x1={cx} y1={cy}
-              x2={outer.x} y2={outer.y}
+              x1={cx}
+              y1={cy}
+              x2={outer.x}
+              y2={outer.y}
               stroke="#2d2d3d"
               strokeWidth="1"
             />
@@ -98,7 +98,9 @@ function SvgRadarChart({ data }: { data: RadarDataPoint[] }) {
         {dataPoints.map((p, i) => (
           <circle
             key={i}
-            cx={p.x} cy={p.y} r={5}
+            cx={p.x}
+            cy={p.y}
+            r={5}
             fill="#00ffff"
             stroke="#00000080"
             strokeWidth="1"
@@ -114,7 +116,8 @@ function SvgRadarChart({ data }: { data: RadarDataPoint[] }) {
           return (
             <text
               key={i}
-              x={pt.x} y={pt.y}
+              x={pt.x}
+              y={pt.y}
               textAnchor="middle"
               dominantBaseline="middle"
               fontSize="10"
@@ -131,7 +134,10 @@ function SvgRadarChart({ data }: { data: RadarDataPoint[] }) {
       {hovered && (
         <div className="absolute top-0 right-0 bg-bg-card border border-earth-fern/30 rounded-lg px-3 py-2 shadow-lg pointer-events-none">
           <p className="text-sm font-mono text-earth-fern">{hovered.category}</p>
-          <p className="text-xs text-text-secondary">{hovered.rawValue}{hovered.unit}</p>
+          <p className="text-xs text-text-secondary">
+            {hovered.rawValue}
+            {hovered.unit}
+          </p>
         </div>
       )}
     </div>
@@ -141,9 +147,7 @@ function SvgRadarChart({ data }: { data: RadarDataPoint[] }) {
 export function ProfileRadar() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
   // profile fetch failure is non-critical; UI shows an empty radar
-  const { data, loading } = useApiData<ProfileData>(
-    `/api/profile?year=${selectedYear}`
-  )
+  const { data, loading } = useApiData<ProfileData>(`/api/profile?year=${selectedYear}`)
 
   if (loading) {
     return (

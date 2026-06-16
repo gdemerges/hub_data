@@ -1,17 +1,8 @@
 'use client'
 
+import { Clock, Film, Filter, Footprints, Gamepad2, Heart, MapPin, Tv } from 'lucide-react'
 import { useState } from 'react'
 import { useApiData } from '@/lib/use-api-data'
-import {
-  Film,
-  Tv,
-  Gamepad2,
-  Footprints,
-  MapPin,
-  Heart,
-  Clock,
-  Filter
-} from 'lucide-react'
 
 interface TimelineEvent {
   id: string
@@ -55,24 +46,23 @@ export function UnifiedTimeline() {
   const [filter, setFilter] = useState<string | null>(null)
   const [limit, setLimit] = useState(30)
   // timeline fetch failure is non-critical; UI falls back to an empty list
-  const { data, loading } = useApiData<{ events: TimelineEvent[] }>(
-    `/api/timeline?limit=${limit}`
-  )
+  const { data, loading } = useApiData<{ events: TimelineEvent[] }>(`/api/timeline?limit=${limit}`)
   const events = data?.events ?? []
 
-  const filteredEvents = filter
-    ? events.filter((e) => e.type === filter)
-    : events
+  const filteredEvents = filter ? events.filter((e) => e.type === filter) : events
 
   // Group events by year-month
-  const groupedEvents = filteredEvents.reduce((acc, event) => {
-    const yearMonth = event.date.substring(0, 7)
-    if (!acc[yearMonth]) {
-      acc[yearMonth] = []
-    }
-    acc[yearMonth].push(event)
-    return acc
-  }, {} as Record<string, TimelineEvent[]>)
+  const groupedEvents = filteredEvents.reduce(
+    (acc, event) => {
+      const yearMonth = event.date.substring(0, 7)
+      if (!acc[yearMonth]) {
+        acc[yearMonth] = []
+      }
+      acc[yearMonth].push(event)
+      return acc
+    },
+    {} as Record<string, TimelineEvent[]>,
+  )
 
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString('fr-FR', {
@@ -151,9 +141,7 @@ export function UnifiedTimeline() {
             {/* Month header */}
             <div className="flex items-center gap-4 mb-4 sticky top-0 bg-bg-card z-10 py-2">
               <div className="w-10 h-10 rounded-full bg-bg-tertiary border border-border-subtle flex items-center justify-center">
-                <span className="text-xs font-mono text-text-muted">
-                  {yearMonth.split('-')[1]}
-                </span>
+                <span className="text-xs font-mono text-text-muted">{yearMonth.split('-')[1]}</span>
               </div>
               <span className="text-sm font-mono text-text-secondary capitalize">
                 {formatMonthYear(yearMonth)}
@@ -167,10 +155,7 @@ export function UnifiedTimeline() {
                 const colorClass = colorMap[event.color] || colorMap.cyan
 
                 return (
-                  <div
-                    key={event.id}
-                    className="flex items-start gap-4 group"
-                  >
+                  <div key={event.id} className="flex items-start gap-4 group">
                     {/* Icon */}
                     <div
                       className={`w-8 h-8 rounded-lg border flex items-center justify-center flex-shrink-0 transition-all group-hover:scale-110 ${colorClass}`}
@@ -193,7 +178,9 @@ export function UnifiedTimeline() {
                         </div>
                         <div className="flex flex-col items-end gap-1 flex-shrink-0">
                           {event.value && (
-                            <span className={`text-xs font-mono font-semibold ${colorClass.split(' ')[2]}`}>
+                            <span
+                              className={`text-xs font-mono font-semibold ${colorClass.split(' ')[2]}`}
+                            >
                               {event.value}
                             </span>
                           )}

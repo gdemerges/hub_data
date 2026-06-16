@@ -4,18 +4,18 @@ import { Award, BarChart3, Heart, TrendingUp } from 'lucide-react'
 import {
   ExpandableSection,
   FitnessChart,
-  RacePredictor,
-  RecoveryAdvisor,
   HeartRateZones,
   PerformanceFactors,
+  RacePredictor,
+  RecoveryAdvisor,
 } from '@/components'
 import {
+  analyzePerformanceFactors,
   analyzeRecovery,
-  predictRaceTimes,
-  calculateTimeToTarget,
   calculateFitnessMetrics,
   calculateLTHR,
-  analyzePerformanceFactors,
+  calculateTimeToTarget,
+  predictRaceTimes,
 } from '@/lib/fitness-calculator'
 import type { SportActivity } from '@/lib/sport'
 

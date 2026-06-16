@@ -1,33 +1,42 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-import { TransitionLink } from './transition-link'
-import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
 import {
-  House,
-  Sparkle,
-  GameController,
-  FilmStrip,
-  Television,
   Books,
-  HeartHalf,
+  CaretDown,
   Code,
+  Compass,
+  FilmStrip,
+  GameController,
+  Heartbeat,
+  HeartHalf,
+  House,
+  type Icon,
+  Leaf,
+  List,
+  MagnifyingGlass,
   MusicNote,
   PersonSimpleRun,
-  Compass,
-  List,
-  X,
-  MagnifyingGlass,
-  Leaf,
-  CaretDown,
+  Sparkle,
   Stack,
-  Heartbeat,
-  type Icon,
+  Television,
+  X,
 } from '@phosphor-icons/react'
+import { usePathname } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
+import { cn } from '@/lib/utils'
 import { ThemeToggle } from './theme-toggle'
+import { TransitionLink } from './transition-link'
 
-type Accent = 'moss' | 'fern' | 'terracotta' | 'rust' | 'saffron' | 'clay' | 'indigo' | 'sage' | 'leaf'
+type Accent =
+  | 'moss'
+  | 'fern'
+  | 'terracotta'
+  | 'rust'
+  | 'saffron'
+  | 'clay'
+  | 'indigo'
+  | 'sage'
+  | 'leaf'
 
 const accentText: Record<Accent, string> = {
   moss: 'text-earth-moss',
@@ -101,7 +110,7 @@ const navEntries: NavEntry[] = [
 ]
 
 // Flat list for the mobile menu / utilities.
-const flatItems: NavItem[] = navEntries.flatMap(e => (isGroup(e) ? e.items : [e]))
+const flatItems: NavItem[] = navEntries.flatMap((e) => (isGroup(e) ? e.items : [e]))
 
 export function Navigation() {
   const pathname = usePathname()
@@ -168,7 +177,7 @@ export function Navigation() {
 
   const GroupTrigger = ({ group }: { group: NavGroup }) => {
     const isOpen = openGroup === group.label
-    const hasActiveChild = group.items.some(it => pathname === it.href)
+    const hasActiveChild = group.items.some((it) => pathname === it.href)
     const Icon = group.icon
     return (
       <div className="relative" ref={isOpen ? groupRef : undefined}>
@@ -198,7 +207,7 @@ export function Navigation() {
         </button>
         {isOpen && (
           <div className="absolute right-0 top-full mt-2 min-w-[180px] py-2 bg-bg-primary border border-border-subtle rounded-xl shadow-soft-lg z-50 animate-fade-in">
-            {group.items.map(item => {
+            {group.items.map((item) => {
               const isActive = pathname === item.href
               const ItemIcon = item.icon
               return (
@@ -245,12 +254,12 @@ export function Navigation() {
           </TransitionLink>
 
           <nav className="hidden lg:flex items-center justify-end gap-1 flex-1">
-            {navEntries.map(entry =>
+            {navEntries.map((entry) =>
               isGroup(entry) ? (
                 <GroupTrigger key={entry.label} group={entry} />
               ) : (
                 <NavLink key={entry.href} item={entry} />
-              )
+              ),
             )}
           </nav>
 
@@ -262,7 +271,9 @@ export function Navigation() {
             >
               <MagnifyingGlass size={16} />
               <span>Rechercher</span>
-              <kbd className="ml-1 px-1.5 py-0.5 bg-bg-card rounded text-[10px] border border-border-subtle font-mono">⌘K</kbd>
+              <kbd className="ml-1 px-1.5 py-0.5 bg-bg-card rounded text-[10px] border border-border-subtle font-mono">
+                ⌘K
+              </kbd>
             </button>
 
             <button

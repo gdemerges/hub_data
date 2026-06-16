@@ -1,19 +1,64 @@
 'use client'
 
-import Image from 'next/image'
 import { Star } from 'lucide-react'
+import Image from 'next/image'
 import { cn, getInitials } from '@/lib/utils'
 
 type Accent = 'moss' | 'fern' | 'terracotta' | 'rust' | 'saffron' | 'clay' | 'indigo'
 
-const accentTokens: Record<Accent, { text: string; mesh: string; meshB: string; ring: string; rgb: string }> = {
-  moss:       { text: 'text-earth-moss',       mesh: '90 125 74',   meshB: '138 178 116', ring: 'ring-earth-moss/30',       rgb: '90 125 74'   },
-  fern:       { text: 'text-earth-fern',       mesh: '123 168 150', meshB: '163 181 152', ring: 'ring-earth-fern/30',       rgb: '123 168 150' },
-  terracotta: { text: 'text-earth-terracotta', mesh: '184 107 60',  meshB: '217 164 65',  ring: 'ring-earth-terracotta/30', rgb: '184 107 60'  },
-  rust:       { text: 'text-earth-rust',       mesh: '168 85 44',   meshB: '217 164 65',  ring: 'ring-earth-rust/30',       rgb: '168 85 44'   },
-  saffron:    { text: 'text-earth-saffron',    mesh: '217 164 65',  meshB: '184 107 60',  ring: 'ring-earth-saffron/30',    rgb: '217 164 65'  },
-  clay:       { text: 'text-earth-clay',       mesh: '176 104 104', meshB: '184 107 60',  ring: 'ring-earth-clay/30',       rgb: '176 104 104' },
-  indigo:     { text: 'text-earth-indigo',     mesh: '61 81 112',   meshB: '123 168 150', ring: 'ring-earth-indigo/30',     rgb: '61 81 112'   },
+const accentTokens: Record<
+  Accent,
+  { text: string; mesh: string; meshB: string; ring: string; rgb: string }
+> = {
+  moss: {
+    text: 'text-earth-moss',
+    mesh: '90 125 74',
+    meshB: '138 178 116',
+    ring: 'ring-earth-moss/30',
+    rgb: '90 125 74',
+  },
+  fern: {
+    text: 'text-earth-fern',
+    mesh: '123 168 150',
+    meshB: '163 181 152',
+    ring: 'ring-earth-fern/30',
+    rgb: '123 168 150',
+  },
+  terracotta: {
+    text: 'text-earth-terracotta',
+    mesh: '184 107 60',
+    meshB: '217 164 65',
+    ring: 'ring-earth-terracotta/30',
+    rgb: '184 107 60',
+  },
+  rust: {
+    text: 'text-earth-rust',
+    mesh: '168 85 44',
+    meshB: '217 164 65',
+    ring: 'ring-earth-rust/30',
+    rgb: '168 85 44',
+  },
+  saffron: {
+    text: 'text-earth-saffron',
+    mesh: '217 164 65',
+    meshB: '184 107 60',
+    ring: 'ring-earth-saffron/30',
+    rgb: '217 164 65',
+  },
+  clay: {
+    text: 'text-earth-clay',
+    mesh: '176 104 104',
+    meshB: '184 107 60',
+    ring: 'ring-earth-clay/30',
+    rgb: '176 104 104',
+  },
+  indigo: {
+    text: 'text-earth-indigo',
+    mesh: '61 81 112',
+    meshB: '123 168 150',
+    ring: 'ring-earth-indigo/30',
+    rgb: '61 81 112',
+  },
 }
 
 export interface TopPick {
@@ -53,11 +98,18 @@ export function MediaTopPicks({ picks, accent: a = 'fern', eyebrow = 'Top 3', ti
     <section className="mb-10">
       <header className="flex items-end justify-between mb-5">
         <div>
-          <div className={cn('text-[10px] uppercase tracking-[0.22em] font-mono mb-2 flex items-center gap-2', tokens.text)}>
+          <div
+            className={cn(
+              'text-[10px] uppercase tracking-[0.22em] font-mono mb-2 flex items-center gap-2',
+              tokens.text,
+            )}
+          >
             <span className="inline-block w-6 h-px" style={{ background: `rgb(${tokens.rgb})` }} />
             {eyebrow}
           </div>
-          <h2 className="font-display text-2xl font-medium tracking-tight text-text-primary">{title}</h2>
+          <h2 className="font-display text-2xl font-medium tracking-tight text-text-primary">
+            {title}
+          </h2>
         </div>
       </header>
 
@@ -113,7 +165,11 @@ function FeaturedCard({ pick, accent: a }: { pick: TopPick; accent: Accent }) {
 
       {/* Bottom overlay éditorial */}
       <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 bg-gradient-to-t from-black/85 via-black/55 to-transparent">
-        <div className={cn('text-[10px] uppercase tracking-[0.22em] font-mono mb-1.5 flex items-center gap-2 text-white/80')}>
+        <div
+          className={cn(
+            'text-[10px] uppercase tracking-[0.22em] font-mono mb-1.5 flex items-center gap-2 text-white/80',
+          )}
+        >
           <span className="font-display text-base num font-medium">01</span>
           <span className="block w-4 h-px bg-white/40" />
           {pick.metricLabel ?? 'Top'}
@@ -164,7 +220,9 @@ function SideCard({ pick, accent: a, rank }: { pick: TopPick; accent: Accent; ra
 
       <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/85 to-transparent">
         <div className="flex items-baseline gap-2 mb-1.5">
-          <span className="font-display text-base font-medium text-white/70 num">{String(rank).padStart(2, '0')}</span>
+          <span className="font-display text-base font-medium text-white/70 num">
+            {String(rank).padStart(2, '0')}
+          </span>
           {pick.metric && (
             <span className="ml-auto font-display text-base font-medium text-white num flex items-center gap-1">
               <Star className="w-3.5 h-3.5 fill-current opacity-80" strokeWidth={0} />

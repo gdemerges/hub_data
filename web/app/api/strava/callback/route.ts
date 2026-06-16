@@ -1,7 +1,6 @@
-import { type NextRequest, NextResponse } from 'next/server'
-import fs from 'node:fs'
-import { promises as fsp } from 'node:fs'
+import fs, { promises as fsp } from 'node:fs'
 import path from 'node:path'
+import { type NextRequest, NextResponse } from 'next/server'
 import { logger } from '@/lib/logger'
 
 export async function GET(request: NextRequest) {
@@ -41,7 +40,9 @@ export async function GET(request: NextRequest) {
 
     if (!tokenResponse.ok) {
       logger.error('Strava token exchange failed:', tokenResponse.status)
-      return NextResponse.redirect(new URL(`/sport?error=token_error&status=${tokenResponse.status}`, request.url))
+      return NextResponse.redirect(
+        new URL(`/sport?error=token_error&status=${tokenResponse.status}`, request.url),
+      )
     }
 
     const tokenData = await tokenResponse.json()
@@ -53,12 +54,19 @@ export async function GET(request: NextRequest) {
     }
 
     const tokenFile = path.join(dataDir, 'strava-tokens.json')
-    await fsp.writeFile(tokenFile, JSON.stringify({
-      access_token: tokenData.access_token,
-      refresh_token: tokenData.refresh_token,
-      expires_at: tokenData.expires_at,
-      athlete_id: tokenData.athlete?.id,
-    }, null, 2))
+    await fsp.writeFile(
+      tokenFile,
+      JSON.stringify(
+        {
+          access_token: tokenData.access_token,
+          refresh_token: tokenData.refresh_token,
+          expires_at: tokenData.expires_at,
+          athlete_id: tokenData.athlete?.id,
+        },
+        null,
+        2,
+      ),
+    )
 
     return NextResponse.redirect(new URL('/sport', request.url))
   } catch (err: unknown) {

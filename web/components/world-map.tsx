@@ -1,12 +1,7 @@
 'use client'
 
 import { memo } from 'react'
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  ZoomableGroup
-} from 'react-simple-maps'
+import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
 
 const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 
@@ -16,22 +11,23 @@ interface WorldMapProps {
 
 // Mapping des noms de pays de l'API vers les noms ISO
 const countryNameMapping: Record<string, string> = {
-  'France': 'France',
-  'Espagne': 'Spain',
-  'Italie': 'Italy',
+  France: 'France',
+  Espagne: 'Spain',
+  Italie: 'Italy',
   'Royaume-Uni': 'United Kingdom',
-  'Suisse': 'Switzerland',
-  'Allemagne': 'Germany',
-  'Belgique': 'Belgium',
-  'Portugal': 'Portugal',
+  Suisse: 'Switzerland',
+  Allemagne: 'Germany',
+  Belgique: 'Belgium',
+  Portugal: 'Portugal',
   'Pays-Bas': 'Netherlands',
-  'Autriche': 'Austria',
+  Autriche: 'Austria',
 }
 
 export const WorldMap = memo(function WorldMap({ visitedCountries }: WorldMapProps) {
   // Convertir les noms français en noms anglais
-  const visitedCountriesEnglish = visitedCountries
-    .map(country => countryNameMapping[country] || country)
+  const visitedCountriesEnglish = visitedCountries.map(
+    (country) => countryNameMapping[country] || country,
+  )
 
   return (
     <div className="w-full h-full bg-bg-primary rounded-lg border border-border-subtle overflow-hidden relative">
@@ -42,7 +38,7 @@ export const WorldMap = memo(function WorldMap({ visitedCountries }: WorldMapPro
         projection="geoMercator"
         projectionConfig={{
           scale: 400,
-          center: [10, 52] // Centré sur l'Europe
+          center: [10, 52], // Centré sur l'Europe
         }}
         width={800}
         height={400}
@@ -50,10 +46,10 @@ export const WorldMap = memo(function WorldMap({ visitedCountries }: WorldMapPro
       >
         <defs>
           <filter id="glow">
-            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feGaussianBlur stdDeviation="2" result="coloredBlur" />
             <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
+              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
         </defs>
@@ -88,9 +84,7 @@ export const WorldMap = memo(function WorldMap({ visitedCountries }: WorldMapPro
                       },
                     }}
                   >
-                    {isVisited && (
-                      <title>{countryName}</title>
-                    )}
+                    {isVisited && <title>{countryName}</title>}
                   </Geography>
                 )
               })

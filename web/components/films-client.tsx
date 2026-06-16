@@ -1,16 +1,16 @@
 'use client'
 
-import { useState, useMemo, useEffect, useDeferredValue } from 'react'
+import { ArrowUpDown, Calendar, Clock, Search, Star } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import { flushSync } from 'react-dom'
-import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
-import { withViewTransition } from '@/lib/view-transition'
 import { MediaTopPicks, type TopPick } from '@/components/media-top-picks'
-import { Recommendations } from '@/components/recommendations'
 import { StaggerContainer, StaggerItem } from '@/components/page-transition'
-import { Search, Calendar, Star, Clock, ArrowUpDown } from 'lucide-react'
+import { Recommendations } from '@/components/recommendations'
 import type { Film } from '@/lib/types'
+import { withViewTransition } from '@/lib/view-transition'
 
 type SortOption = 'recent' | 'oldest' | 'rating' | 'title'
 
@@ -32,7 +32,7 @@ export function FilmsClient({ films }: FilmsClientProps) {
   const [search, setSearch] = useState(() => searchParams.get('q') ?? '')
   const [year, setYear] = useState<string>(() => searchParams.get('year') ?? '')
   const [sortBy, setSortBy] = useState<SortOption>(
-    () => (searchParams.get('sort') as SortOption) || 'recent'
+    () => (searchParams.get('sort') as SortOption) || 'recent',
   )
   const [selectedItem, setSelectedItem] = useState<Film | null>(null)
   const deferredSearch = useDeferredValue(search)
@@ -61,7 +61,7 @@ export function FilmsClient({ films }: FilmsClientProps) {
   useEffect(() => {
     const open = searchParams.get('open')
     if (!open) return
-    const match = films.find(f => f.title === open)
+    const match = films.find((f) => f.title === open)
     if (match) setSelectedItem(match)
     router.replace(pathname, { scroll: false })
   }, [searchParams, films, pathname, router])
@@ -140,13 +140,21 @@ export function FilmsClient({ films }: FilmsClientProps) {
     <>
       {/* Top 3 — visible uniquement sans recherche */}
       {!deferredSearch && topPicks.length > 0 && (
-        <MediaTopPicks picks={topPicks} accent="terracotta" title="Tes plus belles notes" eyebrow="Top 3" />
+        <MediaTopPicks
+          picks={topPicks}
+          accent="terracotta"
+          title="Tes plus belles notes"
+          eyebrow="Top 3"
+        />
       )}
 
       {/* Search + year filter */}
       <div className="flex flex-col gap-3 mb-6">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" strokeWidth={1.75} />
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted"
+            strokeWidth={1.75}
+          />
           <input
             type="text"
             placeholder="Rechercher un film…"
@@ -157,7 +165,10 @@ export function FilmsClient({ films }: FilmsClientProps) {
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1 sm:flex-none">
-            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none" strokeWidth={1.75} />
+            <Calendar
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none"
+              strokeWidth={1.75}
+            />
             <select
               value={year}
               onChange={(e) => setYear(e.target.value)}
@@ -165,19 +176,26 @@ export function FilmsClient({ films }: FilmsClientProps) {
             >
               <option value="">Toutes les années</option>
               {availableYears.map((y) => (
-                <option key={y} value={y}>{y}</option>
+                <option key={y} value={y}>
+                  {y}
+                </option>
               ))}
             </select>
           </div>
           <div className="relative flex-1 sm:flex-none">
-            <ArrowUpDown className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none" strokeWidth={1.75} />
+            <ArrowUpDown
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none"
+              strokeWidth={1.75}
+            />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
               className="w-full pl-10 pr-8 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-primary focus:outline-none focus:border-earth-terracotta/50 focus:ring-2 focus:ring-earth-terracotta/15 transition-all appearance-none cursor-pointer"
             >
               {(Object.keys(SORT_LABELS) as SortOption[]).map((k) => (
-                <option key={k} value={k}>{SORT_LABELS[k]}</option>
+                <option key={k} value={k}>
+                  {SORT_LABELS[k]}
+                </option>
               ))}
             </select>
           </div>
@@ -203,7 +221,9 @@ export function FilmsClient({ films }: FilmsClientProps) {
               color="terracotta"
               // Nom supprimé tant que le modal est ouvert : deux éléments avec le
               // même view-transition-name feraient skipper la transition.
-              transitionName={morphTitle === item.title && !selectedItem ? 'media-cover' : undefined}
+              transitionName={
+                morphTitle === item.title && !selectedItem ? 'media-cover' : undefined
+              }
             />
           </StaggerItem>
         ))}

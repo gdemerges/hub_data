@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { TokenCache } from '@/lib/token-cache'
+import { igdbSearchResponseSchema, igdbTokenSchema, safeParse } from '@/lib/api-schemas'
 import { logger } from '@/lib/logger'
-import { safeParse, igdbSearchResponseSchema, igdbTokenSchema } from '@/lib/api-schemas'
+import { TokenCache } from '@/lib/token-cache'
 
 const tokenCache = new TokenCache()
 
@@ -16,7 +16,11 @@ async function getAccessToken(): Promise<string> {
   const response = await fetch('https://id.twitch.tv/oauth2/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ client_id: clientId, client_secret: clientSecret, grant_type: 'client_credentials' }),
+    body: new URLSearchParams({
+      client_id: clientId,
+      client_secret: clientSecret,
+      grant_type: 'client_credentials',
+    }),
   })
   if (!response.ok) throw new Error('Failed to get IGDB access token')
 
@@ -73,22 +77,22 @@ export async function POST(request: NextRequest) {
       ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`
       : null
 
-    return NextResponse.json({
-      name: game.name,
-      cover: coverUrl,
-      releaseDate: game.first_release_date
-        ? new Date(game.first_release_date * 1000).getFullYear()
-        : null,
-      rating: game.rating ? Math.round(game.rating) : null,
-      summary: game.summary || null,
-      genres: game.genres.map((g) => g.name),
-      platforms: game.platforms.map((p) => p.name),
-    }, { headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600' } })
+    return NextResponse.json(
+      {
+        name: game.name,
+        cover: coverUrl,
+        releaseDate: game.first_release_date
+          ? new Date(game.first_release_date * 1000).getFullYear()
+          : null,
+        rating: game.rating ? Math.round(game.rating) : null,
+        summary: game.summary || null,
+        genres: game.genres.map((g) => g.name),
+        platforms: game.platforms.map((p) => p.name),
+      },
+      { headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600' } },
+    )
   } catch (error) {
     logger.error('IGDB API error:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch game data' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to fetch game data' }, { status: 500 })
   }
 }

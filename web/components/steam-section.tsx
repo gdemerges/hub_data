@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { ChevronLeft, ChevronRight, Clock, Gamepad2, RefreshCw, Trophy, Zap } from 'lucide-react'
 import Image from 'next/image'
-import { StatCard, ContributionCalendar } from '@/components'
-import { Gamepad2, Clock, Trophy, RefreshCw, ChevronLeft, ChevronRight, Zap } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { ContributionCalendar, StatCard } from '@/components'
 
 interface SteamData {
   user: {
@@ -172,9 +172,24 @@ export function SteamSection() {
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <StatCard label="Jeux possédés" value={data.stats.totalGames} icon={Gamepad2} color="moss" />
-        <StatCard label="Heures de jeu" value={data.stats.totalPlaytimeHours} icon={Clock} color="fern" />
-        <StatCard label="Jeux récents" value={data.stats.gamesPlayedRecently} icon={Trophy} color="saffron" />
+        <StatCard
+          label="Jeux possédés"
+          value={data.stats.totalGames}
+          icon={Gamepad2}
+          color="moss"
+        />
+        <StatCard
+          label="Heures de jeu"
+          value={data.stats.totalPlaytimeHours}
+          icon={Clock}
+          color="fern"
+        />
+        <StatCard
+          label="Jeux récents"
+          value={data.stats.gamesPlayedRecently}
+          icon={Trophy}
+          color="saffron"
+        />
       </div>
 
       {/* Playtime calendar */}
@@ -236,17 +251,13 @@ export function SteamSection() {
             formatTooltip={(minutes, date) => {
               const hours = Math.floor(minutes / 60)
               const mins = minutes % 60
-              const timeStr = hours > 0
-                ? `${hours}h${mins > 0 ? ` ${mins}min` : ''}`
-                : `${mins}min`
+              const timeStr = hours > 0 ? `${hours}h${mins > 0 ? ` ${mins}min` : ''}` : `${mins}min`
               return `${timeStr} de jeu le ${new Date(date).toLocaleDateString('fr-FR')}`
             }}
           />
         ) : (
           <div className="flex flex-col items-center justify-center h-40 gap-3">
-            <div className="text-sm text-text-muted">
-              Aucune donnée pour {selectedYear}
-            </div>
+            <div className="text-sm text-text-muted">Aucune donnée pour {selectedYear}</div>
             <button
               onClick={handleSync}
               disabled={syncing}
@@ -334,9 +345,7 @@ export function SteamSection() {
                   <h4 className="font-medium text-text-primary truncate group-hover:text-earth-saffron transition-colors text-sm">
                     {game.name}
                   </h4>
-                  <p className="text-xs font-mono text-text-muted">
-                    {game.playtimeHours}h // 2W
-                  </p>
+                  <p className="text-xs font-mono text-text-muted">{game.playtimeHours}h // 2W</p>
                 </div>
               </div>
             ))}

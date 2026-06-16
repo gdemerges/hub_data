@@ -44,7 +44,7 @@ export function loadPlaytimeHistory(): PlaytimeHistory {
       userId: '',
       lastSnapshot: [],
       lastSnapshotDate: '',
-      entries: []
+      entries: [],
     }
   }
 
@@ -65,7 +65,7 @@ export function loadPlaytimeHistory(): PlaytimeHistory {
       userId: '',
       lastSnapshot: [],
       lastSnapshotDate: '',
-      entries: []
+      entries: [],
     }
   }
 }
@@ -99,8 +99,8 @@ export function updatePlaytimeFromSnapshot(userId: string, currentSnapshot: Game
 
   if (history.lastSnapshot.length === 0 || history.lastSnapshotDate !== today) {
     // First sync or new day: calculate difference from last snapshot
-    currentSnapshot.forEach(currentGame => {
-      const lastGame = history.lastSnapshot.find(g => g.appid === currentGame.appid)
+    currentSnapshot.forEach((currentGame) => {
+      const lastGame = history.lastSnapshot.find((g) => g.appid === currentGame.appid)
 
       if (lastGame) {
         // Game existed before - calculate difference
@@ -131,7 +131,7 @@ export function updatePlaytimeFromSnapshot(userId: string, currentSnapshot: Game
       history.entries.sort((a, b) => a.date.localeCompare(b.date))
     } else if (history.lastSnapshotDate === today) {
       // Same day, different sync - update today's entry
-      const existingEntryIndex = history.entries.findIndex(e => e.date === today)
+      const existingEntryIndex = history.entries.findIndex((e) => e.date === today)
 
       if (existingEntryIndex >= 0) {
         // Add to existing entry
@@ -139,8 +139,8 @@ export function updatePlaytimeFromSnapshot(userId: string, currentSnapshot: Game
         existingEntry.totalMinutes += totalMinutesToday
 
         // Merge games
-        gamesPlayedToday.forEach(game => {
-          const existingGame = existingEntry.games.find(g => g.appid === game.appid)
+        gamesPlayedToday.forEach((game) => {
+          const existingGame = existingEntry.games.find((g) => g.appid === game.appid)
           if (existingGame) {
             existingGame.minutesPlayed += game.minutesPlayed
           } else {
@@ -172,7 +172,7 @@ export function updatePlaytimeFromSnapshot(userId: string, currentSnapshot: Game
 // Get playtime entries for a specific year
 export function getPlaytimeByYear(year: number): PlaytimeEntry[] {
   const history = loadPlaytimeHistory()
-  return history.entries.filter(entry => {
+  return history.entries.filter((entry) => {
     const entryYear = new Date(entry.date).getFullYear()
     return entryYear === year
   })

@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { eventsOnDate } from './day-detail'
-import type { Film, Game, Book } from './types'
+import type { Book, Film, Game } from './types'
 
 describe('eventsOnDate', () => {
   const films: Film[] = [

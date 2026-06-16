@@ -1,7 +1,7 @@
 'use client'
 
-import { useTransition } from 'react'
 import { RefreshCw } from 'lucide-react'
+import { useTransition } from 'react'
 import { syncGitHubAction } from '@/lib/github-actions'
 
 export function GitHubSyncButton({ username }: { username: string }) {

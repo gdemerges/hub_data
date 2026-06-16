@@ -2,17 +2,11 @@ import 'server-only'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import { getFilmsData, getGamesData, getBooksData } from './data'
+import { getBooksData, getFilmsData, getGamesData } from './data'
 import { loadGitHubContributions } from './github'
 import { logger } from './logger'
 
-export type ActivitySource =
-  | 'films'
-  | 'games'
-  | 'books'
-  | 'sport'
-  | 'github'
-  | 'claude'
+export type ActivitySource = 'films' | 'games' | 'books' | 'sport' | 'github' | 'claude'
 
 export interface ActivityHeatmapData {
   source: ActivitySource
@@ -85,7 +79,7 @@ async function loadStravaActivitiesForYear(): Promise<StravaActivity[]> {
         {
           headers: { Authorization: `Bearer ${tokens.access_token}` },
           next: { revalidate: 1800 },
-        }
+        },
       )
       if (!res.ok) break
       const items = (await res.json()) as StravaActivity[]
@@ -122,11 +116,7 @@ export async function loadUnifiedActivity(githubUsername: string): Promise<Unifi
   const startDate = dateMinusDays(364)
 
   // Films / games / books are statically available, fast.
-  const [films, games, books] = await Promise.all([
-    getFilmsData(),
-    getGamesData(),
-    getBooksData(),
-  ])
+  const [films, games, books] = await Promise.all([getFilmsData(), getGamesData(), getBooksData()])
 
   const filmMap: Record<string, number> = {}
   for (const f of films) {
@@ -186,7 +176,7 @@ export async function loadUnifiedActivity(githubUsername: string): Promise<Unifi
     { source: 'github', label: SOURCE_LABELS.github, byDate: githubMap, total: 0 },
     { source: 'claude', label: SOURCE_LABELS.claude, byDate: claudeMap, total: 0 },
   ]
-  const sources = draft.map(s => ({
+  const sources = draft.map((s) => ({
     ...s,
     total: Object.values(s.byDate).reduce((a, b) => a + b, 0),
   }))

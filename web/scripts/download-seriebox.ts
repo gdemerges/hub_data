@@ -16,7 +16,9 @@ const BASE_HEADERS: Record<string, string> = {
 }
 
 function cookieHeader(jar: Record<string, string>): string {
-  return Object.entries(jar).map(([k, v]) => `${k}=${v}`).join('; ')
+  return Object.entries(jar)
+    .map(([k, v]) => `${k}=${v}`)
+    .join('; ')
 }
 
 // SerieBox login is gated by Google reCAPTCHA, so we cannot script it. The user
@@ -45,13 +47,17 @@ function jarFromEnv(): Record<string, string> {
   if (!jar.PHPSESSID) {
     throw new Error(
       'SERIEBOX_COOKIES (or SERIEBOX_PHPSESSID) required in .env, must include PHPSESSID. ' +
-      'Log in to seriebox.com in your browser, open DevTools → Application → Cookies, copy PHPSESSID.'
+        'Log in to seriebox.com in your browser, open DevTools → Application → Cookies, copy PHPSESSID.',
     )
   }
   return jar
 }
 
-async function fetchWithBackoff(url: string, jar: Record<string, string>, label: string): Promise<string | null> {
+async function fetchWithBackoff(
+  url: string,
+  jar: Record<string, string>,
+  label: string,
+): Promise<string | null> {
   for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
     try {
       const res = await fetch(url, {
@@ -64,7 +70,7 @@ async function fetchWithBackoff(url: string, jar: Record<string, string>, label:
       if (res.status === 429) {
         const delay = INITIAL_DELAY * 2 ** attempt
         console.log(`   ⏳ Rate limited for ${label}, retrying in ${delay}ms...`)
-        await new Promise(r => setTimeout(r, delay))
+        await new Promise((r) => setTimeout(r, delay))
         continue
       }
       if (res.status !== 200) {
@@ -75,7 +81,9 @@ async function fetchWithBackoff(url: string, jar: Record<string, string>, label:
       const buf = Buffer.from(await res.arrayBuffer())
       const ct = res.headers.get('content-type') || ''
       const charsetMatch = ct.match(/charset=([^;]+)/i)
-      const charset = (charsetMatch?.[1] || 'latin1').toLowerCase().replace(/^iso-8859-1$/, 'latin1')
+      const charset = (charsetMatch?.[1] || 'latin1')
+        .toLowerCase()
+        .replace(/^iso-8859-1$/, 'latin1')
       const text = new TextDecoder(charset === 'utf-8' ? 'utf-8' : 'latin1').decode(buf)
       if (text.includes('Vous devez')) {
         console.log(`   ❌ ${label}: PHPSESSID expired — refresh SERIEBOX_COOKIES in .env`)
@@ -85,7 +93,7 @@ async function fetchWithBackoff(url: string, jar: Record<string, string>, label:
     } catch (e) {
       const delay = INITIAL_DELAY * 2 ** attempt
       console.log(`   ⚠ ${label} failed: ${(e as Error).message}, retrying in ${delay}ms...`)
-      await new Promise(r => setTimeout(r, delay))
+      await new Promise((r) => setTimeout(r, delay))
     }
   }
   return null
@@ -107,7 +115,7 @@ export async function downloadFromSeriebox(): Promise<boolean> {
   let success = true
 
   for (const list of LISTS) {
-    await new Promise(r => setTimeout(r, 1500))
+    await new Promise((r) => setTimeout(r, 1500))
     const url = `https://www.seriebox.com/profil/profil_export_csv.php?list=${list}`
     const csv = await fetchWithBackoff(url, jar, list)
     if (!csv) {
@@ -115,7 +123,7 @@ export async function downloadFromSeriebox(): Promise<boolean> {
       continue
     }
     writeFileSync(resolve(DATA_DIR, `${list}.csv`), csv)
-    const lineCount = csv.split('\n').filter(l => l.trim()).length - 1
+    const lineCount = csv.split('\n').filter((l) => l.trim()).length - 1
     console.log(`   ✓ ${list}: ${lineCount} éléments`)
   }
 
@@ -123,7 +131,7 @@ export async function downloadFromSeriebox(): Promise<boolean> {
 }
 
 if (require.main === module) {
-  downloadFromSeriebox().then(ok => {
+  downloadFromSeriebox().then((ok) => {
     process.exit(ok ? 0 : 1)
   })
 }

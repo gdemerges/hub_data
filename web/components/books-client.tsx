@@ -1,21 +1,21 @@
 'use client'
 
-import { useMemo, useState } from 'react'
-import type { Book } from '@/lib/types'
-import { MediaCard } from '@/components/media-card'
-import { MediaDetail } from '@/components/media-detail'
-import { BooksStats, DeltaIndicator, ReadingDelay } from '@/components/books-stats'
 import {
-  Search,
-  Calendar,
   ArrowUpDown,
-  Filter,
-  Star,
+  BarChart3,
   BookOpen,
+  Calendar,
+  Filter,
   Hash,
   Library,
-  BarChart3,
+  Search,
+  Star,
 } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { BooksStats, DeltaIndicator, ReadingDelay } from '@/components/books-stats'
+import { MediaCard } from '@/components/media-card'
+import { MediaDetail } from '@/components/media-detail'
+import type { Book } from '@/lib/types'
 
 type SortOption = 'recent_read' | 'recent_year' | 'oldest_year' | 'rating' | 'title' | 'author'
 type ReadStatus = 'all' | 'read' | 'unread'
@@ -77,18 +77,18 @@ export function BooksClient({ books }: BooksClientProps) {
     if (search) {
       const q = search.toLowerCase()
       result = result.filter(
-        b =>
+        (b) =>
           b.title.toLowerCase().includes(q) ||
           (b.author?.toLowerCase().includes(q) ?? false) ||
-          (b.titleVO?.toLowerCase().includes(q) ?? false)
+          (b.titleVO?.toLowerCase().includes(q) ?? false),
       )
     }
-    if (author) result = result.filter(b => b.author === author)
-    if (format) result = result.filter(b => b.format === format)
-    if (genre) result = result.filter(b => b.genre1 === genre || b.genre2 === genre)
-    if (lectorat) result = result.filter(b => b.lectorat === lectorat)
-    if (readStatus === 'read') result = result.filter(b => b.dateRead?.trim())
-    if (readStatus === 'unread') result = result.filter(b => !b.dateRead?.trim())
+    if (author) result = result.filter((b) => b.author === author)
+    if (format) result = result.filter((b) => b.format === format)
+    if (genre) result = result.filter((b) => b.genre1 === genre || b.genre2 === genre)
+    if (lectorat) result = result.filter((b) => b.lectorat === lectorat)
+    if (readStatus === 'read') result = result.filter((b) => b.dateRead?.trim())
+    if (readStatus === 'unread') result = result.filter((b) => !b.dateRead?.trim())
 
     const sorted = [...result]
     switch (sortBy) {
@@ -109,7 +109,7 @@ export function BooksClient({ books }: BooksClientProps) {
         break
       case 'author':
         sorted.sort((a, b) =>
-          (a.author ?? '').localeCompare(b.author ?? '', 'fr', { sensitivity: 'base' })
+          (a.author ?? '').localeCompare(b.author ?? '', 'fr', { sensitivity: 'base' }),
         )
         break
     }
@@ -154,7 +154,7 @@ export function BooksClient({ books }: BooksClientProps) {
                 type="text"
                 placeholder="Rechercher un livre, un auteur…"
                 value={search}
-                onChange={e => setSearch(e.target.value)}
+                onChange={(e) => setSearch(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-primary placeholder:text-text-muted focus:outline-none focus:border-earth-indigo/50 focus:ring-2 focus:ring-earth-indigo/15 transition-all"
               />
             </div>
@@ -191,7 +191,7 @@ export function BooksClient({ books }: BooksClientProps) {
               <div className="relative">
                 <select
                   value={readStatus}
-                  onChange={e => setReadStatus(e.target.value as ReadStatus)}
+                  onChange={(e) => setReadStatus(e.target.value as ReadStatus)}
                   className="pl-3 pr-8 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-primary focus:outline-none focus:border-earth-indigo/50 focus:ring-2 focus:ring-earth-indigo/15 transition-all appearance-none cursor-pointer text-sm"
                 >
                   <option value="all">Lus + à lire</option>
@@ -206,10 +206,10 @@ export function BooksClient({ books }: BooksClientProps) {
                 />
                 <select
                   value={sortBy}
-                  onChange={e => setSortBy(e.target.value as SortOption)}
+                  onChange={(e) => setSortBy(e.target.value as SortOption)}
                   className="pl-10 pr-8 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-primary focus:outline-none focus:border-earth-indigo/50 focus:ring-2 focus:ring-earth-indigo/15 transition-all appearance-none cursor-pointer text-sm"
                 >
-                  {(Object.keys(SORT_LABELS) as SortOption[]).map(k => (
+                  {(Object.keys(SORT_LABELS) as SortOption[]).map((k) => (
                     <option key={k} value={k}>
                       {SORT_LABELS[k]}
                     </option>
@@ -283,11 +283,11 @@ function FilterSelect({
       </div>
       <select
         value={value}
-        onChange={e => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
         className="pl-10 pr-8 py-2.5 bg-bg-card border border-border-subtle rounded-full text-text-primary focus:outline-none focus:border-earth-indigo/50 focus:ring-2 focus:ring-earth-indigo/15 transition-all appearance-none cursor-pointer text-sm max-w-[200px]"
       >
         <option value="">{placeholder}</option>
-        {options.map(o => (
+        {options.map((o) => (
           <option key={o} value={o}>
             {o}
           </option>
@@ -321,9 +321,7 @@ function BookDetail({ book }: { book: Book }) {
         {book.rating ? (
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-earth-saffron/10 border border-earth-saffron/30">
             <Star className="w-4 h-4 text-earth-saffron fill-earth-saffron" />
-            <span className="font-mono font-semibold text-earth-saffron">
-              {book.rating}/20
-            </span>
+            <span className="font-mono font-semibold text-earth-saffron">{book.rating}/20</span>
             {typeof book.avgRating === 'number' && book.avgRating > 0 ? (
               <span className="text-xs">
                 <DeltaIndicator delta={book.rating - book.avgRating} />
@@ -341,7 +339,7 @@ function BookDetail({ book }: { book: Book }) {
 
       {(book.genre1 || book.genre2) && (
         <div className="flex flex-wrap gap-2">
-          {[book.genre1, book.genre2].filter(Boolean).map(g => (
+          {[book.genre1, book.genre2].filter(Boolean).map((g) => (
             <span
               key={g}
               className="px-3 py-1 bg-bg-tertiary rounded-full text-xs text-text-secondary"
@@ -354,7 +352,10 @@ function BookDetail({ book }: { book: Book }) {
 
       <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm">
         {meta.map(({ label, value }) => (
-          <div key={label} className="flex justify-between gap-3 border-b border-border-subtle/50 py-1">
+          <div
+            key={label}
+            className="flex justify-between gap-3 border-b border-border-subtle/50 py-1"
+          >
             <dt className="text-text-muted">{label}</dt>
             <dd className="text-text-primary text-right truncate">{value}</dd>
           </div>

@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server'
-import { loadHevyWorkouts, loadHevyTemplates } from '@/lib/hevy'
+import { getServerEnv } from '@/lib/env'
+import { loadHevyTemplates, loadHevyWorkouts } from '@/lib/hevy'
 import {
   computeAggregateStats,
-  computeWeeklyVolume,
+  computeExercisePRs,
   computeMonthlyVolume,
   computeMuscleGroupBreakdown,
-  computeExercisePRs,
   computeSessions,
+  computeWeeklyVolume,
 } from '@/lib/hevy-stats'
-import { getServerEnv } from '@/lib/env'
 
 export const revalidate = 3600
 

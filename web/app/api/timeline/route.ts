@@ -1,8 +1,7 @@
-import { type NextRequest, NextResponse } from 'next/server'
-import fs from 'node:fs'
-import { promises as fsp } from 'node:fs'
+import fs, { promises as fsp } from 'node:fs'
 import path from 'node:path'
-import { getFilmsData, getSeriesData, getGamesData } from '@/lib/data'
+import { type NextRequest, NextResponse } from 'next/server'
+import { getFilmsData, getGamesData, getSeriesData } from '@/lib/data'
 import { logger } from '@/lib/logger'
 
 interface TimelineEvent {
@@ -29,7 +28,8 @@ export async function GET(request: NextRequest) {
       const films = await getFilmsData()
       for (let i = 0; i < films.length; i++) {
         const film = films[i]
-        const date = film.dateWatched || (film.releaseYear ? `${film.releaseYear}-06-15` : undefined)
+        const date =
+          film.dateWatched || (film.releaseYear ? `${film.releaseYear}-06-15` : undefined)
         if (date) {
           events.push({
             id: `film-${i}-${film.title}`,
@@ -74,7 +74,10 @@ export async function GET(request: NextRequest) {
       const games = await getGamesData()
       for (let i = 0; i < games.length; i++) {
         const game = games[i]
-        const date = game.dateFinished || game.dateStarted || (game.releaseYear ? `${game.releaseYear}-06-15` : undefined)
+        const date =
+          game.dateFinished ||
+          game.dateStarted ||
+          (game.releaseYear ? `${game.releaseYear}-06-15` : undefined)
         if (date) {
           events.push({
             id: `game-${i}-${game.title}`,
@@ -101,9 +104,12 @@ export async function GET(request: NextRequest) {
         // Check if token is valid
         const now = Math.floor(Date.now() / 1000)
         if (tokenData.expires_at > now) {
-          const response = await fetch('https://www.strava.com/api/v3/athlete/activities?per_page=30', {
-            headers: { Authorization: `Bearer ${tokenData.access_token}` }
-          })
+          const response = await fetch(
+            'https://www.strava.com/api/v3/athlete/activities?per_page=30',
+            {
+              headers: { Authorization: `Bearer ${tokenData.access_token}` },
+            },
+          )
 
           if (response.ok) {
             const activities = await response.json()
@@ -112,7 +118,12 @@ export async function GET(request: NextRequest) {
                 id: `sport-${activity.id}`,
                 type: 'sport',
                 title: activity.name,
-                subtitle: activity.type === 'Run' ? 'Course à pied' : activity.type === 'Ride' ? 'Vélo' : activity.type,
+                subtitle:
+                  activity.type === 'Run'
+                    ? 'Course à pied'
+                    : activity.type === 'Ride'
+                      ? 'Vélo'
+                      : activity.type,
                 date: activity.start_date.split('T')[0],
                 icon: 'Footprints',
                 color: 'orange',
@@ -129,7 +140,12 @@ export async function GET(request: NextRequest) {
     // Get voyages (from location history)
     try {
       const cacheFile = path.join(process.cwd(), 'data', 'geocode-cache.json')
-      const historyFile = path.join(process.cwd(), 'data', 'location-history', 'location-history.json')
+      const historyFile = path.join(
+        process.cwd(),
+        'data',
+        'location-history',
+        'location-history.json',
+      )
 
       if (fs.existsSync(historyFile) && fs.existsSync(cacheFile)) {
         const [cacheContent, historyContent] = await Promise.all([
@@ -142,7 +158,8 @@ export async function GET(request: NextRequest) {
         // Get unique cities visited by month
         const cityByMonth = new Map<string, { city: string; country: string; date: string }>()
 
-        for (const item of history.slice(0, 5000)) { // Limit for performance
+        for (const item of history.slice(0, 5000)) {
+          // Limit for performance
           if (item.visit?.topCandidate?.placeLocation && item.startTime) {
             const coords = item.visit.topCandidate.placeLocation.replace('geo:', '')
             const parts = coords.split(',')
@@ -222,15 +239,15 @@ export async function GET(request: NextRequest) {
     // Limit results
     const limitedEvents = events.slice(0, limit)
 
-    return NextResponse.json({
-      events: limitedEvents,
-      total: events.length,
-    }, { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } })
+    return NextResponse.json(
+      {
+        events: limitedEvents,
+        total: events.length,
+      },
+      { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } },
+    )
   } catch (error) {
     logger.error('Timeline API error:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch timeline data' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to fetch timeline data' }, { status: 500 })
   }
 }

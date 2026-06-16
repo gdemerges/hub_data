@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useMemo } from 'react'
 import { Sparkle } from '@phosphor-icons/react'
-import { MessageSquare, Activity, Clock, Coins, Cpu, Calendar } from 'lucide-react'
+import { Activity, Calendar, Clock, Coins, Cpu, MessageSquare } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import type { ClaudeStats } from '@/lib/claude'
 
 type ActivityRange = '30d' | '90d' | 'all'
@@ -60,7 +60,7 @@ export function ClaudeStatsSection({ stats }: { stats: ClaudeStats }) {
     )
   }
 
-  const dailyMax = Math.max(...lastDays.map(d => d.messageCount), 1)
+  const dailyMax = Math.max(...lastDays.map((d) => d.messageCount), 1)
   const hourMax = Math.max(...stats.hourCounts, 1)
   const since = daysSince(stats.firstSessionDate)
   const rangeMessages = lastDays.reduce((s, d) => s + d.messageCount, 0)
@@ -119,7 +119,7 @@ export function ClaudeStatsSection({ stats }: { stats: ClaudeStats }) {
             · {rangeMessages.toLocaleString('fr-FR')} msgs
           </span>
           <div className="ml-auto flex gap-1">
-            {(Object.keys(RANGE_LABELS) as ActivityRange[]).map(k => (
+            {(Object.keys(RANGE_LABELS) as ActivityRange[]).map((k) => (
               <button
                 key={k}
                 onClick={() => setRange(k)}
@@ -135,7 +135,7 @@ export function ClaudeStatsSection({ stats }: { stats: ClaudeStats }) {
           </div>
         </div>
         <div className="flex gap-1 h-28">
-          {lastDays.map(d => {
+          {lastDays.map((d) => {
             const h = (d.messageCount / dailyMax) * 100
             return (
               <div
@@ -152,9 +152,7 @@ export function ClaudeStatsSection({ stats }: { stats: ClaudeStats }) {
           })}
         </div>
         <div className="flex justify-between mt-2">
-          <span className="text-[10px] font-mono text-text-muted">
-            {lastDays[0]?.date}
-          </span>
+          <span className="text-[10px] font-mono text-text-muted">{lastDays[0]?.date}</span>
           <span className="text-[10px] font-mono text-text-muted">
             {lastDays[lastDays.length - 1]?.date}
           </span>
@@ -166,9 +164,7 @@ export function ClaudeStatsSection({ stats }: { stats: ClaudeStats }) {
         <div>
           <div className="flex items-center gap-2 mb-3">
             <Clock className="w-4 h-4 text-earth-fern" />
-            <h4 className="text-sm font-semibold text-text-secondary">
-              Heures de la journée
-            </h4>
+            <h4 className="text-sm font-semibold text-text-secondary">Heures de la journée</h4>
           </div>
           <div className="flex gap-1 h-20">
             {stats.hourCounts.map((c, h) => (
@@ -195,12 +191,10 @@ export function ClaudeStatsSection({ stats }: { stats: ClaudeStats }) {
         <div>
           <div className="flex items-center gap-2 mb-3">
             <Cpu className="w-4 h-4 text-earth-fern" />
-            <h4 className="text-sm font-semibold text-text-secondary">
-              Modèles utilisés
-            </h4>
+            <h4 className="text-sm font-semibold text-text-secondary">Modèles utilisés</h4>
           </div>
           <div className="space-y-2.5">
-            {stats.modelBreakdown.map(m => {
+            {stats.modelBreakdown.map((m) => {
               const max = stats.modelBreakdown[0]?.outputTokens || 1
               const pct = (m.outputTokens / max) * 100
               return (

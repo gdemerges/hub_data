@@ -1,6 +1,6 @@
 'use client'
 
-import { Footprints, AlertTriangle } from 'lucide-react'
+import { AlertTriangle, Footprints } from 'lucide-react'
 import { SectionCard } from '@/components'
 import type { StravaShoe } from '@/lib/strava'
 
@@ -33,7 +33,9 @@ export function SportShoes({ shoes }: Props) {
             <li key={shoe.id} className={`tech-card-flat p-4 ${shoe.retired ? 'opacity-50' : ''}`}>
               <div className="flex items-center justify-between gap-3 mb-2">
                 <div className="flex items-center gap-2 min-w-0">
-                  <span className="text-sm font-medium text-text-primary truncate">{shoe.name}</span>
+                  <span className="text-sm font-medium text-text-primary truncate">
+                    {shoe.name}
+                  </span>
                   {shoe.primary && !shoe.retired && (
                     <span className="text-[9px] uppercase tracking-[0.14em] text-earth-terracotta font-mono shrink-0">
                       principale

@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { promises as fsp } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import { loadRencontres } from './rencontres-loader'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { loadBooks } from './books-loader'
+import { loadRencontres } from './rencontres-loader'
 
 let originalCwd: string
 let tmpRoot: string
@@ -34,7 +34,7 @@ describe('loadRencontres', () => {
     await fsp.mkdir(path.join(tmpRoot, 'web', 'data'), { recursive: true })
     await fsp.writeFile(
       path.join(tmpRoot, 'web', 'data', 'partners.csv'),
-      'prenom;ville;genre;nationalite;annee;penetration;anneeNaissance\n'
+      'prenom;ville;genre;nationalite;annee;penetration;anneeNaissance\n',
     )
     const result = await loadRencontres()
     expect(result.hasData).toBe(false)

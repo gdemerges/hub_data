@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { getFilmsData, getGamesData, getBooksData } from '@/lib/data'
+import { getBooksData, getFilmsData, getGamesData } from '@/lib/data'
 import { eventsOnDate } from '@/lib/day-detail'
 import { logger } from '@/lib/logger'
 
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(
       { events, hasData: events.length > 0 },
-      { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } }
+      { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } },
     )
   } catch (error) {
     logger.error('Day detail API error:', error)

@@ -1,8 +1,8 @@
 'use client'
 
 import { useId, useState } from 'react'
-import { EmptyState } from './empty-state'
 import { ChartTooltip } from './chart-tooltip'
+import { EmptyState } from './empty-state'
 
 interface BarChartProps {
   data: { year: number; contributions: number }[]
@@ -128,9 +128,7 @@ export function BarChart({ data, height = 300 }: BarChartProps) {
           {hovered && (
             <>
               <span className="text-text-muted">{hovered.year}</span>{' '}
-              <span className="text-accent-primary font-semibold">
-                {hovered.contributions}
-              </span>
+              <span className="text-accent-primary font-semibold">{hovered.contributions}</span>
             </>
           )}
         </ChartTooltip>

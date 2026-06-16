@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { tmdbFetch } from '@/lib/rate-limiter'
+import { safeParse, tmdbDetailsSchema, tmdbSearchResponseSchema } from '@/lib/api-schemas'
 import { logger } from '@/lib/logger'
-import { safeParse, tmdbSearchResponseSchema, tmdbDetailsSchema } from '@/lib/api-schemas'
+import { tmdbFetch } from '@/lib/rate-limiter'
 
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500'
@@ -49,28 +49,26 @@ export async function POST(request: NextRequest) {
       number_of_episodes: null,
     }
 
-    return NextResponse.json({
-      id: result.id,
-      title: mediaType === 'tv' ? result.name : result.title,
-      poster: result.poster_path
-        ? `${TMDB_IMAGE_BASE}${result.poster_path}`
-        : null,
-      backdrop: result.backdrop_path
-        ? `https://image.tmdb.org/t/p/original${result.backdrop_path}`
-        : null,
-      overview: result.overview || null,
-      rating: result.vote_average ? Math.round(result.vote_average * 10) / 10 : null,
-      releaseDate: mediaType === 'tv' ? result.first_air_date : result.release_date,
-      genres: details.genres.map((g) => g.name),
-      runtime: details.runtime ?? null,
-      seasons: details.number_of_seasons ?? null,
-      episodes: details.number_of_episodes ?? null,
-    }, { headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600' } })
+    return NextResponse.json(
+      {
+        id: result.id,
+        title: mediaType === 'tv' ? result.name : result.title,
+        poster: result.poster_path ? `${TMDB_IMAGE_BASE}${result.poster_path}` : null,
+        backdrop: result.backdrop_path
+          ? `https://image.tmdb.org/t/p/original${result.backdrop_path}`
+          : null,
+        overview: result.overview || null,
+        rating: result.vote_average ? Math.round(result.vote_average * 10) / 10 : null,
+        releaseDate: mediaType === 'tv' ? result.first_air_date : result.release_date,
+        genres: details.genres.map((g) => g.name),
+        runtime: details.runtime ?? null,
+        seasons: details.number_of_seasons ?? null,
+        episodes: details.number_of_episodes ?? null,
+      },
+      { headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600' } },
+    )
   } catch (error) {
     logger.error('TMDB API error:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch media data' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to fetch media data' }, { status: 500 })
   }
 }

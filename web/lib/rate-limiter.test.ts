@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { rateLimitedFetch } from './rate-limiter'
 
 function fakeResponse(): Response {
@@ -15,7 +15,7 @@ describe('rateLimitedFetch', () => {
       rateLimitedFetch(key, minInterval, async () => {
         timestamps.push(Date.now())
         return fakeResponse()
-      })
+      }),
     )
     await Promise.all(calls)
 
@@ -51,7 +51,7 @@ describe('rateLimitedFetch', () => {
     await expect(
       rateLimitedFetch(key, 10, async () => {
         throw new Error('boom')
-      })
+      }),
     ).rejects.toThrow('boom')
   })
 })

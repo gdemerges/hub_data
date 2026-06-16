@@ -1,9 +1,8 @@
-import fs from 'node:fs'
-import { promises as fsp } from 'node:fs'
+import fs, { promises as fsp } from 'node:fs'
 import path from 'node:path'
 import * as XLSX from 'xlsx'
-import type { Book } from './types'
 import { logger } from './logger'
+import type { Book } from './types'
 
 interface BooksCache {
   books: Book[]
@@ -48,16 +47,12 @@ function parseCSV(content: string): Record<string, string>[] {
  * strippant accents + contrôles pour retrouver les entrées corrompues.
  */
 function normalizeKey(title: string): string {
-  return title
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[-]/g, '')
+  return title.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[-]/g, '')
 }
 
 function mapRawToBooks(
   rawData: Record<string, string | number>[],
-  coversCache: Record<string, string | null>
+  coversCache: Record<string, string | null>,
 ): Book[] {
   // Pré-indexer le cache avec les clés normalisées pour gérer les entrées corrompues
   const normalizedCache: Record<string, string | null> = {}
@@ -69,8 +64,7 @@ function mapRawToBooks(
       const title = String(row['Titre VF'] || '')
       const exactKey = title.toLowerCase()
       const normKey = normalizeKey(title)
-      const coverUrl =
-        coversCache[exactKey] || normalizedCache[normKey] || undefined
+      const coverUrl = coversCache[exactKey] || normalizedCache[normKey] || undefined
       return {
         id: String(index + 1),
         title,

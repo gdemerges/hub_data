@@ -5,10 +5,7 @@ export async function GET() {
   const redirectUri = process.env.STRAVA_REDIRECT_URI || 'http://localhost:3000/api/strava/callback'
 
   if (!clientId) {
-    return NextResponse.json(
-      { error: 'Strava client ID not configured' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Strava client ID not configured' }, { status: 500 })
   }
 
   const scope = 'read,activity:read_all,profile:read_all'

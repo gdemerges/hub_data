@@ -1,8 +1,8 @@
 import 'server-only'
 import path from 'node:path'
-import { readFileCache, writeFileCache, isCacheFresh } from './file-cache'
-import { logger } from './logger'
 import { getServerEnv } from './env'
+import { isCacheFresh, readFileCache, writeFileCache } from './file-cache'
+import { logger } from './logger'
 
 const HEVY_API = 'https://api.hevyapp.com/v1'
 const WORKOUTS_CACHE_FILE = path.join(process.cwd(), 'data', 'hevy-workouts-cache.json')
@@ -50,11 +50,7 @@ export interface HevyTemplate {
   is_custom?: boolean
 }
 
-async function fetchPaged<T>(
-  endpoint: string,
-  apiKey: string,
-  itemsKey: string,
-): Promise<T[]> {
+async function fetchPaged<T>(endpoint: string, apiKey: string, itemsKey: string): Promise<T[]> {
   const items: T[] = []
   let page = 1
   while (page <= 200) {

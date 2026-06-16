@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
-import { useSearchParams, useRouter, usePathname } from 'next/navigation'
+import { Calendar, Clock, Gamepad2, Search, SlidersHorizontal, Star } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useMemo, useState } from 'react'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
 import { MediaTopPicks, type TopPick } from '@/components/media-top-picks'
-import { Search, SlidersHorizontal, Gamepad2, Clock, Calendar, Star } from 'lucide-react'
 import type { Game } from '@/lib/types'
 
 interface GamesClientProps {
@@ -37,7 +37,7 @@ export function GamesClient({ games, platforms, initialFilter }: GamesClientProp
   useEffect(() => {
     const open = searchParams.get('open')
     if (!open) return
-    const match = games.find(g => g.title === open)
+    const match = games.find((g) => g.title === open)
     if (match) setSelectedItem(match)
     router.replace(pathname, { scroll: false })
   }, [searchParams, games, pathname, router])
@@ -46,19 +46,20 @@ export function GamesClient({ games, platforms, initialFilter }: GamesClientProp
     return games.map((game) => {
       // Calculate hours based on active filter
       let displayHours = game.hoursPlayed
-      
+
       if (filter !== 'all' && game.platforms && game.platforms.length > 0) {
         // For filtered multi-platform games, show platform-specific hours
-        const platformData = game.platforms.find(p => p.platform === filter)
+        const platformData = game.platforms.find((p) => p.platform === filter)
         displayHours = platformData?.hoursPlayed || 0
       }
-      
+
       return {
         ...game,
         imageUrl: game.coverUrl,
-        subtitle: game.platforms && game.platforms.length > 1 
-          ? `${game.platforms.length} plateformes`
-          : game.platform,
+        subtitle:
+          game.platforms && game.platforms.length > 1
+            ? `${game.platforms.length} plateformes`
+            : game.platform,
         badge: displayHours ? `${displayHours}h` : undefined,
         // Store display hours for sorting
         displayHours,
@@ -71,16 +72,14 @@ export function GamesClient({ games, platforms, initialFilter }: GamesClientProp
 
     if (search) {
       const searchLower = search.toLowerCase()
-      result = result.filter((item) =>
-        item.title.toLowerCase().includes(searchLower)
-      )
+      result = result.filter((item) => item.title.toLowerCase().includes(searchLower))
     }
 
     if (filter !== 'all') {
       result = result.filter((item) => {
         // For multi-platform games, check if any platform matches
         if (item.platforms && item.platforms.length > 0) {
-          return item.platforms.some(p => p.platform === filter)
+          return item.platforms.some((p) => p.platform === filter)
         }
         // For single-platform games, check the platform property
         return item.platform === filter
@@ -132,7 +131,10 @@ export function GamesClient({ games, platforms, initialFilter }: GamesClientProp
       {/* Search & Filters */}
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" strokeWidth={1.75} />
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted"
+            strokeWidth={1.75}
+          />
           <input
             type="text"
             placeholder="Rechercher un jeu…"
@@ -156,7 +158,9 @@ export function GamesClient({ games, platforms, initialFilter }: GamesClientProp
         <div className="space-y-4 mb-6 p-4 bg-bg-secondary rounded-xl border border-border-subtle animate-fade-in">
           {/* Platform filter */}
           <div>
-            <label className="text-xs font-semibold text-text-secondary mb-2 block">Plateforme</label>
+            <label className="text-xs font-semibold text-text-secondary mb-2 block">
+              Plateforme
+            </label>
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setFilter('all')}
@@ -207,7 +211,9 @@ export function GamesClient({ games, platforms, initialFilter }: GamesClientProp
 
           {/* Sort */}
           <div>
-            <label className="text-xs font-semibold text-text-secondary mb-2 block">Trier par</label>
+            <label className="text-xs font-semibold text-text-secondary mb-2 block">
+              Trier par
+            </label>
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setSortBy('hours')}
@@ -308,7 +314,10 @@ function GameDetail({ game }: { game: Game }) {
         {game.hoursPlayed !== undefined && game.hoursPlayed > 0 && (
           <div className="flex items-center gap-2">
             <Clock className="w-4 h-4" />
-            <span>{game.hoursPlayed}h jouées{game.platforms && game.platforms.length > 1 ? ' (total)' : ''}</span>
+            <span>
+              {game.hoursPlayed}h jouées
+              {game.platforms && game.platforms.length > 1 ? ' (total)' : ''}
+            </span>
           </div>
         )}
         {game.releaseYear && (
@@ -325,11 +334,15 @@ function GameDetail({ game }: { game: Game }) {
         )}
         {game.status && !game.platforms && (
           <div className="flex items-center gap-2">
-            <span className={`px-2 py-0.5 rounded text-xs ${
-              game.status === 'Fini' ? 'bg-earth-moss/20 text-earth-mossSoft' :
-              game.status === 'En cours' ? 'bg-earth-indigo/20 text-earth-indigo' :
-              'bg-gray-500/20 text-gray-400'
-            }`}>
+            <span
+              className={`px-2 py-0.5 rounded text-xs ${
+                game.status === 'Fini'
+                  ? 'bg-earth-moss/20 text-earth-mossSoft'
+                  : game.status === 'En cours'
+                    ? 'bg-earth-indigo/20 text-earth-indigo'
+                    : 'bg-gray-500/20 text-gray-400'
+              }`}
+            >
               {game.status}
             </span>
           </div>
@@ -350,11 +363,15 @@ function GameDetail({ game }: { game: Game }) {
                   <Gamepad2 className="w-4 h-4 text-text-secondary" />
                   <span className="text-sm font-medium text-text-primary">{platform.platform}</span>
                   {platform.status && (
-                    <span className={`px-2 py-0.5 rounded text-xs ${
-                      platform.status === 'Fini' ? 'bg-earth-moss/20 text-earth-mossSoft' :
-                      platform.status === 'En cours' ? 'bg-earth-indigo/20 text-earth-indigo' :
-                      'bg-gray-500/20 text-gray-400'
-                    }`}>
+                    <span
+                      className={`px-2 py-0.5 rounded text-xs ${
+                        platform.status === 'Fini'
+                          ? 'bg-earth-moss/20 text-earth-mossSoft'
+                          : platform.status === 'En cours'
+                            ? 'bg-earth-indigo/20 text-earth-indigo'
+                            : 'bg-gray-500/20 text-gray-400'
+                      }`}
+                    >
                       {platform.status}
                     </span>
                   )}

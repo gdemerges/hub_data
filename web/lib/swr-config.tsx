@@ -1,7 +1,7 @@
 'use client'
 
-import { SWRConfig } from 'swr'
 import type { ReactNode } from 'react'
+import { SWRConfig } from 'swr'
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
@@ -26,4 +26,3 @@ export function SWRProvider({ children }: SWRProviderProps) {
     </SWRConfig>
   )
 }
-

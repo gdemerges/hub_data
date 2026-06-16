@@ -1,8 +1,8 @@
+import { BookOpen, CalendarHeart, Film, Gamepad2, type LucideIcon } from 'lucide-react'
 import Link from 'next/link'
-import { CalendarHeart, Film, Gamepad2, BookOpen, type LucideIcon } from 'lucide-react'
-import { SectionCard } from './section-card'
 import { ACCENTS } from '@/lib/accents'
 import type { OnThisDayEvent, OnThisDayType } from '@/lib/on-this-day'
+import { SectionCard } from './section-card'
 
 interface OnThisDaySectionProps {
   events: OnThisDayEvent[]
@@ -58,7 +58,11 @@ export function OnThisDaySection({ events }: OnThisDaySectionProps) {
                       className="group flex items-center gap-2 rounded-full border border-border-subtle bg-bg-primary pl-2 pr-3 py-1.5 transition-colors hover:[border-color:rgb(var(--c)/0.5)]"
                       style={{ ['--c' as string]: rgb }}
                     >
-                      <Icon className="w-3.5 h-3.5 shrink-0" style={{ color: `rgb(${rgb})` }} strokeWidth={1.75} />
+                      <Icon
+                        className="w-3.5 h-3.5 shrink-0"
+                        style={{ color: `rgb(${rgb})` }}
+                        strokeWidth={1.75}
+                      />
                       <span className="text-xs text-text-secondary max-w-[180px] truncate group-hover:text-text-primary transition-colors">
                         {e.title}
                       </span>

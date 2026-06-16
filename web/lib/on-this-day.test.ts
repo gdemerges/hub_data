@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest'
-import { parseDate, eventsOnThisDay } from './on-this-day'
-import type { Film, Game, Book } from './types'
+import { describe, expect, it } from 'vitest'
+import { eventsOnThisDay, parseDate } from './on-this-day'
+import type { Book, Film, Game } from './types'
 
 describe('parseDate', () => {
   it('parses ISO and French dates', () => {

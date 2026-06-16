@@ -1,11 +1,11 @@
 'use client'
 
+import { Calendar, ChevronRight, Clock, Film as FilmIcon, Gamepad2, Star, Tv } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 import { MediaCard } from '@/components/media-card'
 import { MediaDetail } from '@/components/media-detail'
-import Link from 'next/link'
-import type { Game, Film, Series } from '@/lib/types'
-import { Calendar, Clock, Star, Gamepad2, Film as FilmIcon, Tv, ChevronRight } from 'lucide-react'
+import type { Film, Game, Series } from '@/lib/types'
 
 const sectionColors = {
   moss: {
@@ -57,7 +57,13 @@ export function OverviewSections({
     <>
       <div className="space-y-12">
         {/* Top Games */}
-        <Section title="Jeux les plus joués" href="/games" count={gamesCount} icon={Gamepad2} color="moss">
+        <Section
+          title="Jeux les plus joués"
+          href="/games"
+          count={gamesCount}
+          icon={Gamepad2}
+          color="moss"
+        >
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
             {topGames.map((game) => (
               <MediaCard
@@ -73,7 +79,13 @@ export function OverviewSections({
         </Section>
 
         {/* Top Films */}
-        <Section title="Films les mieux notés" href="/films" count={filmsCount} icon={FilmIcon} color="terracotta">
+        <Section
+          title="Films les mieux notés"
+          href="/films"
+          count={filmsCount}
+          icon={FilmIcon}
+          color="terracotta"
+        >
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
             {topFilms.map((film) => (
               <MediaCard
@@ -89,7 +101,13 @@ export function OverviewSections({
         </Section>
 
         {/* Top Series */}
-        <Section title="Séries les mieux notées" href="/series" count={seriesCount} icon={Tv} color="saffron">
+        <Section
+          title="Séries les mieux notées"
+          href="/series"
+          count={seriesCount}
+          icon={Tv}
+          color="saffron"
+        >
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
             {topSeries.map((s) => (
               <MediaCard
@@ -183,7 +201,15 @@ function Section({
   )
 }
 
-function DetailMeta({ icon: Icon, label, color = 'fern' }: { icon: React.ElementType; label: string; color?: keyof typeof badgeColors }) {
+function DetailMeta({
+  icon: Icon,
+  label,
+  color = 'fern',
+}: {
+  icon: React.ElementType
+  label: string
+  color?: keyof typeof badgeColors
+}) {
   const c = badgeColors[color]
   return (
     <div className={`flex items-center gap-2 px-3 py-1.5 border rounded-lg text-sm font-mono ${c}`}>
@@ -193,19 +219,23 @@ function DetailMeta({ icon: Icon, label, color = 'fern' }: { icon: React.Element
   )
 }
 
-function DetailBadge({ label, color = 'fern' }: { label: string; color?: keyof typeof badgeColors }) {
+function DetailBadge({
+  label,
+  color = 'fern',
+}: {
+  label: string
+  color?: keyof typeof badgeColors
+}) {
   const c = badgeColors[color]
-  return (
-    <span className={`px-3 py-1 border rounded text-xs font-mono ${c}`}>
-      {label}
-    </span>
-  )
+  return <span className={`px-3 py-1 border rounded text-xs font-mono ${c}`}>{label}</span>
 }
 
 function DetailSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted mb-2">{title}</h3>
+      <h3 className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted mb-2">
+        {title}
+      </h3>
       {children}
     </div>
   )
@@ -215,8 +245,12 @@ function GameDetail({ game }: { game: Game }) {
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap gap-2">
-        {game.hoursPlayed && <DetailMeta icon={Clock} label={`${game.hoursPlayed}h jouées`} color="moss" />}
-        {game.releaseYear && <DetailMeta icon={Calendar} label={`${game.releaseYear}`} color="fern" />}
+        {game.hoursPlayed && (
+          <DetailMeta icon={Clock} label={`${game.hoursPlayed}h jouées`} color="moss" />
+        )}
+        {game.releaseYear && (
+          <DetailMeta icon={Calendar} label={`${game.releaseYear}`} color="fern" />
+        )}
         {game.rating && <DetailMeta icon={Star} label={`${game.rating}/20`} color="saffron" />}
       </div>
 
@@ -224,7 +258,11 @@ function GameDetail({ game }: { game: Game }) {
         <DetailSection title="Plateformes">
           <div className="flex flex-wrap gap-2">
             {game.platforms.map((p) => (
-              <DetailBadge key={p.platform} label={`${p.platform}${p.hoursPlayed ? ` — ${p.hoursPlayed}h` : ''}`} color="moss" />
+              <DetailBadge
+                key={p.platform}
+                label={`${p.platform}${p.hoursPlayed ? ` — ${p.hoursPlayed}h` : ''}`}
+                color="moss"
+              />
             ))}
           </div>
         </DetailSection>
@@ -247,8 +285,12 @@ function FilmDetail({ film }: { film: Film }) {
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap gap-2">
-        {film.releaseYear && <DetailMeta icon={Calendar} label={`${film.releaseYear}`} color="fern" />}
-        {film.runtime && <DetailMeta icon={Clock} label={`${film.runtime} min`} color="terracotta" />}
+        {film.releaseYear && (
+          <DetailMeta icon={Calendar} label={`${film.releaseYear}`} color="fern" />
+        )}
+        {film.runtime && (
+          <DetailMeta icon={Clock} label={`${film.runtime} min`} color="terracotta" />
+        )}
         {film.rating && <DetailMeta icon={Star} label={`${film.rating}/20`} color="saffron" />}
       </div>
 
@@ -269,9 +311,15 @@ function SeriesDetail({ series }: { series: Series }) {
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap gap-2">
-        {series.releaseYear && <DetailMeta icon={Calendar} label={`${series.releaseYear}`} color="fern" />}
+        {series.releaseYear && (
+          <DetailMeta icon={Calendar} label={`${series.releaseYear}`} color="fern" />
+        )}
         {series.episodesWatched !== undefined && series.episodes && (
-          <DetailMeta icon={Tv} label={`${series.episodesWatched}/${series.episodes} épisodes`} color="saffron" />
+          <DetailMeta
+            icon={Tv}
+            label={`${series.episodesWatched}/${series.episodes} épisodes`}
+            color="saffron"
+          />
         )}
         {series.rating && <DetailMeta icon={Star} label={`${series.rating}/20`} color="saffron" />}
       </div>

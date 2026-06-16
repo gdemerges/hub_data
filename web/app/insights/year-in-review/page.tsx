@@ -1,26 +1,47 @@
 'use client'
 
+import { CalendarBlank } from '@phosphor-icons/react'
+import { BookOpen, ChevronDown, Film as FilmIcon, Gamepad2, Tv } from 'lucide-react'
 import { useState } from 'react'
 import useSWR from 'swr'
 import { PageHeader, YearReviewHero } from '@/components'
-import { Film as FilmIcon, Tv, Gamepad2, BookOpen, ChevronDown } from 'lucide-react'
-import { CalendarBlank } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
 
 type TopItem = { title: string; rating?: number; subtitle?: string }
 type Review = {
   year: number
-  films: { total: number; hoursWatched: number; items: TopItem[]; topGenres: { name: string; count: number }[] }
-  series: { total: number; episodes: number; items: TopItem[]; topGenres: { name: string; count: number }[]; undated?: boolean }
-  games: { total: number; hoursPlayed: number; items: TopItem[]; topPlatforms: { name: string; hours: number }[] }
-  books: { total: number; pages: number; items: TopItem[]; topAuthors: { name: string; count: number }[] }
+  films: {
+    total: number
+    hoursWatched: number
+    items: TopItem[]
+    topGenres: { name: string; count: number }[]
+  }
+  series: {
+    total: number
+    episodes: number
+    items: TopItem[]
+    topGenres: { name: string; count: number }[]
+    undated?: boolean
+  }
+  games: {
+    total: number
+    hoursPlayed: number
+    items: TopItem[]
+    topPlatforms: { name: string; hours: number }[]
+  }
+  books: {
+    total: number
+    pages: number
+    items: TopItem[]
+    topAuthors: { name: string; count: number }[]
+  }
   highlights: string[]
 }
 
 // Nombre d'items affichés avant de devoir dérouler la liste.
 const VISIBLE_COUNT = 5
 
-const fetcher = (url: string) => fetch(url).then(r => r.json())
+const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
 const currentYear = new Date().getFullYear()
 const YEARS = Array.from({ length: 10 }, (_, i) => currentYear - i)
@@ -52,14 +73,19 @@ function Section({
       </div>
       <div className="flex flex-wrap gap-3">
         {stats.map((s, i) => (
-          <div key={i} className="text-xs font-mono text-text-secondary bg-bg-tertiary px-3 py-1.5 rounded border border-border-subtle">
+          <div
+            key={i}
+            className="text-xs font-mono text-text-secondary bg-bg-tertiary px-3 py-1.5 rounded border border-border-subtle"
+          >
             {s}
           </div>
         ))}
       </div>
       {items.length > 0 && (
         <div className="space-y-1">
-          <div className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted">Détail</div>
+          <div className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted">
+            Détail
+          </div>
           {visible.map((item, i) => (
             <div key={i} className="flex items-center justify-between text-sm font-mono">
               <span className="text-text-primary truncate flex-1">
@@ -76,11 +102,13 @@ function Section({
           {hiddenCount > 0 && (
             <button
               type="button"
-              onClick={() => setExpanded(v => !v)}
+              onClick={() => setExpanded((v) => !v)}
               aria-expanded={expanded}
               className="mt-1 flex items-center gap-1.5 text-xs font-mono text-text-secondary hover:text-text-primary transition-colors"
             >
-              <ChevronDown className={cn('w-3.5 h-3.5 transition-transform', expanded && 'rotate-180')} />
+              <ChevronDown
+                className={cn('w-3.5 h-3.5 transition-transform', expanded && 'rotate-180')}
+              />
               {expanded ? 'Réduire' : `Voir les ${hiddenCount} autre${hiddenCount > 1 ? 's' : ''}`}
             </button>
           )}
@@ -107,7 +135,7 @@ export default function YearInReviewPage() {
       />
 
       <div className="flex flex-wrap gap-2 mb-6" role="group" aria-label="Sélection de l'année">
-        {YEARS.map(y => (
+        {YEARS.map((y) => (
           <button
             key={y}
             onClick={() => setYear(y)}
@@ -116,7 +144,7 @@ export default function YearInReviewPage() {
               'px-3 py-1.5 font-mono text-xs rounded border transition-all',
               y === year
                 ? 'border-earth-terracotta text-earth-terracotta bg-earth-terracotta/10'
-                : 'border-border-subtle text-text-secondary hover:border-earth-terracotta/40 hover:text-earth-terracotta'
+                : 'border-border-subtle text-text-secondary hover:border-earth-terracotta/40 hover:text-earth-terracotta',
             )}
           >
             {y}
@@ -129,68 +157,76 @@ export default function YearInReviewPage() {
 
       {data && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Section
-              icon={FilmIcon}
-              title="Films"
-              color="text-earth-terracotta"
-              stats={[`${data.films.total} films`, `~${data.films.hoursWatched}h`]}
-              items={data.films.items}
-              extra={
-                data.films.topGenres.length > 0 ? (
-                  <div className="text-xs font-mono text-text-secondary">
-                    Genres: {data.films.topGenres.map(g => `${g.name} (${g.count})`).join(' · ')}
-                  </div>
-                ) : null
-              }
-            />
-            <Section
-              icon={Tv}
-              title="Séries"
-              color="text-earth-saffron"
-              stats={data.series.undated ? ['Non daté'] : [`${data.series.total} terminées`, `${data.series.episodes} épisodes`]}
-              items={data.series.items}
-              extra={
-                data.series.undated ? (
-                  <div className="text-xs font-mono text-text-muted leading-relaxed">
-                    SerieBox n'exporte pas de date de fin de visionnage : les séries ne
-                    peuvent pas être rattachées à une année. Voir le bilan global dans{' '}
-                    <span className="text-text-secondary">Séries</span>.
-                  </div>
-                ) : data.series.topGenres.length > 0 ? (
-                  <div className="text-xs font-mono text-text-secondary">
-                    Genres: {data.series.topGenres.map(g => `${g.name} (${g.count})`).join(' · ')}
-                  </div>
-                ) : null
-              }
-            />
-            <Section
-              icon={Gamepad2}
-              title="Jeux"
-              color="text-earth-moss"
-              stats={[`${data.games.total} jeux`, `${data.games.hoursPlayed}h`]}
-              items={data.games.items}
-              extra={
-                data.games.topPlatforms.length > 0 ? (
-                  <div className="text-xs font-mono text-text-secondary">
-                    Plateformes: {data.games.topPlatforms.map(p => `${p.name} (${p.hours}h)`).join(' · ')}
-                  </div>
-                ) : null
-              }
-            />
-            <Section
-              icon={BookOpen}
-              title="Livres"
-              color="text-earth-indigo"
-              stats={[`${data.books.total} livres`, `${data.books.pages.toLocaleString('fr-FR')} pages`]}
-              items={data.books.items}
-              extra={
-                data.books.topAuthors.length > 0 ? (
-                  <div className="text-xs font-mono text-text-secondary">
-                    Auteurs: {data.books.topAuthors.map(a => `${a.name} (${a.count})`).join(' · ')}
-                  </div>
-                ) : null
-              }
-            />
+          <Section
+            icon={FilmIcon}
+            title="Films"
+            color="text-earth-terracotta"
+            stats={[`${data.films.total} films`, `~${data.films.hoursWatched}h`]}
+            items={data.films.items}
+            extra={
+              data.films.topGenres.length > 0 ? (
+                <div className="text-xs font-mono text-text-secondary">
+                  Genres: {data.films.topGenres.map((g) => `${g.name} (${g.count})`).join(' · ')}
+                </div>
+              ) : null
+            }
+          />
+          <Section
+            icon={Tv}
+            title="Séries"
+            color="text-earth-saffron"
+            stats={
+              data.series.undated
+                ? ['Non daté']
+                : [`${data.series.total} terminées`, `${data.series.episodes} épisodes`]
+            }
+            items={data.series.items}
+            extra={
+              data.series.undated ? (
+                <div className="text-xs font-mono text-text-muted leading-relaxed">
+                  SerieBox n'exporte pas de date de fin de visionnage : les séries ne peuvent pas
+                  être rattachées à une année. Voir le bilan global dans{' '}
+                  <span className="text-text-secondary">Séries</span>.
+                </div>
+              ) : data.series.topGenres.length > 0 ? (
+                <div className="text-xs font-mono text-text-secondary">
+                  Genres: {data.series.topGenres.map((g) => `${g.name} (${g.count})`).join(' · ')}
+                </div>
+              ) : null
+            }
+          />
+          <Section
+            icon={Gamepad2}
+            title="Jeux"
+            color="text-earth-moss"
+            stats={[`${data.games.total} jeux`, `${data.games.hoursPlayed}h`]}
+            items={data.games.items}
+            extra={
+              data.games.topPlatforms.length > 0 ? (
+                <div className="text-xs font-mono text-text-secondary">
+                  Plateformes:{' '}
+                  {data.games.topPlatforms.map((p) => `${p.name} (${p.hours}h)`).join(' · ')}
+                </div>
+              ) : null
+            }
+          />
+          <Section
+            icon={BookOpen}
+            title="Livres"
+            color="text-earth-indigo"
+            stats={[
+              `${data.books.total} livres`,
+              `${data.books.pages.toLocaleString('fr-FR')} pages`,
+            ]}
+            items={data.books.items}
+            extra={
+              data.books.topAuthors.length > 0 ? (
+                <div className="text-xs font-mono text-text-secondary">
+                  Auteurs: {data.books.topAuthors.map((a) => `${a.name} (${a.count})`).join(' · ')}
+                </div>
+              ) : null
+            }
+          />
         </div>
       )}
     </div>

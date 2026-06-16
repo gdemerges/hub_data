@@ -1,8 +1,8 @@
 import { FilmStrip } from '@phosphor-icons/react/dist/ssr'
+import { PageHeader } from '@/components'
+import { FilmsPageClient } from '@/components/films-page-client'
 import { getFilmsData } from '@/lib/data'
 import { computeFilmStats } from '@/lib/media-stats'
-import { FilmsPageClient } from '@/components/films-page-client'
-import { PageHeader } from '@/components'
 
 export const revalidate = 3600
 

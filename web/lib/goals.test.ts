@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest'
-import { yearOf, computeGoals, DEFAULT_TARGETS } from './goals'
-import type { Film, Game, Book } from './types'
+import { describe, expect, it } from 'vitest'
+import { computeGoals, DEFAULT_TARGETS, yearOf } from './goals'
+import type { Book, Film, Game } from './types'
 
 describe('yearOf', () => {
   it('parses ISO dates', () => {

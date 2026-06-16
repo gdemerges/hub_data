@@ -1,7 +1,7 @@
 'use client'
 
+import { BarChart3, Calendar, Clock, Coffee, Lightbulb } from 'lucide-react'
 import type { PerformanceAnalysis } from '@/lib/types'
-import { Calendar, Clock, Coffee, Lightbulb, BarChart3 } from 'lucide-react'
 
 interface PerformanceFactorsProps {
   analysis: PerformanceAnalysis
@@ -55,9 +55,9 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
   }
 
   // Grouper les insights par facteur
-  const dayInsights = analysis.insights.filter(i => i.factor === 'day').slice(0, 7)
-  const timeInsights = analysis.insights.filter(i => i.factor === 'time')
-  const restInsights = analysis.insights.filter(i => i.factor === 'rest')
+  const dayInsights = analysis.insights.filter((i) => i.factor === 'day').slice(0, 7)
+  const timeInsights = analysis.insights.filter((i) => i.factor === 'time')
+  const restInsights = analysis.insights.filter((i) => i.factor === 'rest')
 
   return (
     <div className="tech-card p-6 border-earth-terracotta/30">
@@ -93,7 +93,9 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
       {/* Top 3 Conditions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         {/* Best Day */}
-        <div className={`p-4 rounded-lg border ${getImprovementBg(analysis.bestDayOfWeek.improvement)}`}>
+        <div
+          className={`p-4 rounded-lg border ${getImprovementBg(analysis.bestDayOfWeek.improvement)}`}
+        >
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="w-4 h-4 text-earth-fern" />
             <p className="text-xs font-mono text-text-muted">Meilleur jour</p>
@@ -101,17 +103,22 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
           <p className="text-lg font-mono font-bold text-text-primary mb-1">
             {analysis.bestDayOfWeek.label}
           </p>
-          <p className={`text-xs font-mono ${getImprovementColor(analysis.bestDayOfWeek.improvement)}`}>
+          <p
+            className={`text-xs font-mono ${getImprovementColor(analysis.bestDayOfWeek.improvement)}`}
+          >
             {analysis.bestDayOfWeek.improvement > 0 ? '+' : ''}
             {Math.round(analysis.bestDayOfWeek.improvement)}% vs moyenne
           </p>
           <p className="text-xs font-mono text-text-muted mt-2">
-            {formatSpeed(analysis.bestDayOfWeek.avgSpeed)} • {analysis.bestDayOfWeek.activityCount} sorties
+            {formatSpeed(analysis.bestDayOfWeek.avgSpeed)} • {analysis.bestDayOfWeek.activityCount}{' '}
+            sorties
           </p>
         </div>
 
         {/* Best Time */}
-        <div className={`p-4 rounded-lg border ${getImprovementBg(analysis.bestTimeOfDay.improvement)}`}>
+        <div
+          className={`p-4 rounded-lg border ${getImprovementBg(analysis.bestTimeOfDay.improvement)}`}
+        >
           <div className="flex items-center gap-2 mb-2">
             <Clock className="w-4 h-4 text-earth-moss" />
             <p className="text-xs font-mono text-text-muted">Meilleure heure</p>
@@ -119,17 +126,22 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
           <p className="text-lg font-mono font-bold text-text-primary mb-1">
             {analysis.bestTimeOfDay.label}
           </p>
-          <p className={`text-xs font-mono ${getImprovementColor(analysis.bestTimeOfDay.improvement)}`}>
+          <p
+            className={`text-xs font-mono ${getImprovementColor(analysis.bestTimeOfDay.improvement)}`}
+          >
             {analysis.bestTimeOfDay.improvement > 0 ? '+' : ''}
             {Math.round(analysis.bestTimeOfDay.improvement)}% vs moyenne
           </p>
           <p className="text-xs font-mono text-text-muted mt-2">
-            {formatSpeed(analysis.bestTimeOfDay.avgSpeed)} • {analysis.bestTimeOfDay.activityCount} sorties
+            {formatSpeed(analysis.bestTimeOfDay.avgSpeed)} • {analysis.bestTimeOfDay.activityCount}{' '}
+            sorties
           </p>
         </div>
 
         {/* Best Rest */}
-        <div className={`p-4 rounded-lg border ${getImprovementBg(analysis.bestRestDays.improvement)}`}>
+        <div
+          className={`p-4 rounded-lg border ${getImprovementBg(analysis.bestRestDays.improvement)}`}
+        >
           <div className="flex items-center gap-2 mb-2">
             <Coffee className="w-4 h-4 text-earth-saffron" />
             <p className="text-xs font-mono text-text-muted">Meilleur repos</p>
@@ -137,12 +149,15 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
           <p className="text-lg font-mono font-bold text-text-primary mb-1">
             {analysis.bestRestDays.label}
           </p>
-          <p className={`text-xs font-mono ${getImprovementColor(analysis.bestRestDays.improvement)}`}>
+          <p
+            className={`text-xs font-mono ${getImprovementColor(analysis.bestRestDays.improvement)}`}
+          >
             {analysis.bestRestDays.improvement > 0 ? '+' : ''}
             {Math.round(analysis.bestRestDays.improvement)}% vs moyenne
           </p>
           <p className="text-xs font-mono text-text-muted mt-2">
-            {formatSpeed(analysis.bestRestDays.avgSpeed)} • {analysis.bestRestDays.activityCount} sorties
+            {formatSpeed(analysis.bestRestDays.avgSpeed)} • {analysis.bestRestDays.activityCount}{' '}
+            sorties
           </p>
         </div>
       </div>
@@ -170,7 +185,9 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
                   />
                 </div>
                 <div className="w-16 text-right">
-                  <span className={`text-xs font-mono font-bold ${getImprovementColor(insight.improvement)}`}>
+                  <span
+                    className={`text-xs font-mono font-bold ${getImprovementColor(insight.improvement)}`}
+                  >
                     {insight.improvement > 0 ? '+' : ''}
                     {Math.round(insight.improvement)}%
                   </span>
@@ -204,7 +221,9 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
                   />
                 </div>
                 <div className="w-16 text-right">
-                  <span className={`text-xs font-mono font-bold ${getImprovementColor(insight.improvement)}`}>
+                  <span
+                    className={`text-xs font-mono font-bold ${getImprovementColor(insight.improvement)}`}
+                  >
                     {insight.improvement > 0 ? '+' : ''}
                     {Math.round(insight.improvement)}%
                   </span>
@@ -238,7 +257,9 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
                   />
                 </div>
                 <div className="w-16 text-right">
-                  <span className={`text-xs font-mono font-bold ${getImprovementColor(insight.improvement)}`}>
+                  <span
+                    className={`text-xs font-mono font-bold ${getImprovementColor(insight.improvement)}`}
+                  >
                     {insight.improvement > 0 ? '+' : ''}
                     {Math.round(insight.improvement)}%
                   </span>
@@ -255,8 +276,10 @@ export function PerformanceFactors({ analysis }: PerformanceFactorsProps) {
       {/* Info */}
       <div className="mt-6 p-4 bg-bg-primary rounded-lg border border-border-subtle">
         <p className="text-xs font-mono text-text-secondary leading-relaxed">
-          <span className="text-earth-terracotta">Vitesse moyenne globale:</span> {formatSpeed(analysis.globalAvgSpeed)} ({analysis.globalAvgSpeed.toFixed(1)} km/h).
-          Les pourcentages montrent l'amélioration de performance relative à cette moyenne dans différentes conditions.
+          <span className="text-earth-terracotta">Vitesse moyenne globale:</span>{' '}
+          {formatSpeed(analysis.globalAvgSpeed)} ({analysis.globalAvgSpeed.toFixed(1)} km/h). Les
+          pourcentages montrent l'amélioration de performance relative à cette moyenne dans
+          différentes conditions.
         </p>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { loadPlaytime } from '@/lib/steam-playtime'
 import { logger } from '@/lib/logger'
+import { loadPlaytime } from '@/lib/steam-playtime'
 
 // Dynamique : la réponse varie selon ?year=. Le cache est assuré côté CDN
 // par l'en-tête Cache-Control ci-dessous, pas par l'ISR (revalidate), qui

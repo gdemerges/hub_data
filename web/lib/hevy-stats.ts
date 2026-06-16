@@ -1,4 +1,4 @@
-import type { HevyWorkout, HevyTemplate } from './hevy'
+import type { HevyTemplate, HevyWorkout } from './hevy'
 
 export interface MuscleGroupCount {
   group: string

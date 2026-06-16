@@ -1,14 +1,14 @@
 import 'server-only'
 import { z } from 'zod'
-import {
-  readSteamCache,
-  writeSteamCache,
-  isSteamCacheFresh,
-  type SteamGame,
-  type SteamCacheData,
-} from './steam-cache'
-import { steamPlayerSchema, steamGameSchema } from './api-schemas'
+import { steamGameSchema, steamPlayerSchema } from './api-schemas'
 import { logger } from './logger'
+import {
+  isSteamCacheFresh,
+  readSteamCache,
+  type SteamCacheData,
+  type SteamGame,
+  writeSteamCache,
+} from './steam-cache'
 
 const STEAM_API_BASE = 'https://api.steampowered.com'
 
@@ -97,7 +97,9 @@ export async function loadSteam(): Promise<SteamResponse | null> {
 
     const [summaryResponse, gamesResponse] = await Promise.all([
       fetch(`${STEAM_API_BASE}/ISteamUser/GetPlayerSummaries/v2/?key=${apiKey}&steamids=${userId}`),
-      fetch(`${STEAM_API_BASE}/IPlayerService/GetOwnedGames/v1/?key=${apiKey}&steamid=${userId}&include_appinfo=1&include_played_free_games=1`),
+      fetch(
+        `${STEAM_API_BASE}/IPlayerService/GetOwnedGames/v1/?key=${apiKey}&steamid=${userId}&include_appinfo=1&include_played_free_games=1`,
+      ),
     ])
 
     if (!summaryResponse.ok || !gamesResponse.ok) {

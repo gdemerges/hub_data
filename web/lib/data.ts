@@ -1,8 +1,8 @@
 import 'server-only'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import type { Game, Film, Series, Book } from './types'
 import { logger } from './logger'
+import type { Book, Film, Game, Series } from './types'
 
 const DATA_DIR = path.join(process.cwd(), 'data')
 
@@ -51,10 +51,10 @@ function normalizePlatform(p: string): string {
 
 export async function getGamesData(): Promise<Game[]> {
   const games = await readJsonFile<Game>('games.json')
-  return games.map(g => ({
+  return games.map((g) => ({
     ...g,
     platform: g.platform ? normalizePlatform(g.platform) : g.platform,
-    platforms: g.platforms?.map(p => ({ ...p, platform: normalizePlatform(p.platform) })),
+    platforms: g.platforms?.map((p) => ({ ...p, platform: normalizePlatform(p.platform) })),
   }))
 }
 
@@ -77,7 +77,7 @@ function buildAllYearsQuery(startYear: number, endYear: number): string {
   const aliases = []
   for (let y = startYear; y <= endYear; y++) {
     aliases.push(
-      `y${y}: contributionsCollection(from: "${y}-01-01T00:00:00Z", to: "${y}-12-31T23:59:59Z") { contributionCalendar { totalContributions } }`
+      `y${y}: contributionsCollection(from: "${y}-01-01T00:00:00Z", to: "${y}-12-31T23:59:59Z") { contributionCalendar { totalContributions } }`,
     )
   }
   return `

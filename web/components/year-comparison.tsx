@@ -1,8 +1,17 @@
 'use client'
 
+import {
+  ArrowDown,
+  ArrowUp,
+  Clock,
+  Film as FilmIcon,
+  Gamepad2,
+  GitCompare,
+  Minus,
+  Tv,
+} from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { GitCompare, ArrowUp, ArrowDown, Minus, Film as FilmIcon, Tv, Gamepad2, Clock } from 'lucide-react'
-import type { Film, Series, Game } from '@/lib/types'
+import type { Film, Game, Series } from '@/lib/types'
 
 interface YearComparisonProps {
   films: Film[]
@@ -24,14 +33,14 @@ export function YearComparison({ films, series, games }: YearComparisonProps) {
   const [year2, setYear2] = useState(currentYear - 1)
 
   const getStatsForYear = (year: number): YearStats => {
-    const yearFilms = films.filter(f => f.releaseYear === year)
-    const yearSeries = series.filter(s => s.releaseYear === year)
-    const yearGames = games.filter(g => g.releaseYear === year)
+    const yearFilms = films.filter((f) => f.releaseYear === year)
+    const yearSeries = series.filter((s) => s.releaseYear === year)
+    const yearGames = games.filter((g) => g.releaseYear === year)
 
     const totalRatings = [
-      ...yearFilms.filter(f => f.rating).map(f => f.rating!),
-      ...yearSeries.filter(s => s.rating).map(s => s.rating!),
-      ...yearGames.filter(g => g.rating).map(g => g.rating!),
+      ...yearFilms.filter((f) => f.rating).map((f) => f.rating!),
+      ...yearSeries.filter((s) => s.rating).map((s) => s.rating!),
+      ...yearGames.filter((g) => g.rating).map((g) => g.rating!),
     ]
 
     return {
@@ -39,9 +48,8 @@ export function YearComparison({ films, series, games }: YearComparisonProps) {
       series: yearSeries.length,
       games: yearGames.length,
       hoursPlayed: yearGames.reduce((sum, g) => sum + (g.hoursPlayed || 0), 0),
-      avgRating: totalRatings.length > 0
-        ? totalRatings.reduce((a, b) => a + b, 0) / totalRatings.length
-        : 0,
+      avgRating:
+        totalRatings.length > 0 ? totalRatings.reduce((a, b) => a + b, 0) / totalRatings.length : 0,
     }
   }
 
@@ -55,20 +63,25 @@ export function YearComparison({ films, series, games }: YearComparisonProps) {
     icon: React.ReactNode,
     value1: number,
     value2: number,
-    suffix: string = ''
+    suffix: string = '',
   ) => {
     const diff = value1 - value2
-    const percentDiff = value2 > 0 ? ((diff / value2) * 100).toFixed(0) : (value1 > 0 ? '+100' : '0')
+    const percentDiff = value2 > 0 ? ((diff / value2) * 100).toFixed(0) : value1 > 0 ? '+100' : '0'
 
     return (
       <div className="p-4 bg-bg-primary border border-border-subtle rounded">
         <div className="flex items-center gap-2 mb-3">
           {icon}
-          <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted">{label}</span>
+          <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted">
+            {label}
+          </span>
         </div>
         <div className="flex items-center justify-between">
           <div className="text-center">
-            <p className="text-xl font-mono font-bold text-earth-fern">{Math.round(value1)}{suffix}</p>
+            <p className="text-xl font-mono font-bold text-earth-fern">
+              {Math.round(value1)}
+              {suffix}
+            </p>
             <p className="text-[10px] font-mono text-text-muted">{year1}</p>
           </div>
           <div className="flex items-center gap-1 px-2 py-1 rounded border border-border-subtle">
@@ -79,14 +92,20 @@ export function YearComparison({ films, series, games }: YearComparisonProps) {
             ) : (
               <Minus className="w-3 h-3 text-text-muted" />
             )}
-            <span className={`text-xs font-mono font-medium ${
-              diff > 0 ? 'text-earth-moss' : diff < 0 ? 'text-earth-clay' : 'text-text-muted'
-            }`}>
-              {diff > 0 ? '+' : ''}{percentDiff}%
+            <span
+              className={`text-xs font-mono font-medium ${
+                diff > 0 ? 'text-earth-moss' : diff < 0 ? 'text-earth-clay' : 'text-text-muted'
+              }`}
+            >
+              {diff > 0 ? '+' : ''}
+              {percentDiff}%
             </span>
           </div>
           <div className="text-center">
-            <p className="text-xl font-mono font-bold text-earth-terracotta">{Math.round(value2)}{suffix}</p>
+            <p className="text-xl font-mono font-bold text-earth-terracotta">
+              {Math.round(value2)}
+              {suffix}
+            </p>
             <p className="text-[10px] font-mono text-text-muted">{year2}</p>
           </div>
         </div>
@@ -111,8 +130,10 @@ export function YearComparison({ films, series, games }: YearComparisonProps) {
             onChange={(e) => setYear1(Number(e.target.value))}
             className="px-3 py-1.5 bg-bg-primary border border-earth-fern/30 rounded text-sm font-mono text-earth-fern focus:outline-none focus:border-earth-fern"
           >
-            {years.map(year => (
-              <option key={year} value={year}>{year}</option>
+            {years.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
             ))}
           </select>
           <span className="text-earth-terracotta font-mono">VS</span>
@@ -121,8 +142,10 @@ export function YearComparison({ films, series, games }: YearComparisonProps) {
             onChange={(e) => setYear2(Number(e.target.value))}
             className="px-3 py-1.5 bg-bg-primary border border-earth-terracotta/30 rounded text-sm font-mono text-earth-terracotta focus:outline-none focus:border-earth-terracotta"
           >
-            {years.map(year => (
-              <option key={year} value={year}>{year}</option>
+            {years.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
             ))}
           </select>
         </div>
@@ -133,26 +156,26 @@ export function YearComparison({ films, series, games }: YearComparisonProps) {
           'Films',
           <FilmIcon className="w-4 h-4 text-earth-terracotta" />,
           stats1.films,
-          stats2.films
+          stats2.films,
         )}
         {renderComparison(
           'Séries',
           <Tv className="w-4 h-4 text-earth-saffron" />,
           stats1.series,
-          stats2.series
+          stats2.series,
         )}
         {renderComparison(
           'Jeux',
           <Gamepad2 className="w-4 h-4 text-earth-moss" />,
           stats1.games,
-          stats2.games
+          stats2.games,
         )}
         {renderComparison(
           'Heures jouées',
           <Clock className="w-4 h-4 text-earth-rust" />,
           stats1.hoursPlayed,
           stats2.hoursPlayed,
-          'h'
+          'h',
         )}
       </div>
     </div>

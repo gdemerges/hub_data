@@ -1,18 +1,18 @@
-import { Suspense } from 'react'
-import Image from 'next/image'
-import { StatCard, PageHeader } from '@/components'
-import { Star, GitFork, Users, MapPin, Building, Code } from 'lucide-react'
 import { Code as CodeIcon } from '@phosphor-icons/react/dist/ssr'
-import { loadGitHub, loadGitHubContributions, loadGitHubYearly } from '@/lib/github'
+import { Building, Code, GitFork, MapPin, Star, Users } from 'lucide-react'
+import Image from 'next/image'
+import { Suspense } from 'react'
+import { PageHeader, StatCard } from '@/components'
+import { ClaudeStatsSection } from '@/components/claude-stats-section'
+import { DevTabs } from '@/components/dev-tabs'
 import {
   GitHubContributionsSection,
   GitHubContributionsSkeleton,
 } from '@/components/github-contributions-section'
-import { GitHubYearlySection, GitHubYearlySkeleton } from '@/components/github-yearly-section'
 import { GitHubSyncButton } from '@/components/github-sync-button'
-import { ClaudeStatsSection } from '@/components/claude-stats-section'
+import { GitHubYearlySection, GitHubYearlySkeleton } from '@/components/github-yearly-section'
 import { loadClaudeStats } from '@/lib/claude'
-import { DevTabs } from '@/components/dev-tabs'
+import { loadGitHub, loadGitHubContributions, loadGitHubYearly } from '@/lib/github'
 
 export const revalidate = 21600
 
@@ -21,7 +21,7 @@ const GITHUB_USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'gdemerges'
 function timeAgo(iso: string): string {
   const diff = Date.now() - new Date(iso).getTime()
   const mins = Math.floor(diff / 60000)
-  if (mins < 1) return 'à l\'instant'
+  if (mins < 1) return "à l'instant"
   if (mins < 60) return `il y a ${mins} min`
   const hours = Math.floor(mins / 60)
   if (hours < 24) return `il y a ${hours}h`
@@ -95,7 +95,12 @@ export default async function DevPage({
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <StatCard label="Repositories" value={data.stats.totalRepos} icon={Code} color="terracotta" />
+        <StatCard
+          label="Repositories"
+          value={data.stats.totalRepos}
+          icon={Code}
+          color="terracotta"
+        />
         <StatCard
           label="Contributions totales"
           value={data.stats.totalContributions}
@@ -133,7 +138,9 @@ export default async function DevPage({
                   <span className="text-sm font-medium text-text-primary group-hover:text-earth-fern transition-colors">
                     {lang.language}
                   </span>
-                  <span className="text-xs font-mono font-bold text-earth-fern">{lang.percentage}%</span>
+                  <span className="text-xs font-mono font-bold text-earth-fern">
+                    {lang.percentage}%
+                  </span>
                 </div>
                 <div className="h-2 bg-bg-primary rounded-full overflow-hidden border border-border-subtle">
                   <div

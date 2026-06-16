@@ -16,7 +16,7 @@ const PERIODS = [
 ]
 
 function periodForHour(h: number): (typeof PERIODS)[number] {
-  return PERIODS.find(p => h >= p.start && h < p.end) ?? PERIODS[0]
+  return PERIODS.find((p) => h >= p.start && h < p.end) ?? PERIODS[0]
 }
 
 export function TimeOfDayBackground() {

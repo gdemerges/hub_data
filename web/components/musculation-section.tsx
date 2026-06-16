@@ -1,15 +1,15 @@
 'use client'
 
+import { Activity, Dumbbell, Flame, Layers, Timer, TrendingUp, Trophy } from 'lucide-react'
 import useSWR from 'swr'
-import { Dumbbell, Flame, Timer, TrendingUp, Trophy, Activity, Layers } from 'lucide-react'
-import { StatCard, Skeleton, SkeletonStatCard, EmptyState } from '@/components'
+import { EmptyState, Skeleton, SkeletonStatCard, StatCard } from '@/components'
 import type {
+  ExercisePR,
   HevyAggregateStats,
-  VolumePoint,
   MonthlyVolumePoint,
   MuscleGroupCount,
-  ExercisePR,
   SessionSummary,
+  VolumePoint,
 } from '@/lib/hevy-stats'
 
 interface HevyResponse {
@@ -53,7 +53,11 @@ function formatVolume(kg: number): string {
 }
 
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })
+  return new Date(iso).toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
 }
 
 function formatDateShort(iso: string): string {
@@ -85,16 +89,15 @@ export function MusculationSection({ year }: Props) {
           <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-earth-rust/10 border border-earth-rust/30 flex items-center justify-center">
             <Dumbbell className="w-8 h-8 text-earth-rust" />
           </div>
-          <h2 className="font-display text-xl font-medium text-text-primary mb-3">
-            Connecte Hevy
-          </h2>
+          <h2 className="font-display text-xl font-medium text-text-primary mb-3">Connecte Hevy</h2>
           <p className="text-text-secondary text-sm mb-2">
             {data.reason === 'HEVY_API_KEY missing'
-              ? 'Variable d\'environnement HEVY_API_KEY manquante.'
+              ? "Variable d'environnement HEVY_API_KEY manquante."
               : 'Aucune séance pour le moment.'}
           </p>
           <p className="text-text-muted text-xs font-mono">
-            Génère une clé sur hevy.com/settings → Developer, puis ajoute <code>HEVY_API_KEY=...</code>.
+            Génère une clé sur hevy.com/settings → Developer, puis ajoute{' '}
+            <code>HEVY_API_KEY=...</code>.
           </p>
         </div>
       </div>
@@ -120,12 +123,7 @@ export function MusculationSection({ year }: Props) {
           icon={Flame}
           color="rust"
         />
-        <StatCard
-          label="Séances"
-          value={yearWorkouts}
-          icon={Activity}
-          color="terracotta"
-        />
+        <StatCard label="Séances" value={yearWorkouts} icon={Activity} color="terracotta" />
         <StatCard
           label="Temps total"
           value={`${Math.round(yearDuration / 60)} h`}
@@ -213,9 +211,7 @@ function WeeklyVolumeChart({ points }: { points: VolumePoint[] }) {
         <h3 className="text-sm font-semibold text-text-secondary">
           Volume hebdomadaire — {points.length} dernières semaines
         </h3>
-        <span className="ml-auto text-xs font-mono text-text-muted">
-          pic : {formatVolume(max)}
-        </span>
+        <span className="ml-auto text-xs font-mono text-text-muted">pic : {formatVolume(max)}</span>
       </div>
       <div className="flex items-end gap-1 h-40">
         {points.map((p) => {
@@ -263,7 +259,8 @@ function MuscleGroupBreakdown({ items }: { items: MuscleGroupCount[] }) {
                   <span className="text-sm text-text-primary capitalize">{m.group}</span>
                 </div>
                 <span className="text-xs font-mono text-text-secondary">
-                  {formatVolume(m.volumeKg)} · {m.sets} séries · {m.sessions} séance{m.sessions > 1 ? 's' : ''}
+                  {formatVolume(m.volumeKg)} · {m.sets} séries · {m.sessions} séance
+                  {m.sessions > 1 ? 's' : ''}
                 </span>
               </div>
               <div className="h-1.5 bg-bg-tertiary rounded-full overflow-hidden">
@@ -337,9 +334,12 @@ function RecentSessions({ items }: { items: SessionSummary[] }) {
             className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 p-3 rounded-lg hover:bg-bg-hover transition-colors border border-transparent hover:border-border-subtle"
           >
             <div className="flex-1 min-w-0">
-              <p className="text-sm text-text-primary font-medium truncate">{s.title || 'Séance'}</p>
+              <p className="text-sm text-text-primary font-medium truncate">
+                {s.title || 'Séance'}
+              </p>
               <p className="text-xs text-text-muted mt-0.5">
-                {formatDate(s.startTime)} · {Math.round(s.durationMin)} min · {s.exerciseCount} exercices · {s.setCount} séries
+                {formatDate(s.startTime)} · {Math.round(s.durationMin)} min · {s.exerciseCount}{' '}
+                exercices · {s.setCount} séries
               </p>
             </div>
             <div className="flex items-center gap-2 flex-wrap">

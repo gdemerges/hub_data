@@ -1,10 +1,10 @@
 'use client'
 
-import { useRef, useMemo, useState, useEffect } from 'react'
 import { useVirtualizer } from '@tanstack/react-virtual'
+import { Search } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { MediaCard } from './media-card'
 import { MediaDetail } from './media-detail'
-import { Search } from 'lucide-react'
 import { StaggerContainer, StaggerItem } from './page-transition'
 
 interface VirtualizedItem {
@@ -62,9 +62,7 @@ export function VirtualizedGrid<T extends VirtualizedItem>({
   const filteredItems = useMemo(() => {
     if (!search) return items
     const searchLower = search.toLowerCase()
-    return items.filter((item) =>
-      item.title.toLowerCase().includes(searchLower)
-    )
+    return items.filter((item) => item.title.toLowerCase().includes(searchLower))
   }, [items, search])
 
   // Group items into rows
@@ -192,10 +190,7 @@ export function VirtualizedGrid<T extends VirtualizedItem>({
                 className="flex gap-4"
               >
                 {row.map((item) => (
-                  <div
-                    key={getItemKey(item)}
-                    style={{ width: cardWidth }}
-                  >
+                  <div key={getItemKey(item)} style={{ width: cardWidth }}>
                     <MediaCard
                       title={item.title}
                       imageUrl={item.imageUrl}

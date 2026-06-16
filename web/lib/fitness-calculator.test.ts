@@ -1,14 +1,14 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import {
-  calculateTSS,
-  calculateLTHR,
-  calculateFitnessMetrics,
-  predictRaceTimes,
-  calculateTimeToTarget,
-  analyzeRecovery,
   analyzePerformanceFactors,
+  analyzeRecovery,
+  calculateFitnessMetrics,
+  calculateLTHR,
+  calculateTimeToTarget,
+  calculateTSS,
   estimateVdot,
   FITNESS_CONSTANTS,
+  predictRaceTimes,
 } from './fitness-calculator'
 
 interface Activity {
@@ -43,7 +43,7 @@ describe('calculateLTHR', () => {
 
   it('estimates LTHR at ~90% of intense-effort average', () => {
     const activities = Array.from({ length: 10 }, (_, i) =>
-      mkRun({ averageHeartrate: 180 + i, distance: 10, movingTime: 50 })
+      mkRun({ averageHeartrate: 180 + i, distance: 10, movingTime: 50 }),
     )
     const lthr = calculateLTHR(activities)
     // avg is ~184.5, 90% ≈ 166
@@ -68,11 +68,7 @@ describe('calculateTSS', () => {
   })
 
   it('uses HR method when HR + LTHR provided', () => {
-    const atThreshold = calculateTSS(
-      mkRun({ movingTime: 60, averageHeartrate: 165 }),
-      5.5,
-      165
-    )
+    const atThreshold = calculateTSS(mkRun({ movingTime: 60, averageHeartrate: 165 }), 5.5, 165)
     // At threshold for 1h, TSS ≈ 100
     expect(atThreshold).toBeGreaterThanOrEqual(95)
     expect(atThreshold).toBeLessThanOrEqual(105)
@@ -81,7 +77,7 @@ describe('calculateTSS', () => {
   it('clamps intensity factor to MAX', () => {
     // Crazy fast HR (ratio > MAX)
     const tss = calculateTSS(mkRun({ movingTime: 60, averageHeartrate: 300 }), 5.5, 100)
-    const maxTss = 60 / 60 * FITNESS_CONSTANTS.MAX_INTENSITY_FACTOR ** 2 * 100
+    const maxTss = (60 / 60) * FITNESS_CONSTANTS.MAX_INTENSITY_FACTOR ** 2 * 100
     // elevation multiplier = 1 (no elevation), so ceiling is maxTss
     expect(tss).toBeLessThanOrEqual(Math.round(maxTss) + 1)
   })
@@ -106,7 +102,7 @@ describe('predictRaceTimes', () => {
 
   it('predicts 4 distances (5k/10k/21k/42k)', () => {
     const runs = Array.from({ length: 12 }, (_, i) =>
-      mkRun({ startDate: daysAgo(i + 1), distance: 10, movingTime: 55 })
+      mkRun({ startDate: daysAgo(i + 1), distance: 10, movingTime: 55 }),
     )
     const predictions = predictRaceTimes(runs)
     expect(predictions.map((p) => p.distance)).toEqual([5, 10, 21.1, 42.2])
@@ -114,7 +110,7 @@ describe('predictRaceTimes', () => {
 
   it('Riegel: longer distance = longer predicted time', () => {
     const runs = Array.from({ length: 12 }, (_, i) =>
-      mkRun({ startDate: daysAgo(i + 1), distance: 10, movingTime: 55 })
+      mkRun({ startDate: daysAgo(i + 1), distance: 10, movingTime: 55 }),
     )
     const preds = predictRaceTimes(runs)
     const times = preds.map((p) => p.predictedTime)
@@ -125,7 +121,7 @@ describe('predictRaceTimes', () => {
 
   it('marathon uses a more conservative exponent (1.08 vs 1.06)', () => {
     const runs = Array.from({ length: 12 }, (_, i) =>
-      mkRun({ startDate: daysAgo(i + 1), distance: 10, movingTime: 60 })
+      mkRun({ startDate: daysAgo(i + 1), distance: 10, movingTime: 60 }),
     )
     const preds = predictRaceTimes(runs)
     const half = preds.find((p) => p.distance === 21.1)!
@@ -139,7 +135,7 @@ describe('predictRaceTimes', () => {
     // la bande 9–11 km et prédisait ~60 min. Le 5 km rapide (équiv-10k ≈ 46 min)
     // doit désormais tirer la prédiction vers le bas.
     const slowTens = Array.from({ length: 10 }, (_, i) =>
-      mkRun({ startDate: daysAgo(i + 1), distance: 10, movingTime: 60 })
+      mkRun({ startDate: daysAgo(i + 1), distance: 10, movingTime: 60 }),
     )
     const fastFive = mkRun({ startDate: daysAgo(2), distance: 5, movingTime: 22 })
     const tenK = predictRaceTimes([...slowTens, fastFive]).find((p) => p.distance === 10)!
@@ -148,10 +144,10 @@ describe('predictRaceTimes', () => {
 
   it('boosts confidence when a run near the target distance exists (#9)', () => {
     const withTen = Array.from({ length: 10 }, (_, i) =>
-      mkRun({ startDate: daysAgo(i + 1), distance: 10, movingTime: 55 })
+      mkRun({ startDate: daysAgo(i + 1), distance: 10, movingTime: 55 }),
     )
     const onlyShort = Array.from({ length: 10 }, (_, i) =>
-      mkRun({ startDate: daysAgo(i + 1), distance: 4, movingTime: 20 })
+      mkRun({ startDate: daysAgo(i + 1), distance: 4, movingTime: 20 }),
     )
     const tenWith = predictRaceTimes(withTen).find((p) => p.distance === 10)!
     const tenWithout = predictRaceTimes(onlyShort).find((p) => p.distance === 10)!
@@ -221,7 +217,7 @@ describe('analyzeRecovery', () => {
         distance: 30,
         movingTime: 180,
         averageHeartrate: 190,
-      })
+      }),
     )
     const r = analyzeRecovery(many)
     expect(r.riskScore).toBeLessThanOrEqual(100)
@@ -256,7 +252,7 @@ describe('calculateFitnessMetrics', () => {
 
   it('CTL rises and plateaus with daily constant load', () => {
     const runs = Array.from({ length: 60 }, (_, i) =>
-      mkRun({ startDate: daysAgo(60 - i), distance: 10, movingTime: 60 })
+      mkRun({ startDate: daysAgo(60 - i), distance: 10, movingTime: 60 }),
     )
     const metrics = calculateFitnessMetrics(runs)
     expect(metrics.length).toBeGreaterThan(0)
@@ -267,7 +263,7 @@ describe('calculateFitnessMetrics', () => {
 
   it('TSB = CTL - ATL', () => {
     const runs = Array.from({ length: 30 }, (_, i) =>
-      mkRun({ startDate: daysAgo(30 - i), distance: 10, movingTime: 60 })
+      mkRun({ startDate: daysAgo(30 - i), distance: 10, movingTime: 60 }),
     )
     const metrics = calculateFitnessMetrics(runs)
     for (const m of metrics) {
@@ -280,9 +276,7 @@ describe('calculateFitnessMetrics', () => {
 describe('analyzePerformanceFactors', () => {
   it('returns null with <10 activities', () => {
     expect(analyzePerformanceFactors([])).toBeNull()
-    expect(
-      analyzePerformanceFactors(Array.from({ length: 9 }, () => mkRun()))
-    ).toBeNull()
+    expect(analyzePerformanceFactors(Array.from({ length: 9 }, () => mkRun()))).toBeNull()
   })
 
   it('identifies best day/time/rest with enough data', () => {
@@ -321,9 +315,12 @@ describe('analyzePerformanceFactors', () => {
 
     // Fond de carte : sorties sur la droite vitesse = 14 − 0.2·distance.
     const background = [
-      run(3, 0, 8, 12.4), run(3, 1, 12, 11.6),
-      run(5, 0, 16, 10.8), run(5, 1, 18, 10.4),
-      run(0, 0, 6, 12.8), run(0, 1, 10, 12.0),
+      run(3, 0, 8, 12.4),
+      run(3, 1, 12, 11.6),
+      run(5, 0, 16, 10.8),
+      run(5, 1, 18, 10.4),
+      run(0, 0, 6, 12.8),
+      run(0, 1, 10, 12.0),
     ]
     // Mardi : sorties courtes rapides → vitesse brute la plus haute (13.2), mais
     // pile sur la droite (résidu ≈ 0).

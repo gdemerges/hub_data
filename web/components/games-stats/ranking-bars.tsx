@@ -33,9 +33,7 @@ export function RankingBars({
           const pct = (value / max) * 100
           return (
             <div key={label} className="flex items-center gap-3">
-              <span className="text-xs text-text-primary w-32 truncate">
-                {label}
-              </span>
+              <span className="text-xs text-text-primary w-32 truncate">{label}</span>
               <div className="flex-1 h-2 bg-bg-tertiary rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-earth-fern to-earth-moss rounded-full"
@@ -43,7 +41,8 @@ export function RankingBars({
                 />
               </div>
               <span className="text-xs font-mono text-text-secondary w-20 text-right">
-                {value.toFixed(1)}{unit}
+                {value.toFixed(1)}
+                {unit}
                 <span className="text-text-muted ml-1">({count})</span>
               </span>
             </div>

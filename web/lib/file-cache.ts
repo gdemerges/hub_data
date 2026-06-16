@@ -1,7 +1,9 @@
 import path from 'node:path'
 import { FileCacheStore } from './cache-store'
 
-export async function readFileCache<T>(filePath: string): Promise<{ data: T; cachedAt: number } | null> {
+export async function readFileCache<T>(
+  filePath: string,
+): Promise<{ data: T; cachedAt: number } | null> {
   const store = new FileCacheStore<T>({
     filePath,
     ttlMs: Number.POSITIVE_INFINITY,

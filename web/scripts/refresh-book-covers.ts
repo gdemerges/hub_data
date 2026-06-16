@@ -9,7 +9,7 @@
  *   npx tsx scripts/refresh-book-covers.ts --force    # repart de zéro
  */
 
-import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import * as XLSX from 'xlsx'
 
@@ -105,7 +105,7 @@ function scoreMatch(
   candidateTitle: string,
   candidateAuthors: string[],
   expectedTitle: string,
-  expectedAuthor?: string
+  expectedAuthor?: string,
 ): number {
   const ct = normalize(candidateTitle)
   const et = normalize(expectedTitle)
@@ -117,12 +117,12 @@ function scoreMatch(
   // shared word ratio
   const cw = new Set(ct.split(' '))
   const ew = et.split(' ')
-  const shared = ew.filter(w => w.length > 2 && cw.has(w)).length
+  const shared = ew.filter((w) => w.length > 2 && cw.has(w)).length
   s += shared * 25
   // author match
   if (expectedAuthor) {
     const expectedLast = authorLastName(expectedAuthor)
-    if (expectedLast && candidateAuthors.some(a => normalize(a).includes(expectedLast))) {
+    if (expectedLast && candidateAuthors.some((a) => normalize(a).includes(expectedLast))) {
       s += 200
     }
   }
@@ -158,7 +158,7 @@ async function openLibrarySearch(title: string, author?: string): Promise<string
     const docs = data.docs ?? []
     if (!docs.length) return null
     const scored = docs
-      .map(d => ({
+      .map((d) => ({
         d,
         score: scoreMatch(d.title ?? '', d.author_name ?? [], title, author),
       }))
@@ -214,7 +214,7 @@ async function googleBooks(title: string, author?: string, isbn?: string): Promi
       return null
     }
     const scored = items
-      .map(it => {
+      .map((it) => {
         const v = it.volumeInfo
         return {
           it,

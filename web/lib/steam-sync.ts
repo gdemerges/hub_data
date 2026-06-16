@@ -1,5 +1,5 @@
 import 'server-only'
-import { updatePlaytimeFromSnapshot, type GameSnapshot } from './steam-storage'
+import { type GameSnapshot, updatePlaytimeFromSnapshot } from './steam-storage'
 
 const STEAM_API_BASE = 'https://api.steampowered.com'
 
@@ -18,7 +18,7 @@ export async function syncSteamPlaytime(): Promise<SyncResult> {
   }
 
   const gamesResponse = await fetch(
-    `${STEAM_API_BASE}/IPlayerService/GetOwnedGames/v1/?key=${apiKey}&steamid=${userId}&include_appinfo=1&include_played_free_games=1`
+    `${STEAM_API_BASE}/IPlayerService/GetOwnedGames/v1/?key=${apiKey}&steamid=${userId}&include_appinfo=1&include_played_free_games=1`,
   )
   if (!gamesResponse.ok) {
     throw new Error(`Failed to fetch games (status ${gamesResponse.status})`)

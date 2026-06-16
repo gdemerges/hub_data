@@ -1,9 +1,9 @@
-import { Suspense } from 'react'
 import { PersonSimpleRun } from '@phosphor-icons/react/dist/ssr'
+import { Suspense } from 'react'
 import { PageHeader } from '@/components'
 import { SportClient, SportSkeleton } from '@/components/sport-client'
-import { loadStrava } from '@/lib/strava'
 import type { ActivityFilterKey } from '@/lib/sport'
+import { loadStrava } from '@/lib/strava'
 
 export const revalidate = 3600
 
@@ -11,11 +11,16 @@ const VALID_FILTERS: ActivityFilterKey[] = ['all', 'Run', 'Ride', 'RPM', 'Muscul
 
 function eyebrowFor(filter: ActivityFilterKey): string {
   switch (filter) {
-    case 'all': return 'Toutes activités'
-    case 'Run': return 'Course'
-    case 'Ride': return 'Vélo'
-    case 'RPM': return 'RPM'
-    case 'Musculation': return 'Musculation'
+    case 'all':
+      return 'Toutes activités'
+    case 'Run':
+      return 'Course'
+    case 'Ride':
+      return 'Vélo'
+    case 'RPM':
+      return 'RPM'
+    case 'Musculation':
+      return 'Musculation'
   }
 }
 
@@ -36,7 +41,11 @@ export default async function SportPage({
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PageHeader
         title="Sport"
-        subtitle={filter === 'Musculation' ? 'Musculation · synchronisé via Hevy' : 'Course, vélo, RPM · synchronisé via Strava'}
+        subtitle={
+          filter === 'Musculation'
+            ? 'Musculation · synchronisé via Hevy'
+            : 'Course, vélo, RPM · synchronisé via Strava'
+        }
         eyebrow={eyebrowFor(filter)}
         dateline={`Année ${year}`}
         color="rust"

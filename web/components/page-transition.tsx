@@ -1,17 +1,13 @@
 'use client'
 
-import type { ReactNode, CSSProperties } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 
 interface PageTransitionProps {
   children: ReactNode
 }
 
 export function PageTransition({ children }: PageTransitionProps) {
-  return (
-    <div className="animate-fade-in">
-      {children}
-    </div>
-  )
+  return <div className="animate-fade-in">{children}</div>
 }
 
 export function FadeIn({
@@ -55,7 +51,9 @@ export function StaggerItem({
   return (
     <div
       className={`animate-slide-up ${className}`}
-      style={{ animationDelay: `${index * 0.05}s`, animationFillMode: 'backwards' } as CSSProperties}
+      style={
+        { animationDelay: `${index * 0.05}s`, animationFillMode: 'backwards' } as CSSProperties
+      }
     >
       {children}
     </div>

@@ -1,8 +1,8 @@
 'use client'
 
+import { AlertTriangle, CheckCircle, Clock, Shield } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import type { RecoveryAdvice } from '@/lib/types'
-import { Shield, AlertTriangle, CheckCircle, Clock } from 'lucide-react'
 
 interface RecoveryAdvisorProps {
   advice: RecoveryAdvice
@@ -19,7 +19,7 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
         weekday: 'short',
         day: 'numeric',
         month: 'short',
-      })
+      }),
     )
   }, [advice.hoursRecommended])
 
@@ -97,18 +97,19 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
             <h4 className={`font-display text-xl font-medium tracking-tight ${config.textColor}`}>
               {config.title}
             </h4>
-            <p className="text-sm text-text-secondary mt-1">
-              {config.message}
-            </p>
+            <p className="text-sm text-text-secondary mt-1">{config.message}</p>
           </div>
         </div>
 
         {/* Risk Score Bar */}
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] uppercase tracking-[0.18em] text-text-muted">Score de risque</span>
+            <span className="text-[10px] uppercase tracking-[0.18em] text-text-muted">
+              Score de risque
+            </span>
             <span className={`font-display text-base font-medium num ${config.textColor}`}>
-              {advice.riskScore}<span className="text-text-muted">/100</span>
+              {advice.riskScore}
+              <span className="text-text-muted">/100</span>
             </span>
           </div>
           <div className="h-2 bg-bg-card rounded-full overflow-hidden">
@@ -122,7 +123,8 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
         {/* Reason */}
         <div className={`p-3 bg-bg-card/60 rounded-xl border ${config.borderColor}`}>
           <p className="text-xs text-text-secondary leading-relaxed">
-            <span className={`${config.textColor} font-medium mr-1`}>·</span>{advice.reason}
+            <span className={`${config.textColor} font-medium mr-1`}>·</span>
+            {advice.reason}
           </p>
         </div>
       </div>
@@ -133,14 +135,18 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
           <div className="tech-card-flat p-4">
             <div className="flex items-center gap-2 mb-2">
               <Clock className="w-3.5 h-3.5 text-earth-fern" strokeWidth={1.75} />
-              <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted">Repos recommandé</p>
+              <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted">
+                Repos recommandé
+              </p>
             </div>
             <p className="font-display text-2xl font-medium tracking-tight num text-earth-fern leading-none">
               {formatHours(advice.hoursRecommended)}
             </p>
           </div>
           <div className="tech-card-flat p-4">
-            <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-2">Prochaine sortie</p>
+            <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-2">
+              Prochaine sortie
+            </p>
             <p
               className="font-display text-2xl font-medium tracking-tight text-text-primary leading-none"
               suppressHydrationWarning
@@ -210,8 +216,7 @@ export function RecoveryAdvisor({ advice }: RecoveryAdvisorProps) {
 
       <div className="mt-6 tech-card-flat p-4">
         <p className="text-xs text-text-secondary leading-relaxed">
-          Le{' '}
-          <span className="text-earth-fern font-medium">score de risque</span>{' '}
+          Le <span className="text-earth-fern font-medium">score de risque</span>{' '}
           {
             "est calculé en fonction de l'augmentation de charge hebdomadaire, de l'intensité récente, du temps de récupération et de la fréquence des sorties. Un score > 50 indique un risque élevé de blessure."
           }

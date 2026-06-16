@@ -1,8 +1,7 @@
-import { type NextRequest, NextResponse } from 'next/server'
-import fs from 'node:fs'
-import { promises as fsp } from 'node:fs'
+import fs, { promises as fsp } from 'node:fs'
 import path from 'node:path'
-import { getGamesData, getFilmsData, getSeriesData, getGitHubContributions } from '@/lib/data'
+import { type NextRequest, NextResponse } from 'next/server'
+import { getFilmsData, getGamesData, getGitHubContributions, getSeriesData } from '@/lib/data'
 import { logger } from '@/lib/logger'
 
 export async function GET(request: NextRequest) {
@@ -10,7 +9,9 @@ export async function GET(request: NextRequest) {
     const yearParam = request.nextUrl.searchParams.get('year')
     const currentYear = new Date().getFullYear()
     const parsedYear = yearParam ? parseInt(yearParam, 10) : currentYear
-    const year = Number.isNaN(parsedYear) ? currentYear : Math.max(1900, Math.min(currentYear + 1, parsedYear))
+    const year = Number.isNaN(parsedYear)
+      ? currentYear
+      : Math.max(1900, Math.min(currentYear + 1, parsedYear))
 
     // Fetch all data
     const [allGames, allFilms, allSeries, contributions] = await Promise.all([
@@ -30,7 +31,9 @@ export async function GET(request: NextRequest) {
     try {
       const tokenFile = path.join(process.cwd(), 'data', 'strava-tokens.json')
       if (fs.existsSync(tokenFile)) {
-        const stravaResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'}/api/strava/stats?year=${year}`)
+        const stravaResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'}/api/strava/stats?year=${year}`,
+        )
         if (stravaResponse.ok) {
           const stravaData = await stravaResponse.json()
           runDistance = stravaData.yearRunDistance || 0
@@ -63,7 +66,9 @@ export async function GET(request: NextRequest) {
     let countriesVisited = 0
     let citiesVisited = 0
     try {
-      const voyagesResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'}/api/voyages`)
+      const voyagesResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'}/api/voyages`,
+      )
       if (voyagesResponse.ok) {
         const voyagesData = await voyagesResponse.json()
         countriesVisited = voyagesData.totalCountries || 0
@@ -126,25 +131,25 @@ export async function GET(request: NextRequest) {
       },
     ]
 
-    return NextResponse.json({
-      year,
-      radarData,
-      summary: {
-        gamingHours,
-        filmsCount: films.length,
-        seriesCount: series.length,
-        runDistance: Math.round(runDistance),
-        contributions,
-        partnersCount,
-        countriesVisited,
-        citiesVisited,
+    return NextResponse.json(
+      {
+        year,
+        radarData,
+        summary: {
+          gamingHours,
+          filmsCount: films.length,
+          seriesCount: series.length,
+          runDistance: Math.round(runDistance),
+          contributions,
+          partnersCount,
+          countriesVisited,
+          citiesVisited,
+        },
       },
-    }, { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } })
+      { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } },
+    )
   } catch (error) {
     logger.error('Profile API error:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch profile data' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to fetch profile data' }, { status: 500 })
   }
 }

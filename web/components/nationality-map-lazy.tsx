@@ -9,5 +9,5 @@ export const NationalityMapLazy = dynamic(
     loading: () => (
       <div className="h-[400px] bg-bg-card rounded-2xl border border-border-subtle animate-pulse" />
     ),
-  }
+  },
 )

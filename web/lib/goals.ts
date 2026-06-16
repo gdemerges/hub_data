@@ -1,5 +1,5 @@
-import type { Film, Game, Book } from './types'
 import type { Accent } from './accents'
+import type { Book, Film, Game } from './types'
 
 export type GoalKey = 'books' | 'films' | 'series' | 'games' | 'github'
 
@@ -65,7 +65,7 @@ function progress(
   accent: Accent,
   href: string,
   current: number,
-  target: number
+  target: number,
 ): GoalProgress {
   const pct = target > 0 ? Math.min(100, Math.round((current / target) * 100)) : 0
   return { key, label, accent, href, current, target, pct }
@@ -73,7 +73,7 @@ function progress(
 
 export function computeGoals(
   input: GoalsInput,
-  targets: Record<GoalKey, number> = DEFAULT_TARGETS
+  targets: Record<GoalKey, number> = DEFAULT_TARGETS,
 ): GoalProgress[] {
   const { films, games, books, githubContributions, year } = input
 
@@ -83,16 +83,22 @@ export function computeGoals(
       'Livres lus',
       'indigo',
       '/books',
-      countInYear(books.map((b) => b.dateRead), year),
-      targets.books
+      countInYear(
+        books.map((b) => b.dateRead),
+        year,
+      ),
+      targets.books,
     ),
     progress(
       'films',
       'Films vus',
       'terracotta',
       '/films',
-      countInYear(films.map((f) => f.dateWatched), year),
-      targets.films
+      countInYear(
+        films.map((f) => f.dateWatched),
+        year,
+      ),
+      targets.films,
     ),
     // Séries non datables (cf. GoalProgress.undated) : pas de comptage par année.
     {
@@ -104,8 +110,11 @@ export function computeGoals(
       'Jeux finis',
       'moss',
       '/games',
-      countInYear(games.map((g) => g.dateFinished), year),
-      targets.games
+      countInYear(
+        games.map((g) => g.dateFinished),
+        year,
+      ),
+      targets.games,
     ),
     progress('github', 'Contributions', 'fern', '/github', githubContributions, targets.github),
   ]

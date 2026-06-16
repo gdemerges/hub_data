@@ -17,7 +17,13 @@ interface PieChartProps {
   unit?: string
 }
 
-export function PieChart({ data, size = 200, onSliceClick, selectedLabel, unit = 'h' }: PieChartProps) {
+export function PieChart({
+  data,
+  size = 200,
+  onSliceClick,
+  selectedLabel,
+  unit = 'h',
+}: PieChartProps) {
   const total = data.reduce((sum, item) => sum + item.value, 0)
 
   if (total === 0) {
@@ -62,7 +68,13 @@ export function PieChart({ data, size = 200, onSliceClick, selectedLabel, unit =
 
   return (
     <div className="flex flex-col gap-4">
-      <svg width={size} height={size} className="mx-auto" role="img" aria-label="Graphique circulaire">
+      <svg
+        width={size}
+        height={size}
+        className="mx-auto"
+        role="img"
+        aria-label="Graphique circulaire"
+      >
         {slices.map((slice, index) => {
           const isSelected = selectedLabel === slice.label
           const isOtherSelected = selectedLabel && selectedLabel !== slice.label
@@ -79,7 +91,11 @@ export function PieChart({ data, size = 200, onSliceClick, selectedLabel, unit =
                 strokeWidth="1.5"
                 strokeLinejoin="round"
                 className={`chart-pop cursor-pointer transition-opacity duration-300 ${
-                  isOtherSelected ? 'opacity-30' : isSelected ? 'opacity-100' : 'opacity-90 hover:opacity-100'
+                  isOtherSelected
+                    ? 'opacity-30'
+                    : isSelected
+                      ? 'opacity-100'
+                      : 'opacity-90 hover:opacity-100'
                 }`}
                 style={{ ['--i' as string]: index }}
                 onClick={() => onSliceClick?.(slice.label)}
@@ -101,8 +117,8 @@ export function PieChart({ data, size = 200, onSliceClick, selectedLabel, unit =
                 isSelected
                   ? 'bg-accent-primary/10 border border-accent-primary/30'
                   : isOtherSelected
-                  ? 'opacity-40'
-                  : 'hover:bg-bg-tertiary'
+                    ? 'opacity-40'
+                    : 'hover:bg-bg-tertiary'
               }`}
               onClick={() => onSliceClick?.(slice.label)}
             >

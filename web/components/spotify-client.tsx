@@ -1,12 +1,22 @@
 'use client'
 
-import { use, useState, useTransition, useMemo } from 'react'
-import Image from 'next/image'
-import { Music, Users, Clock, Disc, Mic2, ListMusic, ExternalLink, RefreshCw, Activity } from 'lucide-react'
 import { MusicNotes } from '@phosphor-icons/react/dist/ssr'
-import { StatCard, PageHeader } from '@/components'
-import { SkeletonStatCard, SkeletonProfile, SkeletonChart } from '@/components/skeleton'
+import {
+  Activity,
+  Clock,
+  Disc,
+  ExternalLink,
+  ListMusic,
+  Mic2,
+  Music,
+  RefreshCw,
+  Users,
+} from 'lucide-react'
+import Image from 'next/image'
+import { use, useMemo, useState, useTransition } from 'react'
+import { PageHeader, StatCard } from '@/components'
 import { FadeIn } from '@/components/page-transition'
+import { SkeletonChart, SkeletonProfile, SkeletonStatCard } from '@/components/skeleton'
 import { syncSpotifyAction } from '@/lib/spotify-actions'
 import type { SpotifyData, SpotifyTimeRange } from '@/lib/types'
 
@@ -23,7 +33,7 @@ interface Props {
 function timeAgo(iso: string): string {
   const diff = Date.now() - new Date(iso).getTime()
   const mins = Math.floor(diff / 60000)
-  if (mins < 1) return 'à l\'instant'
+  if (mins < 1) return "à l'instant"
   if (mins < 60) return `il y a ${mins} min`
   const hours = Math.floor(mins / 60)
   if (hours < 24) return `il y a ${hours}h`
@@ -75,7 +85,12 @@ export function SpotifyClient({ promise }: Props) {
   if (!data?.user) {
     return (
       <>
-        <PageHeader title="Musique" subtitle="Statistiques d'écoute" color="leaf" icon={MusicNotes} />
+        <PageHeader
+          title="Musique"
+          subtitle="Statistiques d'écoute"
+          color="leaf"
+          icon={MusicNotes}
+        />
         <div className="tech-card p-8">
           <div className="text-center max-w-xl mx-auto">
             <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-earth-leaf/10 border border-earth-leaf/30 flex items-center justify-center">
@@ -98,12 +113,10 @@ export function SpotifyClient({ promise }: Props) {
 
   const subtitle = data.fetchedAt
     ? `Synchronisé ${timeAgo(data.fetchedAt)}`
-    : 'Statistiques d\'écoute'
+    : "Statistiques d'écoute"
 
-  const currentTopTracks =
-    data.topTracksByRange?.[range] ?? data.topTracks
-  const currentTopArtists =
-    data.topArtistsByRange?.[range] ?? data.topArtists
+  const currentTopTracks = data.topTracksByRange?.[range] ?? data.topTracks
+  const currentTopArtists = data.topArtistsByRange?.[range] ?? data.topArtists
 
   // Recently-played counts, used to display a "X écoutes récentes" hint next to
   // top items. Spotify doesn't expose true play counts; this is computed locally
@@ -113,7 +126,7 @@ export function SpotifyClient({ promise }: Props) {
   for (const item of data.recentlyPlayed) {
     const tk = `${item.name}::${item.artist}`
     recentTrackCount.set(tk, (recentTrackCount.get(tk) ?? 0) + 1)
-    for (const a of item.artist.split(',').map(s => s.trim())) {
+    for (const a of item.artist.split(',').map((s) => s.trim())) {
       if (a) recentArtistCount.set(a, (recentArtistCount.get(a) ?? 0) + 1)
     }
   }
@@ -143,7 +156,9 @@ export function SpotifyClient({ promise }: Props) {
               />
             )}
             <div className="flex-1">
-              <h2 className="font-display text-xl font-medium text-text-primary">{data.user.name}</h2>
+              <h2 className="font-display text-xl font-medium text-text-primary">
+                {data.user.name}
+              </h2>
               <div className="flex items-center gap-4 mt-2 text-sm text-text-secondary">
                 <div className="flex items-center gap-1.5">
                   <Users className="w-4 h-4" />
@@ -168,10 +183,25 @@ export function SpotifyClient({ promise }: Props) {
 
       <FadeIn delay={0.1}>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <StatCard label="Titres favoris" value={data.stats.totalTracks} icon={Disc} color="moss" />
-          <StatCard label="Artistes favoris" value={data.stats.totalArtists} icon={Mic2} color="moss" />
+          <StatCard
+            label="Titres favoris"
+            value={data.stats.totalTracks}
+            icon={Disc}
+            color="moss"
+          />
+          <StatCard
+            label="Artistes favoris"
+            value={data.stats.totalArtists}
+            icon={Mic2}
+            color="moss"
+          />
           <StatCard label="Genres" value={data.stats.totalGenres} icon={ListMusic} color="moss" />
-          <StatCard label="Écoutes récentes" value={data.recentlyPlayed.length} icon={Clock} color="moss" />
+          <StatCard
+            label="Écoutes récentes"
+            value={data.recentlyPlayed.length}
+            icon={Clock}
+            color="moss"
+          />
         </div>
       </FadeIn>
 
@@ -180,7 +210,7 @@ export function SpotifyClient({ promise }: Props) {
           <span className="text-[10px] uppercase tracking-[0.18em] text-text-muted mr-2">
             Période
           </span>
-          {(Object.keys(RANGE_LABELS) as SpotifyTimeRange[]).map(k => (
+          {(Object.keys(RANGE_LABELS) as SpotifyTimeRange[]).map((k) => (
             <button
               key={k}
               onClick={() => setRange(k)}
@@ -220,7 +250,13 @@ export function SpotifyClient({ promise }: Props) {
                   >
                     <span className="text-sm font-mono text-text-muted w-5">{index + 1}</span>
                     {track.albumCover && (
-                      <Image src={track.albumCover} alt={track.album} width={48} height={48} className="rounded" />
+                      <Image
+                        src={track.albumCover}
+                        alt={track.album}
+                        width={48}
+                        height={48}
+                        className="rounded"
+                      />
                     )}
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-text-primary truncate">{track.name}</p>
@@ -266,10 +302,18 @@ export function SpotifyClient({ promise }: Props) {
                   >
                     <span className="text-sm font-mono text-text-muted w-5">{index + 1}</span>
                     {artist.image && (
-                      <Image src={artist.image} alt={artist.name} width={48} height={48} className="rounded-full" />
+                      <Image
+                        src={artist.image}
+                        alt={artist.name}
+                        width={48}
+                        height={48}
+                        className="rounded-full"
+                      />
                     )}
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-text-primary truncate">{artist.name}</p>
+                      <p className="text-sm font-medium text-text-primary truncate">
+                        {artist.name}
+                      </p>
                       <p className="text-xs text-text-muted truncate">{artist.genres.join(', ')}</p>
                     </div>
                     <div className="flex flex-col items-end gap-0.5 min-w-[72px]">
@@ -360,7 +404,13 @@ export function SpotifyClient({ promise }: Props) {
                 className="flex items-center gap-3 p-2 rounded-lg hover:bg-bg-secondary transition-colors"
               >
                 {item.albumCover && (
-                  <Image src={item.albumCover} alt={item.album} width={40} height={40} className="rounded" />
+                  <Image
+                    src={item.albumCover}
+                    alt={item.album}
+                    width={40}
+                    height={40}
+                    className="rounded"
+                  />
                 )}
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-text-primary truncate">{item.name}</p>
@@ -380,11 +430,7 @@ export function SpotifyClient({ promise }: Props) {
 
 const DAY_LABELS = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']
 
-function ListeningPatterns({
-  recentlyPlayed,
-}: {
-  recentlyPlayed: SpotifyData['recentlyPlayed']
-}) {
+function ListeningPatterns({ recentlyPlayed }: { recentlyPlayed: SpotifyData['recentlyPlayed'] }) {
   const stats = useMemo(() => {
     if (!recentlyPlayed.length) return null
     const heat: number[][] = Array.from({ length: 7 }, () => Array(24).fill(0))
@@ -416,7 +462,7 @@ function ListeningPatterns({
 
   const spanLabel = (() => {
     const days = Math.round(stats.span / (1000 * 60 * 60 * 24))
-    if (days <= 0) return 'aujourd\'hui'
+    if (days <= 0) return "aujourd'hui"
     if (days < 7) return `${days} derniers jours`
     if (days < 60) return `${Math.round(days / 7)} dernières semaines`
     return `${Math.round(days / 30)} derniers mois`
@@ -461,14 +507,17 @@ function ListeningPatterns({
 
       <div className="overflow-x-auto">
         <div className="inline-block min-w-full">
-          <div className="grid gap-1" style={{ gridTemplateColumns: '40px repeat(24, minmax(14px, 1fr))' }}>
+          <div
+            className="grid gap-1"
+            style={{ gridTemplateColumns: '40px repeat(24, minmax(14px, 1fr))' }}
+          >
             <div />
             {Array.from({ length: 24 }, (_, h) => (
               <div key={h} className="text-[9px] font-mono text-text-muted text-center">
                 {h % 3 === 0 ? h : ''}
               </div>
             ))}
-            {[1, 2, 3, 4, 5, 6, 0].map(day => (
+            {[1, 2, 3, 4, 5, 6, 0].map((day) => (
               <div key={day} className="contents">
                 <div className="text-[10px] font-mono text-text-muted flex items-center pr-1">
                   {DAY_LABELS[day]}
@@ -483,9 +532,7 @@ function ListeningPatterns({
                       className="aspect-square rounded-sm border border-border-subtle/40"
                       style={{
                         background:
-                          v === 0
-                            ? 'transparent'
-                            : `rgba(79, 140, 74, ${0.15 + intensity * 0.85})`,
+                          v === 0 ? 'transparent' : `rgba(79, 140, 74, ${0.15 + intensity * 0.85})`,
                       }}
                     />
                   )

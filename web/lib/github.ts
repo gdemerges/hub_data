@@ -1,11 +1,11 @@
 import 'server-only'
 import {
-  readGitHubCache,
-  writeGitHubCache,
-  isCacheFresh,
-  reposNeedingLanguageRefetch,
-  type GitHubRawRepo,
   type GitHubCacheData,
+  type GitHubRawRepo,
+  isCacheFresh,
+  readGitHubCache,
+  reposNeedingLanguageRefetch,
+  writeGitHubCache,
 } from './github-cache'
 import { logger } from './logger'
 import type { GitHubData } from './types'
@@ -117,7 +117,10 @@ function buildGitHubData(data: GitHubCacheData, cachedAt: number): GitHubData {
   }
 }
 
-export async function loadGitHub(username: string, { force = false } = {}): Promise<GitHubData | null> {
+export async function loadGitHub(
+  username: string,
+  { force = false } = {},
+): Promise<GitHubData | null> {
   const existing = await readGitHubCache()
   if (!force && existing && isCacheFresh(existing.cachedAt)) {
     return buildGitHubData(existing.data, existing.cachedAt)
@@ -142,15 +145,24 @@ export async function loadGitHub(username: string, { force = false } = {}): Prom
     }
     const repos: GitHubRawRepo[] = reposRaw
 
-    const topReposByStars = [...repos].sort((a, b) => b.stargazers_count - a.stargazers_count).slice(0, 20)
-    const staleRepos = reposNeedingLanguageRefetch(topReposByStars, existing?.data ?? null, username)
+    const topReposByStars = [...repos]
+      .sort((a, b) => b.stargazers_count - a.stargazers_count)
+      .slice(0, 20)
+    const staleRepos = reposNeedingLanguageRefetch(
+      topReposByStars,
+      existing?.data ?? null,
+      username,
+    )
     const languagesByRepo = { ...(existing?.data.languagesByRepo ?? {}) }
 
     await Promise.all(
       staleRepos.map(async (repo) => {
         const key = `${username}/${repo.name}`
         try {
-          const langResponse = await fetch(`${GITHUB_API}/repos/${username}/${repo.name}/languages`, opts)
+          const langResponse = await fetch(
+            `${GITHUB_API}/repos/${username}/${repo.name}/languages`,
+            opts,
+          )
           if (langResponse.ok) {
             const languages: Record<string, number> = await langResponse.json()
             languagesByRepo[key] = { languages, pushedAt: repo.pushed_at }
@@ -158,7 +170,7 @@ export async function loadGitHub(username: string, { force = false } = {}): Prom
         } catch (err) {
           logger.error(`Error fetching languages for ${repo.name}:`, err)
         }
-      })
+      }),
     )
 
     const currentYear = new Date().getFullYear()
@@ -190,8 +202,8 @@ export async function loadGitHub(username: string, { force = false } = {}): Prom
       if (contribResponse.ok) {
         const contribData = await contribResponse.json()
         totalContributions =
-          contribData.data?.user?.contributionsCollection?.contributionCalendar?.totalContributions ??
-          totalContributions
+          contribData.data?.user?.contributionsCollection?.contributionCalendar
+            ?.totalContributions ?? totalContributions
       }
     } catch (err) {
       logger.error('Error fetching contributions:', err)
@@ -206,7 +218,10 @@ export async function loadGitHub(username: string, { force = false } = {}): Prom
   }
 }
 
-export async function loadGitHubContributions(username: string, year: number): Promise<ContributionsData | null> {
+export async function loadGitHubContributions(
+  username: string,
+  year: number,
+): Promise<ContributionsData | null> {
   try {
     const token = process.env.GITHUB_TOKEN
     const fromDate = `${year}-01-01T00:00:00Z`
@@ -240,17 +255,28 @@ export async function loadGitHubContributions(username: string, year: number): P
 
     const data = await response.json()
     const calendar = data.data?.user?.contributionsCollection?.contributionCalendar
-    interface Day { date: string; contributionCount: number; contributionLevel: string }
-    interface Week { contributionDays: Day[] }
-    const contributions = (calendar?.weeks as Week[] | undefined)
-      ?.flatMap((w) => w.contributionDays)
-      .map((d) => ({
-        date: d.date,
-        count: d.contributionCount,
-        level: ['NONE', 'FIRST_QUARTILE', 'SECOND_QUARTILE', 'THIRD_QUARTILE', 'FOURTH_QUARTILE'].indexOf(
-          d.contributionLevel
-        ) as 0 | 1 | 2 | 3 | 4,
-      })) ?? []
+    interface Day {
+      date: string
+      contributionCount: number
+      contributionLevel: string
+    }
+    interface Week {
+      contributionDays: Day[]
+    }
+    const contributions =
+      (calendar?.weeks as Week[] | undefined)
+        ?.flatMap((w) => w.contributionDays)
+        .map((d) => ({
+          date: d.date,
+          count: d.contributionCount,
+          level: [
+            'NONE',
+            'FIRST_QUARTILE',
+            'SECOND_QUARTILE',
+            'THIRD_QUARTILE',
+            'FOURTH_QUARTILE',
+          ].indexOf(d.contributionLevel) as 0 | 1 | 2 | 3 | 4,
+        })) ?? []
 
     return {
       totalContributions: calendar?.totalContributions ?? 0,
@@ -297,9 +323,10 @@ export async function loadGitHubYearly(username: string): Promise<YearlyContribu
           .then((data) => ({
             year,
             contributions:
-              data.data?.user?.contributionsCollection?.contributionCalendar?.totalContributions ?? 0,
+              data.data?.user?.contributionsCollection?.contributionCalendar?.totalContributions ??
+              0,
           }))
-          .catch(() => ({ year, contributions: 0 }))
+          .catch(() => ({ year, contributions: 0 })),
       )
     }
 

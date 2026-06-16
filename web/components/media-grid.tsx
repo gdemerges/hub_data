@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { Search, SlidersHorizontal } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import { flushSync } from 'react-dom'
+import { withViewTransition } from '@/lib/view-transition'
 import { MediaCard } from './media-card'
 import { MediaDetail } from './media-detail'
-import { withViewTransition } from '@/lib/view-transition'
-import { Search, SlidersHorizontal } from 'lucide-react'
 
 interface MediaItem {
   title: string
@@ -64,9 +64,7 @@ export function MediaGrid<T extends MediaItem>({
     // Search filter
     if (search) {
       const searchLower = search.toLowerCase()
-      result = result.filter((item) =>
-        item.title.toLowerCase().includes(searchLower)
-      )
+      result = result.filter((item) => item.title.toLowerCase().includes(searchLower))
     }
 
     // Category filter

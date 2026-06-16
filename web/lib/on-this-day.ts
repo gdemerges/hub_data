@@ -1,5 +1,5 @@
-import type { Film, Game, Book } from './types'
 import type { Accent } from './accents'
+import type { Book, Film, Game } from './types'
 
 // Pas de 'series' : SerieBox n'exporte aucune date de fin de visionnage.
 export type OnThisDayType = 'film' | 'game' | 'book'
@@ -62,7 +62,7 @@ export function eventsOnThisDay(input: OnThisDayInput, today: string): OnThisDay
     title: string,
     accent: Accent,
     raw: string | undefined,
-    subtitle?: string
+    subtitle?: string,
   ) => {
     const d = parseDate(raw)
     if (!d || d.month !== ref.month || d.day !== ref.day) return

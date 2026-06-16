@@ -1,8 +1,8 @@
-import Link from 'next/link'
 import { Target } from 'lucide-react'
-import { SectionCard } from './section-card'
+import Link from 'next/link'
 import { ACCENTS } from '@/lib/accents'
 import type { GoalProgress } from '@/lib/goals'
+import { SectionCard } from './section-card'
 
 interface GoalsSectionProps {
   goals: GoalProgress[]
@@ -20,8 +20,10 @@ export function GoalsSection({ goals, year }: GoalsSectionProps) {
             <li key={goal.key}>
               <Link href={goal.href} className="group block">
                 <div className="flex items-baseline justify-between gap-3 mb-2">
-                  <span className="text-sm font-medium text-text-primary transition-colors group-hover:[color:rgb(var(--g))]"
-                    style={{ ['--g' as string]: rgb }}>
+                  <span
+                    className="text-sm font-medium text-text-primary transition-colors group-hover:[color:rgb(var(--g))]"
+                    style={{ ['--g' as string]: rgb }}
+                  >
                     {goal.label}
                   </span>
                   {goal.undated ? (

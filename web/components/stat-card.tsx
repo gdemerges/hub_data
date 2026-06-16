@@ -1,7 +1,7 @@
+import { ArrowUpRight, type LucideIcon } from 'lucide-react'
+import { ACCENTS, type Accent, accentMeshVars } from '@/lib/accents'
 import { cn } from '@/lib/utils'
-import { type LucideIcon, ArrowUpRight } from 'lucide-react'
 import { MouseGlowCard } from './mouse-glow-card'
-import { ACCENTS, accentMeshVars, type Accent } from '@/lib/accents'
 import { Sparkline } from './sparkline'
 
 interface StatCardProps {
@@ -15,16 +15,20 @@ interface StatCardProps {
   trend?: number[]
 }
 
-export function StatCard({ label, value, icon: Icon, className, color = 'fern', href, trend }: StatCardProps) {
+export function StatCard({
+  label,
+  value,
+  icon: Icon,
+  className,
+  color = 'fern',
+  href,
+  trend,
+}: StatCardProps) {
   const tokens = ACCENTS[color]
 
   const styleVars = accentMeshVars(color)
 
-  const cardClasses = cn(
-    'tech-card p-6 group block',
-    href && 'cursor-pointer',
-    className,
-  )
+  const cardClasses = cn('tech-card p-6 group block', href && 'cursor-pointer', className)
 
   return (
     <MouseGlowCard className={cardClasses} style={styleVars} {...(href ? { href } : {})}>
@@ -42,7 +46,12 @@ export function StatCard({ label, value, icon: Icon, className, color = 'fern', 
         )}
       </div>
 
-      <div className={cn('font-display text-5xl font-medium tracking-tight num leading-none', tokens.text)}>
+      <div
+        className={cn(
+          'font-display text-5xl font-medium tracking-tight num leading-none',
+          tokens.text,
+        )}
+      >
         {typeof value === 'number' ? value.toLocaleString('fr-FR') : value}
       </div>
 
@@ -55,7 +64,9 @@ export function StatCard({ label, value, icon: Icon, className, color = 'fern', 
       <div className="mt-5 flex items-center gap-3">
         <span
           className="h-px flex-1 transition-all duration-500 group-hover:flex-[1.4]"
-          style={{ background: `linear-gradient(to right, rgb(${tokens.accent} / 0.6), transparent)` }}
+          style={{
+            background: `linear-gradient(to right, rgb(${tokens.accent} / 0.6), transparent)`,
+          }}
           aria-hidden
         />
         <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-muted whitespace-nowrap">

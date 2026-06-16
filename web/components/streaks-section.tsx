@@ -1,8 +1,8 @@
 import { Flame } from 'lucide-react'
-import { SectionCard } from './section-card'
 import { ACCENTS, type Accent } from '@/lib/accents'
-import type { StreaksResult } from '@/lib/streaks'
 import type { ActivitySource } from '@/lib/activity'
+import type { StreaksResult } from '@/lib/streaks'
+import { SectionCard } from './section-card'
 
 interface StreaksSectionProps {
   streaks: StreaksResult
@@ -40,8 +40,10 @@ export function StreaksSection({ streaks }: StreaksSectionProps) {
             strokeWidth={1.75}
           />
           <div>
-            <p className="font-display text-4xl font-medium tracking-tight num leading-none"
-              style={{ color: `rgb(${combinedRgb})` }}>
+            <p
+              className="font-display text-4xl font-medium tracking-tight num leading-none"
+              style={{ color: `rgb(${combinedRgb})` }}
+            >
               {combined.current}
             </p>
             <p className="text-[11px] uppercase tracking-[0.16em] text-text-muted mt-1">
@@ -64,8 +66,10 @@ export function StreaksSection({ streaks }: StreaksSectionProps) {
                 className="rounded-xl border border-border-subtle bg-bg-primary px-3 py-2.5"
               >
                 <div className="flex items-baseline gap-1.5">
-                  <span className="font-display text-2xl font-medium num leading-none"
-                    style={{ color: `rgb(${rgb})` }}>
+                  <span
+                    className="font-display text-2xl font-medium num leading-none"
+                    style={{ color: `rgb(${rgb})` }}
+                  >
                     {s.current}
                   </span>
                   <span className="text-[10px] text-text-muted">/ {s.longest} max</span>

@@ -1,19 +1,19 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import {
+  aggregateStats,
+  computePersonalRecords,
+  computeTrainingAnalysis,
   filterActivity,
   filterLabel,
   formatDuration,
   formatPace,
   formatRaceTime,
-  aggregateStats,
-  yearlyStats,
   monthlyTrend,
-  computeTrainingAnalysis,
-  computePersonalRecords,
+  paceDistribution,
   paceProgression,
   runCalendar,
-  paceDistribution,
   type SportActivity,
+  yearlyStats,
 } from './sport'
 
 const mk = (over: Partial<SportActivity> = {}): SportActivity => ({
@@ -53,14 +53,14 @@ describe('monthlyTrend', () => {
   it('buckets a metric into the last N months, chronological', () => {
     const acts = [
       mk({ startDate: '2026-04-10T08:00:00Z', distance: 10 }), // mois courant
-      mk({ startDate: '2026-04-20T08:00:00Z', distance: 5 }),  // mois courant
-      mk({ startDate: '2026-03-01T08:00:00Z', distance: 8 }),  // mois -1
+      mk({ startDate: '2026-04-20T08:00:00Z', distance: 5 }), // mois courant
+      mk({ startDate: '2026-03-01T08:00:00Z', distance: 8 }), // mois -1
     ]
     const trend = monthlyTrend(acts, 'distance', 3, now)
     expect(trend).toHaveLength(3)
     expect(trend[trend.length - 1]).toBe(15) // avril cumulé
-    expect(trend[trend.length - 2]).toBe(8)  // mars
-    expect(trend[0]).toBe(0)                 // février, vide
+    expect(trend[trend.length - 2]).toBe(8) // mars
+    expect(trend[0]).toBe(0) // février, vide
   })
 
   it('ignores activities outside the window', () => {
@@ -113,7 +113,7 @@ describe('yearlyStats', () => {
         mk({ startDate: '2024-07-01T00:00:00Z', distance: 5 }),
         mk({ startDate: '2025-01-01T00:00:00Z', distance: 20 }),
       ],
-      'distance'
+      'distance',
     )
     expect(stats).toEqual([
       { year: 2024, value: 15 },
@@ -122,19 +122,16 @@ describe('yearlyStats', () => {
   })
 
   it('hours mode uses movingTime/60', () => {
-    const stats = yearlyStats(
-      [mk({ startDate: '2025-01-01T00:00:00Z', movingTime: 120 })],
-      'hours'
-    )
+    const stats = yearlyStats([mk({ startDate: '2025-01-01T00:00:00Z', movingTime: 120 })], 'hours')
     expect(stats[0].value).toBe(2)
   })
 })
 
 describe('formatPace', () => {
   it('converts km/h to min/km', () => {
-    expect(formatPace(12)).toBe("5'00\"")
-    expect(formatPace(10)).toBe("6'00\"")
-    expect(formatPace(60 / 5.5)).toBe("5'30\"")
+    expect(formatPace(12)).toBe('5\'00"')
+    expect(formatPace(10)).toBe('6\'00"')
+    expect(formatPace(60 / 5.5)).toBe('5\'30"')
   })
   it('handles invalid speed', () => {
     expect(formatPace(0)).toBe('—')
@@ -142,13 +139,13 @@ describe('formatPace', () => {
   })
   it('rolls 60s over to the next minute', () => {
     // pace 5'59.7" rounds to 6'00", not 5'60"
-    expect(formatPace(60 / 5.995)).toBe("6'00\"")
+    expect(formatPace(60 / 5.995)).toBe('6\'00"')
   })
 })
 
 describe('formatRaceTime', () => {
   it('formats sub-hour as m\'ss"', () => {
-    expect(formatRaceTime(44.5)).toBe("44'30\"")
+    expect(formatRaceTime(44.5)).toBe('44\'30"')
   })
   it('formats over an hour as h"mm', () => {
     expect(formatRaceTime(150)).toBe('2h30')
@@ -201,7 +198,11 @@ describe('paceProgression', () => {
 
   it('normalises each run to a 10k-equivalent pace, chronological', () => {
     // 5 km en 25 min (5'00"/km) → équivalent 10k plus lent (Riegel)
-    const pts = paceProgression([mk({ distance: 5, movingTime: 25, startDate: '2026-04-10T08:00:00Z' })], 3, now)
+    const pts = paceProgression(
+      [mk({ distance: 5, movingTime: 25, startDate: '2026-04-10T08:00:00Z' })],
+      3,
+      now,
+    )
     expect(pts).toHaveLength(3)
     expect(pts[0].equivPace).toBeNull() // février, vide
     expect(pts[pts.length - 1].equivPace).toBeCloseTo(5.21, 1)
@@ -215,7 +216,7 @@ describe('paceProgression', () => {
         mk({ distance: 10, movingTime: 60, startDate: '2024-01-01T08:00:00Z' }),
       ],
       3,
-      now
+      now,
     )
     expect(pts.every((p) => p.equivPace === null)).toBe(true)
   })
@@ -229,7 +230,7 @@ describe('runCalendar', () => {
         mk({ distance: 4, startDate: '2026-06-01T08:00:00' }),
         mk({ distance: 20, startDate: '2025-01-01T08:00:00' }),
       ],
-      2026
+      2026,
     )
     expect(days).toHaveLength(2)
     expect(days.find((d) => d.count === 12)?.level).toBe(3)
@@ -242,7 +243,7 @@ describe('runCalendar', () => {
         mk({ distance: 6, startDate: '2026-05-04T08:00:00' }),
         mk({ distance: 6, startDate: '2026-05-04T18:00:00' }),
       ],
-      2026
+      2026,
     )
     expect(days).toHaveLength(1)
     expect(days[0].count).toBe(12)
@@ -294,7 +295,11 @@ describe('computeTrainingAnalysis', () => {
   })
 
   it('produces success alert when no risk and some volume', () => {
-    const runs = [recent(0, { distance: 8 }), recent(7, { distance: 8 }), recent(14, { distance: 8 })]
+    const runs = [
+      recent(0, { distance: 8 }),
+      recent(7, { distance: 8 }),
+      recent(14, { distance: 8 }),
+    ]
     const a = computeTrainingAnalysis(runs)
     expect(a.alerts.some((x) => x.type === 'success')).toBe(true)
   })

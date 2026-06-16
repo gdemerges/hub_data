@@ -1,5 +1,10 @@
-import { describe, it, expect } from 'vitest'
-import { reposNeedingLanguageRefetch, isCacheFresh, type GitHubCacheData, type GitHubRawRepo } from './github-cache'
+import { describe, expect, it } from 'vitest'
+import {
+  type GitHubCacheData,
+  type GitHubRawRepo,
+  isCacheFresh,
+  reposNeedingLanguageRefetch,
+} from './github-cache'
 
 const repo = (over: Partial<GitHubRawRepo> = {}): GitHubRawRepo => ({
   name: 'r1',

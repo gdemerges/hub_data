@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getGamesData, getFilmsData, getSeriesData, getBooksData } from '@/lib/data'
+import { getBooksData, getFilmsData, getGamesData, getSeriesData } from '@/lib/data'
 import { logger } from '@/lib/logger'
 
 export const revalidate = 3600
@@ -34,16 +34,16 @@ export async function GET() {
       map.get(y)![key]++
     }
 
-    games.forEach(g => bump(g.releaseYear ?? null, 'games'))
-    films.forEach(f => bump(yearOf(f.dateWatched) ?? f.releaseYear ?? null, 'films'))
+    games.forEach((g) => bump(g.releaseYear ?? null, 'games'))
+    films.forEach((f) => bump(yearOf(f.dateWatched) ?? f.releaseYear ?? null, 'films'))
     // Séries sans date de visionnage : cadrées sur l'année de sortie.
-    series.forEach(s => bump(s.releaseYear ?? null, 'series'))
-    books.forEach(b => bump(b.year ?? null, 'books'))
+    series.forEach((s) => bump(s.releaseYear ?? null, 'series'))
+    books.forEach((b) => bump(b.year ?? null, 'books'))
 
     const stats = Array.from(map.values()).sort((a, b) => b.year - a.year)
     return NextResponse.json(
       { stats, hasData: stats.length > 0 },
-      { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } }
+      { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } },
     )
   } catch (e) {
     logger.error('correlations build failed', e)

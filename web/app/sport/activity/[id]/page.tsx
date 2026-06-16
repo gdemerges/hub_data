@@ -1,25 +1,25 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
-import Link from 'next/link'
 import {
-  ArrowLeft,
-  Route,
-  Timer,
-  Mountain,
-  Heart,
-  Flame,
-  TrendingUp,
-  Clock,
-  Zap,
   Activity,
+  ArrowLeft,
   Bike,
+  Clock,
+  Flame,
   Footprints,
   Gauge,
+  Heart,
   type LucideIcon,
+  Mountain,
+  Route,
+  Timer,
+  TrendingUp,
+  Zap,
 } from 'lucide-react'
-import { StatCard, SectionCard } from '@/components'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { SectionCard, StatCard } from '@/components'
 import { formatPace } from '@/lib/sport'
 
 interface ActivityDetail {
@@ -74,16 +74,20 @@ interface ActivityData {
 // Decode polyline (Google's algorithm)
 function decodePolyline(encoded: string): [number, number][] {
   const points: [number, number][] = []
-  let index = 0, lat = 0, lng = 0
+  let index = 0,
+    lat = 0,
+    lng = 0
 
   while (index < encoded.length) {
-    let b = 0, shift = 0, result = 0
+    let b = 0,
+      shift = 0,
+      result = 0
     do {
       b = encoded.charCodeAt(index++) - 63
       result |= (b & 0x1f) << shift
       shift += 5
     } while (b >= 0x20)
-    const dlat = (result & 1) ? ~(result >> 1) : (result >> 1)
+    const dlat = result & 1 ? ~(result >> 1) : result >> 1
     lat += dlat
 
     shift = 0
@@ -93,7 +97,7 @@ function decodePolyline(encoded: string): [number, number][] {
       result |= (b & 0x1f) << shift
       shift += 5
     } while (b >= 0x20)
-    const dlng = (result & 1) ? ~(result >> 1) : (result >> 1)
+    const dlng = result & 1 ? ~(result >> 1) : result >> 1
     lng += dlng
 
     points.push([lat / 1e5, lng / 1e5])
@@ -118,9 +122,12 @@ function typeIcon(type: string): LucideIcon {
 }
 function typeLabel(type: string): string {
   switch (type.toLowerCase()) {
-    case 'run': return 'Course'
-    case 'ride': return 'Vélo'
-    default: return type
+    case 'run':
+      return 'Course'
+    case 'ride':
+      return 'Vélo'
+    default:
+      return type
   }
 }
 
@@ -210,7 +217,9 @@ export default function ActivityPage() {
             <span className="inline-block w-6 h-px bg-earth-rust" aria-hidden />
             {typeLabel(activity.type)}
           </span>
-          <span>{dateLong} · {timeShort}</span>
+          <span>
+            {dateLong} · {timeShort}
+          </span>
         </div>
         <div className="flex items-start gap-4">
           <div
@@ -241,7 +250,7 @@ export default function ActivityPage() {
               height="100%"
               frameBorder="0"
               scrolling="no"
-              src={`https://www.openstreetmap.org/export/embed.html?bbox=${Math.min(...routePoints.map(p => p[1])) - 0.01},${Math.min(...routePoints.map(p => p[0])) - 0.01},${Math.max(...routePoints.map(p => p[1])) + 0.01},${Math.max(...routePoints.map(p => p[0])) + 0.01}&layer=mapnik&marker=${routePoints[0][0]},${routePoints[0][1]}`}
+              src={`https://www.openstreetmap.org/export/embed.html?bbox=${Math.min(...routePoints.map((p) => p[1])) - 0.01},${Math.min(...routePoints.map((p) => p[0])) - 0.01},${Math.max(...routePoints.map((p) => p[1])) + 0.01},${Math.max(...routePoints.map((p) => p[0])) + 0.01}&layer=mapnik&marker=${routePoints[0][0]},${routePoints[0][1]}`}
               className="rounded-2xl"
             />
             <div className="absolute bottom-2 right-2">
@@ -260,29 +269,68 @@ export default function ActivityPage() {
 
       {/* Stats principales */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <StatCard label="Distance" value={`${activity.distance.toFixed(2)} km`} icon={Route} color="rust" />
-        <StatCard label="Durée" value={formatDuration(activity.movingTime)} icon={Timer} color="fern" />
+        <StatCard
+          label="Distance"
+          value={`${activity.distance.toFixed(2)} km`}
+          icon={Route}
+          color="rust"
+        />
+        <StatCard
+          label="Durée"
+          value={formatDuration(activity.movingTime)}
+          icon={Timer}
+          color="fern"
+        />
         <StatCard
           label={isRun ? 'Allure moyenne' : 'Vitesse moyenne'}
-          value={isRun ? `${formatPace(activity.averageSpeed)}/km` : `${activity.averageSpeed.toFixed(1)} km/h`}
+          value={
+            isRun
+              ? `${formatPace(activity.averageSpeed)}/km`
+              : `${activity.averageSpeed.toFixed(1)} km/h`
+          }
           icon={isRun ? Gauge : Zap}
           color="moss"
         />
-        <StatCard label="Dénivelé" value={`${Math.round(activity.totalElevationGain)} m`} icon={Mountain} color="terracotta" />
+        <StatCard
+          label="Dénivelé"
+          value={`${Math.round(activity.totalElevationGain)} m`}
+          icon={Mountain}
+          color="terracotta"
+        />
       </div>
 
       {/* Stats secondaires */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         {activity.averageHeartrate && (
-          <StatCard label="FC moyenne" value={`${Math.round(activity.averageHeartrate)} bpm`} icon={Heart} color="clay" />
+          <StatCard
+            label="FC moyenne"
+            value={`${Math.round(activity.averageHeartrate)} bpm`}
+            icon={Heart}
+            color="clay"
+          />
         )}
         {activity.maxHeartrate && (
-          <StatCard label="FC max" value={`${Math.round(activity.maxHeartrate)} bpm`} icon={Heart} color="clay" />
+          <StatCard
+            label="FC max"
+            value={`${Math.round(activity.maxHeartrate)} bpm`}
+            icon={Heart}
+            color="clay"
+          />
         )}
         {activity.calories && (
-          <StatCard label="Calories" value={`${activity.calories} kcal`} icon={Flame} color="saffron" />
+          <StatCard
+            label="Calories"
+            value={`${activity.calories} kcal`}
+            icon={Flame}
+            color="saffron"
+          />
         )}
-        <StatCard label="Vitesse max" value={`${activity.maxSpeed.toFixed(1)} km/h`} icon={TrendingUp} color="sage" />
+        <StatCard
+          label="Vitesse max"
+          value={`${activity.maxSpeed.toFixed(1)} km/h`}
+          icon={TrendingUp}
+          color="sage"
+        />
       </div>
 
       {/* Splits / laps */}
@@ -296,10 +344,14 @@ export default function ActivityPage() {
                 <div
                   key={lap.lapIndex ?? index}
                   className={`flex items-center gap-4 p-3 rounded-xl border transition-all ${
-                    isFastest ? 'bg-earth-moss/10 border-earth-moss/30' : 'bg-bg-primary border-border-subtle'
+                    isFastest
+                      ? 'bg-earth-moss/10 border-earth-moss/30'
+                      : 'bg-bg-primary border-border-subtle'
                   }`}
                 >
-                  <span className={`w-8 text-center num font-medium ${isFastest ? 'text-earth-moss' : 'text-text-muted'}`}>
+                  <span
+                    className={`w-8 text-center num font-medium ${isFastest ? 'text-earth-moss' : 'text-text-muted'}`}
+                  >
                     {index + 1}
                   </span>
                   <div className="flex-1">
@@ -310,8 +362,12 @@ export default function ActivityPage() {
                       />
                     </div>
                   </div>
-                  <span className={`num font-medium w-20 text-right ${isFastest ? 'text-earth-moss' : 'text-text-primary'}`}>
-                    {isRun ? `${formatPace(lap.averageSpeed)}/km` : `${lap.averageSpeed.toFixed(1)} km/h`}
+                  <span
+                    className={`num font-medium w-20 text-right ${isFastest ? 'text-earth-moss' : 'text-text-primary'}`}
+                  >
+                    {isRun
+                      ? `${formatPace(lap.averageSpeed)}/km`
+                      : `${lap.averageSpeed.toFixed(1)} km/h`}
                   </span>
                   {lap.averageHeartrate && (
                     <span className="num text-sm text-earth-clay/70 w-16 text-right">
@@ -438,7 +494,11 @@ function ProfileChart({
         <div className="flex-1 relative h-40">
           <div className="absolute inset-0 flex flex-col justify-between">
             {[0, 1, 2, 3, 4].map((i) => (
-              <div key={i} className="border-t" style={{ borderColor: 'rgb(var(--dv-grid) / 0.4)' }} />
+              <div
+                key={i}
+                className="border-t"
+                style={{ borderColor: 'rgb(var(--dv-grid) / 0.4)' }}
+              />
             ))}
           </div>
           <svg
@@ -464,7 +524,15 @@ function ProfileChart({
               pathLength={1}
               className="chart-line-draw"
             />
-            <circle cx={ax} cy={ay} r={2.5} fill="rgb(var(--bg-card))" stroke={color} strokeWidth={2} vectorEffect="non-scaling-stroke" />
+            <circle
+              cx={ax}
+              cy={ay}
+              r={2.5}
+              fill="rgb(var(--bg-card))"
+              stroke={color}
+              strokeWidth={2}
+              vectorEffect="non-scaling-stroke"
+            />
           </svg>
         </div>
       </div>

@@ -16,10 +16,7 @@ export interface ApiDataState<T> {
  * Replaces the recurring `useEffect + useState x3 + fetch` pattern.
  * For richer needs (revalidation, dedup), use SWR via `lib/swr-config.tsx`.
  */
-export function useApiData<T>(
-  url: string,
-  opts: { errorMessage?: string } = {}
-): ApiDataState<T> {
+export function useApiData<T>(url: string, opts: { errorMessage?: string } = {}): ApiDataState<T> {
   const [state, setState] = useState<ApiDataState<T>>({
     data: null,
     loading: true,

@@ -1,9 +1,8 @@
-import { NextResponse } from 'next/server'
-import fs from 'node:fs'
-import { promises as fsp } from 'node:fs'
+import fs, { promises as fsp } from 'node:fs'
 import path from 'node:path'
-import { nominatimFetch } from '@/lib/rate-limiter'
+import { NextResponse } from 'next/server'
 import { logger } from '@/lib/logger'
+import { nominatimFetch } from '@/lib/rate-limiter'
 
 interface GeocodeCache {
   [key: string]: {
@@ -21,11 +20,14 @@ interface LocationHistoryItem {
   }
 }
 
-async function reverseGeocode(lat: number, lng: number): Promise<{ city?: string; country?: string }> {
+async function reverseGeocode(
+  lat: number,
+  lng: number,
+): Promise<{ city?: string; country?: string }> {
   try {
     const response = await nominatimFetch(
       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&accept-language=fr`,
-      { headers: { 'User-Agent': 'HubDataApp/1.0' } }
+      { headers: { 'User-Agent': 'HubDataApp/1.0' } },
     )
 
     if (!response.ok) return {}
@@ -35,7 +37,7 @@ async function reverseGeocode(lat: number, lng: number): Promise<{ city?: string
 
     return {
       city: address.city || address.town || address.village || address.municipality,
-      country: address.country
+      country: address.country,
     }
   } catch (err) {
     logger.error('Reverse geocoding error:', err)
@@ -58,7 +60,12 @@ function parseGeoLocation(coordStr: string): { lat: number; lng: number } | null
 export async function POST() {
   try {
     const cacheFile = path.join(process.cwd(), 'data', 'geocode-cache.json')
-    const historyFile = path.join(process.cwd(), 'data', 'location-history', 'location-history.json')
+    const historyFile = path.join(
+      process.cwd(),
+      'data',
+      'location-history',
+      'location-history.json',
+    )
 
     // Load existing cache
     let cache: GeocodeCache = {}
@@ -134,13 +141,10 @@ export async function POST() {
       success: true,
       geocoded,
       totalCached: Object.keys(cache).length,
-      message: `Geocoded ${geocoded} new locations. Total cached: ${Object.keys(cache).length}`
+      message: `Geocoded ${geocoded} new locations. Total cached: ${Object.keys(cache).length}`,
     })
   } catch (error) {
     logger.error('Geocoding error:', error)
-    return NextResponse.json(
-      { error: 'Failed to geocode locations' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to geocode locations' }, { status: 500 })
   }
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { Clock, Star, Target, TrendingDown, TrendingUp, Trophy } from 'lucide-react'
-import { gameHours, type GameStatsData } from '@/lib/media-stats'
+import { type GameStatsData, gameHours } from '@/lib/media-stats'
 import { BacklogList } from './backlog-list'
 import { HoursByDecade } from './hours-by-decade'
 import { KpiRow } from './kpi-row'
@@ -60,9 +60,7 @@ export function GameStats({ stats }: GameStatsProps) {
           metric={(g) => `${g.rating!.toFixed(1)}/20`}
           progress={(g) => (g.rating ?? 0) / 20}
           extra={(g) =>
-            typeof g.avgRating === 'number'
-              ? deltaLabel(g.rating! - g.avgRating)
-              : null
+            typeof g.avgRating === 'number' ? deltaLabel(g.rating! - g.avgRating) : null
           }
         />
       </div>
@@ -106,7 +104,8 @@ function deltaLabel(delta: number): React.ReactNode {
   return (
     <span className={`inline-flex items-center gap-1 ${color}`}>
       <Icon className="w-3 h-3" />
-      {positive ? '+' : ''}{delta.toFixed(1)}
+      {positive ? '+' : ''}
+      {delta.toFixed(1)}
     </span>
   )
 }

@@ -1,24 +1,22 @@
 'use client'
 
-import { useState } from 'react'
+import { ChevronDown, Layers } from 'lucide-react'
 import Image from 'next/image'
-import { Layers, ChevronDown } from 'lucide-react'
+import { useState } from 'react'
 import { gameHours, type SagaStats } from '@/lib/media-stats'
 import type { Game } from '@/lib/types'
 
 export function SagaList({ items }: { items: SagaStats[] }) {
   const [selected, setSelected] = useState<string | null>(null)
   if (!items.length) return null
-  const max = Math.max(...items.map(i => i.hours))
-  const selectedSaga = items.find(s => s.name === selected) ?? null
+  const max = Math.max(...items.map((i) => i.hours))
+  const selectedSaga = items.find((s) => s.name === selected) ?? null
 
   return (
     <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
       <div className="flex items-center gap-3 mb-4">
         <Layers className="w-5 h-5 text-earth-indigo" />
-        <h3 className="text-sm font-semibold text-text-secondary">
-          Heures par saga
-        </h3>
+        <h3 className="text-sm font-semibold text-text-secondary">Heures par saga</h3>
         <span className="text-xs text-text-muted ml-auto">
           {items.length} sagas · min 2 jeux · clique pour déplier
         </span>
@@ -40,18 +38,10 @@ export function SagaList({ items }: { items: SagaStats[] }) {
                   : 'border border-transparent hover:bg-bg-hover'
               }`}
             >
-              <span className="w-5 text-xs font-mono text-text-muted text-right">
-                {i + 1}
-              </span>
+              <span className="w-5 text-xs font-mono text-text-muted text-right">{i + 1}</span>
               <div className="relative w-9 h-12 flex-shrink-0 rounded-md overflow-hidden bg-bg-tertiary border border-border-subtle">
                 {s.cover ? (
-                  <Image
-                    src={s.cover}
-                    alt={s.name}
-                    fill
-                    sizes="36px"
-                    className="object-cover"
-                  />
+                  <Image src={s.cover} alt={s.name} fill sizes="36px" className="object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-[9px] text-text-muted font-display">
                     {s.name.slice(0, 2).toUpperCase()}
@@ -60,12 +50,8 @@ export function SagaList({ items }: { items: SagaStats[] }) {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-baseline justify-between gap-2">
-                  <p className="text-sm text-text-primary truncate font-medium">
-                    {s.name}
-                  </p>
-                  <span className="text-xs font-mono text-text-muted shrink-0">
-                    {s.count} jeux
-                  </span>
+                  <p className="text-sm text-text-primary truncate font-medium">{s.name}</p>
+                  <span className="text-xs font-mono text-text-muted shrink-0">{s.count} jeux</span>
                 </div>
                 <div className="mt-1 flex items-center gap-2">
                   <div className="flex-1 h-1.5 bg-bg-tertiary rounded-full overflow-hidden">
@@ -101,10 +87,7 @@ export function SagaList({ items }: { items: SagaStats[] }) {
           </div>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
             {selectedSaga.games.map((g: Game, idx: number) => (
-              <li
-                key={`${g.title}-${idx}`}
-                className="flex items-center gap-3 py-1.5"
-              >
+              <li key={`${g.title}-${idx}`} className="flex items-center gap-3 py-1.5">
                 <div className="relative w-7 h-10 flex-shrink-0 rounded-sm overflow-hidden bg-bg-tertiary border border-border-subtle">
                   {g.coverUrl ? (
                     <Image
@@ -121,11 +104,9 @@ export function SagaList({ items }: { items: SagaStats[] }) {
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-text-primary truncate">
-                    {g.title}
-                  </p>
+                  <p className="text-sm text-text-primary truncate">{g.title}</p>
                   <p className="text-xs text-text-muted truncate">
-                    {(g.platforms?.map(p => p.platform).join(' · ') ?? g.platform) || '—'}
+                    {(g.platforms?.map((p) => p.platform).join(' · ') ?? g.platform) || '—'}
                   </p>
                 </div>
                 <span className="text-xs font-mono font-semibold text-text-primary shrink-0">

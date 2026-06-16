@@ -1,9 +1,9 @@
 'use client'
 
+import { Award, Check, Edit2, Target, TrendingUp, X } from 'lucide-react'
 import { useState } from 'react'
-import type { RacePrediction, TrainingGoal } from '@/lib/types'
-import { Target, Award, TrendingUp, Edit2, Check, X } from 'lucide-react'
 import { formatPace } from '@/lib/sport'
+import type { RacePrediction, TrainingGoal } from '@/lib/types'
 
 interface RacePredictorProps {
   predictions: RacePrediction[]
@@ -53,7 +53,7 @@ export function RacePredictor({ predictions, onSetGoal }: RacePredictorProps) {
 
   const handleSaveGoal = (distance: number) => {
     // Parse input HH:MM:SS or MM:SS
-    const parts = targetInput.split(':').map(p => parseInt(p, 10))
+    const parts = targetInput.split(':').map((p) => parseInt(p, 10))
     let targetMinutes = 0
 
     if (parts.length === 3) {
@@ -122,15 +122,13 @@ export function RacePredictor({ predictions, onSetGoal }: RacePredictorProps) {
           <h3 className="font-display text-lg font-medium tracking-tight text-text-primary">
             Prédicteur de course
           </h3>
-          <p className="text-xs text-text-muted mt-0.5">
-            Temps estimés via la formule de Riegel
-          </p>
+          <p className="text-xs text-text-muted mt-0.5">Temps estimés via la formule de Riegel</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {RACE_DISTANCES.map(({ distance, label }) => {
-          const prediction = predictions.find(p => p.distance === distance)
+          const prediction = predictions.find((p) => p.distance === distance)
           const goal = goals.get(distance)
 
           if (!prediction) return null
@@ -146,19 +144,25 @@ export function RacePredictor({ predictions, onSetGoal }: RacePredictorProps) {
             >
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h4 className="font-display text-lg font-medium tracking-tight text-text-primary">{label}</h4>
+                  <h4 className="font-display text-lg font-medium tracking-tight text-text-primary">
+                    {label}
+                  </h4>
                   <p className="text-[11px] text-text-muted mt-0.5 num">
                     Allure : {formatPace((distance * 60) / prediction.predictedTime)}/km
                   </p>
                 </div>
-                <div className={`text-[10px] uppercase tracking-[0.18em] font-medium ${getConfidenceColor(prediction.confidence)}`}>
+                <div
+                  className={`text-[10px] uppercase tracking-[0.18em] font-medium ${getConfidenceColor(prediction.confidence)}`}
+                >
                   {prediction.confidence}% conf.
                 </div>
               </div>
 
               {/* Predicted Time */}
               <div className="mb-4">
-                <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-1.5">Temps prédit</p>
+                <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-1.5">
+                  Temps prédit
+                </p>
                 <p className="font-display text-3xl font-medium tracking-tight num text-earth-terracotta leading-none">
                   {formatTime(prediction.predictedTime)}
                 </p>
@@ -170,7 +174,9 @@ export function RacePredictor({ predictions, onSetGoal }: RacePredictorProps) {
                   {goal ? (
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted">Objectif</p>
+                        <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted">
+                          Objectif
+                        </p>
                         <button
                           onClick={() => handleSetGoal(distance)}
                           className="text-earth-fern hover:text-text-primary transition-colors"
@@ -247,9 +253,10 @@ export function RacePredictor({ predictions, onSetGoal }: RacePredictorProps) {
 
       <div className="mt-6 tech-card-flat p-4">
         <p className="text-xs text-text-secondary leading-relaxed">
-          Prédictions via la <span className="text-earth-terracotta font-medium">formule de Riegel</span> ajustée,
-          basées sur tes performances récentes. La confiance dépend du nombre de sorties et de la similarité avec la
-          distance cible.
+          Prédictions via la{' '}
+          <span className="text-earth-terracotta font-medium">formule de Riegel</span> ajustée,
+          basées sur tes performances récentes. La confiance dépend du nombre de sorties et de la
+          similarité avec la distance cible.
         </p>
       </div>
     </div>

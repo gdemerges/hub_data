@@ -1,8 +1,8 @@
 'use client'
 
-import { LineChart, TrendingDown, TrendingUp, Minus } from 'lucide-react'
+import { LineChart, Minus, TrendingDown, TrendingUp } from 'lucide-react'
 import { SectionCard } from '@/components'
-import { paceProgression, formatPace, type SportActivity } from '@/lib/sport'
+import { formatPace, paceProgression, type SportActivity } from '@/lib/sport'
 
 interface Props {
   runs: SportActivity[]
@@ -45,8 +45,7 @@ export function SportPaceProgression({ runs }: Props) {
   const TrendIcon = trend === 'up' ? TrendingUp : trend === 'down' ? TrendingDown : Minus
   const trendColor =
     trend === 'up' ? 'text-earth-moss' : trend === 'down' ? 'text-earth-clay' : 'text-text-muted'
-  const trendLabel =
-    trend === 'up' ? 'En progrès' : trend === 'down' ? 'En recul' : 'Stable'
+  const trendLabel = trend === 'up' ? 'En progrès' : trend === 'down' ? 'En recul' : 'Stable'
 
   return (
     <SectionCard title="Progression d'allure" icon={LineChart} accent="fern">
@@ -65,7 +64,11 @@ export function SportPaceProgression({ runs }: Props) {
         <div className="flex-1 relative h-40">
           <div className="absolute inset-0 flex flex-col justify-between">
             {[0, 1, 2, 3, 4].map((i) => (
-              <div key={i} className="border-t" style={{ borderColor: 'rgb(var(--dv-grid) / 0.4)' }} />
+              <div
+                key={i}
+                className="border-t"
+                style={{ borderColor: 'rgb(var(--dv-grid) / 0.4)' }}
+              />
             ))}
           </div>
           <svg
@@ -96,7 +99,7 @@ export function SportPaceProgression({ runs }: Props) {
                   strokeWidth={2}
                   vectorEffect="non-scaling-stroke"
                 />
-              ) : null
+              ) : null,
             )}
           </svg>
         </div>

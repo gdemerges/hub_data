@@ -1,6 +1,14 @@
 'use client'
 
-import { AlertTriangle, CheckCircle, TrendingDown, TrendingUp, Target, Zap, BarChart3 } from 'lucide-react'
+import {
+  AlertTriangle,
+  BarChart3,
+  CheckCircle,
+  Target,
+  TrendingDown,
+  TrendingUp,
+  Zap,
+} from 'lucide-react'
 import { ExpandableSection } from '@/components'
 import { computeTrainingAnalysis, type SportActivity, type WeeklyVolume } from '@/lib/sport'
 
@@ -28,8 +36,8 @@ export function SportTrainingAnalysis({ runs }: Props) {
                 alert.type === 'danger'
                   ? 'bg-earth-clay/10 border-earth-clay/30 text-earth-clay'
                   : alert.type === 'warning'
-                  ? 'bg-earth-saffron/10 border-earth-saffron/30 text-earth-saffron'
-                  : 'bg-earth-moss/10 border-earth-moss/30 text-earth-moss'
+                    ? 'bg-earth-saffron/10 border-earth-saffron/30 text-earth-saffron'
+                    : 'bg-earth-moss/10 border-earth-moss/30 text-earth-moss'
               }`}
             >
               {alert.type === 'success' ? (
@@ -167,7 +175,9 @@ function WeeklyVolumeChart({ weeks }: { weeks: WeeklyVolume[] }) {
                 aria-label={`Semaine du ${label} : ${w.distance.toFixed(1)} km, ${w.runs} sortie(s)`}
               />
             </div>
-            <span className="text-[9px] uppercase tracking-[0.12em] text-text-muted num">{label}</span>
+            <span className="text-[9px] uppercase tracking-[0.12em] text-text-muted num">
+              {label}
+            </span>
           </div>
         )
       })}
@@ -189,12 +199,16 @@ function MiniStat({
   tone?: 'fern' | 'moss' | 'terracotta'
 }) {
   const valueClass = tone
-    ? { fern: 'text-earth-fern', moss: 'text-earth-moss', terracotta: 'text-earth-terracotta' }[tone]
+    ? { fern: 'text-earth-fern', moss: 'text-earth-moss', terracotta: 'text-earth-terracotta' }[
+        tone
+      ]
     : 'text-text-primary'
   return (
     <div className="tech-card-flat p-4">
       <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-2">{label}</p>
-      <p className={`font-display text-2xl tracking-tight num leading-none ${valueClass}`}>{value}</p>
+      <p className={`font-display text-2xl tracking-tight num leading-none ${valueClass}`}>
+        {value}
+      </p>
       {sub && <p className="text-[11px] text-text-muted mt-2 num">{sub}</p>}
       {extra && <div className="text-[11px] mt-2">{extra}</div>}
     </div>

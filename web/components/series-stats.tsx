@@ -4,8 +4,8 @@ import { BarChart3, Clock, Film, ListChecks, Radio, Star, Tv } from 'lucide-reac
 import Image from 'next/image'
 import { EmptyState } from '@/components/empty-state'
 import { PieChart } from '@/components/pie-chart'
-import { formatWatchHours } from '@/lib/series-time'
 import type { SeriesStatsData } from '@/lib/media-stats'
+import { formatWatchHours } from '@/lib/series-time'
 
 interface SeriesStatsProps {
   stats: SeriesStatsData

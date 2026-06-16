@@ -1,5 +1,4 @@
-import fs from 'node:fs'
-import { promises as fsp } from 'node:fs'
+import fs, { promises as fsp } from 'node:fs'
 import path from 'node:path'
 import { logger } from './logger'
 
@@ -101,10 +100,14 @@ export async function loadRencontres(): Promise<{
 
     for (const p of partners) {
       if (p.ville) villeCount.set(p.ville, (villeCount.get(p.ville) || 0) + 1)
-      if (p.nationalite) nationaliteCount.set(p.nationalite, (nationaliteCount.get(p.nationalite) || 0) + 1)
+      if (p.nationalite)
+        nationaliteCount.set(p.nationalite, (nationaliteCount.get(p.nationalite) || 0) + 1)
       if (p.annee) anneeCount.set(p.annee, (anneeCount.get(p.annee) || 0) + 1)
       if (p.anneeNaissance)
-        anneeNaissanceCount.set(p.anneeNaissance, (anneeNaissanceCount.get(p.anneeNaissance) || 0) + 1)
+        anneeNaissanceCount.set(
+          p.anneeNaissance,
+          (anneeNaissanceCount.get(p.anneeNaissance) || 0) + 1,
+        )
       if (p.genre) genreCount.set(p.genre, (genreCount.get(p.genre) || 0) + 1)
 
       if (p.annee && p.anneeNaissance) {
@@ -151,10 +154,10 @@ export async function loadRencontres(): Promise<{
     const ageAvg = ages.length ? ages.reduce((s, a) => s + a, 0) / ages.length : 0
     const ageMin = ages.length ? Math.min(...ages) : 0
     const ageMax = ages.length ? Math.max(...ages) : 0
-    const ageDistribution = AGE_BUCKET_ORDER.map(bucket => ({
+    const ageDistribution = AGE_BUCKET_ORDER.map((bucket) => ({
       bucket,
       count: ageBuckets.get(bucket) || 0,
-    })).filter(b => b.count > 0)
+    })).filter((b) => b.count > 0)
 
     const stats: RencontresStats = {
       total: partners.length,

@@ -26,7 +26,7 @@ export function EmptyState({
       className={cn(
         'flex flex-col items-center justify-center text-center gap-3 px-6 py-10',
         variant === 'card' && 'tech-card-flat',
-        className
+        className,
       )}
     >
       <div className="gradient-mesh p-3 rounded-2xl border border-border-subtle shadow-soft">

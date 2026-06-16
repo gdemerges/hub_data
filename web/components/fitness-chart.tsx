@@ -1,7 +1,7 @@
 'use client'
 
+import { Activity, TrendingUp, Zap } from 'lucide-react'
 import type { FitnessMetrics } from '@/lib/types'
-import { TrendingUp, Activity, Zap } from 'lucide-react'
 import { EmptyState } from './empty-state'
 
 // CTL = indigo (dv-4), ATL = terracotta (dv-2), TSB = moss (dv-1).
@@ -60,14 +60,27 @@ export function FitnessChart({ data }: FitnessChartProps) {
   })
 
   const linePoints = (key: 'ctl' | 'atl' | 'tsb') =>
-    sampledData.map((_, i) => { const p = coord(key, i); return `${p.x},${p.y}` }).join(' ')
+    sampledData
+      .map((_, i) => {
+        const p = coord(key, i)
+        return `${p.x},${p.y}`
+      })
+      .join(' ')
 
   // Annotations : pic de forme (CTL max) et creux de fraîcheur (TSB min).
   const peakCtlIdx = sampledData.reduce((b, d, i) => (d.ctl > sampledData[b].ctl ? i : b), 0)
   const lowTsbIdx = sampledData.reduce((b, d, i) => (d.tsb < sampledData[b].tsb ? i : b), 0)
   const annotations = [
-    { ...coord('ctl', peakCtlIdx), color: C_CTL, label: `Pic ${sampledData[peakCtlIdx].ctl.toFixed(0)}` },
-    { ...coord('tsb', lowTsbIdx), color: 'rgb(var(--dv-7))', label: `Fatigue ${sampledData[lowTsbIdx].tsb.toFixed(0)}` },
+    {
+      ...coord('ctl', peakCtlIdx),
+      color: C_CTL,
+      label: `Pic ${sampledData[peakCtlIdx].ctl.toFixed(0)}`,
+    },
+    {
+      ...coord('tsb', lowTsbIdx),
+      color: 'rgb(var(--dv-7))',
+      label: `Fatigue ${sampledData[lowTsbIdx].tsb.toFixed(0)}`,
+    },
   ]
 
   return (
@@ -86,7 +99,9 @@ export function FitnessChart({ data }: FitnessChartProps) {
 
       <div className="grid grid-cols-3 gap-3 mb-6">
         <div className="tech-card-flat p-4">
-          <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-2">CTL · Fitness</p>
+          <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-2">
+            CTL · Fitness
+          </p>
           <p
             className="font-display text-3xl font-medium tracking-tight num leading-none"
             style={{ color: C_CTL }}
@@ -96,7 +111,9 @@ export function FitnessChart({ data }: FitnessChartProps) {
           <p className="text-[11px] text-text-muted mt-2">Forme long terme</p>
         </div>
         <div className="tech-card-flat p-4">
-          <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-2">ATL · Fatigue</p>
+          <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted mb-2">
+            ATL · Fatigue
+          </p>
           <p
             className="font-display text-3xl font-medium tracking-tight num leading-none"
             style={{ color: C_ATL }}
@@ -107,7 +124,11 @@ export function FitnessChart({ data }: FitnessChartProps) {
         </div>
         <div className="tech-card-flat p-4">
           <div className="flex items-center gap-2 mb-2">
-            <StatusIcon className="w-3.5 h-3.5" strokeWidth={1.75} style={{ color: formStatus.color }} />
+            <StatusIcon
+              className="w-3.5 h-3.5"
+              strokeWidth={1.75}
+              style={{ color: formStatus.color }}
+            />
             <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted">TSB · Forme</p>
           </div>
           <p
@@ -126,7 +147,11 @@ export function FitnessChart({ data }: FitnessChartProps) {
       <div className="relative" style={{ height: chartHeight }}>
         <div className="absolute inset-0 flex flex-col justify-between">
           {[0, 1, 2, 3, 4].map((i) => (
-            <div key={i} className="border-t" style={{ borderColor: 'rgb(var(--dv-grid) / 0.4)' }} />
+            <div
+              key={i}
+              className="border-t"
+              style={{ borderColor: 'rgb(var(--dv-grid) / 0.4)' }}
+            />
           ))}
         </div>
 
@@ -140,9 +165,9 @@ export function FitnessChart({ data }: FitnessChartProps) {
           preserveAspectRatio="none"
           role="img"
           aria-label={`Courbe de forme sur 90 jours — CTL (forme) ${Math.round(
-            latestMetrics.ctl
+            latestMetrics.ctl,
           )}, ATL (fatigue) ${Math.round(latestMetrics.atl)}, TSB (fraîcheur) ${Math.round(
-            latestMetrics.tsb
+            latestMetrics.tsb,
           )}`}
         >
           <polyline

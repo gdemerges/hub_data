@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import { Star } from 'lucide-react'
+import Image from 'next/image'
 import { gameStatus } from '@/lib/media-stats'
 import type { Game } from '@/lib/types'
 
@@ -13,16 +13,14 @@ export function BacklogList({ games }: { games: Game[] }) {
     groups.get(s)!.push(g)
   }
   const ordered = ['Wishé', 'Jamais joué', 'Inconnu']
-    .filter(s => groups.has(s))
-    .map(s => [s, groups.get(s)!] as const)
+    .filter((s) => groups.has(s))
+    .map((s) => [s, groups.get(s)!] as const)
 
   return (
     <div className="bg-bg-card border border-border-subtle rounded-2xl p-6">
       <div className="flex items-center gap-3 mb-4">
         <Star className="w-5 h-5 text-earth-saffron" />
-        <h3 className="text-sm font-semibold text-text-secondary">
-          Backlog &amp; wishlist
-        </h3>
+        <h3 className="text-sm font-semibold text-text-secondary">Backlog &amp; wishlist</h3>
         <span className="text-xs text-text-muted ml-auto">
           {games.length} jeux · exclus des stats
         </span>
@@ -31,9 +29,7 @@ export function BacklogList({ games }: { games: Game[] }) {
         {ordered.map(([status, gs]) => (
           <div key={status}>
             <div className="flex items-baseline gap-2 mb-2">
-              <span className="text-sm font-semibold text-text-primary">
-                {status}
-              </span>
+              <span className="text-sm font-semibold text-text-primary">{status}</span>
               <span className="text-xs text-text-muted">{gs.length}</span>
             </div>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
@@ -57,7 +53,7 @@ export function BacklogList({ games }: { games: Game[] }) {
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-text-primary truncate">{g.title}</p>
                     <p className="text-xs text-text-muted truncate">
-                      {(g.platforms?.map(p => p.platform).join(' · ') ?? g.platform) || '—'}
+                      {(g.platforms?.map((p) => p.platform).join(' · ') ?? g.platform) || '—'}
                     </p>
                   </div>
                 </li>

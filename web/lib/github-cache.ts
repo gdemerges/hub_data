@@ -40,7 +40,7 @@ export const isCacheFresh = cache.isFresh
 export function reposNeedingLanguageRefetch(
   freshRepos: GitHubRawRepo[],
   existingData: GitHubCacheData | null,
-  username: string
+  username: string,
 ): GitHubRawRepo[] {
   if (!existingData) return freshRepos
   return freshRepos.filter((repo) => {

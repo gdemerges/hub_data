@@ -1,7 +1,10 @@
 type Level = 'debug' | 'info' | 'warn' | 'error'
 
 const LEVELS: Record<Level, number> = { debug: 10, info: 20, warn: 30, error: 40 }
-const THRESHOLD = LEVELS[(process.env.LOG_LEVEL as Level) ?? (process.env.NODE_ENV === 'production' ? 'info' : 'debug')]
+const THRESHOLD =
+  LEVELS[
+    (process.env.LOG_LEVEL as Level) ?? (process.env.NODE_ENV === 'production' ? 'info' : 'debug')
+  ]
 const PRETTY = process.env.NODE_ENV !== 'production'
 
 function serializeArg(arg: unknown): unknown {
@@ -31,7 +34,12 @@ function format(level: Level, scope: string | undefined, args: unknown[]): strin
   }
 
   if (PRETTY) {
-    const colors: Record<Level, string> = { debug: '\x1b[90m', info: '\x1b[36m', warn: '\x1b[33m', error: '\x1b[31m' }
+    const colors: Record<Level, string> = {
+      debug: '\x1b[90m',
+      info: '\x1b[36m',
+      warn: '\x1b[33m',
+      error: '\x1b[31m',
+    }
     const reset = '\x1b[0m'
     const tag = scope ? `[${scope}] ` : ''
     const extra = Object.keys(data).length ? ` ${JSON.stringify(data)}` : ''
@@ -61,11 +69,16 @@ const counters = new Map<string, number>()
 
 function metricKey(name: string, tags?: Record<string, string | number | boolean>): string {
   if (!tags) return name
-  const parts = Object.keys(tags).sort().map((k) => `${k}=${tags[k]}`)
+  const parts = Object.keys(tags)
+    .sort()
+    .map((k) => `${k}=${tags[k]}`)
   return `${name}{${parts.join(',')}}`
 }
 
-function emitMetric(name: string, tags: Record<string, string | number | boolean> | undefined): void {
+function emitMetric(
+  name: string,
+  tags: Record<string, string | number | boolean> | undefined,
+): void {
   const key = metricKey(name, tags)
   const value = (counters.get(key) ?? 0) + 1
   counters.set(key, value)

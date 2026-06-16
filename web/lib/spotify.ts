@@ -2,17 +2,16 @@ import 'server-only'
 import fs from 'node:fs'
 import path from 'node:path'
 import type { z } from 'zod'
-
-import { readFileCache, writeFileCache, isCacheFresh } from './file-cache'
-import { TokenCache } from './token-cache'
 import {
-  spotifyProfileSchema,
-  spotifyPaginatedSchema,
-  spotifyTrackSchema,
   spotifyArtistSchema,
+  spotifyPaginatedSchema,
+  spotifyProfileSchema,
   spotifyRecentlyPlayedItemSchema,
+  spotifyTrackSchema,
 } from './api-schemas'
+import { isCacheFresh, readFileCache, writeFileCache } from './file-cache'
 import { logger } from './logger'
+import { TokenCache } from './token-cache'
 import type { SpotifyData } from './types'
 
 const SPOTIFY_TOKEN_URL = 'https://accounts.spotify.com/api/token'
@@ -26,9 +25,9 @@ type SpotifyTrackRaw = z.infer<typeof spotifyTrackSchema>
 const tokenCache = new TokenCache()
 
 function mapTracks(items: SpotifyTrackRaw[]) {
-  return items.map(track => ({
+  return items.map((track) => ({
     name: track.name,
-    artist: track.artists.map(a => a.name).join(', '),
+    artist: track.artists.map((a) => a.name).join(', '),
     album: track.album.name,
     albumCover: track.album.images[0]?.url ?? '',
     duration: track.duration_ms,
@@ -38,7 +37,7 @@ function mapTracks(items: SpotifyTrackRaw[]) {
 }
 
 function mapArtists(items: SpotifyArtist[]) {
-  return items.map(artist => ({
+  return items.map((artist) => ({
     name: artist.name,
     image: artist.images[0]?.url ?? '',
     genres: artist.genres.slice(0, 3),
@@ -121,7 +120,11 @@ async function getAccessToken(): Promise<string | null> {
   }
 }
 
-export async function loadSpotify({ force = false }: { force?: boolean } = {}): Promise<SpotifyData | null> {
+export async function loadSpotify({
+  force = false,
+}: {
+  force?: boolean
+} = {}): Promise<SpotifyData | null> {
   const cached = await readFileCache<SpotifyData>(SPOTIFY_CACHE_FILE)
   if (!force && cached && isCacheFresh(cached.cachedAt, SPOTIFY_CACHE_TTL)) {
     return cached.data
@@ -143,29 +146,41 @@ export async function loadSpotify({ force = false }: { force?: boolean } = {}): 
 
     const [
       profileRes,
-      tracksShortRes, tracksMedRes, tracksLongRes,
-      artistsShortRes, artistsMedRes, artistsLongRes,
+      tracksShortRes,
+      tracksMedRes,
+      tracksLongRes,
+      artistsShortRes,
+      artistsMedRes,
+      artistsLongRes,
       recentlyPlayedRes,
     ] = await Promise.all([
       fetch(`${SPOTIFY_API_URL}/me`, { headers }),
-      ...ranges.map(r =>
-        fetch(`${SPOTIFY_API_URL}/me/top/tracks?limit=20&time_range=${r}`, { headers })
+      ...ranges.map((r) =>
+        fetch(`${SPOTIFY_API_URL}/me/top/tracks?limit=20&time_range=${r}`, { headers }),
       ),
-      ...ranges.map(r =>
-        fetch(`${SPOTIFY_API_URL}/me/top/artists?limit=20&time_range=${r}`, { headers })
+      ...ranges.map((r) =>
+        fetch(`${SPOTIFY_API_URL}/me/top/artists?limit=20&time_range=${r}`, { headers }),
       ),
       fetch(`${SPOTIFY_API_URL}/me/player/recently-played?limit=50`, { headers }),
     ])
 
     const [
       profileRaw,
-      tracksShortRaw, tracksMedRaw, tracksLongRaw,
-      artistsShortRaw, artistsMedRaw, artistsLongRaw,
+      tracksShortRaw,
+      tracksMedRaw,
+      tracksLongRaw,
+      artistsShortRaw,
+      artistsMedRaw,
+      artistsLongRaw,
       recentlyPlayedRaw,
     ] = await Promise.all([
       profileRes.json(),
-      tracksShortRes.json(), tracksMedRes.json(), tracksLongRes.json(),
-      artistsShortRes.json(), artistsMedRes.json(), artistsLongRes.json(),
+      tracksShortRes.json(),
+      tracksMedRes.json(),
+      tracksLongRes.json(),
+      artistsShortRes.json(),
+      artistsMedRes.json(),
+      artistsLongRes.json(),
       recentlyPlayedRes.json(),
     ])
 
@@ -176,7 +191,9 @@ export async function loadSpotify({ force = false }: { force?: boolean } = {}): 
     const artistsShort = spotifyPaginatedSchema(spotifyArtistSchema).parse(artistsShortRaw)
     const artistsMed = spotifyPaginatedSchema(spotifyArtistSchema).parse(artistsMedRaw)
     const artistsLong = spotifyPaginatedSchema(spotifyArtistSchema).parse(artistsLongRaw)
-    const recentlyPlayed = spotifyPaginatedSchema(spotifyRecentlyPlayedItemSchema).parse(recentlyPlayedRaw)
+    const recentlyPlayed = spotifyPaginatedSchema(spotifyRecentlyPlayedItemSchema).parse(
+      recentlyPlayedRaw,
+    )
 
     // Spotify deprecated /v1/artists for new apps in Nov 2024 (403), so genres
     // are no longer obtainable. We compute a Top albums section from the top
@@ -209,7 +226,7 @@ export async function loadSpotify({ force = false }: { force?: boolean } = {}): 
       else
         albumMap.set(key, {
           name: tr.album.name,
-          artist: tr.artists.map(a => a.name).join(', '),
+          artist: tr.artists.map((a) => a.name).join(', '),
           cover: tr.album.images[0]?.url ?? '',
           count: 1,
         })

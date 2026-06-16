@@ -62,9 +62,7 @@ export function getClientEnv(): ClientEnv {
  * Check that a set of env vars are present, returning them or null.
  * Useful in API routes to bail early with a clear message.
  */
-export function requireEnv<K extends keyof ServerEnv>(
-  ...keys: K[]
-): Pick<ServerEnv, K> | null {
+export function requireEnv<K extends keyof ServerEnv>(...keys: K[]): Pick<ServerEnv, K> | null {
   const env = getServerEnv()
   for (const key of keys) {
     if (!env[key]) return null

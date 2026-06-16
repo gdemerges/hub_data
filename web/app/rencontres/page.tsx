@@ -1,9 +1,9 @@
-import { Heart, MapPin, Globe, TrendingUp, Hourglass, Users, Cake } from 'lucide-react'
 import { HeartHalf } from '@phosphor-icons/react/dist/ssr'
-import { PieChart, PageHeader } from '@/components'
+import { Cake, Globe, Heart, Hourglass, MapPin, TrendingUp, Users } from 'lucide-react'
+import { PageHeader, PieChart } from '@/components'
 import { NationalityMapLazy as NationalityMap } from '@/components/nationality-map-lazy'
-import { loadRencontres } from '@/lib/rencontres-loader'
 import { seriesColor } from '@/lib/chart'
+import { loadRencontres } from '@/lib/rencontres-loader'
 
 export const revalidate = 3600
 
@@ -28,7 +28,8 @@ export default async function RencontresPage() {
               Pas de données
             </h2>
             <p className="text-text-secondary text-sm">
-              Le fichier <code className="font-mono text-xs">partners.csv</code> est introuvable ou vide.
+              Le fichier <code className="font-mono text-xs">partners.csv</code> est introuvable ou
+              vide.
             </p>
           </div>
         </div>
@@ -166,7 +167,10 @@ const ICON_BG: Record<string, string> = {
 }
 
 function SectionTitle({
-  icon, color, title, subtitle,
+  icon,
+  color,
+  title,
+  subtitle,
 }: {
   icon: React.ReactNode
   color: string
@@ -176,22 +180,22 @@ function SectionTitle({
   const bg = ICON_BG[color] ?? ICON_BG.moss
   return (
     <div className="flex items-center gap-3 mb-5">
-      <div className={`p-2 border rounded ${bg}`}>
-        {icon}
-      </div>
+      <div className={`p-2 border rounded ${bg}`}>{icon}</div>
       <div>
         <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
           {title}
         </h3>
-        {subtitle && (
-          <p className="text-xs font-mono text-text-tertiary mt-0.5">{subtitle}</p>
-        )}
+        {subtitle && <p className="text-xs font-mono text-text-tertiary mt-0.5">{subtitle}</p>}
       </div>
     </div>
   )
 }
 
-function KpiStrip({ stats }: { stats: NonNullable<Awaited<ReturnType<typeof loadRencontres>>['stats']> }) {
+function KpiStrip({
+  stats,
+}: {
+  stats: NonNullable<Awaited<ReturnType<typeof loadRencontres>>['stats']>
+}) {
   const items: { label: string; value: string; hint?: string }[] = [
     {
       label: 'Total',
@@ -237,7 +241,10 @@ function KpiStrip({ stats }: { stats: NonNullable<Awaited<ReturnType<typeof load
             {it.value}
           </div>
           {it.hint && (
-            <div className="font-mono text-[10px] text-text-tertiary mt-1.5 truncate" title={it.hint}>
+            <div
+              className="font-mono text-[10px] text-text-tertiary mt-1.5 truncate"
+              title={it.hint}
+            >
               {it.hint}
             </div>
           )}
@@ -259,20 +266,17 @@ function CumulativeChart({ data }: { data: { annee: number; total: number }[] })
   const maxTotal = data[data.length - 1].total
   const yearRange = Math.max(maxYear - minYear, 1)
 
-  const xFor = (y: number) =>
-    padX + ((y - minYear) / yearRange) * (width - padX * 2)
-  const yFor = (v: number) =>
-    height - padY - (v / Math.max(maxTotal, 1)) * (height - padY * 2)
+  const xFor = (y: number) => padX + ((y - minYear) / yearRange) * (width - padX * 2)
+  const yFor = (v: number) => height - padY - (v / Math.max(maxTotal, 1)) * (height - padY * 2)
 
   const linePath = data
     .map((d, i) => `${i === 0 ? 'M' : 'L'} ${xFor(d.annee).toFixed(1)} ${yFor(d.total).toFixed(1)}`)
     .join(' ')
 
-  const areaPath =
-    `${linePath} L ${xFor(maxYear).toFixed(1)} ${height - padY} L ${xFor(minYear).toFixed(1)} ${height - padY} Z`
+  const areaPath = `${linePath} L ${xFor(maxYear).toFixed(1)} ${height - padY} L ${xFor(minYear).toFixed(1)} ${height - padY} Z`
 
   // Y axis ticks: 0, 25%, 50%, 75%, 100%
-  const yTicks = [0, 0.25, 0.5, 0.75, 1].map(t => ({
+  const yTicks = [0, 0.25, 0.5, 0.75, 1].map((t) => ({
     pct: t,
     value: Math.round(maxTotal * t),
     y: yFor(maxTotal * t),
@@ -321,13 +325,7 @@ function CumulativeChart({ data }: { data: { annee: number; total: number }[] })
         <path d={areaPath} fill="url(#cumul-fill)" />
         <path d={linePath} fill="none" stroke="#5a7d4a" strokeWidth="1.75" strokeLinejoin="round" />
         {data.map((d) => (
-          <circle
-            key={d.annee}
-            cx={xFor(d.annee)}
-            cy={yFor(d.total)}
-            r="2.5"
-            fill="#5a7d4a"
-          >
+          <circle key={d.annee} cx={xFor(d.annee)} cy={yFor(d.total)} r="2.5" fill="#5a7d4a">
             <title>{`${d.annee} · ${d.total} cumulées`}</title>
           </circle>
         ))}
@@ -351,13 +349,16 @@ function CumulativeChart({ data }: { data: { annee: number; total: number }[] })
 }
 
 function YearBars({ data }: { data: { annee: number; count: number }[] }) {
-  const max = Math.max(...data.map(d => d.count), 1)
+  const max = Math.max(...data.map((d) => d.count), 1)
   return (
     <div className="flex items-end gap-1.5 h-48">
       {data.map((d) => {
         const h = (d.count / max) * 100
         return (
-          <div key={d.annee} className="flex-1 h-full flex flex-col items-center justify-end gap-1.5 min-w-0">
+          <div
+            key={d.annee}
+            className="flex-1 h-full flex flex-col items-center justify-end gap-1.5 min-w-0"
+          >
             <span className="font-mono text-[10px] text-earth-saffron tabular-nums">
               {d.count > 0 ? d.count : ''}
             </span>
@@ -378,15 +379,20 @@ function YearBars({ data }: { data: { annee: number; count: number }[] }) {
 
 function AgeBars({ data }: { data: { bucket: string; count: number }[] }) {
   if (data.length === 0) {
-    return <div className="text-sm text-text-tertiary py-8 text-center">Pas assez de données d'âge</div>
+    return (
+      <div className="text-sm text-text-tertiary py-8 text-center">Pas assez de données d'âge</div>
+    )
   }
-  const max = Math.max(...data.map(d => d.count), 1)
+  const max = Math.max(...data.map((d) => d.count), 1)
   return (
     <div className="flex items-end gap-3 h-48">
       {data.map((d) => {
         const h = (d.count / max) * 100
         return (
-          <div key={d.bucket} className="flex-1 h-full flex flex-col items-center justify-end gap-1.5">
+          <div
+            key={d.bucket}
+            className="flex-1 h-full flex flex-col items-center justify-end gap-1.5"
+          >
             <span className="font-mono text-[10px] text-earth-indigo tabular-nums">{d.count}</span>
             <div
               className="w-full bg-gradient-to-t from-earth-indigo/40 to-earth-indigo rounded-t"

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getGamesData, getFilmsData, getSeriesData, getBooksData } from '@/lib/data'
+import { getBooksData, getFilmsData, getGamesData, getSeriesData } from '@/lib/data'
 import { logger } from '@/lib/logger'
 
 export const revalidate = 3600
@@ -26,38 +26,46 @@ async function buildIndex(): Promise<SearchItem[]> {
 
   const items: SearchItem[] = []
 
-  games.forEach((g, i) => items.push({
-    id: `games-${i}`,
-    title: g.title,
-    section: 'games',
-    href: `/games?open=${encodeURIComponent(g.title)}`,
-    subtitle: g.platform ?? g.platforms?.[0]?.platform,
-    year: g.releaseYear,
-  }))
-  films.forEach((f, i) => items.push({
-    id: `films-${i}`,
-    title: f.title,
-    section: 'films',
-    href: `/films?open=${encodeURIComponent(f.title)}`,
-    subtitle: f.genres?.[0],
-    year: f.releaseYear,
-  }))
-  series.forEach((s, i) => items.push({
-    id: `series-${i}`,
-    title: s.title,
-    section: 'series',
-    href: `/series?open=${encodeURIComponent(s.title)}`,
-    subtitle: s.genres?.[0],
-    year: s.releaseYear,
-  }))
-  books.forEach((b, i) => items.push({
-    id: `books-${i}`,
-    title: b.title,
-    section: 'books',
-    href: '/books',
-    subtitle: b.author,
-    year: b.year,
-  }))
+  games.forEach((g, i) =>
+    items.push({
+      id: `games-${i}`,
+      title: g.title,
+      section: 'games',
+      href: `/games?open=${encodeURIComponent(g.title)}`,
+      subtitle: g.platform ?? g.platforms?.[0]?.platform,
+      year: g.releaseYear,
+    }),
+  )
+  films.forEach((f, i) =>
+    items.push({
+      id: `films-${i}`,
+      title: f.title,
+      section: 'films',
+      href: `/films?open=${encodeURIComponent(f.title)}`,
+      subtitle: f.genres?.[0],
+      year: f.releaseYear,
+    }),
+  )
+  series.forEach((s, i) =>
+    items.push({
+      id: `series-${i}`,
+      title: s.title,
+      section: 'series',
+      href: `/series?open=${encodeURIComponent(s.title)}`,
+      subtitle: s.genres?.[0],
+      year: s.releaseYear,
+    }),
+  )
+  books.forEach((b, i) =>
+    items.push({
+      id: `books-${i}`,
+      title: b.title,
+      section: 'books',
+      href: '/books',
+      subtitle: b.author,
+      year: b.year,
+    }),
+  )
 
   return items
 }
@@ -70,7 +78,7 @@ export async function GET() {
     }
     return NextResponse.json(
       { items: cache.items },
-      { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } }
+      { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' } },
     )
   } catch (e) {
     logger.error('search index build failed', e)

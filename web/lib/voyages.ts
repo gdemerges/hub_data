@@ -1,10 +1,9 @@
 import 'server-only'
-import fs from 'node:fs'
-import { promises as fsp } from 'node:fs'
+import fs, { promises as fsp } from 'node:fs'
 import path from 'node:path'
-import { nominatimFetch } from './rate-limiter'
-import { readFileCache, writeFileCache, isCacheFresh } from './file-cache'
+import { isCacheFresh, readFileCache, writeFileCache } from './file-cache'
 import { logger } from './logger'
+import { nominatimFetch } from './rate-limiter'
 
 export interface TravelStats {
   totalPlaces: number
@@ -30,47 +29,140 @@ export interface TravelStats {
 
 const COUNTRY_TO_CONTINENT: Record<string, string> = {
   // Europe
-  'France': 'Europe', 'Suisse': 'Europe', 'Royaume-Uni': 'Europe', 'Italie': 'Europe',
-  'Espagne': 'Europe', 'Allemagne': 'Europe', 'Belgique': 'Europe', 'Pays-Bas': 'Europe',
-  'Portugal': 'Europe', 'Autriche': 'Europe', 'Grèce': 'Europe', 'Pologne': 'Europe',
-  'République tchèque': 'Europe', 'Hongrie': 'Europe', 'Irlande': 'Europe', 'Danemark': 'Europe',
-  'Suède': 'Europe', 'Norvège': 'Europe', 'Finlande': 'Europe', 'Islande': 'Europe',
-  'Croatie': 'Europe', 'Slovénie': 'Europe', 'Slovaquie': 'Europe', 'Roumanie': 'Europe',
-  'Bulgarie': 'Europe', 'Luxembourg': 'Europe', 'Monaco': 'Europe', 'Vatican': 'Europe',
-  'Malte': 'Europe', 'Chypre': 'Europe', 'Estonie': 'Europe', 'Lettonie': 'Europe',
-  'Lituanie': 'Europe', 'Albanie': 'Europe', 'Serbie': 'Europe', 'Bosnie-Herzégovine': 'Europe',
-  'Macédoine du Nord': 'Europe', 'Monténégro': 'Europe', 'Kosovo': 'Europe', 'Ukraine': 'Europe',
-  'Moldavie': 'Europe', 'Biélorussie': 'Europe', 'Russie': 'Europe', 'Turquie': 'Europe',
-  'Andorre': 'Europe', 'Saint-Marin': 'Europe', 'Liechtenstein': 'Europe',
+  France: 'Europe',
+  Suisse: 'Europe',
+  'Royaume-Uni': 'Europe',
+  Italie: 'Europe',
+  Espagne: 'Europe',
+  Allemagne: 'Europe',
+  Belgique: 'Europe',
+  'Pays-Bas': 'Europe',
+  Portugal: 'Europe',
+  Autriche: 'Europe',
+  Grèce: 'Europe',
+  Pologne: 'Europe',
+  'République tchèque': 'Europe',
+  Hongrie: 'Europe',
+  Irlande: 'Europe',
+  Danemark: 'Europe',
+  Suède: 'Europe',
+  Norvège: 'Europe',
+  Finlande: 'Europe',
+  Islande: 'Europe',
+  Croatie: 'Europe',
+  Slovénie: 'Europe',
+  Slovaquie: 'Europe',
+  Roumanie: 'Europe',
+  Bulgarie: 'Europe',
+  Luxembourg: 'Europe',
+  Monaco: 'Europe',
+  Vatican: 'Europe',
+  Malte: 'Europe',
+  Chypre: 'Europe',
+  Estonie: 'Europe',
+  Lettonie: 'Europe',
+  Lituanie: 'Europe',
+  Albanie: 'Europe',
+  Serbie: 'Europe',
+  'Bosnie-Herzégovine': 'Europe',
+  'Macédoine du Nord': 'Europe',
+  Monténégro: 'Europe',
+  Kosovo: 'Europe',
+  Ukraine: 'Europe',
+  Moldavie: 'Europe',
+  Biélorussie: 'Europe',
+  Russie: 'Europe',
+  Turquie: 'Europe',
+  Andorre: 'Europe',
+  'Saint-Marin': 'Europe',
+  Liechtenstein: 'Europe',
   // Asie
-  'Japon': 'Asie', 'Chine': 'Asie', 'Thaïlande': 'Asie', 'Vietnam': 'Asie',
-  'Inde': 'Asie', 'Singapour': 'Asie', 'Corée du Sud': 'Asie', 'Corée du Nord': 'Asie',
-  'Indonésie': 'Asie', 'Cambodge': 'Asie', 'Laos': 'Asie', 'Malaisie': 'Asie',
-  'Philippines': 'Asie', 'Taïwan': 'Asie', 'Sri Lanka': 'Asie', 'Népal': 'Asie',
-  'Bhoutan': 'Asie', 'Birmanie': 'Asie', 'Myanmar': 'Asie', 'Bangladesh': 'Asie',
-  'Pakistan': 'Asie', 'Mongolie': 'Asie', 'Kazakhstan': 'Asie', 'Ouzbékistan': 'Asie',
-  'Hong Kong': 'Asie', 'Macao': 'Asie',
+  Japon: 'Asie',
+  Chine: 'Asie',
+  Thaïlande: 'Asie',
+  Vietnam: 'Asie',
+  Inde: 'Asie',
+  Singapour: 'Asie',
+  'Corée du Sud': 'Asie',
+  'Corée du Nord': 'Asie',
+  Indonésie: 'Asie',
+  Cambodge: 'Asie',
+  Laos: 'Asie',
+  Malaisie: 'Asie',
+  Philippines: 'Asie',
+  Taïwan: 'Asie',
+  'Sri Lanka': 'Asie',
+  Népal: 'Asie',
+  Bhoutan: 'Asie',
+  Birmanie: 'Asie',
+  Myanmar: 'Asie',
+  Bangladesh: 'Asie',
+  Pakistan: 'Asie',
+  Mongolie: 'Asie',
+  Kazakhstan: 'Asie',
+  Ouzbékistan: 'Asie',
+  'Hong Kong': 'Asie',
+  Macao: 'Asie',
   // Amérique du Nord
-  'États-Unis': 'Amérique du Nord', 'Canada': 'Amérique du Nord', 'Mexique': 'Amérique du Nord',
-  'Cuba': 'Amérique du Nord', 'Jamaïque': 'Amérique du Nord', 'Bahamas': 'Amérique du Nord',
-  'République dominicaine': 'Amérique du Nord', 'Haïti': 'Amérique du Nord',
-  'Costa Rica': 'Amérique du Nord', 'Panama': 'Amérique du Nord', 'Guatemala': 'Amérique du Nord',
+  'États-Unis': 'Amérique du Nord',
+  Canada: 'Amérique du Nord',
+  Mexique: 'Amérique du Nord',
+  Cuba: 'Amérique du Nord',
+  Jamaïque: 'Amérique du Nord',
+  Bahamas: 'Amérique du Nord',
+  'République dominicaine': 'Amérique du Nord',
+  Haïti: 'Amérique du Nord',
+  'Costa Rica': 'Amérique du Nord',
+  Panama: 'Amérique du Nord',
+  Guatemala: 'Amérique du Nord',
   // Amérique du Sud
-  'Brésil': 'Amérique du Sud', 'Argentine': 'Amérique du Sud', 'Chili': 'Amérique du Sud',
-  'Pérou': 'Amérique du Sud', 'Colombie': 'Amérique du Sud', 'Bolivie': 'Amérique du Sud',
-  'Équateur': 'Amérique du Sud', 'Uruguay': 'Amérique du Sud', 'Paraguay': 'Amérique du Sud',
-  'Venezuela': 'Amérique du Sud', 'Guyana': 'Amérique du Sud', 'Suriname': 'Amérique du Sud',
+  Brésil: 'Amérique du Sud',
+  Argentine: 'Amérique du Sud',
+  Chili: 'Amérique du Sud',
+  Pérou: 'Amérique du Sud',
+  Colombie: 'Amérique du Sud',
+  Bolivie: 'Amérique du Sud',
+  Équateur: 'Amérique du Sud',
+  Uruguay: 'Amérique du Sud',
+  Paraguay: 'Amérique du Sud',
+  Venezuela: 'Amérique du Sud',
+  Guyana: 'Amérique du Sud',
+  Suriname: 'Amérique du Sud',
   // Afrique
-  'Maroc': 'Afrique', 'Tunisie': 'Afrique', 'Algérie': 'Afrique', 'Égypte': 'Afrique',
-  'Afrique du Sud': 'Afrique', 'Kenya': 'Afrique', 'Tanzanie': 'Afrique', 'Sénégal': 'Afrique',
-  'Côte d\'Ivoire': 'Afrique', 'Ghana': 'Afrique', 'Nigeria': 'Afrique', 'Éthiopie': 'Afrique',
-  'Madagascar': 'Afrique', 'Maurice': 'Afrique', 'Île Maurice': 'Afrique', 'Réunion': 'Afrique',
-  'Cameroun': 'Afrique', 'Mali': 'Afrique', 'Burkina Faso': 'Afrique', 'Bénin': 'Afrique',
-  'Togo': 'Afrique', 'Rwanda': 'Afrique', 'Ouganda': 'Afrique', 'Namibie': 'Afrique',
-  'Botswana': 'Afrique', 'Zimbabwe': 'Afrique', 'Mozambique': 'Afrique', 'Angola': 'Afrique',
+  Maroc: 'Afrique',
+  Tunisie: 'Afrique',
+  Algérie: 'Afrique',
+  Égypte: 'Afrique',
+  'Afrique du Sud': 'Afrique',
+  Kenya: 'Afrique',
+  Tanzanie: 'Afrique',
+  Sénégal: 'Afrique',
+  "Côte d'Ivoire": 'Afrique',
+  Ghana: 'Afrique',
+  Nigeria: 'Afrique',
+  Éthiopie: 'Afrique',
+  Madagascar: 'Afrique',
+  Maurice: 'Afrique',
+  'Île Maurice': 'Afrique',
+  Réunion: 'Afrique',
+  Cameroun: 'Afrique',
+  Mali: 'Afrique',
+  'Burkina Faso': 'Afrique',
+  Bénin: 'Afrique',
+  Togo: 'Afrique',
+  Rwanda: 'Afrique',
+  Ouganda: 'Afrique',
+  Namibie: 'Afrique',
+  Botswana: 'Afrique',
+  Zimbabwe: 'Afrique',
+  Mozambique: 'Afrique',
+  Angola: 'Afrique',
   // Océanie
-  'Australie': 'Océanie', 'Nouvelle-Zélande': 'Océanie', 'Fidji': 'Océanie',
-  'Polynésie française': 'Océanie', 'Nouvelle-Calédonie': 'Océanie',
+  Australie: 'Océanie',
+  'Nouvelle-Zélande': 'Océanie',
+  Fidji: 'Océanie',
+  'Polynésie française': 'Océanie',
+  'Nouvelle-Calédonie': 'Océanie',
 }
 
 function continentOf(country: string): string {
@@ -127,7 +219,7 @@ function parseGeoLocation(geoStr: string): { lat: number; lng: number } | null {
 async function readJsonFiles(
   dir: string,
   allVisits: VisitRecord[],
-  geocodeCache: Map<string, { city?: string; country?: string }>
+  geocodeCache: Map<string, { city?: string; country?: string }>,
 ): Promise<void> {
   if (!fs.existsSync(dir)) return
   const entries = await fsp.readdir(dir, { withFileTypes: true })
@@ -148,7 +240,9 @@ async function readJsonFiles(
               const endTime = visit.duration?.endTimestamp || ''
               let duration = 0
               if (startTime && endTime) {
-                duration = Math.round((new Date(endTime).getTime() - new Date(startTime).getTime()) / 60000)
+                duration = Math.round(
+                  (new Date(endTime).getTime() - new Date(startTime).getTime()) / 60000,
+                )
               }
               allVisits.push({
                 name: visit.location.name!,
@@ -178,7 +272,9 @@ async function readJsonFiles(
                 const endTime = oldVisit.endTime
                 let duration = 0
                 if (startTime && endTime) {
-                  duration = Math.round((new Date(endTime).getTime() - new Date(startTime).getTime()) / 60000)
+                  duration = Math.round(
+                    (new Date(endTime).getTime() - new Date(startTime).getTime()) / 60000,
+                  )
                 }
                 allVisits.push({
                   name: city || `Location (${coords.lat.toFixed(3)}, ${coords.lng.toFixed(3)})`,
@@ -233,7 +329,10 @@ export async function loadVoyages(): Promise<TravelStats | null> {
 
     const placeCount = new Map<string, { visits: number; city?: string }>()
     const cityCount = new Map<string, { visits: number; country?: string }>()
-    const countryStats = new Map<string, { visits: number; firstVisit?: string; lastVisit?: string }>()
+    const countryStats = new Map<
+      string,
+      { visits: number; firstVisit?: string; lastVisit?: string }
+    >()
     const yearCount = new Map<number, number>()
     const uniqueDays = new Set<string>()
 
@@ -316,7 +415,12 @@ export async function loadVoyages(): Promise<TravelStats | null> {
         .sort((a, b) => b.visits - a.visits)
         .slice(0, 20),
       topCountries: Array.from(countryStats.entries())
-        .map(([name, cs]) => ({ name, visits: cs.visits, firstVisit: cs.firstVisit, lastVisit: cs.lastVisit }))
+        .map(([name, cs]) => ({
+          name,
+          visits: cs.visits,
+          firstVisit: cs.firstVisit,
+          lastVisit: cs.lastVisit,
+        }))
         .sort((a, b) => b.visits - a.visits)
         .slice(0, 20),
       visitsByYear: yearArr.sort((a, b) => a.year - b.year),

@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
+import { useState } from 'react'
 
 interface ExpandableSectionProps {
   title: string
@@ -28,17 +28,13 @@ export function ExpandableSection({
       >
         <div className="flex items-center gap-3">
           {icon && (
-            <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">
-              {icon}
-            </div>
+            <div className="p-2 bg-earth-fern/10 border border-earth-fern/30 rounded">{icon}</div>
           )}
           <div className="text-left">
             <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
               {title}
             </h3>
-            {subtitle && (
-              <p className="text-xs font-mono text-text-muted mt-1">{subtitle}</p>
-            )}
+            {subtitle && <p className="text-xs font-mono text-text-muted mt-1">{subtitle}</p>}
           </div>
         </div>
         <div className="flex items-center gap-3">
