@@ -14,7 +14,6 @@ import { logger } from './logger'
 import { TokenCache } from './token-cache'
 import type { SpotifyData } from './types'
 import { aggregateGenres } from './spotify-utils'
-export { aggregateGenres }
 
 const SPOTIFY_TOKEN_URL = 'https://accounts.spotify.com/api/token'
 const SPOTIFY_API_URL = 'https://api.spotify.com/v1'
@@ -281,7 +280,9 @@ export async function loadSpotify({
       stats: {
         totalTracks: topTracks.items?.length || 0,
         totalArtists: topArtists.items?.length || 0,
-        totalGenres: topGenres.length,
+        totalGenres: new Set(
+          (topArtists.items as SpotifyArtist[]).flatMap((a) => a.genres ?? [])
+        ).size,
       },
       fetchedAt: new Date().toISOString(),
     }
