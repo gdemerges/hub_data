@@ -70,6 +70,42 @@ function SyncButton({ pending, onSync }: { pending: boolean; onSync: () => void 
   )
 }
 
+function GenreBreakdown({ genres }: { genres: { genre: string; count: number }[] }) {
+  if (!genres || genres.length === 0) return null
+  const max = genres[0].count
+
+  return (
+    <div className="tech-card p-6 mb-8">
+      <div className="flex items-center gap-3 mb-5">
+        <div className="p-2 bg-earth-leaf/10 border border-earth-leaf/30 rounded-lg">
+          <ListMusic className="w-5 h-5 text-earth-leaf" />
+        </div>
+        <h3 className="font-display text-base font-medium tracking-tight text-text-primary">
+          Top genres
+        </h3>
+      </div>
+      <div className="space-y-3">
+        {genres.map(({ genre, count }, i) => {
+          const pct = Math.round((count / max) * 100)
+          return (
+            <div key={genre} className="flex items-center gap-3">
+              <span className="text-[10px] font-mono text-text-muted w-4 text-right">{i + 1}</span>
+              <span className="text-sm text-text-secondary w-44 truncate capitalize">{genre}</span>
+              <div className="flex-1 h-2 bg-bg-tertiary rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-earth-leaf/70 rounded-full transition-all duration-500"
+                  style={{ width: `${pct}%` }}
+                />
+              </div>
+              <span className="text-xs font-mono text-earth-leaf num w-6 text-right">{count}</span>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 export function SpotifyClient({ promise }: Props) {
   const data = use(promise)
   const [pending, startTransition] = useTransition()
@@ -377,6 +413,12 @@ export function SpotifyClient({ promise }: Props) {
               ))}
             </div>
           </div>
+        </FadeIn>
+      )}
+
+      {data.topGenresByRange && (
+        <FadeIn delay={0.27}>
+          <GenreBreakdown genres={data.topGenresByRange[range] ?? data.topGenres} />
         </FadeIn>
       )}
 
