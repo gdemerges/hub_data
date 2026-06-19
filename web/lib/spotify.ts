@@ -205,6 +205,11 @@ export async function loadSpotify({
     const topArtists = artistsMed
 
     const topGenres = aggregateGenres(topArtists.items as SpotifyArtist[], 10)
+    const topGenresByRange = {
+      short_term: aggregateGenres(artistsShort.items as SpotifyArtist[], 10),
+      medium_term: aggregateGenres(artistsMed.items as SpotifyArtist[], 10),
+      long_term: aggregateGenres(artistsLong.items as SpotifyArtist[], 10),
+    }
 
     // Top albums: aggregate album occurrences across the 3 time-range top tracks.
     const albumMap = new Map<
@@ -271,6 +276,7 @@ export async function loadSpotify({
         long_term: mapArtists(artistsLong.items),
       },
       topGenres,
+      topGenresByRange,
       topAlbums,
       stats: {
         totalTracks: topTracks.items?.length || 0,

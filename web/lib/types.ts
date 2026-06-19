@@ -224,6 +224,7 @@ export interface SpotifyData {
     spotifyUrl: string
   }[]
   topGenres: { genre: string; count: number }[]
+  topGenresByRange?: Record<SpotifyTimeRange, { genre: string; count: number }[]>
   topAlbums?: { name: string; artist: string; cover: string; count: number }[]
   stats: {
     totalTracks: number
