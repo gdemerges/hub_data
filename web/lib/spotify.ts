@@ -13,8 +13,8 @@ import { isCacheFresh, readFileCache, writeFileCache } from './file-cache'
 import { logger } from './logger'
 import { TokenCache } from './token-cache'
 import type { SpotifyData } from './types'
-export { aggregateGenres } from './spotify-utils'
 import { aggregateGenres } from './spotify-utils'
+export { aggregateGenres }
 
 const SPOTIFY_TOKEN_URL = 'https://accounts.spotify.com/api/token'
 const SPOTIFY_API_URL = 'https://api.spotify.com/v1'
