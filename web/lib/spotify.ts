@@ -13,6 +13,8 @@ import { isCacheFresh, readFileCache, writeFileCache } from './file-cache'
 import { logger } from './logger'
 import { TokenCache } from './token-cache'
 import type { SpotifyData } from './types'
+export { aggregateGenres } from './spotify-utils'
+import { aggregateGenres } from './spotify-utils'
 
 const SPOTIFY_TOKEN_URL = 'https://accounts.spotify.com/api/token'
 const SPOTIFY_API_URL = 'https://api.spotify.com/v1'
@@ -202,17 +204,7 @@ export async function loadSpotify({
     const topTracks = tracksMed
     const topArtists = artistsMed
 
-    const genreCount: Record<string, number> = {}
-    ;(topArtists.items as SpotifyArtist[]).forEach((artist) => {
-      artist.genres?.forEach((genre) => {
-        genreCount[genre] = (genreCount[genre] || 0) + 1
-      })
-    })
-
-    const topGenres = Object.entries(genreCount)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 8)
-      .map(([genre, count]) => ({ genre, count }))
+    const topGenres = aggregateGenres(topArtists.items as SpotifyArtist[], 10)
 
     // Top albums: aggregate album occurrences across the 3 time-range top tracks.
     const albumMap = new Map<
