@@ -79,6 +79,14 @@ const nextConfig = {
     deviceSizes: [360, 640, 750, 828, 1080, 1200],
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
   },
+  // TypeScript 7 (compilateur natif Go) a déplacé son API JS sous
+  // `typescript/unstable/*` ; le typecheck intégré de `next build` appelle
+  // encore l'ancienne API top-level et échoue. On désactive donc le typecheck
+  // interne de Next et on rebranche un `tsc --noEmit` explicite en amont du
+  // build (script `typecheck`, chaîné dans `build`/`vercel-build`) : même
+  // garantie de types, exécutée par le moteur natif rapide. À retirer quand
+  // Next supportera l'API TS 7.
+  typescript: { ignoreBuildErrors: true },
   // reactCompiler a quitté `experimental` en Next 16 (option stable racine).
   reactCompiler: true,
   experimental: {
