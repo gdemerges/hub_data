@@ -24,6 +24,8 @@ function eyebrowFor(filter: ActivityFilterKey): string {
   }
 }
 
+export const metadata = { title: 'Sport' }
+
 export default async function SportPage({
   searchParams,
 }: {

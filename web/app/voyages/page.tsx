@@ -37,6 +37,8 @@ function formatDate(iso: string): string {
   }
 }
 
+export const metadata = { title: 'Voyages' }
+
 export default async function VoyagesPage() {
   const stats = await loadVoyages()
 

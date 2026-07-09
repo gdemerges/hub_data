@@ -7,6 +7,8 @@ import { loadRencontres } from '@/lib/rencontres-loader'
 
 export const revalidate = 3600
 
+export const metadata = { title: 'Rencontres' }
+
 export default async function RencontresPage() {
   const { stats, hasData } = await loadRencontres()
 

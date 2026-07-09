@@ -139,6 +139,10 @@ export function MediaCard({
       onClick={onClick}
       className={cn(
         'group relative w-full text-left overflow-hidden flex flex-col',
+        // Hors écran, le navigateur saute le rendu de la carte (grosses grilles
+        // de 600+ cartes). `auto` mémorise la taille réelle une fois rendue ;
+        // 340px n'est que l'estimation initiale pour le placeholder de scroll.
+        '[content-visibility:auto] [contain-intrinsic-size:auto_340px]',
         'bg-bg-card border border-border-subtle rounded-xl',
         'transition-all duration-300 ease-out',
         c.border,

@@ -33,7 +33,7 @@ const fraunces = Fraunces({
 })
 
 export const metadata: Metadata = {
-  title: 'Hub Life',
+  title: { default: 'Hub Life', template: '%s — Hub Life' },
   description: 'Tableau de bord pour suivre vos jeux, films, séries et activité GitHub',
   manifest: '/manifest.json',
   appleWebApp: { capable: true, title: 'Hub Life', statusBarStyle: 'black-translucent' },

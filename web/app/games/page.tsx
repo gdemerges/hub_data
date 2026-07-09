@@ -8,6 +8,8 @@ import { getCurrentMonth, getMonthlyPlaytime } from '@/lib/play-log'
 
 export const revalidate = 3600
 
+export const metadata = { title: 'Jeux' }
+
 export default async function GamesPage() {
   const games = await getGamesData()
   const gameStats = computeGameStats(games)

@@ -5,6 +5,8 @@ import { loadBooks } from '@/lib/books-loader'
 
 export const revalidate = 3600
 
+export const metadata = { title: 'Lecture' }
+
 export default async function BooksPage() {
   const books = await loadBooks()
 

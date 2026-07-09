@@ -4,6 +4,8 @@ import { loadSpotify } from '@/lib/spotify'
 
 export const revalidate = 3600
 
+export const metadata = { title: 'Spotify' }
+
 export default function SpotifyPage() {
   const promise = loadSpotify()
   return (

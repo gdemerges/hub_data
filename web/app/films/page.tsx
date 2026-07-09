@@ -6,6 +6,8 @@ import { computeFilmStats } from '@/lib/media-stats'
 
 export const revalidate = 3600
 
+export const metadata = { title: 'Films' }
+
 export default async function FilmsPage() {
   const films = await getFilmsData()
   const filmStats = computeFilmStats(films)

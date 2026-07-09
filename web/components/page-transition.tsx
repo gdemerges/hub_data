@@ -48,12 +48,15 @@ export function StaggerItem({
   className?: string
   index?: number
 }) {
+  // Le délai est plafonné : sans cap, une liste de 600 cartes donnerait à la
+  // dernière un animationDelay de ~30s pendant lesquelles elle reste à
+  // opacity:0 (fillMode backwards + keyframe slideUp qui part de 0). On garde
+  // l'effet de cascade sur les premières cartes, puis tout apparaît ensemble.
+  const delay = Math.min(index, 12) * 0.05
   return (
     <div
       className={`animate-slide-up ${className}`}
-      style={
-        { animationDelay: `${index * 0.05}s`, animationFillMode: 'backwards' } as CSSProperties
-      }
+      style={{ animationDelay: `${delay}s`, animationFillMode: 'backwards' } as CSSProperties}
     >
       {children}
     </div>

@@ -28,6 +28,8 @@ function timeAgo(iso: string): string {
   return `il y a ${Math.floor(hours / 24)}j`
 }
 
+export const metadata = { title: 'Dev' }
+
 export default async function DevPage({
   searchParams,
 }: {

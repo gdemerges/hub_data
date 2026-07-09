@@ -7,6 +7,8 @@ import { formatWatchHours, totalSeriesMinutes } from '@/lib/series-time'
 
 export const revalidate = 3600
 
+export const metadata = { title: 'Séries' }
+
 export default async function SeriesPage() {
   const series = await getSeriesData()
   const seriesStats = computeSeriesStats(series)

@@ -9,6 +9,8 @@ import { loadPlaytime } from '@/lib/steam-playtime'
 
 export const revalidate = 21600
 
+export const metadata = { title: 'Steam' }
+
 export default async function SteamPage({
   searchParams,
 }: {
